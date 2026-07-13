@@ -3410,14 +3410,31 @@
         "collection_mQJeYN": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "nike-mind-001-slide",
             "title": ""
           }
         },
         "collection_UEyjwR": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "universesraw-bootcut-jeans",
+            "image": "shopify://shop_images/file_00000000b9d871fa84a4aa53156a9ffa.png",
+            "title": ""
+          }
+        },
+        "collection_LdPNM6": {
+          "type": "collection",
+          "settings": {
+            "collection": "premium-polo",
+            "image": "shopify://shop_images/file_00000000ae1471fab49beb645d8818a6.png",
+            "title": ""
+          }
+        },
+        "collection_ze4dUM": {
+          "type": "collection",
+          "settings": {
+            "collection": "premium-t-shirt",
+            "image": "shopify://shop_images/file_000000007d2871fbb2a1c63208300269.png",
             "title": ""
           }
         }
@@ -3426,7 +3443,9 @@
         "collection_CT7TdD",
         "collection_Nqe6Ew",
         "collection_mQJeYN",
-        "collection_UEyjwR"
+        "collection_UEyjwR",
+        "collection_LdPNM6",
+        "collection_ze4dUM"
       ],
       "name": "Collection Grid Pro",
       "settings": {
