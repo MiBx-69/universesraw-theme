@@ -1,0 +1,353 @@
+{% comment %}
+Premium Luxury Collection Grid - Fixed Version
+{% endcomment %}
+
+<section class="pcg page-width">
+  <div class="pcg-header">
+    {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      <p>{{ section.settings.subheading }}</p>
+    {% endif %}
+  </div>
+
+  <div class="pcg-grid desktop-{{ section.settings.desktop_columns }} mobile-{{ section.settings.mobile_columns }}">
+    {% for block in section.blocks %}
+      {% assign col = block.settings.collection %}
+      {% assign img = block.settings.image | default: col.featured_image %}
+
+      <a href="{{ col.url }}" class="pcg-card" {{ block.shopify_attributes }}>
+        <div class="pcg-image ratio-{{ section.settings.image_ratio }}">
+          {% if img %}
+            {{ img | image_url: width: 2200 | image_tag:
+              loading: 'lazy',
+              widths: '375,550,750,1100,1500,1800,2200',
+              sizes: '(min-width:990px) 33vw, (min-width:750px) 50vw,100vw'
+            }}
+          {% else %}
+            {{ 'collection-1' | placeholder_svg_tag }}
+          {% endif %}
+
+          <div class="pcg-overlay"></div>
+
+          <div class="pcg-content">
+            <{{ section.settings.title_tag }} class="pcg-title">{% if block.settings.title != blank %}{{ block.settings.title }}{% else %}{{ col.title }}{% endif %}</{{ section.settings.title_tag }}>
+
+            {% if block.settings.subtitle != blank %}
+              <p>{{ block.settings.subtitle }}</p>
+            {% endif %}
+
+            <span class="pcg-btn">{{ section.settings.button_text }}</span>
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+.pcg{padding:{{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px}
+.pcg-header{text-align:center;margin-bottom:{{ section.settings.heading_spacing }}px}
+.pcg-header h2{font-size:46px;font-weight:800;margin:0 0 12px}
+.pcg-header p{opacity:.75;max-width:700px;margin:auto}
+
+.pcg-grid{display:grid;gap:24px}
+.desktop-2{grid-template-columns:repeat(2,1fr)}
+.desktop-3{grid-template-columns:repeat(3,1fr)}
+.desktop-4{grid-template-columns:repeat(4,1fr)}
+
+.pcg-card{
+display:block;
+overflow:hidden;
+border-radius:{{ section.settings.card_radius }}px;
+box-shadow:0 15px 45px rgba(0,0,0,.08);
+transition:.4s;
+text-decoration:none;
+}
+.pcg-card:hover{transform:translateY(-8px);box-shadow:0 30px 70px rgba(0,0,0,.16)}
+
+.pcg-image{position:relative;overflow:hidden}
+.ratio-adapt img{width:100%;height:auto;display:block}
+.ratio-square{aspect-ratio:1/1}
+.ratio-portrait{aspect-ratio:4/5}
+.ratio-landscape{aspect-ratio:16/9}
+.ratio-square img,.ratio-portrait img,.ratio-landscape img{
+position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+}
+
+.pcg-image img{transition:transform .6s}
+.pcg-card:hover img{transform:scale(1.08)}
+
+.pcg-overlay{
+position:absolute;inset:0;
+background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.2) 60%,rgba(0,0,0,.75) 100%);
+}
+
+.pcg-content{
+position:absolute;
+left:24px;
+right:24px;
+bottom:22px;
+z-index:2;
+display:flex;
+flex-direction:column;
+justify-content:flex-end;
+align-items:flex-start;
+gap:8px;
+color:#fff;
+height:calc(100% - 48px);
+}
+
+.pcg-content h3{
+margin-top:auto;
+margin-bottom:2px;
+font-size:34px;
+font-weight:900;
+line-height:1.05;
+letter-spacing:.02em;
+text-shadow:0 4px 18px rgba(0,0,0,.45);
+}
+
+.pcg-content p{margin:0}
+
+.pcg-btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:8px 16px;
+font-size:12px;
+font-weight:700;
+letter-spacing:.08em;
+text-transform:uppercase;
+background:rgba(255,255,255,.96);
+color:#111;
+border-radius:999px;
+margin-top:6px;
+}
+
+@media(max-width:749px){
+.mobile-1{grid-template-columns:1fr}
+.mobile-2{grid-template-columns:repeat(2,1fr)}
+.pcg-header h2{font-size:30px}
+.pcg-content h3{font-size:28px;font-weight:900;line-height:1.05}
+.pcg-content{left:18px;right:18px;bottom:18px}
+}
+</style>
+
+{% schema %}
+{
+"name":" Luxury Collection ",
+"settings":[
+{"type":"text","id":"heading","label":"Heading","default":"Shop by Collection"},
+{"type":"text","id":"subheading","label":"Subheading"},
+{"type":"range","id":"padding_top","min":0,"max":150,"step":5,"default":60,"label":"Top Padding"},
+{"type":"range","id":"padding_bottom","min":0,"max":150,"step":5,"default":60,"label":"Bottom Padding"},
+{"type":"range","id":"heading_spacing","min":10,"max":100,"step":5,"default":50,"label":"Header Bottom Spacing"},
+{"type":"range","id":"card_radius","min":0,"max":40,"step":2,"default":20,"label":"Card Radius"},
+{"type":"select","id":"desktop_columns","label":"Desktop Columns","default":"3","options":[{"value":"2","label":"2"},{"value":"3","label":"3"},{"value":"4","label":"4"}]},
+{"type":"select","id":"mobile_columns","label":"Mobile Columns","default":"2","options":[{"value":"1","label":"1"},{"value":"2","label":"2"}]},
+{"type":"select","id":"image_ratio","label":"Image Ratio","default":"adapt","options":[{"value":"adapt","label":"Adapt"},{"value":"square","label":"Square"},{"value":"portrait","label":"Portrait"},{"value":"landscape","label":"Landscape"}]},
+{"type":"text","id":"button_text","label":"Button","default":"Shop Now"}
+,{"type":"select","id":"title_tag","label":"Collection Title HTML Tag","default":"h3","options":[
+{"value":"h1","label":"H1"},
+{"value":"h2","label":"H2"},
+{"value":"h3","label":"H3"},
+{"value":"h4","label":"H4"},
+{"value":"h5","label":"H5"},
+{"value":"p","label":"Paragraph"},
+{"value":"div","label":"Custom"}
+]},
+{"type":"range","id":"title_size","label":"Title Size","min":18,"max":42,"step":1,"default":26},
+{"type":"range","id":"title_width","label":"Title Max Width (%)","min":40,"max":100,"step":5,"default":70}
+
+],
+"blocks":[{"type":"item","name":"Collection","settings":[
+{"type":"collection","id":"collection","label":"Collection"},
+{"type":"image_picker","id":"image","label":"Override Image"},
+{"type":"text","id":"title","label":"Title"},
+{"type":"text","id":"subtitle","label":"Subtitle"}
+]}],
+"presets":[{"name":"Premium Luxury Collection Fixed"}]
+}
+{% endschema %}
+
+<style>
+
+/* === Luxury layout update === */
+.pcg-card{
+  border-radius:0 !important;
+}
+
+.pcg-image{
+  border-radius:0 !important;
+}
+
+.pcg-image img{
+  border-radius:0 !important;
+}
+
+.pcg-content{
+  position:absolute;
+  inset:22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:flex-start;
+  z-index:2;
+}
+
+.pcg-content h3{
+  margin:0;
+  order:1;
+  font-size:34px;
+  font-weight:900;
+  line-height:1.05;
+  color:#fff;
+  text-shadow:0 3px 12px rgba(0,0,0,.45);
+}
+
+.pcg-content p{
+  order:2;
+  margin-top:6px;
+}
+
+.pcg-btn{
+  order:3;
+  margin-top:auto;
+  align-self:flex-start;
+  padding:7px 14px;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  background:rgba(255,255,255,.95);
+  border-radius:999px;
+}
+
+@media (max-width:749px){
+  .pcg-content{
+    inset:18px;
+  }
+
+  .pcg-content h3{
+    font-size:30px;
+    font-weight:900;
+  }
+
+  .pcg-btn{
+    padding:6px 12px;
+    font-size:10px;
+  }
+}
+
+</style>
+
+
+<style>
+/* ===== Luxury CTA redesign ===== */
+
+/* Remove pill button styling */
+.pcg-btn{
+  background:transparent !important;
+  color:#fff !important;
+  padding:0 !important;
+  border-radius:0 !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  letter-spacing:.18em !important;
+  text-transform:uppercase;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Animated underline */
+.pcg-btn::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0;
+  height:1px;
+  background:#fff;
+  transition:width .35s ease;
+}
+
+.pcg-card:hover .pcg-btn::after{
+  width:100%;
+}
+
+/* Arrow */
+.pcg-btn::before{
+  content:"→";
+  order:2;
+  margin-left:4px;
+  transition:transform .35s ease;
+}
+
+.pcg-card:hover .pcg-btn::before{
+  transform:translateX(5px);
+}
+
+/* Softer overlay for premium look */
+.pcg-overlay{
+  background:linear-gradient(
+    180deg,
+    rgba(0,0,0,.10) 0%,
+    rgba(0,0,0,.20) 35%,
+    rgba(0,0,0,.58) 100%
+  ) !important;
+}
+
+/* Luxury title */
+.pcg-content h3{
+  max-width:80%;
+  letter-spacing:.04em;
+}
+
+/* Mobile */
+@media(max-width:749px){
+  .pcg-btn{
+    font-size:11px !important;
+    letter-spacing:.16em !important;
+  }
+
+  .pcg-content h3{
+    font-size:32px !important;
+  }
+}
+</style>
+
+<style>
+.pcg-content{
+justify-content:flex-end !important;
+gap:8px !important;
+padding:0;
+}
+
+.pcg-title{
+margin:0 0 8px;
+font-size:{{ section.settings.title_size }}px;
+font-weight:800;
+line-height:1.15;
+max-width:{{ section.settings.title_width }}%;
+color:#fff;
+text-wrap:balance;
+word-break:break-word;
+text-shadow:0 2px 12px rgba(0,0,0,.45);
+}
+
+.pcg-btn{
+margin-top:2px !important;
+}
+
+@media(max-width:749px){
+.pcg-title{
+font-size:calc({{ section.settings.title_size }}px - 2px);
+max-width:85%;
+line-height:1.15;
+}
+}
+</style>
