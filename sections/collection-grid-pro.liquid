@@ -1,0 +1,108 @@
+{% comment %}
+Premium Collection Grid
+Supports Adapt / Square / Portrait / Landscape / Custom image ratios.
+Save as: sections/premium-collection-grid.liquid
+{% endcomment %}
+
+<section class="pcg page-width">
+  {% if section.settings.heading != blank %}
+    <div class="pcg-header">
+      <h2>{{ section.settings.heading }}</h2>
+      {% if section.settings.subheading != blank %}
+        <p>{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="pcg-grid desktop-{{ section.settings.desktop_columns }} mobile-{{ section.settings.mobile_columns }}">
+    {% for block in section.blocks %}
+      {% assign col = block.settings.collection %}
+      {% assign img = block.settings.image | default: col.featured_image %}
+
+      <a class="pcg-card ratio-{{ section.settings.image_ratio }}"
+         href="{{ col.url }}"
+         {{ block.shopify_attributes }}
+         {% if section.settings.image_ratio == 'adapt' and img %}
+           style="--ratio:{{ img.aspect_ratio }};"
+         {% elsif section.settings.image_ratio == 'custom' %}
+           style="--custom-height:{{ section.settings.custom_height }}px;"
+         {% endif %}>
+
+        <div class="pcg-image">
+          {% if img %}
+            {{ img | image_url: width: 1800 | image_tag: loading: 'lazy', sizes: '(max-width:749px) 50vw,33vw' }}
+          {% endif %}
+          <div class="overlay"></div>
+        </div>
+
+        <div class="pcg-content">
+          <h3>{% if block.settings.title != blank %}{{ block.settings.title }}{% else %}{{ col.title }}{% endif %}</h3>
+
+          {% if block.settings.subtitle != blank %}
+            <p>{{ block.settings.subtitle }}</p>
+          {% endif %}
+
+          <span class="btn">{{ section.settings.button_text }}</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+.pcg-grid{display:grid;gap:24px}
+.desktop-2{grid-template-columns:repeat(2,1fr)}
+.desktop-3{grid-template-columns:repeat(3,1fr)}
+.desktop-4{grid-template-columns:repeat(4,1fr)}
+.mobile-1{}
+.mobile-2{}
+.pcg-card{position:relative;display:block;border-radius:18px;overflow:hidden;color:#fff;text-decoration:none}
+.ratio-adapt .pcg-image{aspect-ratio:var(--ratio)}
+.ratio-square .pcg-image{aspect-ratio:1/1}
+.ratio-portrait .pcg-image{aspect-ratio:4/5}
+.ratio-landscape .pcg-image{aspect-ratio:16/9}
+.ratio-custom .pcg-image{height:var(--custom-height)}
+.pcg-image{position:relative}
+.pcg-image img{width:100%;height:100%;display:block;object-fit:cover;transition:.5s}
+.overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55),transparent)}
+.pcg-content{position:absolute;left:20px;right:20px;bottom:20px}
+.pcg-card:hover img{transform:scale(1.06)}
+@media(max-width:749px){
+.mobile-1{grid-template-columns:1fr}
+.mobile-2{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+
+{% schema %}
+{
+  "name":"Luxury Collection",
+  "settings":[
+    {"type":"text","id":"heading","label":"Heading","default":"Shop by Category"},
+    {"type":"text","id":"subheading","label":"Subheading"},
+    {"type":"select","id":"desktop_columns","label":"Desktop Columns","default":"3","options":[{"value":"2","label":"2"},{"value":"3","label":"3"},{"value":"4","label":"4"}]},
+    {"type":"select","id":"mobile_columns","label":"Mobile Columns","default":"2","options":[{"value":"1","label":"1"},{"value":"2","label":"2"}]},
+    {"type":"select","id":"image_ratio","label":"Image Ratio","default":"adapt","options":[
+      {"value":"adapt","label":"Adapt to Image"},
+      {"value":"square","label":"Square"},
+      {"value":"portrait","label":"Portrait 4:5"},
+      {"value":"landscape","label":"Landscape 16:9"},
+      {"value":"custom","label":"Custom Height"}
+    ]},
+    {"type":"range","id":"custom_height","label":"Custom Height","min":250,"max":900,"step":10,"default":500,"unit":"px"},
+    {"type":"text","id":"button_text","label":"Button","default":"Shop Now"}
+  ],
+  "blocks":[
+    {
+      "type":"card",
+      "name":"Collection",
+      "settings":[
+        {"type":"collection","id":"collection","label":"Collection"},
+        {"type":"image_picker","id":"image","label":"Override Image"},
+        {"type":"text","id":"title","label":"Title"},
+        {"type":"text","id":"subtitle","label":"Subtitle"}
+      ]
+    }
+  ],
+  "presets":[{"name":"Luxury Collection"}]
+}
+{% endschema %}
