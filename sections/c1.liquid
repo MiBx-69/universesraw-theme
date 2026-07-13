@@ -31,15 +31,17 @@ Premium Luxury Collection Grid - Fixed Version
 
           <div class="pcg-overlay"></div>
 
-          <div class="pcg-content">
-            <{{ section.settings.title_tag }} class="pcg-title">{% if block.settings.title != blank %}{{ block.settings.title }}{% else %}{{ col.title }}{% endif %}</{{ section.settings.title_tag }}>
+        </div>
 
-            {% if block.settings.subtitle != blank %}
-              <p>{{ block.settings.subtitle }}</p>
-            {% endif %}
+        <div class="pcg-info">
+          <{{ section.settings.title_tag }} class="pcg-title">{% if block.settings.title != blank %}{{ block.settings.title }}{% else %}{{ col.title }}{% endif %}</{{ section.settings.title_tag }}
 
-            <span class="pcg-btn">{{ section.settings.button_text }}</span>
-          </div>
+          {% if block.settings.subtitle != blank %}
+            <p class="pcg-subtitle">{{ block.settings.subtitle }}</p>
+          {% endif %}
+
+          <span class="pcg-btn">{{ section.settings.button_text }}</span>
+        </div>
         </div>
       </a>
     {% endfor %}
@@ -159,7 +161,9 @@ margin-top:6px;
 {"value":"div","label":"Custom"}
 ]},
 {"type":"range","id":"title_size","label":"Title Size","min":18,"max":42,"step":1,"default":26},
-{"type":"range","id":"title_width","label":"Title Max Width (%)","min":40,"max":100,"step":5,"default":70}
+{"type":"range","id":"title_width","label":"Title Max Width (%)","min":40,"max":100,"step":5,"default":70},
+{"type":"range","id":"content_padding_horizontal","label":"Content Side Padding","min":0,"max":40,"step":2,"default":20},
+{"type":"range","id":"content_padding_bottom","label":"Content Bottom Padding","min":0,"max":40,"step":2,"default":18}
 
 ],
 "blocks":[{"type":"item","name":"Collection","settings":[
@@ -348,6 +352,38 @@ margin-top:2px !important;
 font-size:calc({{ section.settings.title_size }}px - 2px);
 max-width:85%;
 line-height:1.15;
+}
+}
+</style>
+
+<style>
+.pcg-info{
+padding:16px {{ section.settings.content_padding_horizontal }}px {{ section.settings.content_padding_bottom }}px;
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+gap:8px;
+}
+
+.pcg-title{
+max-width:100% !important;
+font-size:{{ section.settings.title_size }}px;
+line-height:1.2;
+margin:0;
+}
+
+.pcg-subtitle{
+margin:0;
+opacity:.7;
+}
+
+.pcg-btn{
+margin-top:2px;
+}
+
+@media(max-width:749px){
+.pcg-info{
+padding:14px {{ section.settings.content_padding_horizontal }}px {{ section.settings.content_padding_bottom }}px;
 }
 }
 </style>
