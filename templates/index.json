@@ -3390,31 +3390,36 @@
         "include_margins": true
       }
     },
-    "collection_grid_pro_EwRaXh": {
-      "type": "collection-grid-pro",
+    "c1_9x6Nc8": {
+      "type": "c1",
       "blocks": {
-        "card_tRUxQJ": {
-          "type": "card",
+        "item_MAEGtw": {
+          "type": "item",
           "settings": {
             "collection": "all-products-chatgpt-ai-product-description",
-            "image": "shopify://shop_images/file_00000000ec807208a79359d90478f078.png",
             "title": "",
             "subtitle": ""
           }
         }
       },
       "block_order": [
-        "card_tRUxQJ"
+        "item_MAEGtw"
       ],
-      "name": "Luxury Collection",
+      "name": "Premium Luxury Collection Fixed",
       "settings": {
-        "heading": "Shop by Category",
+        "heading": "Shop by Collection",
         "subheading": "",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "heading_spacing": 50,
+        "card_radius": 20,
         "desktop_columns": "3",
         "mobile_columns": "2",
-        "image_ratio": "adapt",
-        "custom_height": 500,
-        "button_text": "Shop Now"
+        "image_ratio": "landscape",
+        "button_text": "Shop Now",
+        "title_tag": "h5",
+        "title_size": 21,
+        "title_width": 55
       }
     }
   },
@@ -3427,6 +3432,6 @@
     "media_with_text_ErEQif",
     "featured_collection_JwDQg9",
     "178368302367a7de5f",
-    "collection_grid_pro_EwRaXh"
+    "c1_9x6Nc8"
   ]
 }
