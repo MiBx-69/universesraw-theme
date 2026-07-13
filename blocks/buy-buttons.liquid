@@ -140,6 +140,56 @@
         </div>
       {%- endform -%}
     </product-form-component>
+    <div class="product-buy-details" aria-label="Product information">
+      <details class="product-buy-details__item">
+        <summary>
+          <span>Product description</span>
+          <span class="product-buy-details__icon" aria-hidden="true">+</span>
+        </summary>
+        <div class="product-buy-details__content rte">
+          {%- if product.description != blank -%}
+            {{ product.description }}
+          {%- else -%}
+            <p>Details for this product will be available soon.</p>
+          {%- endif -%}
+        </div>
+      </details>
+
+      <div class="product-policy-shortcuts" aria-label="Store policies">
+        {%- if block_settings.return_policy_title != blank or block_settings.return_policy_text != blank -%}
+          <details class="product-policy-shortcuts__item">
+            <summary>
+              <span>{{ block_settings.return_policy_title | default: 'Return & refund' }}</span>
+            </summary>
+            <div class="product-policy-shortcuts__content rte">
+              {{ block_settings.return_policy_text }}
+            </div>
+          </details>
+        {%- endif -%}
+
+        {%- if block_settings.shipping_policy_title != blank or block_settings.shipping_policy_text != blank -%}
+          <details class="product-policy-shortcuts__item">
+            <summary>
+              <span>{{ block_settings.shipping_policy_title | default: 'Shipping' }}</span>
+            </summary>
+            <div class="product-policy-shortcuts__content rte">
+              {{ block_settings.shipping_policy_text }}
+            </div>
+          </details>
+        {%- endif -%}
+
+        {%- if block_settings.exchange_policy_title != blank or block_settings.exchange_policy_text != blank -%}
+          <details class="product-policy-shortcuts__item">
+            <summary>
+              <span>{{ block_settings.exchange_policy_title | default: 'Exchange policy' }}</span>
+            </summary>
+            <div class="product-policy-shortcuts__content rte">
+              {{ block_settings.exchange_policy_text }}
+            </div>
+          </details>
+        {%- endif -%}
+      </div>
+    </div>
   {%- else -%}
     <div class="product-form__buttons spacing-style{% if block_settings.stacking %} product-form__buttons--stacked{% endif %}"
       style="
@@ -235,6 +285,46 @@
       "step": 5,
       "unit": "px",
       "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Product info accordions"
+    },
+    {
+      "type": "text",
+      "id": "return_policy_title",
+      "label": "Return/refund title",
+      "default": "Return & refund"
+    },
+    {
+      "type": "richtext",
+      "id": "return_policy_text",
+      "label": "Return/refund short text",
+      "default": "<p>Easy returns are available within 7 days for eligible items. Products must be unused, unworn, and in original packaging.</p>"
+    },
+    {
+      "type": "text",
+      "id": "shipping_policy_title",
+      "label": "Shipping title",
+      "default": "Shipping"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_policy_text",
+      "label": "Shipping short text",
+      "default": "<p>Orders are processed quickly and shipped with tracking. Delivery time depends on your location and selected shipping method.</p>"
+    },
+    {
+      "type": "text",
+      "id": "exchange_policy_title",
+      "label": "Exchange title",
+      "default": "Exchange policy"
+    },
+    {
+      "type": "richtext",
+      "id": "exchange_policy_text",
+      "label": "Exchange short text",
+      "default": "<p>Size exchanges are supported when stock is available. Please keep the item in original condition for a smooth exchange.</p>"
     },
     {
       "type": "header",
