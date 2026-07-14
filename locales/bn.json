@@ -1005,41 +1005,129 @@
     "total": "মোট",
     "fields": {
       "separator": "থেকে"
-    }
+    },
+    "step_error": "আপনি এই আইটেমটি {{ step }} এর গুণিতকে যোগ করতে পারবেন",
+    "success": "সাবস্ক্রাইব করার জন্য ধন্যবাদ",
+    "total_items": "মোট আইটেম",
+    "update_country": "দেশ/অঞ্চল আপডেট করুন",
+    "update_language": "ভাষা আপডেট করুন",
+    "variant": "ভেরিয়েন্ট",
+    "variant_total": "ভেরিয়েন্ট মোট",
+    "view_all_label": "{{ collection_name }} সংগ্রহে থাকা সমস্ত পণ্য দেখুন",
+    "view_as": "হিসাবে দেখুন",
+    "view_cart": "কার্ট দেখুন",
+    "wishlist": "পছন্দের তালিকা",
+    "wishlist_items": "{{ count }}টি জিনিস সহ পছন্দের তালিকা"
   },
   "customer": {
     "addresses": {
       "city": "শহর",
       "edit": "সম্পাদনা",
-      "phone": "ফোন"
+      "phone": "ফোন",
+      "add_new": "নতুন ঠিকানা যোগ করুন",
+      "address1": "ঠিকানা ১",
+      "address2": "ঠিকানা ২",
+      "address_book": "গ্রাহকের ঠিকানা বই",
+      "country": "দেশ/অঞ্চল",
+      "set_default": "ডিফল্ট ঠিকানা হিসেবে সেট করুন",
+      "zip": "পোস্টাল/জিপ কোড"
     },
     "orders": {
       "date": "তারিখ",
       "order_number": "অর্ডার",
-      "total": "মোট"
+      "total": "মোট",
+      "fulfillment_status": "পরিপূর্ণতার অবস্থা",
+      "none": "আপনি এখনও কোনো অর্ডার করেননি।",
+      "order_number_link": "অর্ডার নম্বর {{ number }}",
+      "title": "অর্ডার বিবরণ"
     },
     "login_page": {
       "email": "ইমেইল",
-      "alternate_provider_separator": "অথবা"
+      "alternate_provider_separator": "অথবা",
+      "create_account": "অ্যাকাউন্ট তৈরি করুন",
+      "forgot_password": "পাসওয়ার্ড ভুলে গেছেন?",
+      "guest_title": "অতিথি হিসেবে চালিয়ে যান",
+      "submit": "একটি অ্যাকাউন্ট তৈরি করুন",
+      "title": "লগইন করুন"
     },
     "order": {
       "price": "দাম",
-      "total": "মোট"
+      "total": "মোট",
+      "billing_address": "বিলিং ঠিকানা",
+      "cancelled_reason": "কারণ: {{ reason }}",
+      "date_html": "{{ date }} তারিখে স্থাপন করা হয়েছে",
+      "fulfilled_at_html": "সম্পূর্ণ হয়েছে {{ date }}",
+      "fulfillment_status": "পরিপূরণের অবস্থা",
+      "payment_status": "পেমেন্টের অবস্থা",
+      "product": "পণ্য",
+      "reorder": "পুনর্বিন্যাস করুন",
+      "reorder_error": "আমরা আপনার কার্টে এই অর্ডার যোগ করতে পারিনি।",
+      "reorder_loading": "আইটেম যোগ করা হচ্ছে...",
+      "reorder_success": "আপনার কার্টে আইটেম যোগ করা হয়েছে।",
+      "shipping_address": "শিপিং ঠিকানা",
+      "sku": "এসকেইউ",
+      "tax": "কর",
+      "title": "অর্ডার {{ name }}",
+      "tracking_company": "ক্যারিয়ার",
+      "tracking_url": "ট্র্যাকিং লিঙ্ক"
     },
     "register": {
-      "email": "ইমেইল"
+      "email": "ইমেইল",
+      "create_an_account": "একটি অ্যাকাউন্ট তৈরি করুন",
+      "text": "একটি অ্যাকাউন্ট তৈরি করতে নিচে নিবন্ধন করুন",
+      "title": "অ্যাকাউন্ট তৈরি করুন"
+    },
+    "account": {
+      "details": "অ্যাকাউন্টের বিবরণ",
+      "return": "অ্যাকাউন্টের বিবরণে ফিরে যান",
+      "view_addresses": "ঠিকানা দেখুন"
+    },
+    "activate_account": {
+      "cancel": "নিমন্ত্রণ প্রত্যাখ্যান করুন",
+      "password_confirm": "পাসওয়ার্ড নিশ্চিত করুন",
+      "submit": "অ্যাকাউন্ট সক্রিয় করুন",
+      "subtext": "আপনার অ্যাকাউন্ট সক্রিয় করতে আপনার পাসওয়ার্ড তৈরি করুন।",
+      "title": "অ্যাকাউন্ট সক্রিয় করুন"
+    },
+    "recover_password": {
+      "subtext": "আপনার পাসওয়ার্ড রিসেট করার জন্য আমরা আপনাকে একটি ইমেল পাঠাবো",
+      "success": "আমরা আপনাকে একটি লিঙ্ক সহ একটি ইমেল পাঠিয়েছি আপনার পাসওয়ার্ড আপডেট করার জন্য।",
+      "title": "আপনার পাসওয়ার্ড রিসেট করুন"
+    },
+    "reset_password": {
+      "password_confirm": "পাসওয়ার্ড নিশ্চিত করুন",
+      "submit": "পাসওয়ার্ড রিসেট করুন",
+      "subtext": "নতুন পাসওয়ার্ড দিন",
+      "title": "অ্যাকাউন্টের পাসওয়ার্ড রিসেট করুন"
     }
   },
   "placeholders": {
     "blog_post_date": "তারিখ",
-    "blog_post_title": "শিরোনাম"
+    "blog_post_title": "শিরোনাম",
+    "collection_description": "সংগ্রহের বিবরণ"
   },
   "products": {
     "facets": {
       "sort_button": "সাজান",
       "apply": "প্রয়োগ করুন",
       "clear": "পরিষ্কার",
-      "reset": "রিসেট"
+      "reset": "রিসেট",
+      "clear_filter": "ফিল্টার সরান",
+      "filter_and_operator_subtitle": "সবগুলো মিলিয়ে দিন",
+      "filter_and_sort": "ফিল্টার করুন এবং সাজান",
+      "filter_by_label": "রিফাইন করেছেন:",
+      "filter_selected_accessibility": "{{ type }} ({{ count }}টি ফিল্টার নির্বাচন করা হয়েছে)",
+      "filters_selected": {
+        "one": "{{ count }}টি নির্বাচিত",
+        "other": "{{ count }}টি নির্বাচিত"
+      },
+      "from": "থেকে",
+      "product_count": {
+        "one": "{{ product_count }} এর মধ্যে {{ count }} পণ্য",
+        "other": "{{ product_count }} এর {{ count }}টি পণ্য"
+      },
+      "sort_by_label": "অনুসারে সাজান:",
+      "to": "প্রতি"
     },
     "product": {
       "on_sale": "বিক্রয় ( ছাড় )",
@@ -1049,7 +1137,8 @@
         "load_model": "গ্যালারি ভিউতে 3D মডেল {{ index }} লোড করুন",
         "load_video": "গ্যালারি ভিউতে {{ index }} ভিডিওটি চালান",
         "open_media": "মিডিয়া খুলুন {{ index }} মডালে",
-        "play_model": "৩ডি ভিউয়ার চালান"
+        "play_model": "৩ডি ভিউয়ার চালান",
+        "gallery_viewer": "গ্যালারি ভিউয়ার"
       },
       "new": "নতুন",
       "new_arrivals": "নতুন আগমন",
@@ -1099,7 +1188,32 @@
         "price_at_each": "প্রতিটি {{ price }}",
         "title": "ভলিউম মূল্য নির্ধারণ"
       },
-      "xr_button_label": "আপনার জায়গায় দেখুন, অগমেন্টেড রিয়্যালিটি উইন্ডোতে আইটেম লোড হচ্ছে"
+      "xr_button_label": "আপনার জায়গায় দেখুন, অগমেন্টেড রিয়্যালিটি উইন্ডোতে আইটেম লোড হচ্ছে",
+      "add_more": "আরো যোগ করুন",
+      "add_to_cart_message": "যোগ করার জন্য আপনাকে অন্তত একটি পণ্য নির্বাচন করতে হবে!",
+      "adding_to_cart": "কার্টে যোগ করা হচ্ছে...",
+      "bundle_block": {
+        "add_all_to_cart": "সবগুলো কার্টে যোগ করুন",
+        "add_item_to_cart": "কার্টে ([আইটেম]) আইটেম যোগ করুন",
+        "add_items_to_cart": "কার্টে ([item]) আইটেম যোগ করুন"
+      },
+      "choose_options": "কার্টে যোগ করুন",
+      "choose_product_options": "{{ product_name }}-এর জন্য বিকল্পগুলি বেছে নিন",
+      "color": "রঙ: ",
+      "compare": "তুলনা করুন",
+      "hot_stock": "তাড়াতাড়ি করুন! মাত্র {{ inventory }} বাকি আছে",
+      "info": {
+        "barcode": "বারকোড:",
+        "vendor": "বিক্রেতা:",
+        "availability": "লভ্যতা:",
+        "type": "পণ্যের ধরণ:"
+      },
+      "inventory_in_stock_show_count": "{{ quantity }}টি মজুত আছে",
+      "inventory_low_stock_show_count": "কম স্টক: {{ quantity }} বাকি",
+      "many_in_stock": "অনেক মজুদ আছে"
+    },
+    "modal": {
+      "label": "মিডিয়া গ্যালারি"
     }
   },
   "navigation": {
@@ -1110,6 +1224,8 @@
   "gift_cards": {
     "issued": {
       "print": "ছাপা"
-    }
+    },
+    "collapsed": "উপহার কার্ড প্রাপকের ফর্ম সংক্ষিপ্ত করা হয়েছে",
+    "expanded": "উপহার কার্ড প্রাপকের ফর্ম প্রসারিত করা হয়েছে"
   }
 }
