@@ -761,11 +761,70 @@
       "reset": "রিসেট"
     },
     "product": {
-      "on_sale": "বিক্রয় ( ছাড় )"
+      "on_sale": "বিক্রয় ( ছাড় )",
+      "media": {
+        "image_available": "Image {{ index }} এখন গ্যালারি ভিউতে উপলব্ধ",
+        "load_image": "গ্যালারি ভিউতে ছবি {{ index }} লোড করুন",
+        "load_model": "গ্যালারি ভিউতে 3D মডেল {{ index }} লোড করুন",
+        "load_video": "গ্যালারি ভিউতে {{ index }} ভিডিওটি চালান",
+        "open_media": "মিডিয়া খুলুন {{ index }} মডালে",
+        "play_model": "৩ডি ভিউয়ার চালান"
+      },
+      "new": "নতুন",
+      "new_arrivals": "নতুন আগমন",
+      "off_text": "বন্ধ",
+      "pickup_availability": {
+        "check_other_stores": "অন্যান্য দোকানে প্রাপ্যতা পরীক্ষা করুন",
+        "pick_up_available": "পিকআপ উপলব্ধ",
+        "pick_up_available_at_html": "<span class=\"color-foreground\">{{ location_name }}</span>-এ পিকআপ উপলব্ধ",
+        "pick_up_unavailable_at_html": "বর্তমানে <span class=\"color-foreground\">{{ location_name }}</span> থেকে সংগ্রহ করার সুবিধা উপলব্ধ নেই",
+        "unavailable": "পিকআপের উপলব্ধতা লোড করা যায়নি"
+      },
+      "pre_order": "অগ্রিম ফরমায়েশ করুন",
+      "product_variants": "পণ্য প্রকরণ",
+      "quantity": {
+        "decrease": "{{ product }}-এর জন্য পরিমাণ কমানো",
+        "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}</span>টি কার্টে আছে",
+        "increase": "{{ product }}-এর পরিমাণ বাড়ান",
+        "input_label": "{{ product }}-এর পরিমাণ",
+        "max_of": "সর্বোচ্চ {{ quantity }}",
+        "maximum_of": "সর্বোচ্চ {{ quantity }}",
+        "min_of": "কমপক্ষে {{ quantity }}",
+        "minimum_of": "সর্বনিম্ন {{ quantity }}",
+        "multiples_of": "{{ quantity }} এর বৃদ্ধি",
+        "note": "পরিমাণ বিষয়ক নিয়মাবলী দেখুন",
+        "warning_quantity": "সর্বোচ্চ পরিমাণ: {{ inventory}}"
+      },
+      "quick_view": "দ্রুত দেখুন",
+      "share": "এই পণ্যটি শেয়ার করুন",
+      "size_chart": {
+        "name": "মাপের নির্দেশিকা",
+        "name_popup": "মাপের তালিকা"
+      },
+      "sku": "এসকেইউ",
+      "sold_out_message": "এই ভেরিয়েন্টটি বিক্রি হয়ে গেছে!",
+      "step_by_step": {
+        "next": "পরবর্তী পদক্ষেপ",
+        "previous": "পূর্ববর্তী পদক্ষেপ"
+      },
+      "unavailable_message": "এই প্রকারভেদটি উপলব্ধ নেই!",
+      "value_unavailable": "{{ option_value }} - অনুপলব্ধ",
+      "variant_sold_out_or_unavailable": "ভেরিয়েন্টটি বিক্রি হয়ে গেছে অথবা অনুপলব্ধ",
+      "vendor": "বিক্রেতা",
+      "video_exit_message": "{{ title }} একই উইন্ডোতে পূর্ণ স্ক্রীনের ভিডিও খোলে।",
+      "view_full_details": "সম্পূর্ণ বিবরণ দেখুন",
+      "volume_pricing": {
+        "note": "বাল্ক বা বেশি পরিমাণে কিনলে বিশেষ মূল্য প্রযোজ্য",
+        "price_at_each": "প্রতিটি {{ price }}",
+        "title": "ভলিউম মূল্য নির্ধারণ"
+      },
+      "xr_button_label": "আপনার জায়গায় দেখুন, অগমেন্টেড রিয়্যালিটি উইন্ডোতে আইটেম লোড হচ্ছে"
     }
   },
   "navigation": {
-    "sale_label": "বিক্রয় ( ছাড় )"
+    "sale_label": "বিক্রয় ( ছাড় )",
+    "new_label": "নতুন",
+    "hot_label": "গরম"
   },
   "gift_cards": {
     "issued": {
