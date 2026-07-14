@@ -788,10 +788,17 @@
       "sundayAbbreviation": "রবি"
     },
     "profile_preview_bar": {
-      "edit": "সম্পাদনা"
+      "edit": "সম্পাদনা",
+      "badge_paused": "বিরতি দেওয়া হয়েছে",
+      "badge_scheduled": "নির্ধারিত",
+      "badge_traffic": "{{percentage}} ট্র্যাফিক",
+      "exit_preview": "প্রিভিউ থেকে বেরিয়ে আসুন",
+      "hide_bar_action": "বারটি লুকান",
+      "rollout_label": "ঘূর্ণায়মান"
     },
     "shop_ads": {
-      "next_button": "পরবর্তী"
+      "next_button": "পরবর্তী",
+      "title": "অন্যান্য পণ্য যা আপনার পছন্দ হতে পারে"
     },
     "subscriptions": {
       "update_payment_instrument": {
@@ -801,7 +808,13 @@
     "intents": {
       "subscription_replace_payment_method": {
         "save_button": "সংরক্ষণ করুন",
-        "close_button": "বন্ধ করা"
+        "close_button": "বন্ধ করা",
+        "replace_with": "বদলে দিন",
+        "loading": "পেমেন্টের মাধ্যম পরিবর্তনের মোডাল লোড হচ্ছে",
+        "invalid_subscription_contract": "সাবস্ক্রিপশন খুঁজে পাওয়া যায়নি",
+        "expiry_date": "মেয়াদ {{expiryDate}}",
+        "edit_current_payment_method": "বর্তমান অর্থপ্রদানের পদ্ধতি সম্পাদনা করুন",
+        "edit_selected_payment_method": "নির্বাচিত পেমেন্ট পদ্ধতি এডিট করুন"
       }
     },
     "account_menu": {
@@ -821,7 +834,15 @@
     "sign_in": {
       "step_one": {
         "input_field_label": "ইমেইল",
-        "or": "অথবা"
+        "or": "অথবা",
+        "subheading_with_sign_in_options": "সাইন ইন করুন অথবা একটি অ্যাকাউন্ট তৈরি করুন",
+        "consent_agreement": "চালিয়ে গেলে, আপনি আমাদের %{terms}-এ সম্মত হবেন",
+        "last_used_pill": "শেষ ব্যবহৃত"
+      }
+    },
+    "settings": {
+      "log_out_everywhere": {
+        "button": "সমস্ত ডিভাইস থেকে সাইন আউট করুন"
       }
     }
   },
@@ -830,7 +851,21 @@
     "menu": "মেনু",
     "close": "বন্ধ করা",
     "error": "ত্রুটি",
-    "unit_price_separator": "প্রতি"
+    "unit_price_separator": "প্রতি",
+    "account": "অ্যাকাউন্ট মেনু খুলুন",
+    "collapsible_content_title": "সঙ্কোচনযোগ্য বিষয়বস্তু",
+    "complementary_products": "পরিপূরক পণ্য",
+    "dropdown": "ড্রপডাউন খুলুন",
+    "jump_to_product": "পণ্যতে যান",
+    "loading": "লোড হচ্ছে...",
+    "localization_region_and_language": "অঞ্চল ও ভাষা নির্বাচক খুলুন",
+    "open_cart_drawer": "খালি কার্ট",
+    "open_search_modal": "অনুসন্ধান খুলুন",
+    "promotion-popup": "প্রচার পপআপ",
+    "refresh_page": "একটি নির্বাচন করলে সম্পূর্ণ পৃষ্ঠা রিফ্রেশ হয়ে যাবে।",
+    "star_reviews_info": "{{ rating_max }} তারার মধ্যে {{ rating_value }}",
+    "total_reviews": "মোট পর্যালোচনা",
+    "vendor": "বিক্রেতা:"
   },
   "actions": {
     "back": "পিছনে",
@@ -849,13 +884,32 @@
   "blogs": {
     "comment_form": {
       "name": "নাম",
-      "email": "ইমেইল"
+      "email": "ইমেইল",
+      "post_error": "ইমেল ঠিকানা ছাড়া ফর্ম জমা দেওয়া যাবে না",
+      "success": "আপনার মন্তব্য সফলভাবে পোস্ট করা হয়েছে! ধন্যবাদ!",
+      "success_moderated": "আপনার মন্তব্য সফলভাবে পোস্ট করা হয়েছে। আমাদের ব্লগ মডারেট করা হয় বলে আমরা অল্প সময়ের মধ্যে এটি প্রকাশ করব।"
+    },
+    "article": {
+      "back_to_blog": "ব্লগে ফিরে যান",
+      "blog": "ব্লগ",
+      "by": "দ্বারা",
+      "next_post": "পরবর্তী পোস্ট",
+      "on": "চালু",
+      "previous_post": "পূর্বের পোস্ট",
+      "read_more": "আরও পড়ুন",
+      "read_more_title": "আরও পড়ুন: {{ title }}",
+      "share": "এই নিবন্ধটি শেয়ার করুন"
     }
   },
   "content": {
     "breadcrumb": {
       "cart": "ঝুরি",
-      "home": "হোম"
+      "home": "হোম",
+      "article": "নিবন্ধ",
+      "blog": "ব্লগ",
+      "blogs": "ব্লগসমূহ",
+      "home_link_title": "হোম পেজে যান",
+      "product": "পণ্য"
     },
     "cart_title": "ঝুরি",
     "form": {
@@ -1017,7 +1071,66 @@
     "view_as": "হিসাবে দেখুন",
     "view_cart": "কার্ট দেখুন",
     "wishlist": "পছন্দের তালিকা",
-    "wishlist_items": "{{ count }}টি জিনিস সহ পছন্দের তালিকা"
+    "wishlist_items": "{{ count }}টি জিনিস সহ পছন্দের তালিকা",
+    "add": "পছন্দের তালিকায় যোগ করুন",
+    "add_coupon": "একটি কুপন যোগ করুন",
+    "added": "পছন্দের তালিকায় যোগ করা হয়েছে",
+    "announcement": "ঘোষণা",
+    "announcement_bar": "ঘোষণাপত্র বার",
+    "article_title": "উদাহরণস্বরূপ নিবন্ধের শিরোনাম",
+    "articles": "ব্লগ",
+    "back_to_top": "উপরে যান",
+    "button_label": "সাবস্ক্রাইব করুন",
+    "calculator_shipping": {
+      "button": "শিপিং খরচ হিসাব করুন",
+      "error": "শিপিংয়ের মূল্য আনতে গিয়ে এক বা একাধিক ত্রুটি দেখা দিয়েছে:",
+      "multiple_results": "আপনার ঠিকানার জন্য একাধিক শিপিং রেট রয়েছে:",
+      "not_found": "দুঃখিত, আমরা আপনার ঠিকানায় শিপ করি না।",
+      "one_result": "আপনার ঠিকানার জন্য একটিই শিপিং রেট আছে:",
+      "shipping": "আনুমানিক শিপিং খরচ",
+      "title": "শিপিংয়ের আনুমানিক খরচ জানুন:"
+    },
+    "caption": "কার্টে থাকা জিনিসপত্র",
+    "carousel": "নাগরদোলা",
+    "cart": {
+      "cart_items": "কার্টে {{ count }}টি জিনিস আছে",
+      "cart_texts": "কার্ট ({{ count }}টি আইটেম)",
+      "edit_cart_title": "সম্পাদনার বিকল্প",
+      "edit_title": "{{ title }} সম্পাদনা করুন",
+      "gift_wrapping_title": "আপনি কি একটি উপহার মোড়ানো চান?",
+      "item_added": "আপনার কার্টে আইটেম যোগ করা হয়েছে",
+      "view": "কার্ট দেখুন ({{ count }})",
+      "view_empty_cart": "কার্ট দেখুন"
+    },
+    "cart_count_max": {
+      "more": "৯৯+"
+    },
+    "cart_error": "আপনার কার্ট আপডেট করার সময় একটি ত্রুটি দেখা দিয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
+    "cart_quantity_error_html": "আপনি আপনার কার্টে এই আইটেমটির {{ quantity }}টি যোগ করতে পারবেন।",
+    "clear_search_term": "অনুসন্ধানের পদ সাফ করুন",
+    "collapse_row": "সারি ভেঙে দিন",
+    "collection_link": "এখনই কিনুন",
+    "collection_title": "আপনার সংগ্রহের নাম",
+    "compare": {
+      "add": "তুলনা করার জন্য যোগ করুন",
+      "added": "তুলনা করার জন্য যোগ করা হয়েছে",
+      "message": "তুলনা করার জন্য আপনাকে কমপক্ষে দুটি পণ্য নির্বাচন করতে হবে!",
+      "other_details": "অন্যান্য বিবরণ",
+      "product": "পণ্য",
+      "product_type": "পণ্যের ধরণ",
+      "remove_all": "সবগুলো সরান",
+      "remove_compare": "তুলনা করা বাদ দিন",
+      "review": "রেটিং",
+      "sku": "এসকেইউ",
+      "title": "তুলনা করুন"
+    },
+    "copy": "কপি করুন",
+    "country_label": "দেশ/অঞ্চল",
+    "country_results_count": "{{ count }} দেশ/অঞ্চল পাওয়া গেছে",
+    "coupon_code": "কুপন কোড:",
+    "days": "দিনগুলি",
+    "each": "{{ money }}/প্রতিটি",
+    "end_count": "টি {{ count }} পণ্যের"
   },
   "customer": {
     "addresses": {
