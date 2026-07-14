@@ -206,7 +206,275 @@
           "add": "ভ্যাট নম্বর যোগ করুন",
           "vaulted": "ভ্যাট নম্বর: %{number}"
         }
+      },
+      "general": {
+        "error_page_title": "ত্রুটি",
+        "print_policies_link_label": "ছাপা",
+        "close_modal_label": "বন্ধ করা",
+        "close_notice_label": "বন্ধ করা",
+        "dates": {
+          "months": {
+            "march": "মার্চ",
+            "april": "এপ্রিল"
+          }
+        }
+      },
+      "contact": {
+        "email_label": "ইমেইল",
+        "email_placeholder": "ইমেইল",
+        "state_label": "রাজ্য",
+        "state_placeholder": "রাজ্য",
+        "phone_label": "ফোন",
+        "phone_placeholder": "ফোন"
+      },
+      "stock": {
+        "price_column_header": "দাম"
+      },
+      "order_summary": {
+        "apply_discount_button_label": "প্রয়োগ করুন",
+        "taxes_label": "কর",
+        "total_label": "মোট",
+        "partial_total_label": "মোট",
+        "cost_table_value_column_header": "মূল্য",
+        "price_label": "দাম"
+      },
+      "payment": {
+        "apply_gift_card_button_label": "প্রয়োগ করুন",
+        "crypto_modal": {
+          "error": {
+            "close": "বন্ধ"
+          }
+        },
+        "twint_label": "টুইন্ট",
+        "swish_label": "সুইশ",
+        "vipps_label": "ভিপ্পস",
+        "clear": "পরিষ্কার",
+        "order_edit_banner_items_added": {
+          "one": "যোগ করা হয়েছে"
+        },
+        "order_edit_banner_single_item_added": "যোগ করা হয়েছে"
+      },
+      "post_purchase": {
+        "components": {
+          "close": "বন্ধ করা"
+        }
+      },
+      "thank_you": {
+        "announcement": {
+          "close": "বন্ধ করা"
+        }
+      },
+      "review": {
+        "item_header": {
+          "value": "মূল্য"
+        }
+      },
+      "order_payment_collection": {
+        "changes_summary": {
+          "added": {
+            "one": "যোগ করা হয়েছে"
+          }
+        }
+      },
+      "subscriptions": {
+        "recurring_total_intervals": {
+          "month": {
+            "one": "মাস"
+          }
+        }
+      },
+      "throttle": {
+        "title": "সারি"
+      },
+      "units": {
+        "item": "আইটেম"
+      }
+    },
+    "sentence": {
+      "two_words_connector": " এবং "
+    },
+    "pagination": {
+      "next": "পরবর্তী"
+    },
+    "feed": {
+      "more": "আরও"
+    },
+    "attributes": {
+      "body": "শরীর"
+    },
+    "notices": {
+      "order": {
+        "financial_status": {
+          "paid": "পরিশোধিত"
+        }
       }
     }
+  },
+  "customer_accounts": {
+    "navigation_and_structure": {
+      "back_button_accessibility_label": "পিছনে"
+    },
+    "account_information": {
+      "profile_card": {
+        "edit": "সম্পাদনা",
+        "save": "সংরক্ষণ করুন"
+      },
+      "verify_current_email_modal": {
+        "verify_button": "পরবর্তী"
+      }
+    },
+    "orders": {
+      "order_list": {
+        "carousel": {
+          "next": "পরবর্তী"
+        },
+        "pagination": {
+          "next": "পরবর্তী",
+          "previous": "পূর্ববর্তী"
+        },
+        "payment_status": {
+          "list_view": {
+            "paid": "পরিশোধিত"
+          }
+        },
+        "sort_title": "সাজান"
+      }
+    },
+    "order_details": {
+      "view_controls": {
+        "list": "তালিকা"
+      },
+      "no_data": "কোনটিই নয়",
+      "paid_amount": "পরিশোধিত",
+      "payment": {
+        "emv_details": {
+          "aid": "সাহায্য:"
+        }
+      },
+      "shipping": {
+        "free": "বিনামূল্যে"
+      }
+    },
+    "addresses": {
+      "back_button": "পিছনে",
+      "edit_button": "সম্পাদনা"
+    },
+    "address_form": {
+      "save": "সংরক্ষণ করুন"
+    },
+    "B2B": {
+      "locations": {
+        "contact_name": "নাম",
+        "taxes_none": "কোনটিই নয়"
+      },
+      "draft_order_details": {
+        "payment_status": {
+          "paid": {
+            "title": "পরিশোধিত"
+          }
+        }
+      },
+      "purchase_order_number": {
+        "save": "সংরক্ষণ করুন"
+      }
+    },
+    "payment_methods": {
+      "back_button": "পিছনে",
+      "generic_card": "কার্ড",
+      "store_credit": {
+        "details_modal": {
+          "date_label": "তারিখ",
+          "expirable_amounts_button": "দৃশ্য"
+        }
+      },
+      "payment_details": {
+        "edit_payment_method_button": "সম্পাদনা"
+      },
+      "edit_payment_method": {
+        "save_payment_method_button": "সংরক্ষণ করুন"
+      }
+    },
+    "payment_method_brands": {
+      "visa": "ভিসা"
+    },
+    "ui_components": {
+      "june": "জুন",
+      "july": "জুলাই",
+      "moneyLinesHeaderItem": "আইটেম"
+    },
+    "profile_preview_bar": {
+      "edit": "সম্পাদনা"
+    },
+    "shop_ads": {
+      "next_button": "পরবর্তী"
+    },
+    "subscriptions": {
+      "update_payment_instrument": {
+        "save": "সংরক্ষণ করুন"
+      }
+    },
+    "intents": {
+      "subscription_replace_payment_method": {
+        "save_button": "সংরক্ষণ করুন"
+      }
+    }
+  },
+  "accessibility": {
+    "cart": "ঝুরি",
+    "menu": "মেনু"
+  },
+  "actions": {
+    "back": "পিছনে",
+    "more": "আরও",
+    "open": "খোলা",
+    "save": "সংরক্ষণ করুন",
+    "sort": "সাজান",
+    "zoom": "জুম"
+  },
+  "blogs": {
+    "comment_form": {
+      "name": "নাম"
+    }
+  },
+  "content": {
+    "breadcrumb": {
+      "cart": "ঝুরি",
+      "home": "হোম"
+    },
+    "cart_title": "ঝুরি",
+    "form": {
+      "name": "নাম",
+      "send": "পাঠান"
+    },
+    "free_shipping_1": "বিনামূল্যে",
+    "menu": "মেনু",
+    "pagination": {
+      "button_next": "পরবর্তী",
+      "button_previous": "পূর্ববর্তী"
+    },
+    "product_badge_sale": "বিক্রয় ( ছাড় )"
+  },
+  "customer": {
+    "addresses": {
+      "city": "শহর",
+      "edit": "সম্পাদনা"
+    },
+    "orders": {
+      "date": "তারিখ"
+    }
+  },
+  "placeholders": {
+    "blog_post_date": "তারিখ"
+  },
+  "products": {
+    "facets": {
+      "sort_button": "সাজান"
+    },
+    "product": {
+      "on_sale": "বিক্রয় ( ছাড় )"
+    }
+  },
+  "navigation": {
+    "sale_label": "বিক্রয় ( ছাড় )"
   }
 }
