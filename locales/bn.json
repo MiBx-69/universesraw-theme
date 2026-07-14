@@ -1,0 +1,212 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "shopify": {
+    "checkout": {
+      "notice_banner": {
+        "validation_errors_banner": {
+          "heading": {
+            "one": "{{count}}টি ত্রুটি রয়েছে:",
+            "other": "{{count}}টি ত্রুটি রয়েছে:"
+          }
+        }
+      },
+      "local_pickup": {
+        "location_address_search_placeholder": "%{postal_code_label} অথবা ঠিকানা",
+        "location_closest": "আপনার জিনিস সহ নিকটতম অবস্থান",
+        "location_closest_one_item": "আপনার জিনিস সহ নিকটতম অবস্থান",
+        "location_closest_other_items": "আপনার আইটেম সহ সবচেয়ে কাছের অবস্থান",
+        "location_selected": "আপনার নির্বাচিত অবস্থান",
+        "location_information_far_away": {
+          "one": "আপনার জিনিসপত্র সহ %{count}টি অবস্থান আছে",
+          "other": "আপনার আইটেম সহ %{count}টি স্থান রয়েছে"
+        },
+        "location_information_far_away_one_item": {
+          "one": "আপনার জিনিসপত্র সহ %{count}টি অবস্থান আছে",
+          "other": "আপনার আইটেম সহ %{count}টি স্থান রয়েছে"
+        },
+        "location_information_far_away_other_items": {
+          "one": "আপনার জিনিসপত্র সহ %{count}টি স্থান আছে",
+          "other": "আপনার জিনিসপত্র সহ %{count}টি অবস্থান রয়েছে"
+        },
+        "location_nearby": {
+          "one": "আপনার আইটেম সহ কাছাকাছি %{count}টি লোকেশন রয়েছে",
+          "other": "আপনার জিনিসপত্র সহ %{count}টি কাছাকাছি অবস্থান রয়েছে"
+        },
+        "location_nearby_one_item": {
+          "one": "আপনার আইটেম সহ কাছাকাছি %{count}টি লোকেশন রয়েছে",
+          "other": "আপনার জিনিসপত্র সহ %{count}টি কাছাকাছি অবস্থান রয়েছে"
+        },
+        "location_nearby_other_items": {
+          "one": "আপনার জিনিসপত্র সহ %{count}টি কাছাকাছি জায়গা রয়েছে",
+          "other": "আপনার জিনিসপত্র সহ %{count}টি কাছাকাছি জায়গা আছে"
+        },
+        "location_nearby_short": {
+          "one": "আপনার জিনিস সহ %{count}টি কাছাকাছি অবস্থান",
+          "other": "আপনার আইটেম সহ কাছাকাছি %{count}টি স্থান"
+        },
+        "location_nearby_short_one_item": {
+          "one": "আপনার জিনিস সহ %{count}টি কাছাকাছি অবস্থান",
+          "other": "আপনার আইটেম সহ কাছাকাছি %{count}টি স্থান"
+        },
+        "location_nearby_short_other_items": {
+          "one": "আপনার সামগ্রী সহ %{count}টি কাছাকাছি অবস্থান",
+          "other": "আপনার জিনিসপত্র সহ %{count}টি কাছাকাছি অবস্থান"
+        },
+        "location_far_away": {
+          "one": "আপনার আইটেম সহ %{count}টি স্থান",
+          "other": "আপনার জিনিস সহ %{count}টি স্থান"
+        },
+        "location_far_away_one_item": {
+          "one": "আপনার আইটেম সহ %{count}টি স্থান",
+          "other": "আপনার জিনিস সহ %{count}টি স্থান"
+        },
+        "location_far_away_other_items": {
+          "one": "আপনার জিনিসপত্র সহ %{count}টি স্থান",
+          "other": "আপনার আইটেম সহ %{count}টি লোকেশন"
+        },
+        "toggle_more_locations": {
+          "one": "আরও %{count}টি স্থান",
+          "other": "আরও %{count}টি লোকেশন"
+        },
+        "toggle_multiple_locations": "আরও %{count}টি লোকেশন",
+        "all_stores_far_away": {
+          "title_with_item": {
+            "one": "আপনার জিনিস সহ নিকটতম স্থানটি %{location} থেকে %{distance} এর বেশি দূরে রয়েছে",
+            "other": "আপনার প্রয়োজনীয় জিনিসপত্র সহ নিকটতম অবস্থানটি %{location} থেকে %{distance} এর বেশি দূরে রয়েছে"
+          },
+          "title_with_location": "সবচেয়ে কাছের স্থানটি %{location} থেকে %{distance} এর বেশি দূরে",
+          "title_with_specific_location": "আপনার জিনিস সহ সবচেয়ে কাছের স্থানটি %{location} থেকে %{distance} এর বেশি দূরে রয়েছে",
+          "description_with_location": "%{change_location_link} অথবা %{ship_to_address_link}",
+          "change_location_link": "আপনার অবস্থান পরিবর্তন করুন"
+        },
+        "selected_pickup_option_no_longer_available": {
+          "description": "আপনার আইটেমগুলির জন্য আমরা সবচেয়ে কাছের স্থানটি বেছে নিয়েছি যেখানে সেগুলি মজুত আছে"
+        },
+        "no_pickup_locations_found": "কোন পিকআপ অবস্থান পাওয়া যায়নি",
+        "pickup_unavailable_banner_title": {
+          "one": "আপনার আইটেম সহ কোনো স্থান নেই",
+          "other": "আপনার আইটেমগুলো যুক্ত করার জন্য কোনো স্থান নেই"
+        },
+        "pickup_unavailable_banner_title_with_country": {
+          "one": "আপনার জিনিসপত্র সহ %{country} এর মধ্যে কোন স্থান নেই",
+          "other": "আপনার আইটেমগুলির জন্য %{country}-এ কোনো স্থান নেই"
+        },
+        "pickup_unavailable_banner_body": {
+          "try_different_location": "অন্য একটি জায়গা চেষ্টা করুন",
+          "there_are_no_stores": "আপনার ঠিকানার কাছাকাছি কোনো স্টোর নেই, অথবা আপনার জিনিসপত্র পিকআপের জন্য উপলব্ধ নয়।",
+          "ship_items": "আপনার জিনিসপত্র চালান",
+          "search_elsewhere": "অন্যত্র খুঁজুন",
+          "search_elsewhere_standalone": "অন্য কোথাও খুঁজুন",
+          "ship_items_or_search_elsewhere": "%{ship_items} অথবা %{search_elsewhere}"
+        },
+        "geolocation": {
+          "permission_not_allowed": "অবস্থানের তথ্য শেয়ার করার অনুমতি দিন অথবা অনুসন্ধান করুন।"
+        }
+      },
+      "split_delivery": {
+        "accessibility": {
+          "status": {
+            "ship_separately": "%{items} আলাদাভাবে পাঠানো হবে।",
+            "pickup_in_store": "%{items} দোকান থেকে সংগ্রহ করা হবে।",
+            "remove_items": "আপনার কার্ট থেকে %{items} সরানো হয়েছে।"
+          }
+        },
+        "pickup_all_items": "সব জিনিস তুলে নাও",
+        "items_for_pickup": "পিক-আপের জন্য জিনিসপত্র",
+        "items_for_shipping": "শিপিংয়ের জন্য পণ্য",
+        "items_moved_to_shipping_toast": "যে জিনিসগুলি তোলা যাবে না সেগুলিকে শিপিংয়ে সরানো হয়েছে",
+        "delivery_method": "বিভক্ত বিতরণ পদ্ধতি",
+        "delivery_method_menu": "বিভক্ত ডেলিভারি পদ্ধতি মেনু",
+        "inventory_issue_banner": {
+          "heading": {
+            "cannot_be_picked_up": {
+              "one": "% {count}টি আইটেম নেওয়া যাবে না",
+              "other": "%কেইটি সংখ্যা সামগ্রী তোলা যাবে না"
+            },
+            "cannot_be_shipped": {
+              "one": "%{count}টি আইটেম পাঠানো যাবে না",
+              "other": "%{count}টি জিনিস পাঠানো যাবে না"
+            }
+          },
+          "remove_item": {
+            "one": "আইটেম সরান",
+            "other": "আইটেমগুলি সরান"
+          },
+          "remove_item_only": {
+            "other": "আইটেমগুলি সরান"
+          },
+          "ship_separately": {
+            "one": "আলাদা করে পাঠান",
+            "other": "এগুলো আলাদাভাবে পাঠান"
+          },
+          "pick_them_up_in_store": {
+            "one": "দোকান থেকে সংগ্রহ করুন",
+            "other": "দোকান থেকে সংগ্রহ করুন"
+          },
+          "remove_items_or_ship": "%{ship_separately_link} অথবা %{remove_items_link}",
+          "remove_items_or_pickup": "%{pickup_in_store_link} অথবা %{remove_items_link}"
+        },
+        "cross_border": {
+          "modal": {
+            "heading": "দেশ পরিবর্তন করবেন?",
+            "content": "আপনার পিকআপ এবং শিপিংয়ের স্থান একই দেশে হতে হবে। দেশ পরিবর্তন করলে শিপিংয়ের জন্য সমস্ত আইটেম রিসেট হয়ে যাবে।",
+            "country_changed_heading": "দেশ পরিবর্তন করা হয়েছে",
+            "change_country": "দেশ পরিবর্তন করুন"
+          },
+          "banner": "আপনার ডেলিভারি পদ্ধতি আপডেট করা হয়েছে"
+        }
+      },
+      "wallets": {
+        "deceleration": {
+          "one_more_step": "আরেকটি পদক্ষেপ..."
+        },
+        "place_order": "অর্ডার দিন",
+        "redirection_notice": "আপনাকে আপনার কেনাকাটা সম্পূর্ণ করতে {{walletName}}-এ রিডাইরেক্ট করা হবে",
+        "recovery_notice": "আপনার অর্ডারের বিবরণীতে একটি সমস্যা আছে। পেমেন্ট সম্পন্ন করতে আপনার তথ্য হালনাগাদ করুন।",
+        "errors": {
+          "subscription_review_required": "আপনার অর্ডারে একটি সাবস্ক্রিপশন অন্তর্ভুক্ত রয়েছে। অর্ডার সম্পন্ন করার আগে আপনাকে অবশ্যই নিচের শর্তাবলী পর্যালোচনা করতে হবে।",
+          "discount_code": "এই ডিসকাউন্ট কোডটি ব্যবহার করা যাচ্ছে না। আপনার কোডটি পর্যালোচনা করুন এবং আবার চেষ্টা করুন।",
+          "terminal": "{{walletName}}-এ সমস্যা হয়েছিল। অন্য একটি পেমেন্ট পদ্ধতি ব্যবহার করুন।",
+          "outdated": {
+            "payment_terms": "পেমেন্টের শর্তাবলী পরিবর্তন করা হয়েছে। আপনার অর্ডারটি পর্যালোচনা করুন।"
+          },
+          "processing_error_checkout_as_guest": "আপনার পেমেন্ট প্রক্রিয়া করতে সমস্যা হয়েছে। আবার চেষ্টা করুন অথবা {{checkout_as_guest_link}}।"
+        }
+      },
+      "remote": {
+        "errors": {
+          "currency_mismatch_removal": "আপনার কার্ট থেকে একটি আইটেম সরিয়ে ফেলা হয়েছে কারণ এটি ভিন্ন মুদ্রা ব্যবহার করা একটি স্টোরের।"
+        }
+      },
+      "too_many_requests": {
+        "title": "অনেক বেশিবার চেকআউট করার চেষ্টা করা হয়েছে",
+        "body": "অনুগ্রহ করে কিছুক্ষণ অপেক্ষা করুন এবং আপনার কার্ট থেকে আবার চেষ্টা করুন।",
+        "body_no_cart": "অনুগ্রহ করে কয়েক মিনিট অপেক্ষা করুন এবং আবার চেষ্টা করুন।"
+      },
+      "required_extensions": {
+        "errors": {
+          "interaction_required": "চেকআউট সম্পূর্ণ করার জন্য একটি এক্সটেনশন ইন্টারঅ্যাকশন প্রয়োজন।"
+        }
+      },
+      "taxes": {
+        "tax_details": "অতিরিক্ত করের বিবরণ",
+        "vat_number": {
+          "field": {
+            "label": "ভ্যাট নম্বর (ঐচ্ছিক)",
+            "tooltip": "ভ্যাট নম্বর যাচাই করে এবং যোগ্য হলে স্বয়ংক্রিয়ভাবে অর্ডারে রিভার্স চার্জ প্রয়োগ করে"
+          },
+          "add": "ভ্যাট নম্বর যোগ করুন",
+          "vaulted": "ভ্যাট নম্বর: %{number}"
+        }
+      }
+    }
+  }
+}
