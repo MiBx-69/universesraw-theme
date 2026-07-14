@@ -662,7 +662,8 @@
         },
         "pagination": {
           "next": "পরবর্তী",
-          "previous": "পূর্ববর্তী"
+          "previous": "পূর্ববর্তী",
+          "load_more_accessibility_label": "আরো অর্ডার দেখান"
         },
         "payment_status": {
           "list_view": {
@@ -679,8 +680,40 @@
           "apply": "প্রয়োগ করুন",
           "date": {
             "today": "আজ"
-          }
-        }
+          },
+          "date_section_accessibility_label": "{{sectionTitle}} দ্বারা ফিল্টার করুন"
+        },
+        "empty_state_redesign_welcome_with_name": "স্বাগতম, {{firstName}}",
+        "sort_options_accessibility_label": "নিশ্চিত অর্ডারের জন্য বাছাই করার বিকল্পগুলি",
+        "view_order": "অর্ডার দেখুন",
+        "view_order_accessibility_label": "অর্ডার দেখুন {{orderName}}"
+      },
+      "order_status": {
+        "confirmed_description_pickup": "আমরা ডেলিভারির জন্য এই জিনিসগুলি প্রস্তুত করছি।",
+        "confirmed_description_shipping": "আমরা এই জিনিসগুলো পাঠানোর জন্য প্রস্তুত করছি।",
+        "arrives": "পৌঁছাচ্ছে {{date}}",
+        "delivery_estimate_backed_by": "সমর্থিত",
+        "delivery_estimate_delayed_description": "আপনার এলাকায় ডেলিভারি স্বাভাবিকের চেয়ে ধীর গতিতে হচ্ছে। আপনার অর্ডার বিলম্বে পৌঁছাতে পারে।",
+        "delivery_estimate_delayed_title": "বিলম্বিত",
+        "delivery_estimate_early_description": "আপনার এলাকায় ডেলিভারি স্বাভাবিকের চেয়ে দ্রুত হচ্ছে। এই অর্ডারটি আগে পৌঁছে যেতে পারে।",
+        "delivery_exception_attempted_action": "একটি নতুন ডেলিভারির সময় নির্ধারণ করুন",
+        "delivery_exception_attempted_description": "{{link}}-এর সাথে {{carrier}} ব্যবহার করুন অথবা ডেলিভারি বিজ্ঞপ্তি পরীক্ষা করুন",
+        "delivery_exception_attempted_description_unknown": "{{link}} অথবা ডেলিভারি নোটিশ দেখুন",
+        "delivery_exception_attempted_title": "সরবরাহের চেষ্টা করা হয়েছে",
+        "delivery_exception_delivery_failed": "ডেলিভারি ব্যর্থ হয়েছে",
+        "delivery_exception_failed_action": "{{carrier}}-এর সাথে চেক করুন",
+        "delivery_exception_failed_description": "{{link}} অথবা আরও তথ্যের জন্য আমাদের সাথে যোগাযোগ করুন",
+        "delivery_exception_failed_description_unknown": "আরও তথ্যের জন্য বাহকের সাথে যোগাযোগ করুন",
+        "delivery_exception_on_hold_action": "ডেলিভারির বিবরণ আপডেট করুন",
+        "delivery_exception_on_hold_description": "{{link}}-এর সাথে {{carrier}} ব্যবহার করে আপনার অর্ডার আবার সচল করুন",
+        "delivery_exception_on_hold_description_unknown": "{{link}} আপনার অর্ডার আবার চালু করতে",
+        "delivery_exception_on_hold_title": "অপেক্ষমাণ",
+        "delivery_exception_returning_to_sender_action": "যোগাযোগ করুন {{carrier}}",
+        "delivery_exception_returning_to_sender_description": "{{link}} আরও তথ্যের জন্য",
+        "delivery_exception_returning_to_sender_description_unknown": "আরও তথ্যের জন্য বাহকের সাথে যোগাযোগ করুন",
+        "delivery_exception_shop_promise_delivered_late_description": "আপনার অর্ডার শপ প্রমিস দ্বারা সুরক্ষিত। যেহেতু এটি দেরিতে পৌঁছেছে, তাই শপ ক্যাশ বাবদ {{amount}} দাবি করুন।",
+        "delivery_exception_shop_promise_delivered_late_title": "দেরিতে বিতরণ করা হয়েছে",
+        "predicted_by_shop": "শপের মাধ্যমে ভবিষ্যদ্বাণী করা হয়েছে"
       }
     },
     "order_details": {
@@ -693,6 +726,9 @@
         "emv_details": {
           "aid": "সাহায্য:",
           "auth": "লেখক:"
+        },
+        "shop_pay_installments": {
+          "summary": "দোকানের কিস্তি"
         }
       },
       "shipping": {
@@ -704,12 +740,52 @@
       "taxes": "কর",
       "total": "মোট",
       "not_applicable": "নিষিদ্ধ",
-      "tip": "টিপ"
+      "tip": "টিপ",
+      "compare_at_sale": "বিক্রয় ({{saleAmount}})",
+      "image_gallery": {
+        "load_more_items": {
+          "one": "আরও {{count}} আইটেম দেখান",
+          "other": "আরও {{count}} আইটেম দেখান"
+        }
+      },
+      "payment_confirmation": {
+        "payment_received": "ধন্যবাদ! আপনার {{amount}} পেমেন্ট পেয়েছি।",
+        "full_payment_received": "ধন্যবাদ! আপনার {{amount}} পেমেন্ট গ্রহণ করা হয়েছে, এবং এই অর্ডারের সম্পূর্ণ বিল পরিশোধ করা হয়েছে।",
+        "payment_authorized": "ধন্যবাদ! পেমেন্ট পাওয়ার পর ব্যালেন্স আপডেট করা হবে।",
+        "dismiss_label": "পেমেন্ট নিশ্চিতকরণ বাতিল করুন"
+      },
+      "paid_with_shop_pay_installments_card": {
+        "title": "শপ পে ইনস্টলমেন্টের জন্য পেমেন্ট রিমাইন্ডার"
+      },
+      "login_card": {
+        "title": "অর্ডারের বিবরণ দেখুন"
+      },
+      "marketing_pending_confirmation": "নিশ্চিত করতে আপনার ইমেইলে দেওয়া লিঙ্কে ক্লিক করুন।",
+      "subtotal_label_with_quantity": {
+        "other": "সাবটোটাল · {{count}}টি আইটেম"
+      },
+      "shop_order_tracking": {
+        "real_time_delivery_updates_with_gift": "রিয়েল-টাইম ডেলিভারি আপডেট পান এবং শপ অ্যাপে খরচ করার জন্য {{promoAmount}} উপহার পান।",
+        "shop_app_promo_amount_off": "একটি {{promoAmount}} উপহার পান",
+        "shop_app_promo_text": "{{amountOff}} শপ অ্যাপে খরচ করার জন্য"
+      },
+      "shop_pay": {
+        "usdc_rewards_terms": "USDC পুরস্কারের শর্তাবলী দেখুন"
+      },
+      "pagination": {
+        "load_more_accessibility_label": "আরও আইটেম দেখান"
+      },
+      "vat_invoices": {
+        "label": "ভ্যাট"
+      }
     },
     "addresses": {
       "back_button": "পিছনে",
       "edit_button": "সম্পাদনা",
-      "add_button_text": "যোগ করুন"
+      "add_button_text": "যোগ করুন",
+      "pagination": {
+        "load_more_accessibility_label": "আরও ঠিকানা দেখান"
+      }
     },
     "address_form": {
       "save": "সংরক্ষণ করুন"
@@ -722,17 +798,32 @@
         "tax_exemptions_modal_close": "বন্ধ করা",
         "own_role_contact_name": "তুমি",
         "multiple_tax_exemptions_and": "এবং",
-        "tax_exemption_not_applicable": "নিষিদ্ধ"
+        "tax_exemption_not_applicable": "নিষিদ্ধ",
+        "pagination": {
+          "load_more_accessibility_label": "আরও জায়গা দেখান"
+        },
+        "shipping_address_required": "অর্ডার করা শুরু করতে এই ঠিকানায় একটি শিপিং ঠিকানা যোগ করুন"
       },
       "draft_order_details": {
         "payment_status": {
           "paid": {
             "title": "পরিশোধিত"
-          }
+          },
+          "pending": {
+            "banner_due_today_for_multiple_fulfillments": "আজ {{count}}টি পূরণের জন্য অর্থপ্রদান বকেয়া",
+            "banner_overdue_for_multiple_fulfillments": "{{count}}টি পূরণের জন্য পেমেন্ট বকেয়া আছে"
+          },
+          "total_balance": "মোট ব্যালেন্স"
         }
       },
       "purchase_order_number": {
         "save": "সংরক্ষণ করুন"
+      },
+      "location_selection": {
+        "error_loading_locations": "লোকেশন লোড করতে সমস্যা হয়েছে। আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।"
+      },
+      "addresses": {
+        "no_billing_address_banner": "কোনো বিলিং ঠিকানা যোগ করা হয়নি"
       }
     },
     "payment_methods": {
@@ -742,7 +833,10 @@
         "details_modal": {
           "date_label": "তারিখ",
           "expirable_amounts_button": "দৃশ্য",
-          "event_label": "ইভেন্ট"
+          "event_label": "ইভেন্ট",
+          "pagination": {
+            "load_more_accessibility_label": "মেয়াদ উত্তীর্ণ হতে চলা পরিমাণগুলো দেখান"
+          }
         }
       },
       "payment_details": {
@@ -754,7 +848,35 @@
       },
       "or": "অথবা",
       "add_payment_method": {
-        "button_title": "যোগ করুন"
+        "button_title": "যোগ করুন",
+        "missing_customer_error": "কিছু ভুল হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন অথবা সহায়তার জন্য যোগাযোগ করুন।"
+      },
+      "expiring_badge_label": "মেয়াদ উত্তীর্ণ হচ্ছে",
+      "digital_wallet_title": "ডিজিটাল ওয়ালেট",
+      "pay_pal": {
+        "errors": {
+          "generic": "পেপ্যালে একটি সমস্যা হয়েছে। আবার চেষ্টা করুন অথবা অন্য কোনো পেমেন্ট পদ্ধতি ব্যবহার করুন।"
+        }
+      },
+      "update_payment_method": {
+        "subscriptions_list_accessibility_label": "সাবস্ক্রিপশন পণ্য তালিকা",
+        "pre_orders_title": "আসন্ন",
+        "pre_orders_list_accessibility_label": "অপেক্ষমান অর্ডারের পণ্যের তালিকা",
+        "resources_list_accessibility_label": "এই অর্থপ্রদানের পদ্ধতি ব্যবহার করে সাবস্ক্রিপশন পণ্য এবং মুলতুবি অর্ডারের পণ্যগুলি",
+        "loading_form_accessibility_message": "পেমেন্ট পদ্ধতি আপডেটের ফর্ম লোড হচ্ছে",
+        "loading_current_payment_method": "বর্তমান অর্থপ্রদানের পদ্ধতি লোড হচ্ছে",
+        "loading_digital_wallets": "ডিজিটাল ওয়ালেট অপশন লোড হচ্ছে",
+        "loading_card_fields": "ক্রেডিট কার্ড ক্ষেত্রগুলি লোড হচ্ছে",
+        "loading_resources": "সদস্যতা এবং আসন্ন অর্ডার লোড করা হচ্ছে"
+      },
+      "link_expired": {
+        "message": "আপনার পেমেন্ট পদ্ধতি হালনাগাদ করার এই লিঙ্কটির মেয়াদ শেষ হয়ে গেছে।",
+        "update_message": "আপনার পেমেন্ট পদ্ধতি হালনাগাদ করার এই লিঙ্কটির মেয়াদ শেষ হয়ে গেছে।",
+        "add_message": "পেমেন্টের তথ্য যোগ করার এই লিঙ্কটির মেয়াদ শেষ হয়ে গেছে।",
+        "return_home_button": "হোম পেজে ফিরে যান"
+      },
+      "three_d_secure": {
+        "verification_failed": "আপনার পেমেন্ট যাচাই করা যায়নি। আবার চেষ্টা করুন অথবা অন্য পেমেন্ট পদ্ধতি ব্যবহার করুন।"
       }
     },
     "payment_method_brands": {
@@ -765,7 +887,9 @@
       "swish": "সুইশ",
       "twint": "টুইন্ট",
       "jcb": "জেসিবি",
-      "elo": "এলো"
+      "elo": "এলো",
+      "blik": "ব্লিক",
+      "usdc": "ক্রিপ্টো: USDC"
     },
     "ui_components": {
       "june": "জুন",
@@ -794,7 +918,10 @@
       "badge_traffic": "{{percentage}} ট্র্যাফিক",
       "exit_preview": "প্রিভিউ থেকে বেরিয়ে আসুন",
       "hide_bar_action": "বারটি লুকান",
-      "rollout_label": "ঘূর্ণায়মান"
+      "rollout_label": "ঘূর্ণায়মান",
+      "badge_active": "সক্রিয়",
+      "badge_draft": "খসড়া",
+      "badge_launches": "চালু হবে {{date}}"
     },
     "shop_ads": {
       "next_button": "পরবর্তী",
@@ -820,7 +947,26 @@
     "account_menu": {
       "signed_out_state": {
         "email_field_label": "ইমেইল",
-        "alternate_divider": "অথবা"
+        "alternate_divider": "অথবা",
+        "sheet_title": "সাইন ইন করুন অথবা অ্যাকাউন্ট তৈরি করুন",
+        "section_divider": "লগইন করার আরও পদ্ধতি",
+        "use_email_button": "ইমেইল ব্যবহার করুন",
+        "shop_login_button": "শপ দিয়ে সাইন ইন করুন",
+        "continue_with_google": "গুগল দিয়ে চালিয়ে যান",
+        "continue_with_facebook": "ফেসবুক দিয়ে চালিয়ে যান"
+      },
+      "signed_in_state": {
+        "greeting_with_name": "নমস্কার, {{first_name}}"
+      },
+      "location_picker": {
+        "sheet_title": "অবস্থানগুলি"
+      },
+      "aria_labels": {
+        "close_menu": "মেনু বন্ধ করুন",
+        "back_to_main_menu": "{{title}} থেকে মূল মেনুতে ফিরে যান",
+        "open_submenu": "{{title}}, সাবমেনু খোলে",
+        "loading_menu": "মেনু লোড হচ্ছে",
+        "sign_in_with_email": "ইমেইল দিয়ে সাইন ইন করুন"
       }
     },
     "errors": {
@@ -829,7 +975,13 @@
       },
       "load_extension_error": {
         "title": "ত্রুটি"
-      }
+      },
+      "retry_action_label": "আবার চেষ্টা করুন",
+      "already_upgraded": "গ্রাহকদের অ্যাকাউন্ট ইতিমধ্যেই আপগ্রেড করা হয়েছে।",
+      "failed_to_upgrade": "গ্রাহকের অ্যাকাউন্ট সেটিংস আপগ্রেড করা যায়নি।",
+      "not_upgraded": "গ্রাহক অ্যাকাউন্ট আপগ্রেড করা হয় না।",
+      "failed_to_revert": "গ্রাহক অ্যাকাউন্টের সেটিংস প্রত্যাবর্তন করা যায়নি।",
+      "revert_window_expired": "রিভার্ট উইন্ডো শেষ হয়ে গেছে।"
     },
     "sign_in": {
       "step_one": {
