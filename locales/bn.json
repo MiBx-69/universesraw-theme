@@ -298,6 +298,26 @@
         },
         "delete_credit_card_modal": {
           "cancel": "বাতিল করুন"
+        },
+        "usdc_cashback_additional_info": "বেসে USDC দিয়ে পেমেন্ট করুন এবং 30 দিনের মধ্যে আপনার ওয়ালেটে %{incentive_percentage}% ফেরত পান।",
+        "usdc_cashback_terms": "শর্তাবলী এবং সীমা প্রযোজ্য",
+        "purchase_options_subscription_agreement_label": "আপনার কার্টে একটি স্বয়ংক্রিয়ভাবে নবায়নের সদস্যতা রয়েছে। \"%{button_label}\" ক্লিক করার মাধ্যমে, %{consent_text} %{cancellation_instructions}",
+        "purchase_options_subscription_consent_text": "আপনি স্পষ্টভাবে এবং ইতিবাচকভাবে সম্মত হচ্ছেন যে আপনার কার্টে প্রদর্শিত পুনরাবৃত্ত পরিমাণ(গুলি) (শিপিং এবং ট্যাক্স সহ) সাবস্ক্রিপশন(গুলি) শেষ না হওয়া পর্যন্ত বা আপনি বাতিল না করা পর্যন্ত স্বয়ংক্রিয়ভাবে আপনার কাছ থেকে চার্জ করা হবে।",
+        "purchase_options_subscription_cancellation_instructions": "%{cancel_text} অনুগ্রহ করে %{cancellation_policy_label} দেখুন।",
+        "purchase_options_subscription_cancel_text": "আপনি আপনার অ্যাকাউন্ট থেকে অথবা স্টোরের সাথে যোগাযোগ করে যেকোনো সময় বাতিল করতে পারেন।",
+        "brand_not_available": "এই দোকান {{brand}} গ্রহণ করে না। পেমেন্ট করার জন্য অন্য একটি কার্ড ব্যবহার করুন।",
+        "order_edit_banner_single_item_updated": "হালনাগাদ করা হয়েছে",
+        "order_edit_banner_previous_taxes_label": "পূর্ববর্তী কর:",
+        "order_edit_banner_new_taxes_label": "নতুন কর:",
+        "markets_pro_disclaimer_label": "অর্ডার দেওয়ার মাধ্যমে আপনি Global-e-এর %{markets_pro_terms} এবং %{privacy_policy} অনুযায়ী মার্চেন্ট অফ রেকর্ড হিসেবে Global-e থেকে কেনাকাটা করতে সম্মত হচ্ছেন, এছাড়াও আপনার তথ্য %{shop_name}-এর সাথে শেয়ার করতেও সম্মত হচ্ছেন।",
+        "alternative_payment_currency_total_notice_disclosure": "%{shop_name} পেমেন্ট প্রসেস করে %{shop_currency} (%{amount_due})-তে।",
+        "alternative_payment_currency_total_manual_payment_notice_disclosure": "আপনি %{shop_name}-কে %{shop_currency}-তে (%{amount_due}) পেমেন্ট করবেন।",
+        "add_new_payment_method": "নতুন অর্থপ্রদানের পদ্ধতি যোগ করুন",
+        "choose_new_payment_method": "একটি নতুন অর্থপ্রদানের পদ্ধতি বেছে নিন",
+        "multiple_primary_payment_not_allowed": "অবৈধ অর্থপ্রদানের পদ্ধতি",
+        "vault_for_payment_later": {
+          "pay_button_label": "অর্ডার দিন",
+          "notice": "আপনাকে এখন চার্জ করা হবে না। আপনার পেমেন্ট চালিয়ে যাওয়ার মাধ্যমে, আপনি সম্মত হচ্ছেন যে আপনার অর্ডার প্রক্রিয়া করার সময় আপনার পেমেন্ট পদ্ধতিতে চার্জ করা হবে।"
         }
       },
       "post_purchase": {
@@ -308,11 +328,27 @@
       "thank_you": {
         "announcement": {
           "close": "বন্ধ করা"
-        }
+        },
+        "cashback_notice": "আপনি ৩০ দিন পর আপনার ক্যাশব্যাক পাবেন।",
+        "checkout_again": "আবার দেখুন",
+        "order_status_confirmed_with_installments_payment_return": "বিক্রয় সহযোগীর দিকে আবার মনোযোগ দিন।",
+        "ready_for_pickup_description": "আপনার অর্ডার প্রস্তুত আছে। অর্ডার নেওয়ার সময় আপনার অর্ডার নিশ্চিতকরণ সঙ্গে আনুন।",
+        "order_updates_subscribe_to_email_notifications_failed": "আমরা আপডেটের জন্য এই ইমেলটি সংরক্ষণ করতে পারছি না। আবার চেষ্টা করুন অথবা অন্য একটি ইমেল ব্যবহার করুন।"
       },
       "review": {
         "item_header": {
           "value": "মূল্য"
+        },
+        "blocks": {
+          "no_purchase_order_number_long": "কোনো ক্রয়াদেশ নম্বর নেই",
+          "pickup_items_at": {
+            "one": "%{count}টি জিনিস এখানে সংগ্রহ করুন",
+            "other": "পিকআপ করুন %{count}টি আইটেম"
+          },
+          "ship_items_to": {
+            "one": "%{count}টি আইটেম এখানে পাঠান",
+            "other": "%{count}টি আইটেম পাঠান"
+          }
         }
       },
       "order_payment_collection": {
@@ -330,7 +366,10 @@
         }
       },
       "throttle": {
-        "title": "সারি"
+        "title": "সারি",
+        "too_many_attempts": {
+          "description": "কয়েক মিনিট পর আবার চেষ্টা করুন"
+        }
       },
       "units": {
         "item": "আইটেম",
@@ -346,6 +385,113 @@
         },
         "split_shipping_shipping_label": "পদ্ধতি",
         "split_shipping_option_custom": "কাস্টম"
+      },
+      "field_errors": {
+        "address_street_name_blank": "রাস্তার নাম লিখুন",
+        "address_street_name_too_long": "রাস্তা অনেক লম্বা (সর্বোচ্চ {{count}} অক্ষর)",
+        "address_street_name_contains_emojis": "রাস্তায় ইমোজি ব্যবহার করা যাবে না",
+        "address_street_name_contains_html_tags": "রাস্তার নামে HTML ট্যাগ থাকতে পারে না।",
+        "address_street_name_contains_mathematical_symbols": "রাস্তায় গাণিতিক প্রতীক থাকতে পারে না",
+        "address_street_number_blank": "বাড়ির নম্বর লিখুন",
+        "address_street_number_too_long": "বিল্ডিং নম্বর খুব দীর্ঘ (সর্বোচ্চ হল {{count}}টি অক্ষর)",
+        "address_street_number_contains_emojis": "বিল্ডিংয়ের নম্বরে ইমোজি থাকতে পারবে না",
+        "address_street_number_contains_html_tags": "বিল্ডিং নম্বরে HTML ট্যাগ থাকতে পারবে না।",
+        "address_street_number_contains_mathematical_symbols": "বিল্ডিং নম্বরে গাণিতিক প্রতীক থাকতে পারবে না",
+        "address_line2_too_long": "দ্বিতীয় ঠিকানা লাইনটি খুব দীর্ঘ (সর্বোচ্চ {{count}} অক্ষর)",
+        "address_line2_contains_emojis": "দ্বিতীয় ঠিকানার লাইনে ইমোজি থাকতে পারবে না",
+        "address_line2_contains_html_tags": "দ্বিতীয় ঠিকানা লাইনে HTML ট্যাগ থাকতে পারবে না।",
+        "address_district_blank": "একটি জেলা লিখুন",
+        "address_district_too_long": "জেলা নামটি খুব দীর্ঘ (সর্বোচ্চ {{count}} টি অক্ষর হতে পারে)",
+        "address_district_contains_emojis": "জেলা ইমোজি ধারণ করতে পারে না",
+        "address_district_contains_html_tags": "জেলাতে কোনো HTML ট্যাগ থাকতে পারবে না।",
+        "address_district_contains_mathematical_symbols": "জেলা গাণিতিক প্রতীক ধারণ করতে পারে না",
+        "address_subdistrict_blank": "একটি উপজেলা লিখুন",
+        "address_subdistrict_too_long": "Subdistrict খুব দীর্ঘ (সর্বোচ্চ {{count}} অক্ষর হতে পারে)",
+        "address_subdistrict_contains_emojis": "উপজেলায় ইমোজি থাকতে পারবে না",
+        "address_subdistrict_contains_html_tags": "উপজেলায় এইচটিএমএল ট্যাগ থাকতে পারবে না।",
+        "address_subdistrict_contains_mathematical_symbols": "উপজেলায় গাণিতিক প্রতীক থাকতে পারবে না",
+        "credit_card_name_billing_invalid": "বিলিং অ্যাড্রেসে প্রথমে আপনার নাম লিখুন",
+        "shipping_method_invalid_phone_number": "উপলভ্য শিপিং পদ্ধতি দেখতে আপনার ডেলিভারি ঠিকানায় ফোন নম্বর আপডেট করুন।",
+        "split_by_delivery_method_not_allowed": "এই সেশন বা দোকানের জন্য ডেলিভারি পদ্ধতি অনুসারে বিভাজন অনুমোদিত নয়।",
+        "split_by_delivery_method_requires_merchandise_from_single_location": "ডেলিভারি পদ্ধতির দ্বারা বিভাজনের জন্য, প্রতিটি স্বতন্ত্র পণ্য লাইনকে একটি একক অবস্থান থেকে পূরণ করতে হবে।",
+        "split_by_delivery_method_unsupported_method_type": "একটি অসমর্থিত ডেলিভারি পদ্ধতি ব্যবহার করে ডেলিভারি পদ্ধতি অনুসারে বিভক্ত।"
+      },
+      "merchant_instruction_errors": {
+        "discount_not_supported": "পণ্যদ্রব্যের উপর ছাড়ের মার্চেন্ট ইনস্ট্রাকশন এই ধরনের ছাড় সমর্থন করে না।"
+      },
+      "payment_errors": {
+        "currency": {
+          "no_longer_supported": "দোকানের মুদ্রা আর সমর্থিত নয়।"
+        },
+        "amount_too_small": "সর্বনিম্ন অর্থপ্রদানের পরিমাণ $0.50 USD-এর বেশি হতে হবে। অনুগ্রহ করে আরও বেশি পরিমাণ দিয়ে আবার চেষ্টা করুন।",
+        "checkout_amount_changed": "আপনার পেমেন্ট প্রক্রিয়া করা যায়নি কারণ চেকআউটে প্রদেয় অর্থ পরিবর্তিত হয়েছে। আপনার অর্ডারটি পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
+        "deferred_payment_not_allowed": "স্থগিত পেমেন্ট অনুমোদিত নয়। আপনার অর্ডারটি পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
+        "deferred_payment_required": "এই অর্ডারের জন্য একটি স্থগিত পেমেন্ট প্রয়োজন। আপনার অর্ডারটি দেখুন এবং আবার চেষ্টা করুন।",
+        "deferred_amount_changed": "আপনার পেমেন্ট প্রক্রিয়া করা যায়নি কারণ স্থগিত পেমেন্টের পরিমাণ পরিবর্তিত হয়েছে। আপনার অর্ডারটি পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
+        "deferred_date_changed": "আপনার পেমেন্ট প্রক্রিয়া করা যায়নি কারণ স্থগিত পেমেন্টের তারিখ পরিবর্তিত হয়েছে। আপনার অর্ডারটি পরীক্ষা করে আবার চেষ্টা করুন।",
+        "payment_processing_no_retry": "প্রযুক্তিগত কারণে আপনার পেমেন্ট প্রসেস করা যাচ্ছে না। অন্য কোনো পেমেন্ট পদ্ধতি ব্যবহার করে দেখুন।",
+        "three_d_secure_throttled": "অনেক বেশি প্রচেষ্টা হয়েছে; আবার চেষ্টা করার আগে অপেক্ষা করুন",
+        "installments_payment_method_incompatible": "নির্বাচিত পেমেন্ট পদ্ধতি কিস্তির জন্য ব্যবহার করা যাবে না। অন্য পেমেন্ট পদ্ধতি বেছে নিন।",
+        "multiple_deferred_payment_not_allowed": "প্রতিটি অনুরোধের জন্য শুধুমাত্র একটি স্থগিত পেমেন্ট অনুমোদিত। আপনার অনুরোধটি পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
+        "shipping_must_match_billing": "বিলিং ঠিকানা শিপিং ঠিকানার সাথে অবশ্যই মিলতে হবে। অন্য একটি পেমেন্ট পদ্ধতি ব্যবহার করুন।",
+        "shipping_company_required_error": "{{shopName}}-এর শিপিং ঠিকানার জন্য একটি কোম্পানির নাম প্রয়োজন।",
+        "decision_rule_block": "আপনার অর্থপ্রদানে একটি সমস্যা হয়েছে। দোকানের মালিকের সাথে যোগাযোগ করুন।",
+        "cancelled_payment": "আপনার অর্থপ্রদান বাতিল করা হয়েছে। আবার চেষ্টা করুন অথবা অন্য একটি অর্থপ্রদানের পদ্ধতি ব্যবহার করুন।",
+        "missing_cvc": "একটি নিরাপত্তা কোড লিখুন",
+        "payment_method_billing_address": "আপনার নির্বাচিত অর্থপ্রদানের পদ্ধতির বিলিং ঠিকানায় একটি সমস্যা ছিল। ঠিকানাটি পরীক্ষা করুন এবং আবার চেষ্টা করুন অথবা অন্য একটি অর্থপ্রদানের পদ্ধতি ব্যবহার করুন।",
+        "expired_buyer_action": "পেমেন্টের সময়সীমা পেরিয়ে গেছে। আবার চেষ্টা করুন।",
+        "name_mismatch": "আপনার কার্ডের বিবরণ পরীক্ষা করুন। আপনার কার্ডের নাম এবং বিলিং ঠিকানা মিলছে না।",
+        "captcha_required": "আপনার কেনাকাটা সম্পূর্ণ করতে পেমেন্টের তথ্য দিন এবং ক্যাপচা সমাধান করুন।",
+        "captcha_required_without_payment_information": "আপনার কেনাকাটা সম্পূর্ণ করতে ক্যাপচাটি সমাধান করুন।",
+        "payment_credential_delegation_error": "আপনার অর্থপ্রদানে একটি সমস্যা হয়েছে। একটি নতুন অর্থপ্রদানের পদ্ধতি নির্বাচন করুন।"
+      },
+      "shipping_errors": {
+        "payment_method_not_supported": "আপনি %{country} এর জন্য এই পেমেন্ট পদ্ধতি ব্যবহার করতে পারবেন না। এই দেশে পাঠানোর জন্য একটি ভিন্ন পেমেন্ট পদ্ধতি ব্যবহার করুন।",
+        "unavailable_address_country": "আপনি নির্বাচিত দেশে শিপিং উপলব্ধ নেই। চালিয়ে যাওয়ার জন্য অন্য ঠিকানা ব্যবহার করুন।"
+      },
+      "payment_challenge_modal": {
+        "qr_code": {
+          "wechat_instructions": "আপনার ফোনে উইচ্যাট অ্যাপ ব্যবহার করে এই কিউআর কোডটি স্ক্যান করে চাইনিজ ইউয়ানে আপনার কেনাকাটা সম্পন্ন করুন।",
+          "wechat_instructions_mobile": "আপনার কেনাকাটা চাইনিজ ইউয়ানে সম্পন্ন করতে অন্য একটি ডিভাইসে উইচ্যাট অ্যাপ দিয়ে এই কিউআর কোডটি স্ক্যান করুন।"
+        }
+      },
+      "payment_gateway": {
+        "bogus_label": "টেস্ট পেমেন্ট গেটওয়ে",
+        "credit_or_debit_card_label": "ক্রেডিট/ডেবিট"
+      },
+      "marketing": {
+        "sms": {
+          "disclaimer": {
+            "description_html": "মেসেজের মাধ্যমে সাইন আপ করার মাধ্যমে, আপনি সম্মত হচ্ছেন যে প্রদত্ত ফোন নম্বরে WhatsApp-এর মাধ্যমে কার্ট রিমাইন্ডার সহ স্বয়ংক্রিয়ভাবে পাঠানো পুনরাবৃত্তিমূলক মার্কেটিং টেক্সট মেসেজ পেতে। সম্মতি ক্রয়ের কোনো শর্ত নয়। আনসাবস্ক্রাইব করতে STOP লিখে রিপ্লাই করুন। সাহায্যের জন্য HELP লিখে রিপ্লাই করুন। মেসেজের ফ্রিকোয়েন্সি ভিন্ন হতে পারে। মেসেজ ও ডেটা রেট প্রযোজ্য হতে পারে। আমাদের গোপনীয়তা নীতি এবং পরিষেবার শর্তাবলী দেখুন।"
+          }
+        }
+      },
+      "shop_policies": {
+        "terms_and_policies": "শর্তাবলী ও নীতিসমূহ"
+      },
+      "remote_policies": {
+        "unavailable_policy": "এই স্টোরের জন্য কোনো %{policy_name} প্রদান করা হয়নি। আরও তথ্যের জন্য, সরাসরি %{shop_name}-এর সাথে যোগাযোগ করুন।"
+      },
+      "change_country": {
+        "currency_updated_for_country": "%{country} এর জন্য মুদ্রা আপডেট করা হয়েছে"
+      },
+      "tips": {
+        "not_available_with_spi": "শপ পে কিস্তির মাধ্যমে উপলব্ধ নয়"
+      },
+      "cart_checkout_validation": {
+        "runtime_error": "আপনার অনুরোধ প্রক্রিয়া করণে একটি সমস্যা হয়েছে। দোকানের মালিকের সাথে যোগাযোগ করুন।"
+      },
+      "error_page": {
+        "embed_errors": {
+          "storefront_password_required": "এই দোকানটি পাসওয়ার্ড সুরক্ষিত",
+          "customer_account_required": "চেকআউট সম্পূর্ণ করতে গ্রাহক অ্যাকাউন্ট প্রয়োজন",
+          "cart_completed": "এই চেকআউটটি ইতিমধ্যেই সম্পূর্ণ করা হয়েছে",
+          "invalid_cart": "কার্টটি আর বৈধ নয়",
+          "not_authorized": "চেকআউট প্রমাণীকরণ ব্যর্থ হয়েছে। আপনার অ্যাপ্লিকেশন শংসাপত্রগুলি যাচাই করুন",
+          "killswitch_enabled": "চেকআউট সাময়িকভাবে অনুপলব্ধ",
+          "policy_violation": "নীতি কনফিগারেশন বিধিনিষেধের কারণে চেকআউট সম্পূর্ণ করা যাচ্ছে না",
+          "unrecoverable_failure": "চেকআউট লোড করা যাচ্ছে না। আবার চেষ্টা করুন"
+        }
       }
     },
     "sentence": {
