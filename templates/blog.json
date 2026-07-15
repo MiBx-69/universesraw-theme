@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -47,6 +56,8 @@
               "name": "Heading",
               "settings": {
                 "text": "<p>{{ closest.blog.title }}</p>",
+                "collection_description_only": false,
+                "collapse_text": false,
                 "typing_text": false,
                 "primary_text": "Welcome to our store!",
                 "secondary_text": "Exclusive offers just for you.",
@@ -54,6 +65,7 @@
                 "highlight_text": false,
                 "highlight_text_content": "",
                 "highlight_text_type": "text",
+                "underline_width": 100,
                 "underline_height": 18,
                 "underline_offset": 20,
                 "highlight_text_color": "#000000",
@@ -64,6 +76,12 @@
                 "spacing_text_right": 0,
                 "stroke_text": false,
                 "stroke_text_content": "",
+                "sticky_text": false,
+                "sticky_text_color": "#ffffff",
+                "mix_blend_mode": false,
+                "text_box_trim": false,
+                "enable_rotation": false,
+                "rotate": 0,
                 "width": "fit-content",
                 "unit": "percent",
                 "custom_width": 100,
@@ -88,6 +106,7 @@
                 "type_preset": "custom",
                 "font": "var(--font-heading--family)",
                 "font_size": "2.4rem",
+                "font_weight": "default",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "uppercase",
@@ -95,6 +114,7 @@
                 "color": "var(--color-foreground-heading)",
                 "background": false,
                 "background_color": "#00000026",
+                "background_gradient": "",
                 "enable_border": false,
                 "enable_border_bottom": false,
                 "border": "none",
@@ -198,7 +218,7 @@
                 "collapse_icon": "icon-caret",
                 "collapse_default": "open",
                 "text": "<p>FEATURED PRODUCT</p>",
-                "collection": "",
+                "collection": "new-arrival-universes-2025",
                 "layout": "slider",
                 "limit": 3,
                 "dots": true,
@@ -232,6 +252,7 @@
                     "gap": 12,
                     "width": "fill",
                     "custom_width": 100,
+                    "height": "fit-content",
                     "padding-block-start": 10,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
@@ -245,8 +266,11 @@
                         "product": "{{ closest.product }}",
                         "image_ratio": "adapt",
                         "show_secondary_image": true,
+                        "show_badges": true,
                         "width_option": "full",
+                        "unit": "percent",
                         "custom_width": 50,
+                        "custom_width_pixel": 90,
                         "border": "none",
                         "border_width": 1,
                         "border_opacity": 100,
@@ -282,7 +306,11 @@
                         "padding_top": 0,
                         "padding_right": 0,
                         "padding_bottom": 0,
-                        "padding_left": 0
+                        "padding_left": 0,
+                        "padding_top_mb": 0,
+                        "padding_right_mb": 0,
+                        "padding_bottom_mb": 0,
+                        "padding_left_mb": 0
                       },
                       "blocks": {
                         "card_product_vendor_flex_L8ktXq": {
@@ -290,6 +318,7 @@
                           "name": "t:names.product_vendor",
                           "settings": {
                             "product": "{{ closest.product }}",
+                            "enable_vendor_image": false,
                             "width": "fit-content",
                             "alignment": "left",
                             "type_preset": "rte",
@@ -320,6 +349,7 @@
                             "type_preset": "custom",
                             "font": "var(--font-body--family)",
                             "font_size": "1.6rem",
+                            "weight": "default",
                             "line_height": "normal",
                             "letter_spacing": "normal",
                             "case": "none",
@@ -341,9 +371,14 @@
                             "alignment": "left",
                             "font": "var(--font-body--family)",
                             "font_size": "1.6rem",
+                            "font_weight": "default",
                             "line_height": "normal",
                             "letter_spacing": "normal",
                             "case": "none",
+                            "custom_price_regular": false,
+                            "font_size_regular": "1.6rem",
+                            "font_weight_regular": "default",
+                            "regular_gap": 8,
                             "padding-block-start": 0,
                             "padding-block-end": 0,
                             "padding-inline-start": 0,
@@ -379,63 +414,12 @@
                 }
               },
               "block_order": []
-            },
-            "blog_post_sidebar_image_rG8aJH": {
-              "type": "_blog-post-sidebar-image",
-              "name": "Image",
-              "settings": {
-                "collapse": false,
-                "collapse_default": "open",
-                "text": "",
-                "image": "",
-                "link": ""
-              },
-              "blocks": {}
-            },
-            "blog_post_sidebar_image_7HxPj4": {
-              "type": "_blog-post-sidebar-image",
-              "name": "Image",
-              "settings": {
-                "collapse": false,
-                "collapse_default": "open",
-                "text": "",
-                "image": "",
-                "link": ""
-              },
-              "blocks": {}
-            },
-            "blog_post_sidebar_text_HDNch6": {
-              "type": "_blog-post-sidebar-text",
-              "name": "Custom text",
-              "settings": {
-                "collapse": true,
-                "collapse_default": "open",
-                "text": "<p>CUSTOM CMS BLOCK</p>",
-                "content": "Custom CMS block displayed at the left sidebar on the Catalog Page. Put your own content here: text, html, images, media... or whatever you like. There are many similar sample content placeholders across the store. All editable from Theme Editor."
-              },
-              "blocks": {}
-            },
-            "blog_post_sidebar_tags_bWQ4bD": {
-              "type": "_blog-post-sidebar-tags",
-              "name": "Tags",
-              "settings": {
-                "collapse": true,
-                "collapse_default": "open",
-                "text": "<p>TAGS</p>",
-                "show_tag_count": true,
-                "number": 10
-              },
-              "blocks": {}
             }
           },
           "block_order": [
             "blog_post_sidebar_category_zQV49C",
             "blog_post_sidebar_recent_posts_abKbw3",
-            "blog_post_sidebar_products_FBn6ai",
-            "blog_post_sidebar_image_rG8aJH",
-            "blog_post_sidebar_image_7HxPj4",
-            "blog_post_sidebar_text_HDNch6",
-            "blog_post_sidebar_tags_bWQ4bD"
+            "blog_post_sidebar_products_FBn6ai"
           ]
         },
         "static-blog-post-card": {
@@ -478,9 +462,9 @@
                 "border_opacity": 100,
                 "border_radius": 0,
                 "padding-block-start": 0,
-                "padding-inline-end": 0,
                 "padding-block-end": 0,
-                "padding-inline-start": 0
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -491,6 +475,7 @@
                 "type_preset": "h5",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
+                "font_weight": "default",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -514,6 +499,7 @@
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
+                "font_weight": "default",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
