@@ -75,7 +75,7 @@
     "badge_corner_radius": 2,
     "badge_text_font": "subheading",
     "badge_text_font_size": "2.0rem",
-    "show_new_badge": true,
+    "show_new_badge": false,
     "new_badge_type": "auto",
     "new_badge_time": 20,
     "show_sold_out_badge": true,
