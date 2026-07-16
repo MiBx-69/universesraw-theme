@@ -58,50 +58,6 @@
         "button_padding_h": 24
       }
     },
-    "shop_by_category_TrARf4": {
-      "type": "shop-by-category",
-      "blocks": {
-        "collection_hfHXW6": {
-          "type": "collection",
-          "settings": {
-            "collection": "universesraw-bootcut-jeans"
-          }
-        },
-        "collection_nYPix7": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "collection_9KKL6G": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "collection_9e3PbN": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_hfHXW6",
-        "collection_nYPix7",
-        "collection_9KKL6G",
-        "collection_9e3PbN"
-      ],
-      "disabled": true,
-      "name": "Shop by Category",
-      "settings": {
-        "eyebrow": "CURATED EDITS",
-        "heading": "Shop by Category",
-        "view_all_text": "VIEW ALL",
-        "view_all_url": "shopify://collections",
-        "bg": "#ffffff"
-      }
-    },
     "17841805206947be4f": {
       "type": "_blocks",
       "blocks": {
@@ -1622,7 +1578,6 @@
   },
   "order": [
     "home_page_hero_T6PryD",
-    "shop_by_category_TrARf4",
     "17841805206947be4f",
     "featured_collection_list_WhLz8D",
     "section_9z3FDA",
