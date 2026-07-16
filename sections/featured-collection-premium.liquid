@@ -1,0 +1,348 @@
+{{ 'section-featured-collection-premium.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign eyebrow = section.settings.eyebrow
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign shop_all_text = section.settings.shop_all_text
+  assign shop_all_url = section.settings.shop_all_url
+  assign collection = section.settings.collection
+  assign products_per_row = section.settings.products_per_row
+  assign product_limit = section.settings.product_limit
+  assign show_vendor = section.settings.show_vendor
+  assign show_sale_badge = section.settings.show_sale_badge
+  assign show_quick_add = section.settings.show_quick_add
+  assign show_swatches = section.settings.show_swatches
+  assign show_sizes = section.settings.show_sizes
+  assign show_wishlist = section.settings.show_wishlist
+  assign enable_animations = section.settings.enable_animations
+-%}
+
+<section
+  class="fcp{% if enable_animations %} fcp--animated{% endif %}"
+  id="fcp-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  style="
+    --fcp-max-width: {{ section.settings.max_width }}px;
+    --fcp-spacing-top: {{ section.settings.spacing_top_desktop }}px;
+    --fcp-spacing-bottom: {{ section.settings.spacing_bottom_desktop }}px;
+    --fcp-spacing-mobile: {{ section.settings.spacing_mobile }}px;
+    --fcp-columns-desktop: {{ products_per_row }};
+    --fcp-columns-tablet: {{ section.settings.products_per_row_tablet }};
+    --fcp-columns-mobile: {{ section.settings.products_per_row_mobile }};
+    --fcp-card-radius: {{ section.settings.card_radius }}px;
+    --fcp-image-bg: {{ section.settings.image_background_color }};
+    --fcp-accent: {{ section.settings.accent_color }};
+    --fcp-heading-color: {{ section.settings.heading_color }};
+    --fcp-body-color: {{ section.settings.body_color }};
+    --fcp-sale-bg: {{ section.settings.sale_badge_color }};
+    --fcp-heading-font-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --fcp-heading-font-size-mobile: {{ section.settings.heading_size_mobile }}px;
+  "
+>
+  <div class="fcp__inner">
+
+    <div class="fcp__header">
+      <div class="fcp__header-left">
+        {%- if eyebrow != blank -%}
+          <p class="fcp__eyebrow">{{ eyebrow }}</p>
+        {%- endif -%}
+        {%- if heading != blank -%}
+          <h2 class="fcp__heading">{{ heading }}</h2>
+        {%- endif -%}
+        {%- if subheading != blank -%}
+          <p class="fcp__subheading">{{ subheading }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if shop_all_text != blank -%}
+        <div class="fcp__header-right">
+          <a href="{{ shop_all_url | default: collection.url }}" class="fcp__shop-all">
+            <span>{{ shop_all_text }}</span>
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="fcp__grid">
+      {%- if collection != blank -%}
+        {%- for product in collection.products limit: product_limit -%}
+          {%- render 'fcp-product-card',
+            product: product,
+            show_vendor: show_vendor,
+            show_sale_badge: show_sale_badge,
+            show_quick_add: show_quick_add,
+            show_swatches: show_swatches,
+            show_sizes: show_sizes,
+            show_wishlist: show_wishlist,
+            enable_animations: enable_animations,
+            forloop_index: forloop.index
+          -%}
+        {%- else -%}
+          {%- for i in (1..8) -%}
+            {%- render 'fcp-product-card', product: blank, forloop_index: i -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      {%- else -%}
+        <p class="fcp__empty">{{ 'sections.featured_collection.no_collection' | t: default: 'Select a collection to display products.' }}</p>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+<script src="{{ 'section-featured-collection-premium.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Featured Collection (Premium)",
+  "class": "shopify-section--fcp",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "THE EDIT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Selection"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Handpicked pieces from our latest drop."
+    },
+    {
+      "type": "text",
+      "id": "shop_all_text",
+      "label": "Shop all button text",
+      "default": "SHOP ALL"
+    },
+    {
+      "type": "url",
+      "id": "shop_all_url",
+      "label": "Shop all button link"
+    },
+    {
+      "type": "header",
+      "content": "Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Product limit",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max content width (px)",
+      "min": 1000,
+      "max": 1800,
+      "step": 20,
+      "default": 1400
+    },
+    {
+      "type": "select",
+      "id": "products_per_row",
+      "label": "Products per row (desktop)",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "products_per_row_tablet",
+      "label": "Products per row (tablet)",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "products_per_row_mobile",
+      "label": "Products per row (mobile)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "spacing_top_desktop",
+      "label": "Top spacing (desktop, px)",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom_desktop",
+      "label": "Bottom spacing (desktop, px)",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "spacing_mobile",
+      "label": "Section spacing (mobile, px)",
+      "min": 0,
+      "max": 96,
+      "step": 4,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card image radius (px)",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading size (desktop, px)",
+      "min": 28,
+      "max": 64,
+      "step": 1,
+      "default": 46
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size (mobile, px)",
+      "min": 22,
+      "max": 44,
+      "step": 1,
+      "default": 34
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / eyebrow color",
+      "default": "#C23A45"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "image_background_color",
+      "label": "Product image background",
+      "default": "#F6F6F6"
+    },
+    {
+      "type": "color",
+      "id": "sale_badge_color",
+      "label": "Sale badge background",
+      "default": "#BE2332"
+    },
+    {
+      "type": "header",
+      "content": "Product Card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor / brand",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sale_badge",
+      "label": "Show sale badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "Show quick add",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show color swatches",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sizes",
+      "label": "Show size options",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show wishlist icon",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animations",
+      "label": "Enable scroll & hover animations",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection (Premium)",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

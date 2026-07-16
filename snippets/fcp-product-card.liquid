@@ -1,0 +1,182 @@
+{%- comment -%}
+  Renders a single premium product card for the Featured Collection (Premium) section.
+  Accepts:
+    product              - Product object (or blank for placeholder)
+    show_vendor          - boolean
+    show_sale_badge      - boolean
+    show_quick_add       - boolean
+    show_swatches        - boolean
+    show_sizes           - boolean
+    show_wishlist        - boolean
+    enable_animations    - boolean
+    forloop_index        - number, used for animation delay + placeholder variety
+{%- endcomment -%}
+
+{%- liquid
+  assign animation_delay = forloop_index | modulo: 4 | times: 80
+-%}
+
+<div
+  class="fcp-card{% if enable_animations %} fcp-card--animate{% endif %}"
+  {% if enable_animations %}style="--fcp-delay: {{ animation_delay }}ms;"{% endif %}
+  {% if product != blank %}data-fcp-card data-product-id="{{ product.id }}"{% endif %}
+>
+  {%- if product == blank -%}
+    <div class="fcp-card__image-wrap">
+      <div class="fcp-card__placeholder">{{ 'product-1' | placeholder_svg_tag: 'fcp-card__placeholder-svg' }}</div>
+    </div>
+    <div class="fcp-card__info">
+      <p class="fcp-card__vendor">Brand Name</p>
+      <h3 class="fcp-card__title">Sample Product Title</h3>
+      <div class="fcp-card__price-row">
+        <span class="fcp-card__price">$00.00</span>
+      </div>
+    </div>
+  {%- else -%}
+    {%- liquid
+      assign featured_image = product.featured_media.preview_image | default: product.featured_image
+      assign second_image = null
+      if product.media.size > 1
+        assign second_image = product.media[1].preview_image
+      endif
+
+      assign has_compare_at = false
+      assign discount_percent = 0
+      if product.compare_at_price > product.price
+        assign has_compare_at = true
+        assign discount_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round
+      endif
+
+      assign color_option_index = -1
+      assign size_option_index = -1
+      for option in product.options_with_values
+        assign option_name_down = option.name | downcase
+        if option_name_down contains 'color' or option_name_down contains 'colour'
+          assign color_option_index = forloop.index0
+        endif
+        if option_name_down contains 'size'
+          assign size_option_index = forloop.index0
+        endif
+      endfor
+
+      assign first_available_variant = product.selected_or_first_available_variant
+    -%}
+
+    <a href="{{ product.url }}" class="fcp-card__link" aria-label="{{ product.title | escape }}">
+      <div class="fcp-card__image-wrap">
+
+        {%- if show_sale_badge and has_compare_at -%}
+          <span class="fcp-card__badge">-{{ discount_percent }}%</span>
+        {%- endif -%}
+
+        {%- if show_wishlist -%}
+          <button
+            type="button"
+            class="fcp-card__wishlist"
+            data-fcp-wishlist
+            data-product-id="{{ product.id }}"
+            aria-label="Add to wishlist"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21s-7.5-4.6-10-9.1C.4 8.6 2 5 5.6 5c2 0 3.4 1 4.4 2.5C11 6 12.4 5 14.4 5 18 5 19.6 8.6 22 11.9 19.5 16.4 12 21 12 21z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        {%- endif -%}
+
+        <div class="fcp-card__image-inner">
+          {%- if featured_image -%}
+            {{ featured_image | image_url: width: 800 | image_tag:
+              loading: 'lazy',
+              widths: '400,600,800,1000',
+              sizes: '(min-width: 990px) 25vw, 50vw',
+              class: 'fcp-card__image fcp-card__image--primary',
+              alt: featured_image.alt | default: product.title
+            }}
+          {%- endif -%}
+          {%- if second_image -%}
+            {{ second_image | image_url: width: 800 | image_tag:
+              loading: 'lazy',
+              widths: '400,600,800,1000',
+              sizes: '(min-width: 990px) 25vw, 50vw',
+              class: 'fcp-card__image fcp-card__image--secondary',
+              alt: second_image.alt | default: product.title
+            }}
+          {%- endif -%}
+        </div>
+
+        {%- if show_quick_add and first_available_variant -%}
+          <div class="fcp-card__quick-add">
+            <button
+              type="button"
+              class="fcp-card__quick-add-btn"
+              data-fcp-quick-add
+              data-variant-id="{{ first_available_variant.id }}"
+              {% unless first_available_variant.available %}disabled{% endunless %}
+            >
+              {%- if first_available_variant.available -%}
+                Quick Add
+              {%- else -%}
+                Sold Out
+              {%- endif -%}
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="fcp-card__info">
+        {%- if show_vendor and product.vendor != blank -%}
+          <p class="fcp-card__vendor">{{ product.vendor }}</p>
+        {%- endif -%}
+
+        <h3 class="fcp-card__title">{{ product.title }}</h3>
+
+        <div class="fcp-card__price-row">
+          <span class="fcp-card__price">{{ product.price | money }}</span>
+          {%- if has_compare_at -%}
+            <span class="fcp-card__compare-price">{{ product.compare_at_price | money }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- if show_swatches and color_option_index > -1 -%}
+          {%- assign color_option = product.options_with_values[color_option_index] -%}
+          <div class="fcp-card__swatches" role="list">
+            {%- for value in color_option.values -%}
+              <span
+                class="fcp-card__swatch{% if forloop.first %} fcp-card__swatch--active{% endif %}"
+                style="--swatch-color: {{ value | handle | replace: '-', '' }};"
+                data-swatch-value="{{ value | escape }}"
+                title="{{ value | escape }}"
+                role="listitem"
+              ></span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- if show_sizes and size_option_index > -1 -%}
+          {%- assign size_option = product.options_with_values[size_option_index] -%}
+          <div class="fcp-card__sizes">
+            {{ size_option.values | join: ' · ' }}
+          </div>
+        {%- endif -%}
+      </div>
+    </a>
+
+    {%- if show_quick_add and first_available_variant -%}
+      <div class="fcp-card__quick-add fcp-card__quick-add--mobile">
+        <button
+          type="button"
+          class="fcp-card__quick-add-btn"
+          data-fcp-quick-add
+          data-variant-id="{{ first_available_variant.id }}"
+          {% unless first_available_variant.available %}disabled{% endunless %}
+        >
+          {%- if first_available_variant.available -%}
+            Quick Add
+          {%- else -%}
+            Sold Out
+          {%- endif -%}
+        </button>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
