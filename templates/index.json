@@ -693,119 +693,100 @@
             "category_8_url": ""
           },
           "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_bcbccc3_w8DgwB"
-      ],
-      "settings": {}
-    },
-    "collection_grid_pro_rpKicx": {
-      "type": "collection-grid-pro",
-      "blocks": {
-        "collection_CT7TdD": {
-          "type": "collection",
-          "settings": {
-            "collection": "all-products-chatgpt-ai-product-description",
-            "title": ""
-          }
         },
-        "collection_Nqe6Ew": {
-          "type": "collection",
-          "settings": {
-            "collection": "new-arrival-universes-2025",
-            "title": ""
-          }
-        },
-        "collection_mQJeYN": {
-          "type": "collection",
-          "settings": {
-            "collection": "nike-mind-001-slide",
-            "title": ""
-          }
-        },
-        "collection_UEyjwR": {
-          "type": "collection",
+        "ai_gen_block_2e0003a_BqiHHz": {
+          "type": "ai_gen_block_2e0003a",
           "settings": {
             "collection": "universesraw-bootcut-jeans",
-            "image": "shopify://shop_images/file_00000000b9d871fa84a4aa53156a9ffa.png",
-            "title": ""
-          }
-        },
-        "collection_LdPNM6": {
-          "type": "collection",
-          "settings": {
-            "collection": "premium-polo",
-            "image": "shopify://shop_images/file_00000000ae1471fab49beb645d8818a6.png",
-            "title": ""
-          }
-        },
-        "collection_ze4dUM": {
-          "type": "collection",
-          "settings": {
-            "collection": "premium-t-shirt",
-            "image": "shopify://shop_images/file_000000007d2871fbb2a1c63208300269.png",
-            "title": ""
-          }
+            "products_to_show": 8,
+            "max_width": 1400,
+            "show_header": true,
+            "label": "THE EDIT",
+            "heading": "Featured selection",
+            "subtext": "Handpicked pieces from our latest drop.",
+            "show_shop_all": true,
+            "shop_all_text": "SHOP ALL",
+            "products_per_row": 4,
+            "products_per_row_tablet": 3,
+            "products_per_row_mobile": "2",
+            "grid_gap": 32,
+            "grid_gap_mobile": 16,
+            "show_vendor": true,
+            "show_color_swatches": true,
+            "show_sizes": true,
+            "show_quick_add": true,
+            "quick_add_text": "Quick Add",
+            "image_aspect_ratio": "4/5",
+            "heading_font": "serif",
+            "label_size": 11,
+            "heading_size": 46,
+            "heading_size_mobile": 34,
+            "subtext_size": 16,
+            "brand_size": 11,
+            "title_size": 15,
+            "price_size": 18,
+            "section_background": "#FFFFFF",
+            "label_color": "#C23A45",
+            "heading_color": "#111111",
+            "subtext_color": "#666666",
+            "shop_all_color": "#111111",
+            "card_background": "#FFFFFF",
+            "image_background": "#F6F6F6",
+            "badge_background": "#BE2332",
+            "badge_color": "#FFFFFF",
+            "brand_color": "#777777",
+            "title_color": "#111111",
+            "price_color": "#111111",
+            "compare_price_color": "#999999",
+            "size_color": "#777777",
+            "quick_add_background": "#000000",
+            "quick_add_color": "#FFFFFF",
+            "swatch_active_border": "#000000",
+            "section_padding_top": 100,
+            "section_padding_bottom": 80,
+            "section_padding_top_mobile": 48,
+            "section_padding_bottom_mobile": 48,
+            "header_spacing": 60,
+            "info_padding": 16,
+            "card_radius": 0,
+            "image_radius": 18,
+            "badge_radius": 20,
+            "badge_height": 24,
+            "badge_padding": 10,
+            "badge_size": 11,
+            "badge_weight": 600,
+            "badge_top": 12,
+            "badge_left": 12,
+            "quick_add_height": 42,
+            "quick_add_radius": 8,
+            "quick_add_size": 14,
+            "quick_add_weight": 600,
+            "swatch_size": 10,
+            "swatch_gap": 8,
+            "swatch_margin": 8,
+            "size_font_size": 11,
+            "size_margin": 8,
+            "label_weight": 600,
+            "label_margin": 8,
+            "heading_weight": 400,
+            "heading_margin": 12,
+            "shop_all_size": 12,
+            "shop_all_weight": 600,
+            "brand_margin": 6,
+            "title_weight": 500,
+            "title_margin": 8,
+            "price_weight": 700,
+            "price_margin": 8,
+            "compare_price_size": 14
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "collection_CT7TdD",
-        "collection_Nqe6Ew",
-        "collection_mQJeYN",
-        "collection_UEyjwR",
-        "collection_LdPNM6",
-        "collection_ze4dUM"
+        "ai_gen_block_bcbccc3_w8DgwB",
+        "ai_gen_block_2e0003a_BqiHHz"
       ],
-      "name": "Collection Grid Pro",
-      "settings": {
-        "eyebrow": "",
-        "heading": "Shop by Collection",
-        "subheading": "",
-        "header_align": "center",
-        "mobile_header_align": "center",
-        "color_scheme": "",
-        "background_color": "#ffffff",
-        "section_width": "contained",
-        "max_width": 1320,
-        "desktop_columns": "4",
-        "mobile_columns": "2",
-        "grid_gap": 24,
-        "mobile_grid_gap": 14,
-        "image_ratio": "landscape",
-        "image_position": "center center",
-        "image_background": "#f4f1ec",
-        "image_radius": 2,
-        "image_opacity": 100,
-        "hover_scale": 4,
-        "shadow_opacity": 4,
-        "title_tag": "h3",
-        "title_color": "#151515",
-        "title_size": 16,
-        "mobile_title_size": 14,
-        "title_weight": "500",
-        "title_align": "center",
-        "title_transform": "none",
-        "title_letter_spacing": 2,
-        "title_gap": 14,
-        "eyebrow_color": "#8d7658",
-        "eyebrow_size": 11,
-        "heading_color": "#111111",
-        "heading_size": 36,
-        "mobile_heading_size": 28,
-        "heading_weight": "500",
-        "subheading_color": "#666666",
-        "subheading_size": 15,
-        "mobile_subheading_size": 14,
-        "padding_top": 64,
-        "padding_bottom": 64,
-        "side_padding": 24,
-        "mobile_padding_top": 36,
-        "mobile_padding_bottom": 40,
-        "mobile_side_padding": 14,
-        "header_gap": 36,
-        "mobile_header_gap": 24
-      }
+      "settings": {}
     },
     "featured_collection_list_WhLz8D": {
       "type": "featured-collection-list",
@@ -2261,7 +2242,6 @@
     "slideshow_ghMhhT",
     "shop_by_category_TrARf4",
     "17841805206947be4f",
-    "collection_grid_pro_rpKicx",
     "featured_collection_list_WhLz8D",
     "section_9z3FDA",
     "slideshow_C6dxVH",
