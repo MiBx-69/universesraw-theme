@@ -3,12 +3,16 @@
   assign card_product = block.settings.product
 
   assign product_swatch_option = settings.swatch | downcase
-  assign isColor = false
+  assign is_color = false
+  assign has_size = false
   assign variant_img = ''
   for option in card_product.options_with_values
     assign option_name = option.name | downcase | strip
+    if option_name contains 'size'
+      assign has_size = true
+    endif
     if product_swatch_option contains option_name
-      assign isColor = true
+      assign is_color = true
       assign index = forloop.index0
       assign position = forloop.index | minus: 1
       assign variant_selected = option.selected_value
@@ -27,14 +31,29 @@
   endfor
 -%}
 
-{%- if card_product and card_product != empty and isColor -%}
+{%- if card_product and card_product != empty -%}
+  {%- if is_color or has_size -%}
   <div class="card--block-variant spacing-style" style="{%- render 'spacing-style', settings: block.settings -%}">
-    {%- render 'product-swatch',
-      product: card_product,
-      variant_selected: variant_selected,
-      index: index
-    -%}
+    {%- if is_color -%}
+      {%- render 'product-swatch',
+        product: card_product,
+        variant_selected: variant_selected,
+        index: index
+      -%}
+    {%- endif -%}
+    {%- for option in card_product.options_with_values -%}
+      {%- assign option_name = option.name | downcase | strip -%}
+      {%- if option_name contains 'size' -%}
+        <div class="card-size-preview">
+          {%- for value in option.values limit: 5 -%}
+            <span>{{ value }}</span>{% unless forloop.last %}<span aria-hidden="true">·</span>{% endunless %}
+          {%- endfor -%}
+        </div>
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
   </div>
+  {%- endif -%}
 {%- endif -%}
 
 {% schema %}

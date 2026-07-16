@@ -1,0 +1,430 @@
+{% comment %}
+  Section: Editorial Featured Collection
+  A premium, fully customizable, responsive product grid section.
+{% endcomment %}
+
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+  #Efc-{{ section.id }} {
+    background-color: {{ section.settings.bg_color | default: 'transparent' }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    --heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --label-size: {{ section.settings.label_size }}px;
+    --desc-size: {{ section.settings.desc_size }}px;
+    --shop-all-size: {{ section.settings.shop_all_size }}px;
+    --label-color: {{ section.settings.label_color }};
+    --heading-color: {{ section.settings.heading_color }};
+    --desc-color: {{ section.settings.desc_color }};
+    --shop-all-color: {{ section.settings.shop_all_color }};
+    --label-spacing: {{ section.settings.label_letter_spacing }}em;
+    --shop-all-spacing: {{ section.settings.shop_all_letter_spacing }}em;
+  }
+
+  .efc-section {
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  /* Header Styling */
+  .efc-header {
+    padding: 0 20px;
+    margin-bottom: 32px;
+  }
+  @media (min-width: 768px) {
+    .efc-header {
+      padding: 0 40px;
+      margin-bottom: 48px;
+    }
+  }
+
+  .efc-label {
+    color: var(--label-color);
+    font-size: var(--label-size);
+    font-weight: 600;
+    letter-spacing: var(--label-spacing);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  .efc-heading {
+    color: var(--heading-color);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: var(--heading-size-mobile);
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0 0 16px;
+  }
+  @media (min-width: 768px) {
+    .efc-heading {
+      font-size: var(--heading-size-desktop);
+      margin-bottom: 24px;
+    }
+  }
+  
+  .efc-sub-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .efc-desc {
+    color: var(--desc-color);
+    font-size: var(--desc-size);
+    line-height: 1.5;
+    margin: 0;
+    max-width: 320px;
+    flex: 1;
+  }
+  
+  .efc-shop-link {
+    color: var(--shop-all-color);
+    font-size: var(--shop-all-size);
+    font-weight: 600;
+    letter-spacing: var(--shop-all-spacing);
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid var(--shop-all-color);
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+  }
+  .efc-shop-link:hover {
+    opacity: 0.7;
+  }
+  
+  /* Grid Layouts */
+  .efc-grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
+    gap: {{ section.settings.gap_mobile }}px;
+    padding: 0 20px 40px;
+  }
+  
+  .efc-grid-item {
+    width: 100%;
+  }
+
+  /* Force standard vertical card layout and fix column styling */
+  .efc-grid-item .card {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .efc-grid-item .card-wrapper {
+    width: 100% !important;
+  }
+  .efc-grid-item .card__inner {
+    width: 100% !important;
+  }
+
+  @media (min-width: 768px) {
+    .efc-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: {{ section.settings.gap_desktop }}px;
+      padding: 0 40px 40px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .efc-grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+    }
+  }
+{%- endstyle -%}
+
+<div class="efc-section" id="Efc-{{ section.id }}">
+  <div class="efc-header">
+    {%- if section.settings.label != blank -%}
+      <span class="efc-label">{{ section.settings.label }}</span>
+    {%- endif -%}
+    
+    {%- if section.settings.heading != blank -%}
+      <h2 class="efc-heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    
+    <div class="efc-sub-row">
+      {%- if section.settings.description != blank -%}
+        <p class="efc-desc">{{ section.settings.description }}</p>
+      {%- endif -%}
+      
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link | default: section.settings.collection.url }}" class="efc-shop-link">
+          {{ section.settings.button_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="efc-grid">
+    {%- assign collection = section.settings.collection -%}
+    {%- assign max_products = section.settings.products_to_show -%}
+    
+    {%- if collection != blank and collection.products_count > 0 -%}
+      {%- for product in collection.products limit: max_products -%}
+        <div class="efc-grid-item">
+          {% render 'card-product',
+            card_product: product,
+            media_aspect_ratio: 'portrait',
+            show_secondary_image: true,
+            show_vendor: true,
+            show_rating: false,
+            show_quick_add: true,
+            section_id: section.id
+          %}
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..section.settings.products_to_show) -%}
+        <div class="efc-grid-item">
+          {% render 'card-product', show_vendor: true %}
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Editorial Featured Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Top Label",
+      "default": "THE EDIT"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured selection"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Handpicked pieces from our latest drop."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "SHOP ALL"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link (Defaults to collection)"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "default": 8,
+      "label": "Maximum products to show"
+    },
+    {
+      "type": "header",
+      "content": "Grid Settings"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on Mobile",
+      "options": [
+        { "value": "1", "label": "1 Column" },
+        { "value": "2", "label": "2 Columns" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on Desktop",
+      "options": [
+        { "value": "3", "label": "3 Columns" },
+        { "value": "4", "label": "4 Columns" },
+        { "value": "5", "label": "5 Columns" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "min": 8,
+      "max": 32,
+      "step": 4,
+      "default": 16,
+      "unit": "px",
+      "label": "Grid Gap on Mobile"
+    },
+    {
+      "type": "range",
+      "id": "gap_desktop",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "unit": "px",
+      "label": "Grid Gap on Desktop"
+    },
+    {
+      "type": "header",
+      "content": "Colors Customization"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label Color",
+      "default": "#c3192e"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "desc_color",
+      "label": "Description Color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "shop_all_color",
+      "label": "Shop All Color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Typography Sizes & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "default": 46,
+      "unit": "px",
+      "label": "Heading Font Size - Desktop"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 18,
+      "max": 50,
+      "step": 2,
+      "default": 32,
+      "unit": "px",
+      "label": "Heading Font Size - Mobile"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 9,
+      "max": 24,
+      "step": 1,
+      "default": 11,
+      "unit": "px",
+      "label": "Label Font Size"
+    },
+    {
+      "type": "range",
+      "id": "desc_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 15,
+      "unit": "px",
+      "label": "Description Font Size"
+    },
+    {
+      "type": "range",
+      "id": "shop_all_size",
+      "min": 9,
+      "max": 24,
+      "step": 1,
+      "default": 11,
+      "unit": "px",
+      "label": "Shop All Font Size"
+    },
+    {
+      "type": "range",
+      "id": "label_letter_spacing",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.3,
+      "label": "Label Letter Spacing (em)"
+    },
+    {
+      "type": "range",
+      "id": "shop_all_letter_spacing",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.3,
+      "label": "Shop All Letter Spacing (em)"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding Top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding Bottom"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Featured Grid"
+    }
+  ]
+}
+{% endschema %}

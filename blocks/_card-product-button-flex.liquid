@@ -64,17 +64,17 @@
                 <span>
               {% endif %}
                 {%- if quick_add_type_icon == false -%}
-                  <span class="button-overflow relative overflow-hidden" data-button-text="{{ 'products.product.choose_options' | t }}">
+                  <span class="button-overflow relative overflow-hidden" data-button-text="Quick add">
                     <span class="button-text-main inline-block relative z-1">
-                      {{ 'products.product.choose_options' | t }}
+                      Quick add
                     </span>
                   </span>
                 {%- else -%}
                   <span class="text-in-mb md:hidden">
-                    {{ 'products.product.choose_options' | t }}
+                    Quick add
                   </span>
                   <span class="{{ class_text }}">
-                    <span class="{{ class_text_inner }}">{{ 'products.product.choose_options' | t }}</span>
+                    <span class="{{ class_text_inner }}">Quick add</span>
                   </span>
                   <svg
                     class="icon-cart"
@@ -130,7 +130,7 @@
                 {%- if quick_add_type_icon == false -%}
                   <span>
                     {%- if card_product.selected_or_first_available_variant.available -%}
-                      {{ 'products.product.add_to_cart' | t }}
+                      Quick add
                     {%- else -%}
                       {{ 'products.product.sold_out' | t }}
                     {%- endif -%}
@@ -140,10 +140,10 @@
                   </span>
                 {%- else -%}
                   <span class="text-in-mb md:hidden">
-                    {{ 'products.product.choose_options' | t }}
+                    Quick add
                   </span>
                   <span class="{{ class_text }}">
-                    <span class="{{ class_text_inner }}">{{ 'products.product.choose_options' | t }}</span>
+                    <span class="{{ class_text_inner }}">Quick add</span>
                   </span>
                   <svg
                     class="icon-cart"
@@ -180,7 +180,7 @@
               data-product-url="{{ card_product.url }}"
             >
               {%- if settings.quick_add_type == 'text' -%}
-                {{ 'products.product.choose_options' | t }}
+                Quick add
               {%- else -%}
                 <svg
                   class="icon-cart"

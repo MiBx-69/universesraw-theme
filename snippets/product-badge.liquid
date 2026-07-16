@@ -12,14 +12,15 @@
     {{ 'products.product.new' | t }}
   </span>
 {%- endif -%}
-{%- if card_product.compare_at_price > card_product.price and settings.show_sale_badge -%}
+{%- if card_product.compare_at_price > card_product.price -%}
+  {%- assign discount_percent = card_product.compare_at_price | minus: card_product.price | times: 100.0 | divided_by: card_product.compare_at_price | round -%}
   <span
     id="{{ id_badge }}"
     class="sale-badge {{ class_badge }}"
     aria-hidden="true"
     style="{%- render 'block-padding', settings: settings -%}"
   >
-    {{- 'products.product.on_sale' | t -}}
+    -{{ discount_percent }}%
   </span>
 {%- endif -%}
 {%- if card_product.available == false and settings.show_sold_out_badge -%}

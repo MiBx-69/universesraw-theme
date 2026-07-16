@@ -1,0 +1,519 @@
+{% comment %}
+  Section: Home Page Hero
+  A fully customizable, mobile-first, snap-scrolling hero section.
+{% endcomment %}
+
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #Hph-{{ section.id }} {
+    --heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --subheading-size: {{ section.settings.subheading_size }}px;
+    --text-size: {{ section.settings.text_size }}px;
+    --btn-font-size: {{ section.settings.button_font_size }}px;
+    --btn-pad-v: {{ section.settings.button_padding_v }}px;
+    --btn-pad-h: {{ section.settings.button_padding_h }}px;
+  }
+{%- endstyle -%}
+
+<style>
+  .hph-section {
+    position: relative;
+  }
+  .hph-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  .hph-slider::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  .hph-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    position: relative;
+    min-height: 85vh; /* Mobile height */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  @media (min-width: 768px) {
+    .hph-slide {
+      min-height: 80vh; /* Desktop height */
+    }
+  }
+
+  /* Images */
+  .hph-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .hph-bg-mobile {
+    display: block;
+  }
+  .hph-bg-desktop {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .hph-bg-mobile { display: none; }
+    .hph-bg-desktop { display: block; }
+  }
+
+  /* Overlay */
+  .hph-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.85) 100%);
+  }
+
+  /* Content */
+  .hph-content-wrapper {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px 80px; /* Leave room for bottom bar */
+    width: 100%;
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+  }
+  @media (min-width: 768px) {
+    .hph-content-wrapper {
+      padding: 0 40px 100px;
+    }
+  }
+
+  .hph-subheading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    font-size: var(--subheading-size);
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hph-subheading::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: #fff;
+  }
+  
+  .hph-heading {
+    color: #fff;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: var(--heading-size-mobile);
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0 0 16px;
+  }
+  @media (min-width: 768px) {
+    .hph-heading {
+      font-size: var(--heading-size-desktop);
+      margin-bottom: 24px;
+    }
+  }
+  .hph-desc {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--text-size);
+    line-height: 1.5;
+    margin: 0 0 32px;
+    max-width: 400px;
+  }
+
+  /* Buttons */
+  .hph-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
+  .hph-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--btn-pad-v) var(--btn-pad-h);
+    border-radius: 999px;
+    font-size: var(--btn-font-size);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+    white-space: nowrap;
+  }
+  .hph-btn:hover {
+    transform: scale(1.02);
+  }
+  .hph-btn--primary {
+    background: #fff;
+    color: #111;
+    gap: 8px;
+  }
+  .hph-btn--primary svg {
+    width: 14px;
+    height: 14px;
+  }
+  .hph-btn--outline {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .hph-btn--outline:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* Bottom Bar */
+  .hph-bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    .hph-bottom-bar {
+      padding: 24px 40px;
+    }
+  }
+
+  .hph-features {
+    display: flex;
+    gap: 32px;
+  }
+  .hph-feature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hph-feature svg {
+    width: 16px;
+    height: 16px;
+    stroke: #c3192e;
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .hph-indicators {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .hph-dot {
+    width: 16px;
+    height: 3px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .hph-dot.active {
+    background: #fff;
+    width: 24px;
+  }
+</style>
+
+<div class="hph-section" id="Hph-{{ section.id }}">
+  <div class="hph-slider" id="Slider-{{ section.id }}">
+    {%- for block in section.blocks -%}
+      <div class="hph-slide" id="Slide-{{ block.id }}" {{ block.shopify_attributes }}>
+        
+        {%- if block.settings.image_desktop != blank -%}
+          {{ block.settings.image_desktop | image_url: width: 3840 | image_tag: class: 'hph-bg hph-bg-desktop', loading: 'lazy' }}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'hph-bg hph-bg-desktop placeholder-svg' }}
+        {%- endif -%}
+
+        {%- if block.settings.image_mobile != blank -%}
+          {{ block.settings.image_mobile | image_url: width: 1200 | image_tag: class: 'hph-bg hph-bg-mobile', loading: 'lazy' }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'hph-bg hph-bg-mobile placeholder-svg' }}
+        {%- endif -%}
+
+        <div class="hph-overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+
+        <div class="hph-content-wrapper">
+          {%- if block.settings.subheading != blank -%}
+            <div class="hph-subheading">{{ block.settings.subheading }}</div>
+          {%- endif -%}
+          
+          {%- if block.settings.heading != blank -%}
+            <h2 class="hph-heading">{{ block.settings.heading }}</h2>
+          {%- endif -%}
+          
+          {%- if block.settings.text != blank -%}
+            <div class="hph-desc">{{ block.settings.text }}</div>
+          {%- endif -%}
+
+          <div class="hph-actions">
+            {%- if block.settings.btn1_label != blank -%}
+              <a href="{{ block.settings.btn1_link }}" class="hph-btn hph-btn--primary">
+                {{ block.settings.btn1_label }}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if block.settings.btn2_label != blank -%}
+              <a href="{{ block.settings.btn2_link }}" class="hph-btn hph-btn--outline">
+                {{ block.settings.btn2_label }}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <div class="hph-bottom-bar">
+    <div class="hph-features">
+      {%- if section.settings.show_features -%}
+        <!-- Ribbon Icon -->
+        <div class="hph-feature">
+          <svg viewBox="0 0 24 24"><path d="M12 15V3m0 12l-4 4m4-4l4 4M2 12h20M2 16h20M2 8h20" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <!-- Truck Icon -->
+        <div class="hph-feature">
+          <svg viewBox="0 0 24 24"><path d="M8 22V8h8v14M3 13h18M3 17h18" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <!-- Shield Icon -->
+        <div class="hph-feature">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 1 -%}
+      <div class="hph-indicators">
+        {%- for block in section.blocks -%}
+          <div class="hph-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}"></div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.getElementById('Slider-{{ section.id }}');
+    const dots = document.querySelectorAll('#Hph-{{ section.id }} .hph-dot');
+    
+    if (!slider || dots.length === 0) return;
+
+    slider.addEventListener('scroll', () => {
+      const scrollPos = slider.scrollLeft;
+      const slideWidth = slider.clientWidth;
+      const activeIndex = Math.round(scrollPos / slideWidth);
+
+      dots.forEach((dot, index) => {
+        if (index === activeIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    });
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const index = parseInt(dot.getAttribute('data-index'));
+        const slideWidth = slider.clientWidth;
+        slider.scrollTo({
+          left: index * slideWidth,
+          behavior: 'smooth'
+        });
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Home Page Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 100
+    },
+    {
+      "type": "checkbox",
+      "id": "show_features",
+      "label": "Show bottom feature icons",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Typography Settings"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 24,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 32,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size (Desktop)",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Size",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_v",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Vertical Padding",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_h",
+      "min": 12,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Horizontal Padding",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "AUTUMN COLLECTION 2026"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Bold. Confident. Raw."
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "A curated edit of premium menswear engineered for the uncompromising."
+        },
+        {
+          "type": "text",
+          "id": "btn1_label",
+          "label": "Primary Button Label",
+          "default": "SHOP NOW"
+        },
+        {
+          "type": "url",
+          "id": "btn1_link",
+          "label": "Primary Button Link"
+        },
+        {
+          "type": "text",
+          "id": "btn2_label",
+          "label": "Outline Button Label",
+          "default": "NEW ARRIVALS"
+        },
+        {
+          "type": "url",
+          "id": "btn2_link",
+          "label": "Outline Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Page Hero",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
