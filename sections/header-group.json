@@ -120,59 +120,6 @@
     "header_2": {
       "type": "header",
       "blocks": {
-        "mega_menu_1_mDeNwB": {
-          "type": "mega_menu_1",
-          "settings": {
-            "grid": "4",
-            "menu_item": "",
-            "width": "full",
-            "show_promotion_banner": true,
-            "promotion_banner_layout": "right",
-            "image_border_thickness": 1,
-            "image_corner_radius": 0,
-            "image_1": "shopify://shop_images/file_00000000b9d871fa84a4aa53156a9ffa.png",
-            "link_url_1": "shopify://collections/universesraw-bootcut-jeans",
-            "link_url_2": "",
-            "link_url_3": ""
-          }
-        },
-        "mega_menu_1_JB48nb": {
-          "type": "mega_menu_1",
-          "settings": {
-            "grid": "3",
-            "menu_item": "",
-            "width": "full",
-            "show_promotion_banner": true,
-            "promotion_banner_layout": "right",
-            "image_border_thickness": 1,
-            "image_corner_radius": 0,
-            "image_1": "shopify://shop_images/file_0000000051b871fab18cb6d41d22e640.png",
-            "link_url_1": "shopify://collections/nike-mind-001-slide",
-            "link_url_2": "",
-            "link_url_3": ""
-          }
-        },
-        "mega_menu_2_AGJyYm": {
-          "type": "mega_menu_2",
-          "settings": {
-            "menu_item": "Policies",
-            "grid": "4",
-            "width": "page-width",
-            "megamenu_submenu": "policies",
-            "show_promotion_banner": true,
-            "image_border_thickness": 1,
-            "image_corner_radius": 0,
-            "link_url_1": "",
-            "link_url_2": "",
-            "show_brand": true,
-            "brand_title": "All Brands A-Z",
-            "brand_text": "See All Brands",
-            "brand_url": "",
-            "divider": false,
-            "inherit_color_scheme": false,
-            "color_scheme": "scheme-2"
-          }
-        },
         "mega_menu_3_zeTeeg": {
           "type": "mega_menu_3",
           "settings": {
@@ -196,7 +143,7 @@
             "color_scheme": "scheme-2"
           }
         },
-        "mega_menu_3_aRBX7x": {
+        "mega_menu_3_tEKfxg": {
           "type": "mega_menu_3",
           "settings": {
             "menu_item": "SHOES COLLECTION",
@@ -209,7 +156,7 @@
             "product_direction": "row",
             "horizontal_alignment": "items-start",
             "vertical_alignment_flex_direction_column": "justify-start",
-            "show_promotion_banner": false,
+            "show_promotion_banner": true,
             "banner_row": "top",
             "image_border_thickness": 1,
             "image_corner_radius": 0,
@@ -219,51 +166,34 @@
             "color_scheme": "scheme-2"
           }
         },
-        "mega_menu_1_JVCYtQ": {
-          "type": "mega_menu_1",
+        "mega_menu_3_q8HGBq": {
+          "type": "mega_menu_3",
           "settings": {
-            "grid": "4",
-            "menu_item": "New men",
+            "menu_item": "POLICIES",
+            "grid": "3",
             "width": "full",
+            "megamenu_submenu": "main-menu",
+            "product_collection": "",
+            "product_limit": 4,
+            "product_columns": 4,
+            "product_direction": "row",
+            "horizontal_alignment": "items-start",
+            "vertical_alignment_flex_direction_column": "justify-start",
             "show_promotion_banner": true,
-            "promotion_banner_layout": "left",
+            "banner_row": "top",
             "image_border_thickness": 1,
             "image_corner_radius": 0,
             "link_url_1": "",
-            "link_url_2": "",
-            "link_url_3": ""
-          }
-        },
-        "mega_menu_2_nAPWRb": {
-          "type": "mega_menu_2",
-          "settings": {
-            "menu_item": "Trendy",
-            "grid": "4",
-            "width": "full",
-            "megamenu_submenu": "",
-            "show_promotion_banner": true,
-            "image_border_thickness": 1,
-            "image_corner_radius": 0,
-            "link_url_1": "",
-            "link_url_2": "",
-            "show_brand": true,
-            "brand_title": "All Brands A-Z",
-            "brand_text": "See All Brands",
-            "brand_url": "",
             "divider": false,
-            "inherit_color_scheme": true,
-            "color_scheme": "scheme-1"
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-2"
           }
         }
       },
       "block_order": [
-        "mega_menu_1_mDeNwB",
-        "mega_menu_1_JB48nb",
-        "mega_menu_2_AGJyYm",
         "mega_menu_3_zeTeeg",
-        "mega_menu_3_aRBX7x",
-        "mega_menu_1_JVCYtQ",
-        "mega_menu_2_nAPWRb"
+        "mega_menu_3_tEKfxg",
+        "mega_menu_3_q8HGBq"
       ],
       "name": "Header- High Fashion",
       "settings": {
@@ -351,8 +281,8 @@
         "color_scheme_transparent": "scheme-4",
         "menu_mobile_color_scheme": "scheme-8",
         "highlighted_item_1": "mens collection",
-        "highlighted_item_2": "Bootcut denim",
-        "highlighted_item_3": "",
+        "highlighted_item_2": "Bootcut denim,",
+        "highlighted_item_3": "PREMIUM POLO",
         "highlighted_item_color": "#d12442",
         "new_label_1": "Mens collection,bootcut denim",
         "new_label_2": "",
@@ -360,11 +290,11 @@
         "new_label_color": "#ffffff",
         "new_label_bg": "#06bfe2",
         "sale_label_1": "Bootcut denim",
-        "sale_label_2": "",
-        "sale_label_3": "",
+        "sale_label_2": "PREMIUM POLO",
+        "sale_label_3": "PREMIUM POLO",
         "sale_label_color": "#ffffff",
         "sale_label_bg": "#ff1a00",
-        "hot_label_1": "",
+        "hot_label_1": "MENS COLLECTION",
         "hot_label_2": "",
         "hot_label_3": "",
         "hot_label_color": "#ffffff",
