@@ -100,6 +100,7 @@
       "block_order": [
         "text_jMJTPP"
       ],
+      "disabled": true,
       "name": "t:names.marquee",
       "settings": {
         "movement_direction": "normal",
