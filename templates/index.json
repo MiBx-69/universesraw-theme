@@ -35,7 +35,7 @@
             "subheading_spacing": 32,
             "subheading_spacing_mobile": 20,
             "button_text": "Shop Now",
-            "button_link": "shopify://collections/all",
+            "button_link": "shopify://collections/all-products-chatgpt-ai-product-description",
             "button_font_size": 14,
             "button_font_size_mobile": 12,
             "button_padding_vertical": 16,
