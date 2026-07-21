@@ -33,7 +33,7 @@
       "name": "Home Page Hero",
       "settings": {
         "overlay_opacity": 100,
-        "show_features": true,
+        "show_features": false,
         "heading_size_mobile": 48,
         "heading_size_desktop": 64,
         "subheading_size": 11,
