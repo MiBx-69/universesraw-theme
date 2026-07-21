@@ -168,7 +168,7 @@
               "type": "_collection-title",
               "name": "Collection title",
               "settings": {
-                "width": "fit-content",
+                "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "custom",
@@ -392,8 +392,17 @@
         }
       },
       "settings": {
-        "render_type": "all",
-        "collection_list": [],
+        "render_type": "custom",
+        "collection_list": [
+          "all",
+          "premium-polo",
+          "boss-polo-shirts-luxury-mens-polo-collection-universes",
+          "moncler-polo-collection-premium-mens-polo-shirts-universes",
+          "bootcut-jeans",
+          "nike-mind-001-premium-mens-slides-universes",
+          "premium-slides-sandals-mens-luxury-footwear-universes",
+          "sneakers"
+        ],
         "layout_type": "grid",
         "collections_to_show": 20,
         "columns": 3,
