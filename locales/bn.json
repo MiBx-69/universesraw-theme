@@ -298,12 +298,20 @@
             "august": "আগস্ট",
             "may": "মে",
             "june": "জুন",
-            "july": "জুলাই"
+            "july": "জুলাই",
+            "january": "জানুয়ারি",
+            "february": "ফেব্রুয়ারি",
+            "september": "সেপ্টেম্বর",
+            "october": "অক্টোবর",
+            "november": "নভেম্বর",
+            "december": "ডিসেম্বর"
           },
           "weekdays": {
             "monday": "সোমবার",
             "friday": "শুক্রবার",
-            "sunday": "রবিবার"
+            "sunday": "রবিবার",
+            "thursday": "বৃহস্পতিবার",
+            "saturday": "শনিবার"
           },
           "weekdays_abbreviation": {
             "monday": "মো",
@@ -335,6 +343,24 @@
           "discount": {
             "mixed_destination_countries": "ছাড় দেওয়া সম্ভব নয় কারণ ডেলিভারি লাইনগুলি একাধিক দেশে বিস্তৃত।"
           }
+        },
+        "datepicker": {
+          "show_previous_month": "আগের মাস দেখান, {{month}} {{year}}",
+          "show_next_month": "পরের মাস দেখান, {{month}} {{year}}",
+          "range_start": "ব্যাপ্তির শুরু",
+          "in_range": "সীমার মধ্যে",
+          "range_end": "সীমার শেষ"
+        },
+        "map": {
+          "cluster_title": {
+            "one": "{{number}} মার্কারের ক্লাস্টার",
+            "other": "{{number}} মার্কারের ক্লাস্টার"
+          }
+        },
+        "dropzone": {
+          "add_file": "ফাইল যোগ করুন",
+          "invalid_file_type": "এই ফাইলের প্রকারভেদ সমর্থনযোগ্য নয়",
+          "dragged_over": "আপলোড করতে ফাইলটি এখানে টানুন"
         }
       },
       "contact": {
@@ -357,7 +383,63 @@
         "subdistrict_label": "উপজেলা",
         "optional_subdistrict_label": "উপজেলা (ঐচ্ছিক)",
         "suburb_label": "উপশহর",
-        "phone_country_code_label": "ফোন নম্বরের কান্ট্রি কোড"
+        "phone_country_code_label": "ফোন নম্বরের কান্ট্রি কোড",
+        "title": "তথ্য",
+        "address_title": "ঠিকানা",
+        "shipping_used_as_billing_notice": "এটি আপনার এই অর্ডারের বিলিং ঠিকানা হিসেবেও ব্যবহৃত হবে।",
+        "delivery_option_title": "ডেলিভারি পদ্ধতি",
+        "contact_method_title": "যোগাযোগ",
+        "email_rollup_accessibility_label": "ইমেল বিকল্পগুলি",
+        "email_or_phone_label": "ইমেল অথবা মোবাইল ফোন নম্বর",
+        "email_or_phone_placeholder": "ইমেল অথবা মোবাইল ফোন নম্বর",
+        "stored_addresses_label": "সংরক্ষিত ঠিকানা",
+        "available_addresses_label": "উপলব্ধ ঠিকানাগুলি",
+        "new_address_label": "একটি নতুন ঠিকানা ব্যবহার করুন",
+        "first_name_label": "নামের প্রথম অংশ",
+        "optional_first_name_label": "নামের প্রথম অংশ (ঐচ্ছিক)",
+        "last_name_label": "পদবি",
+        "company_label": "সংস্থা",
+        "company_attention_label": "কোম্পানি/দৃষ্টি আকর্ষণ",
+        "optional_company_attention_label": "কোম্পানি/দৃষ্টি আকর্ষণ (ঐচ্ছিক)",
+        "optional_company_label": "প্রতিষ্ঠান (ঐচ্ছিক)",
+        "address1_label": "ঠিকানা",
+        "address2_label": "অ্যাপার্টমেন্ট, স্যুট, ইত্যাদি",
+        "optional_address2_label": "অ্যাপার্টমেন্ট, স্যুট, ইত্যাদি (ঐচ্ছিক)",
+        "country_label": "দেশ/অঞ্চল",
+        "country_code": "দেশ/অঞ্চল কোড",
+        "province_label": "প্রদেশ",
+        "province_placeholder": "প্রদেশ",
+        "region_none": "কোনোটি নির্বাচন করা হয়নি",
+        "prefecture_label": "প্রিফেকচার",
+        "prefecture_placeholder": "প্রিফেকচার",
+        "governorate_label": "রাজ্যপালশাসিত এলাকা",
+        "governorate_placeholder": "রাজ্যপালশাসিত এলাকা",
+        "emirate_label": "আমিরাত",
+        "emirate_placeholder": "আমিরাত",
+        "state_and_territory_label": "রাজ্য/অঞ্চল",
+        "state_and_territory_placeholder": "রাজ্য/অঞ্চল",
+        "phone_rollup_accessibility_label": "ফোনের বিকল্পগুলি",
+        "optional_phone_label": "ফোন (ঐচ্ছিক)",
+        "phone_tooltip": "আপনার অর্ডার সম্পর্কে আপনার সাথে যোগাযোগ করার প্রয়োজন হলে",
+        "zip_code_label": "জিপ কোড",
+        "optional_zip_code_label": "জিপ কোড (ঐচ্ছিক)",
+        "zip_code_placeholder": "জিপ কোড",
+        "postal_code_label": "পোস্টাল কোড",
+        "optional_postal_code_label": "পোস্ট কোড (ঐচ্ছিক)",
+        "postal_code_placeholder": "পোস্টাল কোড",
+        "postcode_label": "পোস্টকোড",
+        "optional_postcode_label": "ডাক কোড (ঐচ্ছিক)",
+        "postcode_placeholder": "পোস্টকোড",
+        "pincode_label": "পিন কোড",
+        "optional_pincode_label": "পিন কোড (ঐচ্ছিক)",
+        "pincode_placeholder": "পিন কোড",
+        "civic_number_warning": "আপনার যদি বাড়ির নম্বর থাকে তবে সেটি যোগ করুন",
+        "optional_last_name_label": "পদবি (ঐচ্ছিক)",
+        "different_shipping_address_label": "অন্য ঠিকানায় পাঠান",
+        "different_shipping_address_text": "এই অর্ডারের জন্য একটি ওয়ান-টাইম ঠিকানা ব্যবহার করুন",
+        "change_company_location_link_label": "কোম্পানির অবস্থান পরিবর্তন করুন",
+        "change_location_link_label": "স্থান পরিবর্তন করুন",
+        "ship_to_company": "পাঠান {{companyName}}-এ"
       },
       "stock": {
         "price_column_header": "দাম",
@@ -1048,7 +1130,27 @@
         "pickup_store": "স্টোর পিকআপ",
         "pickup_point_map_title": "পিকআপ পয়েন্টের মানচিত্র",
         "digital_product": "ডিজিটাল পণ্য",
-        "subscription_pickup_information": "এটি আপনার সাবস্ক্রিপশনের সমস্ত ভবিষ্যতের অর্ডারের জন্য পিকআপের স্থান হবে।"
+        "subscription_pickup_information": "এটি আপনার সাবস্ক্রিপশনের সমস্ত ভবিষ্যতের অর্ডারের জন্য পিকআপের স্থান হবে।",
+        "ship_to_address": "প্রাপকের ঠিকানা",
+        "shipping_address": "শিপিং ঠিকানা",
+        "pick_up": "তুলে নিন",
+        "pickup_point": "পিকআপ পয়েন্ট",
+        "pick_up_from_store": "দোকানে সংগ্রহ করুন",
+        "pick_up_locations": "পিকআপের স্থানগুলি",
+        "pick_up_in_one_hour": "সাধারণত ১ ঘন্টার মধ্যে তৈরি হয়ে যায়",
+        "pick_up_in_two_hours": "সাধারণত ২ ঘণ্টার মধ্যে প্রস্তুত হয়ে যায়",
+        "pick_up_in_four_hours": "সাধারণত ৪ ঘণ্টার মধ্যে প্রস্তুত হয়ে যায়",
+        "pick_up_in_twenty_four_hours": "সাধারণত ২৪ ঘণ্টার মধ্যে প্রস্তুত হয়ে যায়",
+        "pick_up_in_two_to_four_days": "সাধারণত ২-৪ দিনের মধ্যে প্রস্তুত হয়",
+        "pick_up_in_five_or_more_days": "সাধারণত ৫+ দিনে প্রস্তুত হয়",
+        "pick_up_in_zero_to_two_hours": "২ ঘণ্টার মধ্যে তোলার জন্য প্রস্তুত",
+        "pick_up_in_two_to_four_hours": "৪ ঘণ্টার মধ্যে সংগ্রহের জন্য প্রস্তুত",
+        "pick_up_immediately": "এখনই নেওয়ার জন্য প্রস্তুত",
+        "pick_up_next_day": "পরের দিন সংগ্রহের জন্য প্রস্তুত",
+        "pickup_point_method_definition": "পিকআপ পয়েন্টে পাঠান",
+        "retail_method_definition": "খুচরা পণ্য পরিবহন",
+        "company_location_no_address_banner": "যে সকল ঠিকানায় কোনো ঠিকানা নেই, সেগুলোতে পাঠানো অর্ডারগুলো পর্যালোচনার জন্য জমা দেওয়া হবে।",
+        "none_method_definition": "কোন শিপিং নেই"
       },
       "shipping": {
         "delete": "মুছে ফেলুন",
@@ -1342,7 +1444,13 @@
           "other": "আপনার {{count}}টি সংরক্ষিত ঠিকানা আছে।"
         },
         "saved_address_option_link": "একটি সংরক্ষিত ঠিকানা ব্যবহার করুন",
-        "saved_address_modal_title": "আমার সেভ করা ঠিকানা ব্যবহার করুন"
+        "saved_address_modal_title": "আমার সেভ করা ঠিকানা ব্যবহার করুন",
+        "not_user_label": "আপনি কি %{first_name} নন?",
+        "have_an_account_label": "অ্যাকাউন্ট আছে?",
+        "sign_in_link_label": "সাইন ইন করুন",
+        "sign_out_link_label": "সাইন আউট করুন",
+        "save_my_information_label": "পরের বারের জন্য এই তথ্য সংরক্ষণ করুন",
+        "invalid_address": "নির্বাচন করা ঠিকানাটি ভুল। %{update_address_link} অথবা অন্য একটি ঠিকানা বেছে নিন।"
       },
       "remote_merchandise_only": {
         "title": "আপনার কেনাকাটা সম্পূর্ণ করুন",
