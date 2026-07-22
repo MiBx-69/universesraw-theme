@@ -178,20 +178,94 @@
           "discount_code": "এই ডিসকাউন্ট কোডটি ব্যবহার করা যাচ্ছে না। আপনার কোডটি পর্যালোচনা করুন এবং আবার চেষ্টা করুন।",
           "terminal": "{{walletName}}-এ সমস্যা হয়েছিল। অন্য একটি পেমেন্ট পদ্ধতি ব্যবহার করুন।",
           "outdated": {
-            "payment_terms": "পেমেন্টের শর্তাবলী পরিবর্তন করা হয়েছে। আপনার অর্ডারটি পর্যালোচনা করুন।"
+            "payment_terms": "পেমেন্টের শর্তাবলী পরিবর্তন করা হয়েছে। আপনার অর্ডারটি পর্যালোচনা করুন।",
+            "shipping_method": "আপনার অর্ডারের জন্য শিপিংয়ের বিকল্পগুলি পরিবর্তিত হয়েছে। আপনার নির্বাচনটি পর্যালোচনা করুন।"
           },
-          "processing_error_checkout_as_guest": "আপনার পেমেন্ট প্রক্রিয়া করতে সমস্যা হয়েছে। আবার চেষ্টা করুন অথবা {{checkout_as_guest_link}}।"
+          "processing_error_checkout_as_guest": "আপনার পেমেন্ট প্রক্রিয়া করতে সমস্যা হয়েছে। আবার চেষ্টা করুন অথবা {{checkout_as_guest_link}}।",
+          "unavailable": {
+            "title": "{{walletName}} উপলব্ধ নেই",
+            "description": "{{walletName}} উপলব্ধ ছিল না। অন্য একটি পেমেন্ট পদ্ধতি ব্যবহার করুন অথবা পরে আবার চেষ্টা করুন।",
+            "instructions": "{{walletName}}-এ একটি সমস্যা হয়েছিল। আবার চেষ্টা করার জন্য দোকানে ফিরে যান অথবা অন্যভাবে চেকআউট করুন।",
+            "unavailable_for_country": "{{walletName}} {{countryName}}-এ উপলব্ধ নয়। আপনার কেনাকাটা সম্পন্ন করতে অন্য একটি পেমেন্ট পদ্ধতি বেছে নিন"
+          },
+          "unavailable_terminal": {
+            "instructions": "{{walletName}} বর্তমানে আপনার অর্ডারের জন্য অনুপলব্ধ। আপনার কেনাকাটা চালিয়ে যেতে, অন্য একটি চেকআউট পদ্ধতি বেছে নিন।"
+          },
+          "generic": "{{walletName}}-এ একটি সমস্যা হয়েছিল। আবার চেষ্টা করুন বা অন্য পেমেন্ট পদ্ধতি ব্যবহার করুন।",
+          "detour": {
+            "stock_problems": "কিছু আইটেম আর উপলব্ধ নেই। {{walletName}} বন্ধ করে আবার চেষ্টা করুন।",
+            "price_change": "কিছু পণ্যের দাম পরিবর্তিত হয়েছে। আপনার অর্ডার পর্যালোচনা করতে এবং আবার চেষ্টা করতে {{walletName}} বন্ধ করুন।",
+            "queue": "আপনাকে চেকআউটের জন্য একটি সারিতে রাখা হয়েছে। চালিয়ে যাওয়ার জন্য {{walletName}} বন্ধ করুন।",
+            "currency_change": "{{walletName}}-এর সাথে আপনি অন্য কোনো ঠিকানা ব্যবহার করতে পারবেন না। আসল ঠিকানাটি ব্যবহার করুন, অথবা অন্য কোনো পেমেন্টের পদ্ধতি ব্যবহার করে দেখুন।"
+          },
+          "unsupported": {
+            "address": "বণিক এই ঠিকানায় পণ্য সরবরাহ করতে পারবে না",
+            "wallet_is_unavailable": "{{walletName}} এই ঠিকানার সাথে ব্যবহার করা যাবে না। একটি ভিন্ন ঠিকানা নির্বাচন করুন অথবা আপনার কেনাকাটা সম্পূর্ণ করতে {{walletName}} বন্ধ করুন",
+            "postal_code": "এই লোকেশনটি সমর্থিত নয়"
+          },
+          "invalid": {
+            "shipping_address": "একটি বৈধ শিপিং ঠিকানা লিখুন",
+            "billing_address": "একটি বৈধ বিলিং ঠিকানা লিখুন",
+            "shipping_option": "একটি বৈধ শিপিং বিকল্প নির্বাচন করুন",
+            "email": "একটি বৈধ ইমেইল লিখুন",
+            "zone": "একটি বৈধ রাজ্য / প্রদেশ লিখুন",
+            "billing_zone": "একটি বৈধ বিলিং ঠিকানা রাজ্য / প্রদেশ লিখুন",
+            "emirate": "একটি বৈধ আমিরাত লিখুন",
+            "postal_code": "একটি বৈধ জিপ/পোস্টাল কোড লিখুন",
+            "phone": "একটি বৈধ ফোন নম্বর লিখুন",
+            "billing_phone": "একটি বৈধ বিলিং ঠিকানার ফোন নম্বর লিখুন",
+            "reduction_code": "একটি বৈধ ডিসকাউন্ট কোড বা গিফট কার্ড লিখুন",
+            "billing_must_match_shipping": "শিপিং ঠিকানার সাথে অবশ্যই মিলতে হবে",
+            "billing_zip": "একটি বৈধ বিলিং ঠিকানা জিপ / পোস্টাল কোড লিখুন"
+          },
+          "missing": {
+            "first_name": "প্রথম নাম লিখুন",
+            "billing_first_name": "বিলিং ঠিকানার প্রথম নামটি লিখুন",
+            "last_name": "শেষের নামটি লিখুন",
+            "address1": "একটি ঠিকানা লিখুন",
+            "billing_address1": "একটি বিলিং ঠিকানা লিখুন",
+            "address2": "একটি অ্যাপার্টমেন্ট, স্যুট, ইত্যাদি লিখুন",
+            "billing_address2": "বিলিং ঠিকানার অ্যাপার্টমেন্ট, স্যুট, ইত্যাদি লিখুন",
+            "city": "একটি শহর লিখুন",
+            "billing_city": "একটি বিলিং ঠিকানা শহর লিখুন",
+            "province": "রাজ্য/প্রদেশ নির্বাচন করুন",
+            "billing_province": "একটি বিলিং ঠিকানা রাজ্য/প্রদেশ নির্বাচন করুন",
+            "country": "একটি দেশ/অঞ্চল নির্বাচন করুন",
+            "zip": "জিপ/পোস্টাল কোড লিখুন",
+            "billing_zip": "বিলিং ঠিকানা জিপ/পোস্টাল কোড লিখুন",
+            "phone": "একটি ফোন নম্বর লিখুন",
+            "contact_info": "যোগাযোগের তথ্য দিন"
+          },
+          "formatting": {
+            "name_contains_emojis": "আপনার নাম থেকে ইমোজি মুছে দিন",
+            "postal_code_contains_emoji": "আপনার পোস্টকোড থেকে ইমোজি মুছে দিন",
+            "first_name_too_long": "নামের প্রথম অংশে অনেক অক্ষর আছে",
+            "last_name_too_long": "শেষ নামে অনেক বেশি অক্ষর রয়েছে",
+            "address_too_long": "ঠিকানার লাইনটি খুব দীর্ঘ"
+          },
+          "select_different_shipping_address_to_resolve_errors": "আপনার শিপিং ঠিকানাটি ভুল। অন্য একটি ঠিকানা নির্বাচন করুন অথবা একটি নতুন ঠিকানা ব্যবহার করুন।"
+        },
+        "payment_in_progress_body": "আপনার পেমেন্ট প্রক্রিয়া করা হচ্ছে। আপনার অর্ডার শীঘ্রই সম্পন্ন করা হবে।",
+        "call_to_action": "{{walletName}} দিয়ে পেমেন্ট করুন",
+        "scrim": {
+          "continue_purchase_in_window": "আপনার কেনাকাটা {{walletName}} উইন্ডোতে চালিয়ে যান",
+          "and_return_to_checkout": "এবং চেকআউটে ফিরে যান",
+          "cancel": "বাতিল করুন"
         }
       },
       "remote": {
         "errors": {
-          "currency_mismatch_removal": "আপনার কার্ট থেকে একটি আইটেম সরিয়ে ফেলা হয়েছে কারণ এটি ভিন্ন মুদ্রা ব্যবহার করা একটি স্টোরের।"
+          "currency_mismatch_removal": "আপনার কার্ট থেকে একটি আইটেম সরিয়ে ফেলা হয়েছে কারণ এটি ভিন্ন মুদ্রা ব্যবহার করা একটি স্টোরের।",
+          "only_remote_merchandise_lines": "চেকআউটে শুধুমাত্র রিমোট পণ্য আছে। চেকআউট সম্পূর্ণ করতে রিমোট শপে পুনঃনির্দেশ করা প্রয়োজন।",
+          "currency_mismatch": "এই আইটেমটি আপনার কার্টে যোগ করা যাবে না কারণ এটি এমন একটি স্টোর থেকে এসেছে যেটি ভিন্ন মুদ্রা ব্যবহার করে।",
+          "max_remote_shops_exceeded": "এই পণ্যটি যোগ করা যাবে না কারণ আপনার কার্টে অন্যান্য স্টোর থেকে সর্বোচ্চ পরিমাণ পণ্য রয়েছে।"
         }
       },
       "too_many_requests": {
         "title": "অনেক বেশিবার চেকআউট করার চেষ্টা করা হয়েছে",
         "body": "অনুগ্রহ করে কিছুক্ষণ অপেক্ষা করুন এবং আপনার কার্ট থেকে আবার চেষ্টা করুন।",
-        "body_no_cart": "অনুগ্রহ করে কয়েক মিনিট অপেক্ষা করুন এবং আবার চেষ্টা করুন।"
+        "body_no_cart": "অনুগ্রহ করে কয়েক মিনিট অপেক্ষা করুন এবং আবার চেষ্টা করুন।",
+        "return_to_cart": "কার্টে ফিরে যান"
       },
       "required_extensions": {
         "errors": {
@@ -1927,6 +2001,39 @@
       "company_location": {
         "location_title": "কোম্পানির অবস্থান",
         "location_rollup_accessibility_label": "কোম্পানির অবস্থানের বিকল্পসমূহ"
+      },
+      "note": {
+        "length_exceeds_maximum": "নোটের আকার ৫০০০ বা তার কম অক্ষরে কমান।"
+      },
+      "offsite_payment_failed": {
+        "title": "অফসাইট পেমেন্ট ব্যর্থ হয়েছে",
+        "payment_not_processed_title": "পেমেন্ট ব্যর্থ হয়েছে",
+        "payment_not_processed_text": "QR কোডটি আবার স্ক্যান করার চেষ্টা করুন। যদি এটি তখনও কাজ না করে, তাহলে আমাদের কর্মীদের জানান এবং অন্য একটি পেমেন্ট পদ্ধতি ব্যবহার করার চেষ্টা করুন।",
+        "payment_link_expired_title": "পেমেন্ট লিঙ্ক মেয়াদোত্তীর্ণ হয়েছে",
+        "payment_link_expired_text": "QR কোডটি আবার স্ক্যান করার চেষ্টা করুন।"
+      },
+      "one": {
+        "errors": {
+          "merchandise": {
+            "gift_card_price_must_be_greater_than_zero": "উপহার কার্ডের মূল্য অবশ্যই 0-এর বেশি হতে হবে।",
+            "gift_card_price_must_not_exceed_limit": "উপহার কার্ডের মূল্য %{gift_card_limit}-এর বেশি হওয়া উচিত নয়।",
+            "subtotal_limit_reached": "লাইন আইটেমের সর্বোচ্চ সংখ্যায় পৌঁছে গেছে।",
+            "signature_mismatch": "%{stable_id} লাইনের জন্য মার্চেন্ডাইজ সিগনেচার মেলেনি।"
+          }
+        }
+      },
+      "memberships": {
+        "delivery_promise_unfulfillable": "ঠিকানাটি বর্তমান সদস্যপদের জন্য সমর্থিত নয়।",
+        "items_split_across_locations_unsupported": "আপনার অর্ডারের জন্য প্রাইম ডেলিভারি উপলব্ধ নয়। আপনার শিপিং বিকল্পগুলি আপডেট করা হয়েছে।"
+      },
+      "editor": {
+        "navigation": {
+          "store_logo_accessibility_label": "অনলাইন স্টোরে যান"
+        }
+      },
+      "tooltip": {
+        "accessibility_label_context": "%{context} সম্পর্কে আরও তথ্য",
+        "additional_payment_methods": "অতিরিক্ত পরিশোধের পদ্ধতি"
       }
     },
     "sentence": {
@@ -1934,14 +2041,20 @@
       "last_word_connector": ", এবং "
     },
     "pagination": {
-      "next": "পরবর্তী"
+      "next": "পরবর্তী",
+      "previous": "পূর্ববর্তী"
     },
     "feed": {
       "more": "আরও"
     },
     "attributes": {
       "body": "শরীর",
-      "email": "ইমেইল"
+      "email": "ইমেইল",
+      "password": "পাসওয়ার্ড",
+      "password_confirmation": "পাসওয়ার্ড নিশ্চিতকরণ",
+      "first_name": "নামের প্রথম অংশ",
+      "last_name": "শেষ নাম",
+      "signature": "ঠিকানা"
     },
     "notices": {
       "order": {
@@ -2007,7 +2120,19 @@
       }
     },
     "addresses": {
-      "state": "রাজ্য"
+      "state": "রাজ্য",
+      "zip_code": "জিপ কোড",
+      "postal_code": "পোস্টাল কোড",
+      "postcode": "পোস্টকোড",
+      "pincode": "পিনকোড",
+      "region": "অঞ্চল",
+      "prefecture": "প্রিফেকচার",
+      "province": "প্রদেশ",
+      "state_and_territory": "রাজ্য/অঞ্চল",
+      "county": "কাউন্টি",
+      "emirate": "আমিরাত",
+      "governorate": "রাজ্যপালশাসিত এলাকা",
+      "confirm": "আপনি কি নিশ্চিত যে আপনি এই ঠিকানাটি মুছে ফেলতে চান?"
     },
     "errors": {
       "shop_404": {
@@ -2115,7 +2240,14 @@
     "collections": {
       "sorting": {
         "most_relevant": "সবচেয়ে প্রাসঙ্গিক",
-        "date_descending": "তারিখ, নতুন থেকে পুরানো"
+        "date_descending": "তারিখ, নতুন থেকে পুরানো",
+        "manual": "বৈশিষ্ট্যযুক্ত",
+        "best_selling": "বেস্ট সেলিং",
+        "az": "বর্ণানুক্রমে, A-Z",
+        "za": "বর্ণানুক্রমিকভাবে, Z-A",
+        "price_ascending": "দাম, কম থেকে বেশি",
+        "price_descending": "দাম, বেশি থেকে কম",
+        "date_ascending": "তারিখ, পুরোনো থেকে নতুন"
       }
     },
     "email_marketing": {
@@ -2138,6 +2270,10 @@
       "buyer_consent_product": "এই আইটেমটি একটি পুনরাবৃত্ত বা স্থগিত কেনাকাটা। চালিয়ে যাওয়ার মাধ্যমে, আমি %{cancellationPolicyLink} সম্মত হচ্ছি এবং আমার অর্ডার পূরণ না হওয়া পর্যন্ত অথবা, যদি অনুমতি দেওয়া হয়, আমি বাতিল না করা পর্যন্ত এই পৃষ্ঠায় তালিকাভুক্ত মূল্য, ফ্রিকোয়েন্সি এবং তারিখে আমার পেমেন্ট পদ্ধতি চার্জ করার জন্য আপনাকে অনুমতি দিচ্ছি।",
       "buyer_consent_cart": "আপনার কার্টের এক বা একাধিক আইটেম একটি পুনরাবৃত্ত বা স্থগিত কেনাকাটা। চালিয়ে যাওয়ার মাধ্যমে, আমি %{cancellationPolicyLink} সম্মত হচ্ছি এবং আপনাকে আমার পেমেন্টের পদ্ধতি থেকে এই পৃষ্ঠায় তালিকাভুক্ত মূল্য, ফ্রিকোয়েন্সি এবং তারিখ অনুযায়ী চার্জ করার অনুমতি দিচ্ছি যতক্ষণ না আমার অর্ডার পূরণ হচ্ছে অথবা আমি বাতিল করছি, যদি অনুমতি দেওয়া হয়।",
       "cancellation_policy": "বাতিলকরণ নীতি"
+    },
+    "links": {
+      "powered_by_shopify": "শপিফাই দ্বারা চালিত",
+      "learn_more": "আরও জানুন"
     }
   },
   "customer_accounts": {
@@ -3019,7 +3155,31 @@
     "refresh_page": "একটি নির্বাচন করলে সম্পূর্ণ পৃষ্ঠা রিফ্রেশ হয়ে যাবে।",
     "star_reviews_info": "{{ rating_max }} তারার মধ্যে {{ rating_value }}",
     "total_reviews": "মোট পর্যালোচনা",
-    "vendor": "বিক্রেতা:"
+    "vendor": "বিক্রেতা:",
+    "link_messages": {
+      "new_window": "নতুন উইন্ডোতে খুলুন।"
+    },
+    "loading_product_recommendations": "পণ্য সংক্রান্ত সুপারিশ লোড হচ্ছে",
+    "new_window": "নতুন উইন্ডোতে খুলুন।",
+    "pause_video": "ভিডিও থামান",
+    "play_model": "থ্রিডি মডেল চালান",
+    "play_video": "ভিডিও চালান",
+    "quantity": "পরিমাণ",
+    "rating": "এই পণ্যটির রেটিং ৫-এর মধ্যে {{ rating }}",
+    "remove_item": "সরিয়ে ফেলুন {{ title}}",
+    "reset_search": "অনুসন্ধান পুনরায় সেট করুন",
+    "scroll_to": "{{ title }}-এ স্ক্রোল করুন",
+    "search_results_count": "\"{{ query }}\"-এর জন্য {{ count }}টি অনুসন্ধানের ফলাফল পাওয়া গেছে",
+    "search_results_no_results": "\"{{ query }}\"-এর জন্য কোনো ফলাফল খুঁজে পাওয়া যায়নি",
+    "skip_to_product_info": "পণ্যের তথ্যে যান",
+    "skip_to_results_list": "ফলাফলের তালিকায় যান",
+    "skip_to_text": "বিষয়বস্তুতে যান",
+    "slide_status": "স্লাইড {{ index }} এর {{ length }}",
+    "slideshow_next": "পরবর্তী স্লাইড",
+    "slideshow_pause": "স্লাইডশো বিরতি দিন",
+    "slideshow_play": "স্লাইডশো চালান",
+    "slideshow_previous": "পূর্ববর্তী স্লাইড",
+    "unit_price": "একক মূল্য"
   },
   "actions": {
     "back": "পিছনে",
@@ -3033,7 +3193,34 @@
     "clear": "পরিষ্কার",
     "close": "বন্ধ করা",
     "reset": "রিসেট",
-    "add": "যোগ করুন"
+    "add": "যোগ করুন",
+    "add_to_cart": "কার্টে যোগ করুন",
+    "choose": "বেছে নিন",
+    "clear_all": "সব মুছে ফেলো",
+    "close_dialog": "সংলাপ বন্ধ করুন",
+    "continue_shopping": "কেনাকাটা চালিয়ে যান",
+    "enter_password": "পাসওয়ার্ড দিন",
+    "enter_using_password": "পাসওয়ার্ড দিয়ে প্রবেশ করুন",
+    "log_in": "সাইন ইন করুন",
+    "log_in_html": "একটি অ্যাকাউন্ট আছে? দ্রুত চেকআউট করতে <a href=\"&lt;span%20class='notranslate'&gt;{{%20link%20}}&lt;/span&gt;\">লগইন করুন</a>।",
+    "log_out": "লগ আউট করুন",
+    "open_image_in_full_screen": "পূর্ণ স্ক্রিনে ছবি খুলুন",
+    "remove": "অপসারণ করুন",
+    "remove_discount": "ডিসকাউন্ট কোড সরান {{ code }}",
+    "see_items": {
+      "one": "{{ count }}টি জিনিস দেখুন",
+      "other": "{{ count }}টি আইটেম দেখুন"
+    },
+    "show_all_options": "সব বিকল্প দেখান",
+    "show_filters": "ফিল্টার করুন",
+    "show_less": "কম দেখান",
+    "show_more": "আরো দেখান",
+    "sign_in_options": "অন্যান্য সাইন ইন বিকল্প",
+    "sign_up": "সাইন আপ করুন",
+    "submit": "জমা দিন",
+    "view_all": "সব দেখুন",
+    "view_in_your_space": "আপনার স্পেসে দেখুন",
+    "view_store_information": "দোকানের তথ্য দেখুন"
   },
   "blogs": {
     "comment_form": {
@@ -3041,7 +3228,12 @@
       "email": "ইমেইল",
       "post_error": "ইমেল ঠিকানা ছাড়া ফর্ম জমা দেওয়া যাবে না",
       "success": "আপনার মন্তব্য সফলভাবে পোস্ট করা হয়েছে! ধন্যবাদ!",
-      "success_moderated": "আপনার মন্তব্য সফলভাবে পোস্ট করা হয়েছে। আমাদের ব্লগ মডারেট করা হয় বলে আমরা অল্প সময়ের মধ্যে এটি প্রকাশ করব।"
+      "success_moderated": "আপনার মন্তব্য সফলভাবে পোস্ট করা হয়েছে। আমাদের ব্লগ মডারেট করা হয় বলে আমরা অল্প সময়ের মধ্যে এটি প্রকাশ করব।",
+      "error": "কমেন্ট পোস্ট করা যায়নি, অনুগ্রহ করে নিচের সমস্যাগুলো সমাধান করুন:",
+      "heading": "একটি মন্তব্য করুন",
+      "message": "মন্তব্য",
+      "moderated": "অনুগ্রহ করে মনে রাখবেন, মন্তব্যগুলি প্রকাশিত হওয়ার আগে অনুমোদিত হতে হবে।",
+      "post": "মন্তব্য করুন"
     },
     "article": {
       "back_to_blog": "ব্লগে ফিরে যান",
@@ -3052,7 +3244,13 @@
       "previous_post": "পূর্বের পোস্ট",
       "read_more": "আরও পড়ুন",
       "read_more_title": "আরও পড়ুন: {{ title }}",
-      "share": "এই নিবন্ধটি শেয়ার করুন"
+      "share": "এই নিবন্ধটি শেয়ার করুন",
+      "comment_form_title": "একটি মন্তব্য করুন",
+      "comments": {
+        "one": "{{ count }} মন্তব্য",
+        "other": "{{ count }}টি মন্তব্য"
+      },
+      "featured": "বৈশিষ্ট্যযুক্ত"
     }
   },
   "content": {
@@ -3063,7 +3261,10 @@
       "blog": "ব্লগ",
       "blogs": "ব্লগসমূহ",
       "home_link_title": "হোম পেজে যান",
-      "product": "পণ্য"
+      "product": "পণ্য",
+      "collections": "সংগ্রহসমূহ",
+      "search": "অনুসন্ধান",
+      "title": "ব্রেডক্রাম্ব"
     },
     "cart_title": "ঝুরি",
     "form": {
@@ -3254,7 +3455,8 @@
       "gift_wrapping_title": "আপনি কি একটি উপহার মোড়ানো চান?",
       "item_added": "আপনার কার্টে আইটেম যোগ করা হয়েছে",
       "view": "কার্ট দেখুন ({{ count }})",
-      "view_empty_cart": "কার্ট দেখুন"
+      "view_empty_cart": "কার্ট দেখুন",
+      "order_summary": "অর্ডারের সারাংশ"
     },
     "cart_count_max": {
       "more": "৯৯+"
@@ -3276,7 +3478,10 @@
       "remove_compare": "তুলনা করা বাদ দিন",
       "review": "রেটিং",
       "sku": "এসকেইউ",
-      "title": "তুলনা করুন"
+      "title": "তুলনা করুন",
+      "availability": "উপস্থিতি",
+      "collection": "সংগ্রহ",
+      "description": "বর্ণনা"
     },
     "copy": "কপি করুন",
     "country_label": "দেশ/অঞ্চল",
@@ -3284,7 +3489,49 @@
     "coupon_code": "কুপন কোড:",
     "days": "দিনগুলি",
     "each": "{{ money }}/প্রতিটি",
-    "end_count": "টি {{ count }} পণ্যের"
+    "end_count": "টি {{ count }} পণ্যের",
+    "account_orders": "আদেশসমূহ",
+    "account_profile": "প্রোফাইল",
+    "account_title": "হিসাব",
+    "account_title_personalized": "নমস্কার {{ first_name }}",
+    "ask_an_expert": {
+      "message": "বার্তা"
+    },
+    "cancel": "বাতিল করুন",
+    "cart_count": {
+      "one": "{{ count }}টি জিনিস",
+      "other": "{{ count }}টি আইটেম"
+    },
+    "cart_estimated_total": "আনুমানিক মোট",
+    "cart_subtotal": "উপমোট",
+    "cart_total": "কার্টের মোট মূল্য",
+    "checkout": "চেকআউট",
+    "collection_placeholder": "সংগ্রহের শিরোনাম",
+    "collections": "সংগ্রহসমূহ",
+    "collapsible_text": {
+      "button_collapse": "আরো দেখান",
+      "button_expanded": "কম দেখান"
+    },
+    "continue_shopping": "কেনাকাটা চালিয়ে যান",
+    "copied": "কপি করা হয়েছে",
+    "discount": "ছাড়",
+    "discount_code": "ডিসকাউন্ট কোড",
+    "discount_code_error": "ডিসকাউন্ট কোডটি আপনার কার্টে প্রয়োগ করা যাবে না।",
+    "discounts": "ছাড়",
+    "duties_and_taxes_included": "শুল্ক ও কর অন্তর্ভুক্ত।",
+    "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "<p>শুল্ক এবং কর অন্তর্ভুক্ত। ডিসকাউন্ট এবং <a href=\"&lt;span%20class='notranslate'&gt;{{%20link%20}}&lt;/span&gt;\">শিপিং</a> চেকআউটে গণনা করা হয়।</p>",
+    "duties_and_taxes_included_shipping_at_checkout_with_policy_without_discounts_html": "শুল্ক ও কর অন্তর্ভুক্ত। শিপিং-এর খরচ চেকআউট-এর সময় গণনা করা হবে।",
+    "duties_and_taxes_included_shipping_at_checkout_without_policy": "শুল্ক ও কর অন্তর্ভুক্ত। ছাড় এবং শিপিং চেকআউটে গণনা করা হবে।",
+    "duties_and_taxes_included_shipping_at_checkout_without_policy_without_discounts": "শুল্ক ও কর অন্তর্ভুক্ত। শিপিং-এর খরচ চেকআউট-এর সময় গণনা করা হবে।",
+    "duties_included": "দায়িত্বগুলির মধ্যে অন্তর্ভুক্ত ছিল:",
+    "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "ডিউটি অন্তর্ভুক্ত। ট্যাক্স, ডিসকাউন্ট এবং <a href=\"&lt;span%20class='notranslate'&gt;{{%20link%20}}&lt;/span&gt;\">শিপিং</a> চেকআউটের সময় গণনা করা হবে।",
+    "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_without_discounts_html": "শুল্ক অন্তর্ভুক্ত। শিপিংয়ের খরচ চেকআউটের সময় গণনা করা হবে।",
+    "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "কর্তব্য অন্তর্ভুক্ত। চেকআউটে কর, ডিসকাউন্ট এবং শিপিং গণনা করা হবে।",
+    "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy_without_discounts": "শুল্ক অন্তর্ভুক্ত। শিপিংয়ের খরচ চেকআউটের সময় গণনা করা হবে।",
+    "empty": "আপনার কার্ট খালি",
+    "errors": "ত্রুটিগুলি",
+    "estimated_total": "আনুমানিক মোট",
+    "featured_products": "নির্বাচিত পণ্যগুলি"
   },
   "customer": {
     "addresses": {
