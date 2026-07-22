@@ -484,7 +484,12 @@
         "estimated_taxes_finalization_tooltip_content_short": "পেমেন্টের পর কর চূড়ান্ত করা হয়েছে",
         "compare_at_sale": "বিক্রয় (%{sale_amount})",
         "discount_discovery": {
-          "back_to_finalize_order": "অর্ডার চূড়ান্ত করতে ফিরে যান"
+          "back_to_finalize_order": "অর্ডার চূড়ান্ত করতে ফিরে যান",
+          "add_code": "ছাড় যুক্ত করুন",
+          "merchandise_quantity_label": {
+            "one": "%{count}টি আইটেম",
+            "other": "%{count}টি আইটেম"
+          }
         },
         "alternative_payment_currency_chinese_yuan": "%{wallet} অ্যাপে চূড়ান্ত CNY মোট পরিমাণ নিশ্চিত করুন।",
         "alternative_payment_currency_total_disclosure": "%{shop_name} পেমেন্ট প্রসেস করে %{shop_currency} (%{amount_due})-তে।",
@@ -508,7 +513,73 @@
         },
         "order_name_label": "অর্ডার করুন %{name}",
         "shopping_cart_label": "শপিং কার্ট",
-        "discount_title": "ছাড়"
+        "discount_title": "ছাড়",
+        "recurring_total_label": "পুনরাবৃত্ত মোট",
+        "recurring_total_tooltip": "শিপিং, ট্যাক্স, শুল্ক বা প্রযোজ্য কোনো ডিসকাউন্ট অন্তর্ভুক্ত নয়।",
+        "confirmation_number_label": "নিশ্চিতকরণ #%{confirmation_number}",
+        "higher_value_discount_applied": "<strong style=\"text-transform:uppercase\">%{code}</strong> আপনার বিদ্যমান ডিসকাউন্টের সাথে ব্যবহার করা যায়নি।",
+        "percent_off_shipping": "শিপিংয়ের ওপর %{percent}% ছাড়",
+        "amount_off_shipping": "শিপিং-এর উপর %{amount} ছাড়",
+        "deferred_payment_info": {
+          "title": "%{due_at} তারিখে %{amount_due} পেমেন্ট বাকি আছে",
+          "description_html": "আপনার অর্ডার সম্পর্কে প্রশ্নগুলির জন্য, %{contact_us}।",
+          "paid_today": "আজ মোট পরিশোধিত",
+          "paid_today_next": "আজ পরিশোধ করা হয়েছে",
+          "due_on_fulfillment_title": "পরিষেবা প্রদানের পর %{amount_due} প্রদান করতে হবে",
+          "due_on_receipt_title": "%{amount_due} টাকা প্রাপ্তিতে প্রদেয়"
+        },
+        "deferred_balance_info": {
+          "title": "{{amount_due}} এর বকেয়া {{due_at}} তারিখে পরিশোধ করতে হবে",
+          "due_on_fulfillment_title": "{{amount_due}} এর বকেয়া পরিশোধ করতে হবে অর্ডারের পণ্য সরবরাহ করার পর"
+        },
+        "payment_terms_totals": {
+          "due_today": "আজ মোট প্রদেয়",
+          "due_today_next": "আজকের মধ্যে জমা দিন",
+          "due_later": "মোট প্রদেয় %{due_at}",
+          "due_on_fulfillment": "পরিশোধের পর মোট প্রাপ্য",
+          "due_on_fulfillment_next": "পরিশোধের পর প্রাপ্য",
+          "due_on_receipt": "প্রাপ্তি সাপেক্ষে মোট প্রদেয়",
+          "due_later_checkout_to_draft": "বাকি আছে",
+          "total_paid": "মোট পরিশোধিত"
+        },
+        "maximum_discount_code_limit_reached": "আপনি ডিসকাউন্ট কোডের সর্বোচ্চ সীমায় পৌঁছে গেছেন। <strong style=\"text-transform:uppercase\">%{code}</strong> ব্যবহার করার জন্য একটি বর্তমান কোড মুছে ফেলুন।",
+        "discount_code_application_failed": "<strong style=\"text-transform:uppercase\">%{code}</strong> এখন কাজ করছে না। সাহায্যের জন্য আমাদের সাথে যোগাযোগ করুন।",
+        "due_on_fulfillment": "পরিশোধের পর প্রাপ্য",
+        "subscriptions": "সদস্যতাগুলি",
+        "duties_and_taxes_label": "শুল্ক ও কর",
+        "error_duties_tooltip": "এই অর্ডারটি অন্য দেশ থেকে পাঠানো হচ্ছে, তাই ডেলিভারির সময় শুল্ক ও কর ধার্য করা হতে পারে।",
+        "may_be_charged_on_delivery": "ডেলিভারির সময় চার্জ করা হতে পারে",
+        "total_updated_label_with_price": "মোট আপডেট করা মূল্য: %{totalPrice}",
+        "updated_shipping_method": "আপডেট করা শিপিং পদ্ধতি: %{shipping_method}",
+        "recurring_payments": "পর্যাবৃত্তিক পেমেন্ট",
+        "recurring_total_multiple_label": "এই অর্ডারটিতে একাধিক জিনিসের জন্য একটি পুনরাবৃত্ত চার্জ রয়েছে।",
+        "deferred_total_due_date_label": "মোট বকেয়া {{date}}",
+        "deferred_total_due_date_label_next": "দেয় %{date}",
+        "full_price": "পুরো মূল্য: %{price}",
+        "custom_discount": "বিশেষ ছাড়",
+        "expand_component_information": {
+          "one": "%{count}টি আইটেম দেখান",
+          "other": "%{count}টি আইটেম দেখান"
+        },
+        "collapse_component_information": {
+          "one": "%{count}টি আইটেম লুকান",
+          "other": "আরও %{count}টি আইটেম লুকান"
+        },
+        "alternative_payment_currency_total": "চার্জ করা হয়েছে %{amount_due}",
+        "lpm": {
+          "wechat_pay": {
+            "checkout_disclosure": "উইচ্যাট অ্যাপে চূড়ান্ত CNY মোট পরিমাণ নিশ্চিত করুন।",
+            "checkout_disclosure_with_alternative_payment_currency": "%{shop_name} পেমেন্ট প্রসেস করছে %{processing_currency} (%{amount_due})-এ।\nWeChat অ্যাপে চূড়ান্ত CNY মোট পরিমাণ নিশ্চিত করুন।",
+            "post_purchase_disclosure": "আপনি WeChat Pay ব্যবহার করে CNY-তে পেমেন্ট করেছেন। চূড়ান্ত পরিমাণের জন্য আপনার WeChat অ্যাপটি দেখুন।",
+            "post_purchase_disclosure_with_alternative_payment_currency": "%{shop_name} পেমেন্ট প্রসেস করে %{processing_currency}-তে। আপনি শপিং করেছেন %{original_currency}-তে এবং WeChat Pay-এর মাধ্যমে CNY-তে পেমেন্ট করেছেন। চূড়ান্ত পরিমাণের জন্য আপনার WeChat অ্যাপ চেক করুন।"
+          },
+          "alipay": {
+            "checkout_disclosure": "আলিপে অ্যাপে চূড়ান্ত CNY মোট পরিমাণ নিশ্চিত করুন।",
+            "checkout_disclosure_with_alternative_payment_currency": "%{shop_name}, %{processing_currency} (%{amount_due})-এ পেমেন্ট প্রসেস করে থাকে।\nAlipay অ্যাপে চূড়ান্ত CNY মোট পরিমাণ নিশ্চিত করুন।",
+            "post_purchase_disclosure": "আপনি CNY-তে Alipay দিয়ে অর্থপ্রদান করেছেন। চূড়ান্ত পরিমাণের জন্য আপনার Alipay অ্যাপটি পরীক্ষা করুন।",
+            "post_purchase_disclosure_with_alternative_payment_currency": "%{shop_name} %{processing_currency}-তে পেমেন্ট প্রসেস করে থাকে। আপনি %{original_currency}-এ শপিং করেছেন এবং CNY-তে Alipay দিয়ে পেমেন্ট করেছেন। চূড়ান্ত পরিমাণ জানতে আপনার Alipay অ্যাপ দেখুন।"
+          }
+        }
       },
       "payment": {
         "apply_gift_card_button_label": "প্রয়োগ করুন",
@@ -745,7 +816,60 @@
         "third_party_payment_error": "অর্থপ্রদানের বিকল্পগুলি লোড করার সময় একটি ত্রুটি হয়েছে। অন্য একটি অর্থপ্রদানের পদ্ধতি ব্যবহার করুন।",
         "invalid_shipping_method_summary_selected": "উপলব্ধ শিপিং পদ্ধতি দেখতে একটি ভিন্ন শিপিং ঠিকানা নির্বাচন করুন",
         "add_new_delivery_address": "একটি নতুন ডেলিভারি ঠিকানা যোগ করুন",
-        "choose_new_address": "নতুন ঠিকানা দিন"
+        "choose_new_address": "নতুন ঠিকানা দিন",
+        "title": "শিপিং",
+        "delivery_title": "ডেলিভারি",
+        "shipping_method_title": "শিপিং পদ্ধতি",
+        "shipping_method_rollup_accessibility_label": "শিপিং পদ্ধতির বিকল্পগুলি",
+        "shipping_method_one_time_purchase_group_title": "এককালীন কেনাকাটা",
+        "shipping_method_first_shipment_group_title": {
+          "one": "প্রথম চালান",
+          "other": "প্রথম চালান"
+        },
+        "shipping_method_subscription_group_title": "সদস্যতা",
+        "shipping_method_recurring_shipments_group_title": {
+          "one": "পুনরাবৃত্ত চালান",
+          "other": "পুনরাবৃত্তিমূলক চালান"
+        },
+        "subscription_shipping": "সাবস্ক্রিপশন শিপিং",
+        "subscription_local_delivery": "সাবস্ক্রিপশন স্থানীয় ডেলিভারি",
+        "subscription_pickup": "সাবস্ক্রিপশন পিকআপ",
+        "waiting_on_rate_notice": "উপলব্ধ শিপিং রেট পাওয়া যাচ্ছে...",
+        "waiting_on_pickup_location_notice": "উপলব্ধ পিক আপ লোকেশনগুলি দেখা হচ্ছে...",
+        "no_rates_for_cart_or_destination_notice": "আপনার কার্ট বা ঠিকানার জন্য কোনো শিপিং পদ্ধতি উপলব্ধ নেই",
+        "no_pickup_location_notice": "আপনার অন্তত একটি পণ্য পিক আপের জন্য উপলব্ধ নয়",
+        "no_rates_for_country_notice": "এই ঠিকানার জন্য কোনো শিপিং রেট পাওয়া যায়নি।",
+        "no_rates_contact_notice": "আরও তথ্যের জন্য আমাদের সাথে যোগাযোগ করুন",
+        "cheapest_rate_label": "সবচেয়ে সস্তা",
+        "estimated_delivery_date": {
+          "one": "%{count} কার্যদিবস",
+          "other": "%{count} কার্যদিবস"
+        },
+        "estimated_delivery_date_range": "%{minimum} থেকে %{maximum} কার্যদিবস",
+        "delivery_date_range": "% সময় বাকি আছে: %{min_time}–%{max_time}",
+        "estimated_delivery_time": "আনুমানিক ডেলিভারি %{time}",
+        "estimated_delivery_time_range": "আনুমানিক ডেলিভারি %{min_time}–%{max_time}",
+        "delivery_today": "একই দিনে ডেলিভারি %{time}",
+        "delivery_tomorrow": "পরের দিন ডেলিভারি %{time}",
+        "two_day_delivery": "২-দিনের ডেলিভারি %{time}",
+        "delivery": "ডেলিভারি %{time}",
+        "arrives_time": "পৌঁছায় %{time}",
+        "arrives_time_range": "আসে %{min_time}–%{max_time}",
+        "estimated_time": "আনুমানিক %{time}",
+        "estimated_time_range": "আনুমানিক %{min_time}–%{max_time}",
+        "default_description": "১ কার্যদিবসের মধ্যে পাঠানো হবে",
+        "unbranded_default_description": "প্রেরণের জন্য প্রস্তুত",
+        "shipping_line_phone_label": "মোবাইল ফোন নম্বর (আবশ্যক)",
+        "shipping_line_phone": "আপনার কুরিয়ার আপনার সাথে যোগাযোগ করতে এই নম্বরটি ব্যবহার করতে পারে।",
+        "shipping_line_delivery_phone_label": "মোবাইল ফোন নম্বর",
+        "shipping_line_delivery_phone": "আপনার ডেলিভারির বিষয়ে আপডেট জানানো হতে পারে।",
+        "optional_shipping_line_delivery_instructions_label": "ডেলিভারি সংক্রান্ত নির্দেশাবলী (ঐচ্ছিক)",
+        "shipping_line_delivery_instructions": "প্রয়োজনীয় তথ্য যেমন দরজার কোড বা পৌঁছে দেওয়ার নির্দেশাবলী লিখুন।",
+        "other_method": {
+          "zero": "অন্যান্য পদ্ধতি উপলব্ধ নেই",
+          "one": "অন্যান্য %{count}টি পদ্ধতি এখানে পাওয়া যাচ্ছে",
+          "other": "আরও %{count}টি পদ্ধতি আছে, শুরু হচ্ছে"
+        }
       },
       "field_errors": {
         "address_street_name_blank": "রাস্তার নাম লিখুন",
