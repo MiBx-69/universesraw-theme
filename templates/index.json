@@ -118,7 +118,7 @@
             "subtext": "Handpicked pieces from our latest drop.",
             "show_shop_all": true,
             "shop_all_text": "SHOP ALL",
-            "products_per_row": 2,
+            "products_per_row": 4,
             "products_per_row_tablet": 2,
             "products_per_row_mobile": "2",
             "grid_gap": 48,
