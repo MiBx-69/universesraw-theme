@@ -423,41 +423,6 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "image_gkP4cG": {
-              "type": "image",
-              "name": "Image",
-              "settings": {
-                "link": "",
-                "hide_on_mobile": false,
-                "image_ratio": "adapt",
-                "width": "custom",
-                "unit": "percent",
-                "custom_width": 100,
-                "custom_width_pixel": 100,
-                "width_tablet": "custom",
-                "unit_tablet": "percent",
-                "custom_width_tablet": 100,
-                "custom_width_tablet_pixel": 100,
-                "width_mobile": "custom",
-                "unit_mobile": "percent",
-                "custom_width_mobile": 100,
-                "custom_width_mobile_pixel": 100,
-                "height": "fit",
-                "image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "animation_type": "none",
-                "disable_parallax_mobile": false,
-                "parallax_speed": 0.5,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "group_4pEepX": {
               "type": "group",
               "name": "t:names.group",
@@ -616,7 +581,7 @@
                       "type": "text",
                       "name": "t:names.heading",
                       "settings": {
-                        "text": "<h2>New arrivals</h2>",
+                        "text": "<h1>Don't Miss Out</h1>",
                         "collection_description_only": false,
                         "collapse_text": false,
                         "typing_text": false,
@@ -698,7 +663,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                        "text": "<p>Get insider updates, product drops, and special deals straight to your inbox.</p>",
                         "collection_description_only": false,
                         "collapse_text": false,
                         "typing_text": false,
@@ -784,7 +749,7 @@
                         "open_newsletter_popup": false,
                         "subscription_text": "Sign up to be the first to know when the event is live!",
                         "subscription_button": "SUBSCRIBE",
-                        "form_align": "end",
+                        "form_align": "center",
                         "width": "fill",
                         "custom_width": 100,
                         "width_tablet": "fill",
@@ -833,7 +798,7 @@
                         "icon_type": "chevron",
                         "icon_size_desktop": 24,
                         "icon_size_mobile": 24,
-                        "label": "SUTMIT",
+                        "label": "SUBMIT",
                         "button_type_preset": "paragraph",
                         "font": "var(--font-body--family)",
                         "font_size": "1.6rem",
@@ -850,7 +815,7 @@
                         "gap": 12,
                         "submit_width": "fit-content",
                         "submit_custom_width": 100,
-                        "submit_width_mobile": "custom",
+                        "submit_width_mobile": "fit-content",
                         "submit_custom_width_mobile": 100,
                         "padding-block-start": 0,
                         "padding-block-end": 0,
@@ -978,7 +943,6 @@
             }
           },
           "block_order": [
-            "image_gkP4cG",
             "group_4pEepX"
           ]
         }
@@ -986,10 +950,9 @@
       "block_order": [
         "group_bK8anF"
       ],
-      "disabled": true,
       "settings": {
         "popup_expire": 1,
-        "popup_delay": 10,
+        "popup_delay": 7,
         "color_scheme": ""
       }
     },
