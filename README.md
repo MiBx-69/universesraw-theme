@@ -47,7 +47,7 @@ The live store showcases imported premium men's fashion including polo shirts, d
 - Mobile First Design
 - Responsive Layout
 - Clean Minimal Design
-- Shopify OS 2.0
+- Shopify OS 3.0
 - Custom Liquid Sections
 - Performance Optimized
 - SEO Optimized
@@ -207,7 +207,7 @@ https://github.com/mibx-69
 
 LinkedIn
 
-https://linkedin.com/in/moinul-islam-bapp
+https://linkedin.com/in/moinul-islam-bappi
 
 Email
 
