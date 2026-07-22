@@ -912,6 +912,58 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "1784728578bc5c43d6": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_ad08150_cth6NR": {
+          "type": "ai_gen_block_ad08150",
+          "settings": {
+            "trigger_delay": 5,
+            "trigger_scroll": 50,
+            "heading": "Don't Miss Out",
+            "subtext": "Subscribe to our newsletter and receive exclusive offers",
+            "email_placeholder": "Enter your email",
+            "button_text": "Subscribe",
+            "success_message": "Thanks for subscribing!",
+            "mobile_layout": "bottom_sheet",
+            "popup_max_width": 500,
+            "popup_padding": 40,
+            "popup_border_radius": 12,
+            "popup_background": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 50,
+            "heading_color": "#000000",
+            "subtext_color": "#666666",
+            "heading_size": 28,
+            "heading_spacing": 16,
+            "subtext_size": 16,
+            "subtext_spacing": 24,
+            "input_background": "#ffffff",
+            "input_text_color": "#000000",
+            "input_placeholder_color": "#999999",
+            "input_border_color": "#cccccc",
+            "input_focus_border_color": "#000f9f",
+            "input_border_width": 1,
+            "input_border_radius": 8,
+            "button_background": "#000f9f",
+            "button_hover_background": "#000000",
+            "button_text_color": "#ffffff",
+            "button_border_radius": 8,
+            "close_button_background": "#f5f5f5",
+            "close_button_hover_background": "#e0e0e0",
+            "close_button_color": "#000000",
+            "close_button_position": 16,
+            "success_color": "#008060",
+            "error_color": "#D82C0D"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_ad08150_cth6NR"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -921,6 +973,7 @@
     "slideshow_C6dxVH",
     "slideshow_akKREr",
     "featured_collection_JwDQg9",
-    "178368302367a7de5f"
+    "178368302367a7de5f",
+    "1784728578bc5c43d6"
   ]
 }
