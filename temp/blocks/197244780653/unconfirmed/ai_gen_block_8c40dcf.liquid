@@ -1,6 +1,1095 @@
+{% doc %}
+  @prompt
+    Design a world-class luxury eCommerce hero section for Universes RAW, a premium men's fashion brand. The design must feel as polished and premium as luxury brands like Tom Ford, ZEGNA, Ralph Lauren Purple Label, or Brunello Cucinelli, while maintaining a modern, conversion-focused shopping experience.
+    
+    Overall Style
+    Minimal, luxurious, premium editorial aesthetic
+    Matte black, charcoal, dark gray, and subtle gold accents
+    Cinematic studio lighting with soft shadows
+    Clean premium typography with generous spacing
+    Ultra-modern UI with elegant micro-interactions
+    High-end fashion campaign look
+    Fast loading and optimized for Shopify
+    Hero Layout
+    Full-width responsive hero section
+    Viewport height: 90–100vh on desktop
+    Mobile optimized without cropping important content
+    Large empty space for promotional text and CTA
+    Perfect visual balance between content and image
+    Premium fade overlays for readability
+    Background
+    
+    Use a luxurious fashion campaign image featuring:
+    
+    Premium male model
+    Luxury fashion studio
+    Dark premium interior
+    Soft spotlight lighting
+    Cinematic atmosphere
+    Luxury clothing and accessories
+    Matte textures
+    Premium depth of field
+    High-end editorial photography
+    Ultra realistic
+    No text inside the image
+    Left Content
+    
+    Large premium heading
+    
+    Example:
+    PREMIUM MEN'S FASHION
+    
+    Supporting text:
+    Imported Fashion.
+    Luxury Quality.
+    Exclusive Collection.
+    
+    Primary CTA
+    • Shop Now
+    
+    Secondary CTA
+    • New Arrivals
+    
+    Buttons should have elegant hover animations, rounded corners, premium shadows, and subtle gold accents.
+    
+    Right Side
+    
+    Large premium fashion lifestyle image with:
+    
+    Luxury male model
+    Elegant pose
+    Premium styling
+    Rich lighting
+    Realistic skin tones
+    High-end fashion photography
+    Trust Bar
+    
+    Directly below the hero:
+    
+    Express Delivery
+    Cash on Delivery
+    Easy Exchange
+    Premium Quality
+    
+    Use premium outlined icons with subtle gold highlights.
+    
+    Navigation
+    
+    Transparent glass navigation that becomes solid while scrolling.
+    
+    Include:
+    
+    Logo
+    Home
+    Shop
+    Collections
+    New Arrivals
+    Store Locator
+    Search
+    Wishlist
+    Account
+    Cart
+    
+    Desktop:
+    Centered navigation with spacious layout.
+    
+    Mobile:
+    
+    Hamburger menu
+    Slide-out premium drawer
+    Sticky header
+    Large touch-friendly icons
+    Responsive Design
+    Desktop (1920px+)
+    Large cinematic hero
+    Text on left
+    Model on right
+    Plenty of whitespace
+    Elegant transitions
+    Laptop (1440px)
+    
+    Maintain perfect proportions.
+    
+    Tablet
+    
+    Scale typography and image while keeping CTAs visible.
+    
+    Mobile (375–430px)
+    Stack content vertically
+    Hero image remains premium and visible
+    Heading scales perfectly
+    CTA buttons full-width
+    Thumb-friendly spacing
+    No horizontal scrolling
+    Optimized for one-handed use
+    Animations
+    Smooth fade-in
+    Image parallax (subtle)
+    Button hover glow
+    Premium page transitions
+    Soft floating effects
+    Scroll reveal animations
+    Luxury loading animation
+    UI Design
+    24px border radius
+    Frosted glass elements
+    Soft shadows
+    Premium gradients
+    Elegant dividers
+    Minimal visual noise
+    Consistent spacing using an 8-point grid
+    Performance
+    Optimized for Core Web Vitals
+    Lazy-loaded hero image
+    Responsive image sizes
+    Fast mobile rendering
+    SEO friendly
+    Accessibility compliant
+    Brand Feeling
+    
+    The final design should instantly communicate:
+    
+    Luxury
+    Premium quality
+    Confidence
+    Exclusivity
+    Modern fashion
+    High trust
+    High conversion
+    International brand identity
+    
+    The hero section should look like a premium fashion campaign while remaining clean, elegant, responsive, and optimized for both desktop and mobile shopping experiences., mobile first design , 16:9 all things in one section not too big 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .luxury-hero-{{ ai_gen_id }} {
+    display: block;
+    position: relative;
+    width: 100%;
+    background: {{ block.settings.background_color }};
+  }
+
+  .luxury-hero-container-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+    overflow: hidden;
+  }
+
+  .luxury-hero-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    opacity: 0;
+    transform: scale(0.95);
+    animation: luxuryImageReveal-{{ ai_gen_id }} 1s ease-out 0.2s forwards;
+    order: 1;
+  }
+
+  .luxury-hero-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: {{ block.settings.image_radius_mobile }}px;
+  }
+
+  .luxury-hero-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-radius: {{ block.settings.image_radius_mobile }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .luxury-hero-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 120px;
+    max-height: 120px;
+    opacity: 0.3;
+  }
+
+  .luxury-hero-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0 12px;
+  }
+
+  .luxury-hero-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 3;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: luxuryFadeIn-{{ ai_gen_id }} 0.8s ease-out 0.4s forwards;
+    order: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .luxury-hero-eyebrow-{{ ai_gen_id }} {
+    font-size: {{ block.settings.eyebrow_size_mobile }}px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: {{ block.settings.eyebrow_color }};
+    font-weight: 400;
+    opacity: 0.9;
+    line-height: 1.2;
+  }
+
+  .luxury-hero-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size_mobile }}px;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: {{ block.settings.heading_color }};
+    margin: 0;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .luxury-hero-subtext-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtext_size_mobile }}px;
+    line-height: 1.4;
+    color: {{ block.settings.subtext_color }};
+    font-weight: 300;
+    white-space: pre-line;
+  }
+
+  .luxury-hero-cta-group-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .luxury-hero-btn-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    padding: 12px 24px;
+    font-size: {{ block.settings.button_text_size_mobile }}px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: {{ block.settings.button_radius }}px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .luxury-hero-btn-primary-{{ ai_gen_id }} {
+    background: {{ block.settings.primary_button_bg }};
+    color: {{ block.settings.primary_button_color }};
+    border-color: {{ block.settings.primary_button_bg }};
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .luxury-hero-btn-primary-{{ ai_gen_id }}:active {
+    background: {{ block.settings.primary_button_hover_bg }};
+    border-color: {{ block.settings.primary_button_hover_bg }};
+    transform: scale(0.98);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .luxury-hero-btn-secondary-{{ ai_gen_id }} {
+    background: transparent;
+    color: {{ block.settings.secondary_button_color }};
+    border-color: {{ block.settings.secondary_button_border }};
+  }
+
+  .luxury-hero-btn-secondary-{{ ai_gen_id }}:active {
+    background: {{ block.settings.secondary_button_hover_bg }};
+    color: {{ block.settings.secondary_button_hover_color }};
+    border-color: {{ block.settings.secondary_button_hover_bg }};
+    transform: scale(0.98);
+  }
+
+  .luxury-trust-bar-{{ ai_gen_id }} {
+    background: {{ block.settings.trust_bar_bg }};
+    padding: 16px;
+    border-top: 1px solid {{ block.settings.trust_bar_border }};
+  }
+
+  .luxury-trust-container-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .luxury-trust-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  .luxury-trust-icon-{{ ai_gen_id }} {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: {{ block.settings.trust_icon_bg }};
+    border: 1.5px solid {{ block.settings.trust_icon_border }};
+    flex-shrink: 0;
+  }
+
+  .luxury-trust-icon-{{ ai_gen_id }} svg {
+    width: 16px;
+    height: 16px;
+    stroke: {{ block.settings.trust_icon_color }};
+  }
+
+  .luxury-trust-text-{{ ai_gen_id }} {
+    font-size: 11px;
+    font-weight: 600;
+    color: {{ block.settings.trust_text_color }};
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  @keyframes luxuryFadeIn-{{ ai_gen_id }} {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes luxuryImageReveal-{{ ai_gen_id }} {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .luxury-hero-container-{{ ai_gen_id }} {
+      padding: 24px;
+      gap: 20px;
+    }
+
+    .luxury-hero-eyebrow-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.eyebrow_size_mobile }}px * 1.2);
+    }
+
+    .luxury-hero-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size_mobile }}px * 1.4);
+    }
+
+    .luxury-hero-subtext-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subtext_size_mobile }}px * 1.1);
+    }
+
+    .luxury-hero-cta-group-{{ ai_gen_id }} {
+      flex-direction: row;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .luxury-hero-btn-{{ ai_gen_id }} {
+      width: auto;
+      min-width: 160px;
+      padding: 14px 32px;
+      font-size: calc({{ block.settings.button_text_size_mobile }}px * 1.1);
+    }
+
+    .luxury-trust-bar-{{ ai_gen_id }} {
+      padding: 20px 24px;
+    }
+
+    .luxury-trust-container-{{ ai_gen_id }} {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .luxury-trust-icon-{{ ai_gen_id }} {
+      width: 36px;
+      height: 36px;
+    }
+
+    .luxury-trust-icon-{{ ai_gen_id }} svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .luxury-trust-text-{{ ai_gen_id }} {
+      font-size: 12px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .luxury-hero-container-{{ ai_gen_id }} {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 32px 40px;
+      gap: 40px;
+      max-width: 1920px;
+      margin: 0 auto;
+    }
+
+    .luxury-hero-image-wrapper-{{ ai_gen_id }} {
+      order: 2;
+    }
+
+    .luxury-hero-image-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.image_radius }}px;
+    }
+
+    .luxury-hero-image-placeholder-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.image_radius }}px;
+    }
+
+    .luxury-hero-image-placeholder-{{ ai_gen_id }} svg {
+      max-width: 180px;
+      max-height: 180px;
+    }
+
+    .luxury-hero-empty-state-{{ ai_gen_id }} {
+      bottom: 20px;
+      font-size: 12px;
+    }
+
+    .luxury-hero-content-{{ ai_gen_id }} {
+      order: 1;
+      text-align: left;
+      animation: luxuryFadeIn-{{ ai_gen_id }} 1s ease-out 0.3s forwards;
+      gap: 16px;
+    }
+
+    .luxury-hero-eyebrow-{{ ai_gen_id }} {
+      font-size: {{ block.settings.eyebrow_size }}px;
+      letter-spacing: 2.5px;
+    }
+
+    .luxury-hero-heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size }}px;
+      letter-spacing: -1px;
+      line-height: 1.05;
+    }
+
+    .luxury-hero-subtext-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtext_size }}px;
+      line-height: 1.6;
+      max-width: 480px;
+    }
+
+    .luxury-hero-cta-group-{{ ai_gen_id }} {
+      justify-content: flex-start;
+      margin-top: 8px;
+    }
+
+    .luxury-hero-btn-{{ ai_gen_id }} {
+      padding: 14px 36px;
+      font-size: {{ block.settings.button_text_size }}px;
+      min-height: 48px;
+    }
+
+    .luxury-hero-btn-{{ ai_gen_id }}::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .luxury-hero-btn-primary-{{ ai_gen_id }}:hover::before,
+    .luxury-hero-btn-secondary-{{ ai_gen_id }}:hover::before {
+      left: 100%;
+    }
+
+    .luxury-hero-btn-primary-{{ ai_gen_id }}:hover {
+      background: {{ block.settings.primary_button_hover_bg }};
+      border-color: {{ block.settings.primary_button_hover_bg }};
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .luxury-hero-btn-secondary-{{ ai_gen_id }}:hover {
+      background: {{ block.settings.secondary_button_hover_bg }};
+      color: {{ block.settings.secondary_button_hover_color }};
+      border-color: {{ block.settings.secondary_button_hover_bg }};
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .luxury-hero-btn-primary-{{ ai_gen_id }}:active,
+    .luxury-hero-btn-secondary-{{ ai_gen_id }}:active {
+      transform: translateY(0);
+    }
+
+    .luxury-trust-bar-{{ ai_gen_id }} {
+      padding: 20px 40px;
+    }
+
+    .luxury-trust-container-{{ ai_gen_id }} {
+      gap: 24px;
+      max-width: 1920px;
+      margin: 0 auto;
+    }
+
+    .luxury-trust-item-{{ ai_gen_id }} {
+      justify-content: flex-start;
+    }
+
+    .luxury-trust-icon-{{ ai_gen_id }} {
+      width: 40px;
+      height: 40px;
+    }
+
+    .luxury-trust-icon-{{ ai_gen_id }} svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .luxury-trust-text-{{ ai_gen_id }} {
+      font-size: 13px;
+    }
+  }
+
+  @media screen and (min-width: 1440px) {
+    .luxury-hero-container-{{ ai_gen_id }} {
+      padding: 40px 60px;
+      gap: 60px;
+    }
+
+    .luxury-trust-bar-{{ ai_gen_id }} {
+      padding: 24px 60px;
+    }
+  }
+{% endstyle %}
+
+<luxury-hero-{{ ai_gen_id }} class="luxury-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="luxury-hero-container-{{ ai_gen_id }}">
+    <div class="luxury-hero-image-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.hero_image %}
+        <img
+          src="{{ block.settings.hero_image | image_url: width: 800 }}"
+          srcset="{{ block.settings.hero_image | image_url: width: 400 }} 400w,
+                  {{ block.settings.hero_image | image_url: width: 600 }} 600w,
+                  {{ block.settings.hero_image | image_url: width: 800 }} 800w,
+                  {{ block.settings.hero_image | image_url: width: 1000 }} 1000w,
+                  {{ block.settings.hero_image | image_url: width: 1200 }} 1200w,
+                  {{ block.settings.hero_image | image_url: width: 1600 }} 1600w"
+          sizes="(max-width: 749px) 100vw, (max-width: 1023px) 100vw, 50vw"
+          alt="{{ block.settings.hero_image.alt | escape }}"
+          class="luxury-hero-image-{{ ai_gen_id }}"
+          loading="eager"
+          fetchpriority="high"
+          width="{{ block.settings.hero_image.width }}"
+          height="{{ block.settings.hero_image.height }}"
+        >
+      {% else %}
+        <div class="luxury-hero-image-placeholder-{{ ai_gen_id }}">
+          {{ 'hero-apparel-1' | placeholder_svg_tag }}
+          <div class="luxury-hero-empty-state-{{ ai_gen_id }}">
+            Add luxury image
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="luxury-hero-content-{{ ai_gen_id }}">
+      {% if block.settings.eyebrow != blank %}
+        <div class="luxury-hero-eyebrow-{{ ai_gen_id }}">{{ block.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if block.settings.heading != blank %}
+        <h1 class="luxury-hero-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h1>
+      {% endif %}
+
+      {% if block.settings.subtext != blank %}
+        <div class="luxury-hero-subtext-{{ ai_gen_id }}">{{ block.settings.subtext }}</div>
+      {% endif %}
+
+      <div class="luxury-hero-cta-group-{{ ai_gen_id }}">
+        {% if block.settings.primary_button_label != blank %}
+          <a
+            href="{{ block.settings.primary_button_link }}"
+            class="luxury-hero-btn-{{ ai_gen_id }} luxury-hero-btn-primary-{{ ai_gen_id }}"
+          >
+            {{ block.settings.primary_button_label }}
+          </a>
+        {% endif %}
+
+        {% if block.settings.secondary_button_label != blank %}
+          <a
+            href="{{ block.settings.secondary_button_link }}"
+            class="luxury-hero-btn-{{ ai_gen_id }} luxury-hero-btn-secondary-{{ ai_gen_id }}"
+          >
+            {{ block.settings.secondary_button_label }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if block.settings.show_trust_bar %}
+    <div class="luxury-trust-bar-{{ ai_gen_id }}">
+      <div class="luxury-trust-container-{{ ai_gen_id }}">
+        {% if block.settings.trust_item_1 != blank %}
+          <div class="luxury-trust-item-{{ ai_gen_id }}" data-index="1">
+            <div class="luxury-trust-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
+                <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
+                <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <div class="luxury-trust-text-{{ ai_gen_id }}">{{ block.settings.trust_item_1 }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.trust_item_2 != blank %}
+          <div class="luxury-trust-item-{{ ai_gen_id }}" data-index="2">
+            <div class="luxury-trust-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+            </div>
+            <div class="luxury-trust-text-{{ ai_gen_id }}">{{ block.settings.trust_item_2 }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.trust_item_3 != blank %}
+          <div class="luxury-trust-item-{{ ai_gen_id }}" data-index="3">
+            <div class="luxury-trust-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+            </div>
+            <div class="luxury-trust-text-{{ ai_gen_id }}">{{ block.settings.trust_item_3 }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.trust_item_4 != blank %}
+          <div class="luxury-trust-item-{{ ai_gen_id }}" data-index="4">
+            <div class="luxury-trust-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <polyline points="9 12 11 14 15 10"></polyline>
+              </svg>
+            </div>
+            <div class="luxury-trust-text-{{ ai_gen_id }}">{{ block.settings.trust_item_4 }}</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</luxury-hero-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class LuxuryHero{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.animateTrustBar();
+      }
+
+      animateTrustBar() {
+        const trustItems = this.querySelectorAll('.luxury-trust-item-{{ ai_gen_id }}');
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const index = entry.target.dataset.index;
+              const delay = parseInt(index) * 100;
+              
+              setTimeout(() => {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                entry.target.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+              }, delay);
+              
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.2
+        });
+
+        trustItems.forEach((item) => {
+          observer.observe(item);
+        });
+      }
+    }
+
+    customElements.define('luxury-hero-{{ ai_gen_id }}', LuxuryHero{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Luxury hero",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Mobile typography"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size_mobile",
+      "label": "Eyebrow size",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "default": 9
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size",
+      "min": 18,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "subtext_size_mobile",
+      "label": "Subtext size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_text_size_mobile",
+      "label": "Button size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "image_radius_mobile",
+      "label": "Image radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Desktop typography"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Eyebrow size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 28,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "subtext_size",
+      "label": "Subtext size",
+      "min": 13,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "label": "Button size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow",
+      "default": "#c9a961"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtext",
+      "default": "#d4d4d4"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Universes RAW"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Premium Men's Fashion"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Imported Fashion.\nLuxury Quality.\nExclusive Collection."
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_bg",
+      "label": "Background",
+      "default": "#c9a961"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_hover_bg",
+      "label": "Hover background",
+      "default": "#d4b56d"
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Text",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_border",
+      "label": "Border",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_hover_bg",
+      "label": "Hover background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_hover_color",
+      "label": "Hover text",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Hero image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Trust bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_bar",
+      "label": "Show trust bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_item_1",
+      "label": "Item 1",
+      "default": "Express Delivery"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_2",
+      "label": "Item 2",
+      "default": "Cash on Delivery"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_3",
+      "label": "Item 3",
+      "default": "Easy Exchange"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_4",
+      "label": "Item 4",
+      "default": "Premium Quality"
+    },
+    {
+      "type": "color",
+      "id": "trust_bar_bg",
+      "label": "Background",
+      "default": "#0f0f0f"
+    },
+    {
+      "type": "color",
+      "id": "trust_bar_border",
+      "label": "Border",
+      "default": "#1f1f1f"
+    },
+    {
+      "type": "color",
+      "id": "trust_icon_bg",
+      "label": "Icon background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "trust_icon_border",
+      "label": "Icon border",
+      "default": "#c9a961"
+    },
+    {
+      "type": "color",
+      "id": "trust_icon_color",
+      "label": "Icon color",
+      "default": "#c9a961"
+    },
+    {
+      "type": "color",
+      "id": "trust_text_color",
+      "label": "Text",
+      "default": "#e5e5e5"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury hero"
+    }
+  ]
+}
 {% endschema %}
