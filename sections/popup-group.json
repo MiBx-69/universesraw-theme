@@ -299,7 +299,7 @@
         "link_44gGkw": {
           "type": "link",
           "settings": {
-            "icon": "<svg aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fal\" data-icon=\"home-lg-alt\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 576 512\" class=\"svg-inline--fa fa-home-lg-alt fa-w-18 fa-3x\"><path fill=\"currentColor\" d=\"M573.48 219.91L310.6 8a35.85 35.85 0 0 0-45.19 0L2.53 219.91a6.71 6.71 0 0 0-1 9.5l14.2 17.5a6.82 6.82 0 0 0 9.6 1L64 216.72V496a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V216.82l38.8 31.29a6.83 6.83 0 0 0 9.6-1l14.19-17.5a7.14 7.14 0 0 0-1.11-9.7zM240 480V320h96v160zm240 0H368V304a16 16 0 0 0-16-16H224a16 16 0 0 0-16 16v176H96V190.92l187.71-151.4a6.63 6.63 0 0 1 8.4 0L480 191z\" class=\"\"></path></svg>",
+            "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M3 10.5L12 3l9 7.5\"></path>\n  <path d=\"M5 9.5V21h14V9.5\"></path>\n</svg>",
             "title": "Home",
             "link": "/"
           }
@@ -307,15 +307,23 @@
         "link_t86n4W": {
           "type": "link",
           "settings": {
-            "icon": "<svg xmlns=\"http://w3.org\" viewbox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"></rect>\n  <rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"></rect>\n  <rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1\"></rect>\n  <rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1\"></rect>\n</svg>",
+            "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"4\" width=\"6\" height=\"6\" rx=\"1.5\"></rect>\n  <rect x=\"14\" y=\"4\" width=\"6\" height=\"6\" rx=\"1.5\"></rect>\n  <rect x=\"4\" y=\"14\" width=\"6\" height=\"6\" rx=\"1.5\"></rect>\n  <rect x=\"14\" y=\"14\" width=\"6\" height=\"6\" rx=\"1.5\"></rect>\n</svg>",
             "title": "Catalog",
             "link": "shopify://collections"
+          }
+        },
+        "link_j9h7tV": {
+          "type": "link",
+          "settings": {
+            "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12 3l1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2L12 3z\"></path>\n  <path d=\"M18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2z\"></path>\n  <path d=\"M5.5 15.5l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6z\"></path>\n</svg>",
+            "title": "New Arrivals",
+            "link": "shopify://collections/new-arrival"
           }
         },
         "account_wEnmDA": {
           "type": "account",
           "settings": {
-            "icon": "",
+            "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M20 21a8 8 0 0 0-16 0\"></path>\n  <circle cx=\"12\" cy=\"8\" r=\"4\"></circle>\n</svg>",
             "title": "Account",
             "action_type": "page"
           }
@@ -324,6 +332,7 @@
       "block_order": [
         "link_44gGkw",
         "link_t86n4W",
+        "link_j9h7tV",
         "account_wEnmDA"
       ],
       "name": "Sticky toolbar mobile",
