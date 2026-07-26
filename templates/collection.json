@@ -778,6 +778,7 @@
                 "card_product_vendor_flex_Y9XPVi": {
                   "type": "_card-product-vendor-flex",
                   "name": "Product vendor",
+                  "disabled": true,
                   "settings": {
                     "product": "{{ closest.product }}",
                     "enable_vendor_image": false,
