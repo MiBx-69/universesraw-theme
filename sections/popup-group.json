@@ -312,14 +312,6 @@
             "link": "shopify://collections"
           }
         },
-        "search_mpGCtj": {
-          "type": "search",
-          "settings": {
-            "icon": "",
-            "title": "Search",
-            "action_type": "drawer"
-          }
-        },
         "account_wEnmDA": {
           "type": "account",
           "settings": {
@@ -332,7 +324,6 @@
       "block_order": [
         "link_44gGkw",
         "link_t86n4W",
-        "search_mpGCtj",
         "account_wEnmDA"
       ],
       "name": "Sticky toolbar mobile",
