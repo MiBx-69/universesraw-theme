@@ -13,6 +13,30 @@
   "sections": {
     "1784528758b787bc26": {
       "type": "_blocks",
+      "blocks": {
+        "custom_liquid_iHkqwk": {
+          "type": "custom-liquid",
+          "name": "t:names.custom_liquid",
+          "settings": {
+            "custom_liquid": "",
+            "inherit_color_scheme": true,
+            "scheme_background": "#FFFFFF",
+            "scheme_background_gradient": "",
+            "scheme_foreground_heading": "#000000",
+            "scheme_foreground": "#000000",
+            "scheme_primary": "#000F9F",
+            "scheme_primary_hover": "#000000",
+            "scheme_border": "#E6E6E6",
+            "scheme_shadow": "#000000",
+            "padding_top": 10,
+            "padding_bottom": 10
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "custom_liquid_iHkqwk"
+      ],
       "settings": {}
     },
     "footer_xnFeqX": {

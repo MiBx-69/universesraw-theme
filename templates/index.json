@@ -124,7 +124,7 @@
           "type": "ai_gen_block_2e0003a",
           "name": "Editorial products",
           "settings": {
-            "collection": "new-arrival",
+            "collection": "latest-collection",
             "products_to_show": 8,
             "max_width": 1400,
             "show_header": true,
