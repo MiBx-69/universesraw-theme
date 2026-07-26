@@ -439,11 +439,6 @@
         "padding-block-end": 20
       }
     },
-    "newsletter_popup_3xfTdJ": {
-      "type": "newsletter-popup",
-      "name": "Newsletter Popup",
-      "settings": {}
-    },
     "slideshow_akKREr": {
       "type": "slideshow",
       "blocks": {
@@ -949,7 +944,6 @@
     "17841805206947be4f",
     "section_9z3FDA",
     "slideshow_C6dxVH",
-    "newsletter_popup_3xfTdJ",
     "slideshow_akKREr",
     "featured_collection_JwDQg9",
     "178368302367a7de5f"
