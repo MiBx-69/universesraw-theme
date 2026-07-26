@@ -925,15 +925,6 @@
     },
     "178368302367a7de5f": {
       "type": "apps",
-      "blocks": {
-        "google_youtube_automated_discounts_price_TpM9fQ": {
-          "type": "shopify://apps/google-youtube/blocks/automated_discounts_price/14ec7bd0-ac77-49a9-9417-90752398bdff",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "google_youtube_automated_discounts_price_TpM9fQ"
-      ],
       "settings": {
         "include_margins": true
       }
