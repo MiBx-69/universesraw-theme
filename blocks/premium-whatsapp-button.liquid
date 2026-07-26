@@ -1,0 +1,947 @@
+{% comment %}
+==================================================================
+  PREMIUM FLOATING WHATSAPP BUTTON — Shopify OS 2.0 Custom Liquid
+  Senior-grade, dependency-free (no jQuery / no external CDN).
+  Compatible with Dawn, Prestige, Impulse, Motion, Sense, Refresh,
+  Ride, Craft, Studio, Colorblock, Origin and custom themes.
+==================================================================
+{% endcomment %}
+
+{%- liquid
+  assign wa_phone = section.settings.phone_number | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')'
+  assign wa_default_message = section.settings.default_message
+  assign wa_position_desktop = section.settings.desktop_position
+  assign wa_position_mobile = section.settings.mobile_position
+  assign wa_new_tab = section.settings.open_new_tab
+
+  assign page_type = 'other'
+  if template contains 'product'
+    assign page_type = 'product'
+  elsif template contains 'collection'
+    assign page_type = 'collection'
+  elsif template == 'index'
+    assign page_type = 'home'
+  elsif template contains 'search'
+    assign page_type = 'search'
+  elsif template contains 'cart'
+    assign page_type = 'cart'
+  elsif template contains 'blog'
+    assign page_type = 'blog'
+  elsif template contains 'article'
+    assign page_type = 'article'
+  endif
+-%}
+
+<section
+  id="wa-floating-{{ section.id }}"
+  class="wa-widget wa-pos-desktop--{{ wa_position_desktop }} wa-pos-mobile--{{ wa_position_mobile }} wa-vpos--{{ section.settings.vertical_position | default: 'center' }}"
+  data-wa-section
+  data-page-type="{{ page_type }}"
+  data-phone="{{ wa_phone }}"
+  data-default-message="{{ wa_default_message | escape }}"
+  data-new-tab="{{ wa_new_tab }}"
+  data-scroll-hide="{{ section.settings.enable_scroll_hide }}"
+  data-auto-hide="{{ section.settings.enable_auto_hide }}"
+  data-auto-hide-delay="{{ section.settings.auto_hide_delay | default: 8000 }}"
+  data-show-desktop="{{ section.settings.enable_desktop }}"
+  data-show-mobile="{{ section.settings.enable_mobile }}"
+  data-business-hours="{{ section.settings.enable_business_hours }}"
+  data-timezone-offset="{{ section.settings.timezone_offset | default: 6 }}"
+  data-open-hour="{{ section.settings.business_open_hour | default: 9 }}"
+  data-close-hour="{{ section.settings.business_close_hour | default: 21 }}"
+  data-weekend-enabled="{{ section.settings.enable_weekend_hours }}"
+  data-weekend-open-hour="{{ section.settings.weekend_open_hour | default: 10 }}"
+  data-weekend-close-hour="{{ section.settings.weekend_close_hour | default: 18 }}"
+  aria-label="{{ 'WhatsApp chat widget' | escape }}"
+  style="
+    --wa-size:{{ section.settings.button_size | default: 60 }}px;
+    --wa-bottom:{{ section.settings.bottom_offset | default: 24 }}px;
+    --wa-side:{{ section.settings.side_offset | default: 24 }}px;
+    --wa-radius:{{ section.settings.border_radius | default: 50 }}%;
+    --wa-btn-color:{{ section.settings.button_color | default: '#25D366' }};
+    --wa-icon-color:{{ section.settings.icon_color | default: '#ffffff' }};
+    --wa-label-bg:{{ section.settings.label_bg | default: '#111111' }};
+    --wa-label-color:{{ section.settings.label_color | default: '#ffffff' }};
+    --wa-badge-color:{{ section.settings.badge_color | default: '#ff3b30' }};
+    --wa-shadow-intensity:{{ section.settings.shadow_intensity | default: 30 }}%;
+    --wa-opacity:{{ section.settings.opacity | default: 100 | divided_by: 100.0 }};
+    --wa-zindex:{{ section.settings.z_index | default: 999 }};
+    --wa-voffset:{{ section.settings.vertical_offset | default: 0 }}px;
+  "
+>
+  {%- comment %} Hidden product data payload — only rendered on product templates {%- endcomment %}
+  {%- if page_type == 'product' and product -%}
+  <script type="application/json" id="wa-product-data-{{ section.id }}">
+    {
+      "storeName": {{ shop.name | json }},
+      "productTitle": {{ product.title | json }},
+      "vendor": {{ product.vendor | json }},
+      "productType": {{ product.type | json }},
+      "handle": {{ product.handle | json }},
+      "productId": {{ product.id | json }},
+      "productUrl": {{ request.origin | append: product.url | json }},
+      "collections": {{ product.collections | map: 'title' | join: ', ' | json }},
+      "currency": {{ cart.currency.iso_code | json }},
+      "locale": {{ request.locale.iso_code | json }},
+      "variants": {
+        {%- for variant in product.variants -%}
+          "{{ variant.id }}": {
+            "variantTitle": {{ variant.title | json }},
+            "sku": {{ variant.sku | json }},
+            "price": {{ variant.price | money | strip_html | json }},
+            "compareAtPrice": {{ variant.compare_at_price | money | strip_html | json }},
+            "available": {{ variant.available | json }},
+            "options": {{ variant.options | join: ' / ' | json }}
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      },
+      "selectedVariantId": {{ product.selected_or_first_available_variant.id | json }}
+    }
+  </script>
+  {%- endif -%}
+
+  {%- comment %} ============ Greeting popup ============ {%- endcomment %}
+  {%- if section.settings.enable_greeting_popup -%}
+  <div class="wa-greeting-popup" id="wa-greeting-{{ section.id }}" role="dialog" aria-label="{{ 'Chat greeting' | escape }}" hidden>
+    <button type="button" class="wa-greeting-close" aria-label="{{ 'Dismiss greeting' | escape }}" data-wa-dismiss-greeting>
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.3 19.71 2.88 18.3 9.17 12 2.88 5.71 4.3 4.29l6.29 6.3 6.29-6.3z"/></svg>
+    </button>
+    <p class="wa-greeting-text">{{ section.settings.greeting_text | default: 'Hi there! Need help finding the perfect piece? Chat with us.' }}</p>
+  </div>
+  {%- endif -%}
+
+  {%- comment %} ============ Tooltip ============ {%- endcomment %}
+  {%- if section.settings.enable_tooltip -%}
+  <div class="wa-tooltip" role="tooltip">{{ section.settings.tooltip_text | default: 'Need assistance?' }}</div>
+  {%- endif -%}
+
+  {%- comment %} ============ Main floating button ============ {%- endcomment %}
+  <button
+    type="button"
+    class="wa-btn{% if section.settings.enable_pulse %} wa-btn--pulse{% endif %}{% if section.settings.enable_floating_animation %} wa-btn--float{% endif %}{% if section.settings.enable_glow %} wa-btn--glow{% endif %}{% if section.settings.enable_border_animation %} wa-btn--border-anim{% endif %}"
+    id="wa-trigger-{{ section.id }}"
+    aria-label="{{ 'Chat with us on WhatsApp' | escape }}"
+    data-wa-trigger
+  >
+    <span class="wa-btn__ripple" aria-hidden="true" data-wa-ripple></span>
+
+    <span class="wa-btn__icon{% if section.settings.enable_icon_animation %} wa-btn__icon--animated{% endif %}" aria-hidden="true" data-wa-icon>
+      <span class="wa-btn__icon-disc">
+        <!-- Official WhatsApp glyph, inline SVG, no external assets -->
+        <svg class="wa-btn__icon-glyph" viewBox="0 0 32 32" width="58%" height="58%" focusable="false">
+          <defs>
+            <linearGradient id="wa-icon-grad-{{ section.id }}" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="{{ section.settings.icon_color | default: '#ffffff' }}" stop-opacity="1"/>
+              <stop offset="1" stop-color="{{ section.settings.icon_color | default: '#ffffff' }}" stop-opacity="0.82"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#wa-icon-grad-{{ section.id }})" d="M16.001 2.667C8.646 2.667 2.667 8.646 2.667 16c0 2.55.71 4.934 1.944 6.965L2.667 29.333l6.552-1.905A13.28 13.28 0 0 0 16.001 29.333C23.354 29.333 29.333 23.354 29.333 16S23.354 2.667 16.001 2.667zm0 24.286a11.24 11.24 0 0 1-5.86-1.638l-.42-.25-4.148 1.206 1.226-4.043-.273-.415A11.24 11.24 0 0 1 4.62 16c0-6.284 5.097-11.381 11.381-11.381S27.382 9.716 27.382 16 22.285 26.953 16.001 26.953zm6.24-8.443c-.34-.17-2.02-.997-2.334-1.111-.313-.114-.542-.17-.77.171-.228.34-.884 1.111-1.084 1.34-.199.228-.398.256-.738.085-.34-.17-1.434-.529-2.732-1.687-1.01-.901-1.692-2.014-1.891-2.355-.199-.34-.021-.524.149-.694.153-.152.34-.398.51-.597.17-.199.227-.34.34-.568.114-.228.057-.427-.028-.598-.085-.17-.77-1.858-1.055-2.545-.278-.669-.561-.578-.77-.588-.199-.01-.427-.012-.655-.012s-.598.085-.912.427c-.313.34-1.196 1.17-1.196 2.852s1.225 3.307 1.395 3.535c.17.228 2.408 3.677 5.834 5.156.815.352 1.451.562 1.947.72.818.26 1.562.223 2.15.135.656-.098 2.02-.826 2.304-1.623.284-.797.284-1.48.199-1.623-.085-.142-.312-.227-.653-.398z"/>
+        </svg>
+      </span>
+    </span>
+
+    {%- if section.settings.show_label -%}
+    <span class="wa-btn__label" data-wa-label>{{ section.settings.label_text | default: 'Chat with us' }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.enable_online_status -%}
+    <span class="wa-btn__status" data-wa-status>
+      <span class="wa-btn__status-dot" data-wa-status-dot aria-hidden="true"></span>
+      <span data-wa-status-text>{{ section.settings.online_text | default: 'Online' }}</span>
+    </span>
+    {%- endif -%}
+
+    {%- if section.settings.enable_badge -%}
+    <span class="wa-btn__badge" data-wa-badge aria-hidden="{% unless section.settings.badge_count > 0 %}true{% else %}false{% endunless %}">
+      {{ section.settings.badge_count | default: 1 }}
+    </span>
+    {%- endif -%}
+  </button>
+</section>
+
+{% comment %} ============================== CSS ============================== {% endcomment %}
+<style>
+  #wa-floating-{{ section.id }} {
+    /* Layout tokens */
+    --wa-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --wa-safe-side: env(safe-area-inset-right, 0px);
+    --wa-transition-fast: 180ms cubic-bezier(.4,0,.2,1);
+    --wa-transition-slow: 420ms cubic-bezier(.16,1,.3,1);
+
+    /* Light mode palette */
+    --wa-glass-bg: rgba(255,255,255,0.65);
+    --wa-glass-border: rgba(255,255,255,0.35);
+    --wa-shadow-color: 0,0,0;
+
+    position: fixed;
+    z-index: var(--wa-zindex, 999);
+    display: block;
+    pointer-events: none;
+    opacity: var(--wa-opacity, 1);
+
+    /* Composable transform: --wa-vcenter handles vertical centering,
+       --wa-tx handles the hide/show slide — kept on separate axes so
+       they never fight each other. */
+    --wa-vcenter: 0px;
+    --wa-tx: 0;
+    transform: translateY(var(--wa-vcenter)) translateX(var(--wa-tx));
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #wa-floating-{{ section.id }} {
+      --wa-glass-bg: rgba(20,20,20,0.55);
+      --wa-glass-border: rgba(255,255,255,0.08);
+      --wa-shadow-color: 0,0,0;
+    }
+  }
+
+  /* ---------- Vertical placement ---------- */
+  /* Center: true middle of the viewport (not too high, not too low) */
+  #wa-floating-{{ section.id }}.wa-vpos--center {
+    top: calc(50% + var(--wa-voffset));
+    bottom: auto;
+    --wa-vcenter: -50%;
+  }
+  #wa-floating-{{ section.id }}.wa-vpos--bottom {
+    bottom: calc(var(--wa-bottom) + var(--wa-safe-bottom));
+    top: auto;
+  }
+  #wa-floating-{{ section.id }}.wa-vpos--top {
+    top: calc(var(--wa-bottom) + var(--wa-safe-bottom) + var(--wa-voffset));
+    bottom: auto;
+  }
+
+  /* ---------- Desktop position (horizontal) ---------- */
+  #wa-floating-{{ section.id }}.wa-pos-desktop--right { right: calc(var(--wa-side) + var(--wa-safe-side)); }
+  #wa-floating-{{ section.id }}.wa-pos-desktop--left { left: var(--wa-side); }
+
+  /* ---------- Mobile position (overridden below 768px) ---------- */
+  @media (max-width: 767px) {
+    #wa-floating-{{ section.id }}.wa-pos-mobile--right { right: calc(var(--wa-side) + var(--wa-safe-side)); left: auto; }
+    #wa-floating-{{ section.id }}.wa-pos-mobile--left { left: var(--wa-side); right: auto; }
+  }
+
+  /* Hide/show slides horizontally off its own edge — works identically
+     whether the widget sits at the top, center, or bottom of the screen. */
+  #wa-floating-{{ section.id }}.wa-pos-desktop--right,
+  #wa-floating-{{ section.id }}.wa-pos-mobile--right { --wa-hide-x: 140%; }
+  #wa-floating-{{ section.id }}.wa-pos-desktop--left,
+  #wa-floating-{{ section.id }}.wa-pos-mobile--left { --wa-hide-x: -140%; }
+
+  #wa-floating-{{ section.id }}[data-wa-hidden="true"] {
+    --wa-tx: var(--wa-hide-x, 140%);
+    transition: transform var(--wa-transition-slow);
+  }
+  #wa-floating-{{ section.id }}[data-wa-hidden="false"] {
+    --wa-tx: 0;
+    transition: transform var(--wa-transition-slow);
+  }
+  #wa-floating-{{ section.id }}[data-wa-disabled="true"] { display: none !important; }
+
+  /* ---------- Core button ---------- */
+  #wa-floating-{{ section.id }} .wa-btn {
+    all: unset;
+    pointer-events: auto;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+    height: var(--wa-size);
+    min-width: var(--wa-size);
+    padding: 0 calc(var(--wa-size) * 0.28);
+    border-radius: var(--wa-radius);
+    background: linear-gradient(155deg, var(--wa-btn-color), color-mix(in srgb, var(--wa-btn-color) 78%, black));
+    color: var(--wa-icon-color);
+    cursor: pointer;
+    box-shadow:
+      0 10px 30px rgba(var(--wa-shadow-color), calc(var(--wa-shadow-intensity) / 100)),
+      inset 0 1px 0 rgba(255,255,255,0.25);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid var(--wa-glass-border);
+    overflow: hidden;
+    transition: transform var(--wa-transition-fast), box-shadow var(--wa-transition-fast), width var(--wa-transition-slow), padding var(--wa-transition-slow);
+  }
+
+  #wa-floating-{{ section.id }} .wa-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow:
+      0 16px 40px rgba(var(--wa-shadow-color), calc((var(--wa-shadow-intensity) + 10) / 100)),
+      inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+
+  #wa-floating-{{ section.id }} .wa-btn:active { transform: translateY(-1px) scale(0.98); }
+
+  #wa-floating-{{ section.id }} .wa-btn:focus-visible {
+    outline: 2px solid var(--wa-icon-color);
+    outline-offset: 3px;
+  }
+
+  #wa-floating-{{ section.id }} .wa-btn__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--wa-size) * 0.62);
+    height: calc(var(--wa-size) * 0.62);
+    flex-shrink: 0;
+  }
+
+  /* Glass "disc" backdrop behind the glyph — gives the icon depth and
+     a premium, polished feel instead of a flat icon-on-color look. */
+  #wa-floating-{{ section.id }} .wa-btn__icon-disc {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, rgba(255,255,255,0.32), rgba(255,255,255,0.04) 60%);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.35), inset 0 -2px 4px rgba(0,0,0,0.12);
+    transition: transform var(--wa-transition-fast);
+  }
+
+  #wa-floating-{{ section.id }} .wa-btn__icon-glyph {
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.18));
+    transform-origin: center;
+    transition: transform 260ms cubic-bezier(.34,1.56,.64,1);
+  }
+
+  /* Subtle continuous "breathing" motion — reads as alive/premium
+     without being distracting. Pauses automatically on hover so the
+     hover animation below takes over cleanly. */
+  #wa-floating-{{ section.id }} .wa-btn__icon--animated .wa-btn__icon-glyph {
+    animation: wa-icon-breathe 3.2s ease-in-out infinite;
+  }
+  #wa-floating-{{ section.id }} .wa-btn:hover .wa-btn__icon-glyph {
+    animation-play-state: paused;
+    transform: scale(1.12) rotate(-6deg);
+  }
+  #wa-floating-{{ section.id }} .wa-btn:hover .wa-btn__icon-disc {
+    transform: scale(1.06);
+  }
+  @keyframes wa-icon-breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+  }
+
+  /* One-time entrance pop when the widget first mounts, added via JS */
+  #wa-floating-{{ section.id }} .wa-btn__icon.wa-icon-enter .wa-btn__icon-glyph {
+    animation: wa-icon-pop 620ms cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes wa-icon-pop {
+    0% { transform: scale(0.3) rotate(-30deg); opacity: 0; }
+    60% { transform: scale(1.15) rotate(6deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  /* ---------- Expandable label ---------- */
+  #wa-floating-{{ section.id }} .wa-btn__label {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font: 600 14px/1.2 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    transition: max-width var(--wa-transition-slow), opacity var(--wa-transition-slow), margin var(--wa-transition-slow);
+  }
+  #wa-floating-{{ section.id }} .wa-btn:hover .wa-btn__label,
+  #wa-floating-{{ section.id }} .wa-btn.wa-label-open .wa-btn__label {
+    max-width: 220px;
+    opacity: 1;
+  }
+
+  /* ---------- Online status ---------- */
+  #wa-floating-{{ section.id }} .wa-btn__status {
+    display: none;
+    align-items: center;
+    gap: 5px;
+    font: 500 11px/1 -apple-system, BlinkMacSystemFont, sans-serif;
+    opacity: 0.9;
+  }
+  #wa-floating-{{ section.id }} .wa-btn:hover .wa-btn__status,
+  #wa-floating-{{ section.id }} .wa-btn.wa-label-open .wa-btn__status { display: inline-flex; }
+  #wa-floating-{{ section.id }} .wa-btn__status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #3ddc73;
+    box-shadow: 0 0 0 0 rgba(61,220,115,0.6);
+    animation: wa-status-pulse 2.4s infinite;
+  }
+  #wa-floating-{{ section.id }} [data-wa-status="offline"] .wa-btn__status-dot { background: #9a9a9a; animation: none; }
+  @keyframes wa-status-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(61,220,115,0.55); }
+    70% { box-shadow: 0 0 0 8px rgba(61,220,115,0); }
+    100% { box-shadow: 0 0 0 0 rgba(61,220,115,0); }
+  }
+
+  /* ---------- Badge ---------- */
+  #wa-floating-{{ section.id }} .wa-btn__badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--wa-badge-color);
+    color: #fff;
+    font: 700 11px/18px -apple-system, BlinkMacSystemFont, sans-serif;
+    text-align: center;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.9);
+  }
+
+  /* ---------- Ripple ---------- */
+  #wa-floating-{{ section.id }} .wa-btn__ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+    transform: scale(0);
+    pointer-events: none;
+    opacity: 0;
+  }
+  #wa-floating-{{ section.id }} .wa-btn__ripple.is-active {
+    animation: wa-ripple 620ms ease-out;
+  }
+  @keyframes wa-ripple {
+    0% { transform: scale(0); opacity: 0.55; }
+    100% { transform: scale(2.6); opacity: 0; }
+  }
+
+  /* ---------- Pulse / glow / floating / border-anim ---------- */
+  #wa-floating-{{ section.id }} .wa-btn--pulse::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--wa-btn-color);
+    animation: wa-outer-pulse 2.6s cubic-bezier(.4,0,.2,1) infinite;
+    z-index: -1;
+  }
+  @keyframes wa-outer-pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.85); opacity: 0; }
+  }
+
+  #wa-floating-{{ section.id }} .wa-btn--float {
+    animation: wa-float 3.6s ease-in-out infinite;
+  }
+  @keyframes wa-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  #wa-floating-{{ section.id }} .wa-btn--glow {
+    box-shadow:
+      0 0 24px 2px color-mix(in srgb, var(--wa-btn-color) 55%, transparent),
+      0 10px 30px rgba(var(--wa-shadow-color), calc(var(--wa-shadow-intensity) / 100));
+  }
+
+  #wa-floating-{{ section.id }} .wa-btn--border-anim {
+    background-clip: padding-box;
+  }
+  #wa-floating-{{ section.id }} .wa-btn--border-anim::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(from var(--wa-angle, 0deg), var(--wa-btn-color), transparent, var(--wa-btn-color));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: wa-rotate 3.2s linear infinite;
+    z-index: -1;
+  }
+  @keyframes wa-rotate { to { --wa-angle: 360deg; } }
+
+  /* ---------- Tooltip ---------- */
+  #wa-floating-{{ section.id }} .wa-tooltip {
+    position: absolute;
+    bottom: calc(var(--wa-size) + 14px);
+    right: 0;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: var(--wa-label-bg);
+    color: var(--wa-label-color);
+    font: 500 12.5px/1.3 -apple-system, BlinkMacSystemFont, sans-serif;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(6px);
+    pointer-events: none;
+    transition: opacity var(--wa-transition-fast), transform var(--wa-transition-fast);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+  #wa-floating-{{ section.id }}.wa-pos-desktop--left .wa-tooltip,
+  #wa-floating-{{ section.id }}.wa-pos-mobile--left .wa-tooltip { right: auto; left: 0; }
+  #wa-floating-{{ section.id }}:hover .wa-tooltip,
+  #wa-floating-{{ section.id }}.wa-show-tooltip .wa-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---------- Greeting popup ---------- */
+  #wa-floating-{{ section.id }} .wa-greeting-popup {
+    position: absolute;
+    bottom: calc(var(--wa-size) + 16px);
+    right: 0;
+    max-width: 260px;
+    padding: 16px 34px 16px 16px;
+    border-radius: 18px;
+    background: var(--wa-glass-bg);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid var(--wa-glass-border);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.16);
+    font: 500 13.5px/1.45 -apple-system, BlinkMacSystemFont, sans-serif;
+    color: inherit;
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+    transition: opacity var(--wa-transition-slow), transform var(--wa-transition-slow);
+    pointer-events: auto;
+  }
+  #wa-floating-{{ section.id }}.wa-pos-desktop--left .wa-greeting-popup,
+  #wa-floating-{{ section.id }}.wa-pos-mobile--left .wa-greeting-popup { right: auto; left: 0; }
+  #wa-floating-{{ section.id }} .wa-greeting-popup.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+  #wa-floating-{{ section.id }} .wa-greeting-close {
+    all: unset;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 22px; height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: inherit;
+    opacity: 0.6;
+  }
+  #wa-floating-{{ section.id }} .wa-greeting-close:hover { opacity: 1; background: rgba(0,0,0,0.06); }
+  #wa-floating-{{ section.id }} .wa-greeting-text { margin: 0; }
+
+  /* ---------- Reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    #wa-floating-{{ section.id }} * {
+      animation: none !important;
+      transition-duration: 60ms !important;
+    }
+  }
+
+  /* ---------- Small screens: no label expansion, icon-only tap-to-reveal ---------- */
+  @media (max-width: 480px) {
+    #wa-floating-{{ section.id }} .wa-btn { padding: 0 calc(var(--wa-size) * 0.22); }
+  }
+</style>
+
+{% comment %} ============================== JS ============================== {% endcomment %}
+<script>
+(function () {
+  "use strict";
+
+  /* Lazy-init: wait for idle time so this never competes with LCP/CLS-critical work */
+  var boot = function () {
+    var root = document.getElementById("wa-floating-{{ section.id }}");
+    if (!root) return;
+
+    var trigger      = root.querySelector("[data-wa-trigger]");
+    var labelEl      = root.querySelector("[data-wa-label]");
+    var statusWrap   = root.querySelector("[data-wa-status]");
+    var statusDot    = root.querySelector("[data-wa-status-dot]");
+    var statusText   = root.querySelector("[data-wa-status-text]");
+    var rippleEl     = root.querySelector("[data-wa-ripple]");
+    var greetingEl   = document.getElementById("wa-greeting-{{ section.id }}");
+    var dismissBtn   = root.querySelector("[data-wa-dismiss-greeting]");
+    var badgeEl      = root.querySelector("[data-wa-badge]");
+    var iconEl       = root.querySelector("[data-wa-icon]");
+
+    /* Play the icon entrance animation once, shortly after mount */
+    if (iconEl) {
+      requestAnimationFrame(function () {
+        setTimeout(function () { iconEl.classList.add("wa-icon-enter"); }, 120);
+      });
+    }
+
+    var phone        = root.getAttribute("data-phone") || "";
+    var defaultMsg    = root.getAttribute("data-default-message") || "Hello! I have a question.";
+    var pageType      = root.getAttribute("data-page-type");
+    var openNewTab    = root.getAttribute("data-new-tab") === "true";
+    var scrollHideOn  = root.getAttribute("data-scroll-hide") === "true";
+    var autoHideOn    = root.getAttribute("data-auto-hide") === "true";
+    var autoHideDelay = parseInt(root.getAttribute("data-auto-hide-delay"), 10) || 8000;
+    var showDesktop   = root.getAttribute("data-show-desktop") !== "false";
+    var showMobile    = root.getAttribute("data-show-mobile") !== "false";
+    var bizHoursOn    = root.getAttribute("data-business-hours") === "true";
+    var tzOffset      = parseFloat(root.getAttribute("data-timezone-offset")) || 6;
+    var openHour      = parseFloat(root.getAttribute("data-open-hour"));
+    var closeHour     = parseFloat(root.getAttribute("data-close-hour"));
+    var weekendOn     = root.getAttribute("data-weekend-enabled") === "true";
+    var weekendOpen   = parseFloat(root.getAttribute("data-weekend-open-hour"));
+    var weekendClose  = parseFloat(root.getAttribute("data-weekend-close-hour"));
+
+    var isMobileViewport = function () { return window.matchMedia("(max-width: 767px)").matches; };
+
+    /* --------------------------------------------------------------
+       0. Enable / disable per device
+    -------------------------------------------------------------- */
+    function applyDeviceVisibility() {
+      var mobile = isMobileViewport();
+      var disabled = (mobile && !showMobile) || (!mobile && !showDesktop);
+      root.setAttribute("data-wa-disabled", disabled ? "true" : "false");
+    }
+    applyDeviceVisibility();
+    window.addEventListener("resize", debounce(applyDeviceVisibility, 200), { passive: true });
+
+    /* --------------------------------------------------------------
+       1. Business hours -> online / offline
+    -------------------------------------------------------------- */
+    function refreshBusinessStatus() {
+      if (!bizHoursOn || !statusWrap) return;
+      var now = new Date();
+      var utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      var local = new Date(utc + tzOffset * 3600000);
+      var day = local.getDay(); /* 0 = Sunday .. 6 = Saturday */
+      var hour = local.getHours() + local.getMinutes() / 60;
+      var isWeekend = day === 0 || day === 6;
+
+      var open = openHour, close = closeHour;
+      if (isWeekend && weekendOn) { open = weekendOpen; close = weekendClose; }
+
+      var isOpen = isWeekend && !weekendOn ? false : (hour >= open && hour < close);
+
+      statusWrap.setAttribute("data-wa-status", isOpen ? "online" : "offline");
+      if (statusText) {
+        statusText.textContent = isOpen
+          ? "{{ section.settings.online_text | default: 'Online' | escape }}"
+          : "{{ section.settings.offline_text | default: 'Offline' | escape }}";
+      }
+    }
+    refreshBusinessStatus();
+    if (bizHoursOn) setInterval(refreshBusinessStatus, 60000);
+
+    /* --------------------------------------------------------------
+       2. Product-page smart message builder
+    -------------------------------------------------------------- */
+    var productData = null;
+    var dataScript = document.getElementById("wa-product-data-{{ section.id }}");
+    if (dataScript) {
+      try { productData = JSON.parse(dataScript.textContent); } catch (e) { productData = null; }
+    }
+
+    function getSelectedVariantId() {
+      /* 1. Standard Shopify variant <select name="id"> or hidden input */
+      var input = document.querySelector('input[name="id"], select[name="id"]');
+      if (input && input.value) return input.value;
+
+      /* 2. URL query param (?variant=123) */
+      var params = new URLSearchParams(window.location.search);
+      if (params.get("variant")) return params.get("variant");
+
+      /* 3. Fallback to Liquid-provided default */
+      return productData ? productData.selectedVariantId : null;
+    }
+
+    function getSelectedQuantity() {
+      var qtyInput = document.querySelector('input[name="quantity"], input[data-quantity-input]');
+      return qtyInput && qtyInput.value ? qtyInput.value : "1";
+    }
+
+    function buildProductMessage() {
+      if (!productData) return defaultMsg;
+
+      var variantId = getSelectedVariantId();
+      var variant = productData.variants[variantId] || productData.variants[productData.selectedVariantId] || {};
+      var qty = getSelectedQuantity();
+
+      var discount = "0%";
+      if (variant.compareAtPrice && variant.price) {
+        var cur = parseFloat(String(variant.compareAtPrice).replace(/[^0-9.]/g, ""));
+        var pri = parseFloat(String(variant.price).replace(/[^0-9.]/g, ""));
+        if (cur > 0 && pri > 0 && cur > pri) {
+          discount = Math.round(((cur - pri) / cur) * 100) + "%";
+        }
+      }
+
+      var now = new Date();
+
+      var lines = [
+        "Hello! I would like to inquire about this product.",
+        "",
+        "Store: " + productData.storeName,
+        "Product: " + productData.productTitle,
+        variant.variantTitle ? "Variant: " + variant.variantTitle : "",
+        variant.options ? "Selected Options: " + variant.options : "",
+        "Quantity: " + qty,
+        variant.price ? "Price: " + variant.price : "",
+        variant.compareAtPrice ? "Compare Price: " + variant.compareAtPrice : "",
+        discount !== "0%" ? "Discount: " + discount : "",
+        productData.vendor ? "Vendor: " + productData.vendor : "",
+        variant.sku ? "SKU: " + variant.sku : "",
+        "Availability: " + (variant.available ? "In Stock" : "Out of Stock"),
+        productData.productType ? "Product Type: " + productData.productType : "",
+        productData.collections ? "Collections: " + productData.collections : "",
+        "Product Link: " + productData.productUrl,
+        "Page URL: " + window.location.href,
+        "Page Title: " + document.title,
+        "Product ID: " + productData.productId,
+        "Variant ID: " + variantId,
+        "Date: " + now.toLocaleDateString(),
+        "Time: " + now.toLocaleTimeString(),
+        "Locale: " + productData.locale,
+        "Currency: " + productData.currency,
+        "",
+        "Please let me know if this item is available.",
+        "Thank you."
+      ];
+
+      return lines.filter(Boolean).join("\n");
+    }
+
+    function currentMessage() {
+      if (pageType === "product" && productData) return buildProductMessage();
+      return defaultMsg + "\n\nPage: " + window.location.href;
+    }
+
+    /* Live-update: re-read variant on any theme variant-change interaction, no reload */
+    var variantInputs = document.querySelectorAll(
+      'select[name="id"], input[name="id"], input[name="quantity"], [data-quantity-input], ' +
+      'variant-radios, variant-selects, product-form, .swatch input, [data-option-position]'
+    );
+    variantInputs.forEach(function (el) {
+      el.addEventListener("change", function () { /* no-op cache; message rebuilt on click */ }, { passive: true });
+    });
+    document.addEventListener("variant:change", function () {}, { passive: true });
+
+    /* --------------------------------------------------------------
+       3. Click -> open WhatsApp with encoded message
+    -------------------------------------------------------------- */
+    trigger.addEventListener("click", function (e) {
+      spawnRipple(e);
+      if (!phone) return;
+      var msg = encodeURIComponent(currentMessage());
+      var url = "https://wa.me/" + phone + "?text=" + msg;
+      window.open(url, openNewTab ? "_blank" : "_self", "noopener");
+    });
+
+    trigger.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        trigger.click();
+      }
+    });
+
+    function spawnRipple(e) {
+      if (!rippleEl) return;
+      var rect = trigger.getBoundingClientRect();
+      var size = Math.max(rect.width, rect.height) * 1.4;
+      rippleEl.style.width = size + "px";
+      rippleEl.style.height = size + "px";
+      var x = (e && e.clientX ? e.clientX - rect.left : rect.width / 2) - size / 2;
+      var y = (e && e.clientY ? e.clientY - rect.top : rect.height / 2) - size / 2;
+      rippleEl.style.left = x + "px";
+      rippleEl.style.top = y + "px";
+      rippleEl.classList.remove("is-active");
+      /* force reflow to restart animation */
+      void rippleEl.offsetWidth;
+      rippleEl.classList.add("is-active");
+    }
+
+    /* --------------------------------------------------------------
+       4. Mobile tap-to-reveal label (hover unavailable on touch)
+    -------------------------------------------------------------- */
+    trigger.addEventListener("touchstart", function () {
+      trigger.classList.add("wa-label-open");
+      clearTimeout(trigger._waLabelTimer);
+      trigger._waLabelTimer = setTimeout(function () {
+        trigger.classList.remove("wa-label-open");
+      }, 3000);
+    }, { passive: true });
+
+    /* --------------------------------------------------------------
+       5. Scroll behavior: hide on scroll down, show on scroll up,
+          reveal after configurable distance, rAF-throttled.
+    -------------------------------------------------------------- */
+    var lastScrollY = window.scrollY;
+    var ticking = false;
+    var revealDistance = {{ section.settings.scroll_reveal_distance | default: 0 }};
+
+    function onScroll() {
+      if (!scrollHideOn) return;
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        var current = window.scrollY;
+        var goingDown = current > lastScrollY;
+        var pastThreshold = current > revealDistance;
+
+        if (!pastThreshold) {
+          root.setAttribute("data-wa-hidden", "true");
+        } else if (goingDown && current > 80) {
+          root.setAttribute("data-wa-hidden", "true");
+        } else {
+          root.setAttribute("data-wa-hidden", "false");
+        }
+        lastScrollY = current;
+        ticking = false;
+      });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    if (revealDistance > 0) root.setAttribute("data-wa-hidden", "true");
+
+    /* --------------------------------------------------------------
+       6. Auto-hide after inactivity, reappear on interaction
+    -------------------------------------------------------------- */
+    var inactivityTimer;
+    function resetInactivityTimer() {
+      if (!autoHideOn) return;
+      root.setAttribute("data-wa-hidden", "false");
+      clearTimeout(inactivityTimer);
+      inactivityTimer = setTimeout(function () {
+        root.setAttribute("data-wa-hidden", "true");
+      }, autoHideDelay);
+    }
+    ["scroll", "mousemove", "touchstart", "keydown", "click"].forEach(function (evt) {
+      window.addEventListener(evt, debounce(resetInactivityTimer, 300), { passive: true });
+    });
+    resetInactivityTimer();
+
+    /* --------------------------------------------------------------
+       7. Greeting popup — show once per session, remember dismissal
+    -------------------------------------------------------------- */
+    if (greetingEl) {
+      var storageKey = "wa_greeting_dismissed_{{ section.id }}";
+      var alreadyDismissed = false;
+      try { alreadyDismissed = window.localStorage.getItem(storageKey) === "true"; } catch (e) { alreadyDismissed = false; }
+
+      if (!alreadyDismissed) {
+        var showTimer = setTimeout(function () {
+          greetingEl.hidden = false;
+          requestAnimationFrame(function () { greetingEl.classList.add("is-visible"); });
+        }, 3500);
+      }
+
+      if (dismissBtn) {
+        dismissBtn.addEventListener("click", function () {
+          greetingEl.classList.remove("is-visible");
+          setTimeout(function () { greetingEl.hidden = true; }, 300);
+          try { window.localStorage.setItem(storageKey, "true"); } catch (e) {}
+        });
+      }
+    }
+
+    /* --------------------------------------------------------------
+       8. Intersection Observer — reveal widget only once it would be
+          visible in-viewport, avoiding layout work while off-screen.
+    -------------------------------------------------------------- */
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          root.style.willChange = entry.isIntersecting ? "transform" : "auto";
+        });
+      }, { threshold: 0 });
+      io.observe(root);
+    }
+
+    /* --------------------------------------------------------------
+       Utility: debounce
+    -------------------------------------------------------------- */
+    function debounce(fn, wait) {
+      var t;
+      return function () {
+        var args = arguments, ctx = this;
+        clearTimeout(t);
+        t = setTimeout(function () { fn.apply(ctx, args); }, wait);
+      };
+    }
+  };
+
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(boot, { timeout: 2000 });
+  } else {
+    window.addEventListener("DOMContentLoaded", boot);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "WhatsApp Floating Button",
+  "tag": "section",
+  "class": "wa-floating-section",
+  "settings": [
+    { "type": "header", "content": "Contact" },
+    { "type": "text", "id": "phone_number", "label": "WhatsApp phone number (with country code)", "default": "8801000000000" },
+    { "type": "textarea", "id": "default_message", "label": "Default message (non-product pages)", "default": "Hello! I have a question about your products." },
+    { "type": "checkbox", "id": "open_new_tab", "label": "Open in new tab", "default": true },
+
+    { "type": "header", "content": "Position & Size" },
+    { "type": "select", "id": "desktop_position", "label": "Desktop side", "options": [ { "value": "right", "label": "Right" }, { "value": "left", "label": "Left" } ], "default": "right" },
+    { "type": "select", "id": "mobile_position", "label": "Mobile side", "options": [ { "value": "right", "label": "Right" }, { "value": "left", "label": "Left" } ], "default": "right" },
+    { "type": "select", "id": "vertical_position", "label": "Vertical position", "info": "Center places the button at mid-screen height instead of the very bottom or top.", "options": [ { "value": "top", "label": "Top" }, { "value": "center", "label": "Center of screen" }, { "value": "bottom", "label": "Bottom" } ], "default": "center" },
+    { "type": "range", "id": "vertical_offset", "label": "Fine-tune vertical position (px)", "info": "Nudges the button up (negative) or down (positive) from its chosen position.", "min": -200, "max": 200, "step": 10, "default": 0 },
+    { "type": "range", "id": "button_size", "label": "Button size (px)", "min": 44, "max": 88, "step": 2, "default": 60 },
+    { "type": "range", "id": "bottom_offset", "label": "Bottom/top spacing (px)", "min": 0, "max": 80, "step": 2, "default": 24 },
+    { "type": "range", "id": "side_offset", "label": "Side spacing (px)", "min": 0, "max": 80, "step": 2, "default": 24 },
+    { "type": "range", "id": "border_radius", "label": "Border radius (%)", "min": 0, "max": 50, "step": 1, "default": 50 },
+    { "type": "checkbox", "id": "enable_desktop", "label": "Show on desktop", "default": true },
+    { "type": "checkbox", "id": "enable_mobile", "label": "Show on mobile", "default": true },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "button_color", "label": "Button color", "default": "#25D366" },
+    { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#FFFFFF" },
+    { "type": "color", "id": "label_bg", "label": "Label / tooltip background", "default": "#111111" },
+    { "type": "color", "id": "label_color", "label": "Label / tooltip text color", "default": "#FFFFFF" },
+    { "type": "range", "id": "shadow_intensity", "label": "Shadow intensity (%)", "min": 0, "max": 60, "step": 5, "default": 30 },
+    { "type": "range", "id": "opacity", "label": "Opacity (%)", "min": 20, "max": 100, "step": 5, "default": 100 },
+    { "type": "number", "id": "z_index", "label": "Z-index", "default": 999 },
+
+    { "type": "header", "content": "Label" },
+    { "type": "checkbox", "id": "show_label", "label": "Show expandable label", "default": true },
+    { "type": "text", "id": "label_text", "label": "Label text", "default": "Chat with us" },
+
+    { "type": "header", "content": "Badge" },
+    { "type": "checkbox", "id": "enable_badge", "label": "Enable notification badge", "default": false },
+    { "type": "range", "id": "badge_count", "label": "Badge count", "min": 0, "max": 99, "step": 1, "default": 1 },
+    { "type": "color", "id": "badge_color", "label": "Badge color", "default": "#FF3B30" },
+
+    { "type": "header", "content": "Online status" },
+    { "type": "checkbox", "id": "enable_online_status", "label": "Show online/offline status", "default": true },
+    { "type": "text", "id": "online_text", "label": "Online text", "default": "Online" },
+    { "type": "text", "id": "offline_text", "label": "Offline text", "default": "Offline" },
+
+    { "type": "header", "content": "Business hours" },
+    { "type": "checkbox", "id": "enable_business_hours", "label": "Auto switch online/offline by schedule", "default": false },
+    { "type": "number", "id": "timezone_offset", "label": "Timezone offset from UTC (e.g. 6 for Dhaka)", "default": 6 },
+    { "type": "number", "id": "business_open_hour", "label": "Weekday opening hour (0-23)", "default": 9 },
+    { "type": "number", "id": "business_close_hour", "label": "Weekday closing hour (0-23)", "default": 21 },
+    { "type": "checkbox", "id": "enable_weekend_hours", "label": "Use separate weekend hours", "default": false },
+    { "type": "number", "id": "weekend_open_hour", "label": "Weekend opening hour (0-23)", "default": 10 },
+    { "type": "number", "id": "weekend_close_hour", "label": "Weekend closing hour (0-23)", "default": 18 },
+
+    { "type": "header", "content": "Tooltip" },
+    { "type": "checkbox", "id": "enable_tooltip", "label": "Enable tooltip", "default": false },
+    { "type": "text", "id": "tooltip_text", "label": "Tooltip text", "default": "Need assistance?" },
+
+    { "type": "header", "content": "Greeting popup" },
+    { "type": "checkbox", "id": "enable_greeting_popup", "label": "Enable greeting popup", "default": false },
+    { "type": "textarea", "id": "greeting_text", "label": "Greeting text", "default": "Hi there! Need help finding the perfect piece? Chat with us." },
+
+    { "type": "header", "content": "Animations" },
+    { "type": "checkbox", "id": "enable_icon_animation", "label": "Enable animated icon (breathing + hover motion)", "default": true },
+    { "type": "checkbox", "id": "enable_pulse", "label": "Enable pulse animation", "default": true },
+    { "type": "checkbox", "id": "enable_ripple", "label": "Enable click ripple", "default": true },
+    { "type": "checkbox", "id": "enable_floating_animation", "label": "Enable floating (bob) animation", "default": false },
+    { "type": "checkbox", "id": "enable_glow", "label": "Enable glow effect", "default": false },
+    { "type": "checkbox", "id": "enable_border_animation", "label": "Enable animated border", "default": false },
+
+    { "type": "header", "content": "Scroll behavior" },
+    { "type": "checkbox", "id": "enable_scroll_hide", "label": "Hide on scroll down / show on scroll up", "default": true },
+    { "type": "range", "id": "scroll_reveal_distance", "label": "Show only after scrolling (px)", "min": 0, "max": 2000, "step": 50, "default": 0 },
+    { "type": "checkbox", "id": "enable_auto_hide", "label": "Auto-hide after inactivity", "default": false },
+    { "type": "range", "id": "auto_hide_delay", "label": "Auto-hide delay (ms)", "min": 2000, "max": 9000, "step": 500, "default": 8000 }
+  ],
+  "presets": [
+    { "name": "WhatsApp Floating Button" }
+  ]
+}
+{% endschema %}
