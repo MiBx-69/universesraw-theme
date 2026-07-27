@@ -1,6 +1,775 @@
+{% doc %}
+  @prompt
+    Create a premium Trust Badges section for Shopify Online Store 2.0 using Liquid, HTML5, CSS3, and vanilla JavaScript. The design must be luxury, minimal, modern, and mobile-first, with fast loading, accessibility (WCAG), and Core Web Vitals optimization. Include premium SVG icons, subtle hover animations, and fully customizable settings through the Theme Editor.
+    
+    Add these trust badges:
+    
+    Easy 3-Day Exchange – Easy exchange within 3 days after delivery.
+    Cash on Delivery – Available nationwide across Bangladesh.
+    Fast Nationwide Delivery – Delivery within 2–5 business days.
+    Premium Quality Guaranteed.
+    Secure Checkout & Safe Payment.
+    Trusted by Thousands of Customers.
+    
+    The section should be fully responsive, mobile-optimized, support dark/light themes, and allow icon, title, description, colors, spacing, and layout customization from the Shopify Theme Editor. Use clean, production-ready code with no external libraries., Create a premium compact Trust Badges Shopify Online Store 2.0 section using Liquid, HTML5, CSS3, and vanilla JavaScript. Design should be modern, minimalist, luxury, and space-efficient, with a clean horizontal layout on desktop and a responsive 2-column grid or swipe layout on mobile. Use small premium line SVG icons, concise text, subtle micro-animations, rounded corners, and a high-end aesthetic. Optimize for mobile-first, Core Web Vitals, WCAG accessibility, and fast loading. Include full Theme Editor customization (icons, text, colors, spacing, typography, border radius, layout, and order). Use production-ready code with no external libraries.
+    
+    Badges:
+    
+    Easy 3-Day Exchange
+    Cash on Delivery
+    Delivery in 2–5 Business Days
+    Premium Quality
+    Secure Checkout
+    Trusted by Thousands, remove secure checkout 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-trust-compact-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.section_padding_top }}px {{ block.settings.section_padding_horizontal }}px {{ block.settings.section_padding_bottom }}px;
+    background: {{ block.settings.background_color }};
+    {% if block.settings.background_gradient != blank %}
+      background: {{ block.settings.background_gradient }};
+    {% endif %}
+    border-top: {{ block.settings.border_top_width }}px solid {{ block.settings.border_color }};
+    border-bottom: {{ block.settings.border_bottom_width }}px solid {{ block.settings.border_color }};
+  }
+
+  .ai-trust-compact-wrapper-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-trust-compact-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax({{ block.settings.min_item_width }}px, 1fr));
+    gap: {{ block.settings.gap }}px;
+    align-items: center;
+  }
+
+  .ai-trust-compact-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.icon_gap }}px;
+    padding: {{ block.settings.item_padding }}px;
+    background: {{ block.settings.item_background }};
+    border-radius: {{ block.settings.border_radius }}px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: default;
+    min-height: {{ block.settings.min_item_height }}px;
+  }
+
+  {% if block.settings.enable_hover %}
+    .ai-trust-compact-item-{{ ai_gen_id }}:hover {
+      background: {{ block.settings.item_hover_background }};
+      transform: translateY(-{{ block.settings.hover_lift }}px);
+    }
+
+    .ai-trust-compact-item-{{ ai_gen_id }}:hover .ai-trust-compact-icon-{{ ai_gen_id }} {
+      transform: scale({{ block.settings.icon_hover_scale }});
+    }
+  {% endif %}
+
+  .ai-trust-compact-icon-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ai-trust-compact-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    stroke: {{ block.settings.icon_color }};
+    fill: none;
+    stroke-width: {{ block.settings.icon_stroke_width }};
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .ai-trust-compact-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    color: {{ block.settings.text_color }};
+    line-height: 1.3;
+    letter-spacing: {{ block.settings.letter_spacing }};
+    text-transform: {{ block.settings.text_transform }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-trust-compact-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_top_mobile }}px {{ block.settings.section_padding_horizontal_mobile }}px {{ block.settings.section_padding_bottom_mobile }}px;
+    }
+
+    .ai-trust-compact-grid-{{ ai_gen_id }} {
+      {% if block.settings.mobile_layout == 'scroll' %}
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: {{ block.settings.gap_mobile }}px;
+      {% else %}
+        grid-template-columns: repeat({{ block.settings.mobile_columns }}, 1fr);
+        gap: {{ block.settings.gap_mobile }}px;
+      {% endif %}
+    }
+
+    {% if block.settings.mobile_layout == 'scroll' %}
+      .ai-trust-compact-grid-{{ ai_gen_id }}::-webkit-scrollbar {
+        display: none;
+      }
+
+      .ai-trust-compact-item-{{ ai_gen_id }} {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        width: {{ block.settings.mobile_scroll_width }}%;
+      }
+    {% endif %}
+
+    .ai-trust-compact-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size_mobile }}px;
+      height: {{ block.settings.icon_size_mobile }}px;
+    }
+
+    .ai-trust-compact-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size_mobile }}px;
+    }
+
+    .ai-trust-compact-item-{{ ai_gen_id }} {
+      padding: {{ block.settings.item_padding_mobile }}px;
+      min-height: {{ block.settings.min_item_height_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<trust-compact-{{ ai_gen_id }} class="ai-trust-compact-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-trust-compact-wrapper-{{ ai_gen_id }}">
+    <div class="ai-trust-compact-grid-{{ ai_gen_id }}">
+      {% if block.settings.show_badge_1 %}
+        <div class="ai-trust-compact-item-{{ ai_gen_id }}" data-badge="1">
+          <div class="ai-trust-compact-icon-{{ ai_gen_id }}">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
+          </div>
+          <span class="ai-trust-compact-text-{{ ai_gen_id }}">{{ block.settings.badge_1_text }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.show_badge_2 %}
+        <div class="ai-trust-compact-item-{{ ai_gen_id }}" data-badge="2">
+          <div class="ai-trust-compact-icon-{{ ai_gen_id }}">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="5" width="20" height="14" rx="2"/>
+              <path d="M2 10h20"/>
+            </svg>
+          </div>
+          <span class="ai-trust-compact-text-{{ ai_gen_id }}">{{ block.settings.badge_2_text }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.show_badge_3 %}
+        <div class="ai-trust-compact-item-{{ ai_gen_id }}" data-badge="3">
+          <div class="ai-trust-compact-icon-{{ ai_gen_id }}">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
+            </svg>
+          </div>
+          <span class="ai-trust-compact-text-{{ ai_gen_id }}">{{ block.settings.badge_3_text }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.show_badge_4 %}
+        <div class="ai-trust-compact-item-{{ ai_gen_id }}" data-badge="4">
+          <div class="ai-trust-compact-icon-{{ ai_gen_id }}">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+          <span class="ai-trust-compact-text-{{ ai_gen_id }}">{{ block.settings.badge_4_text }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.show_badge_5 %}
+        <div class="ai-trust-compact-item-{{ ai_gen_id }}" data-badge="5">
+          <div class="ai-trust-compact-icon-{{ ai_gen_id }}">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+            </svg>
+          </div>
+          <span class="ai-trust-compact-text-{{ ai_gen_id }}">{{ block.settings.badge_5_text }}</span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</trust-compact-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class TrustCompact{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.scrollContainer = null;
+      }
+
+      connectedCallback() {
+        this.scrollContainer = this.querySelector('.ai-trust-compact-grid-{{ ai_gen_id }}');
+        
+        if (window.matchMedia('(max-width: 749px)').matches && this.scrollContainer) {
+          this.initMobileScroll();
+        }
+
+        this.initAnimation();
+      }
+
+      initMobileScroll() {
+        if (!this.scrollContainer || !this.scrollContainer.style.display.includes('flex')) return;
+
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        this.scrollContainer.addEventListener('mousedown', (e) => {
+          isDown = true;
+          startX = e.pageX - this.scrollContainer.offsetLeft;
+          scrollLeft = this.scrollContainer.scrollLeft;
+        });
+
+        this.scrollContainer.addEventListener('mouseleave', () => {
+          isDown = false;
+        });
+
+        this.scrollContainer.addEventListener('mouseup', () => {
+          isDown = false;
+        });
+
+        this.scrollContainer.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          const x = e.pageX - this.scrollContainer.offsetLeft;
+          const walk = (x - startX) * 2;
+          this.scrollContainer.scrollLeft = scrollLeft - walk;
+        });
+      }
+
+      initAnimation() {
+        if (!window.IntersectionObserver) return;
+
+        const items = this.querySelectorAll('.ai-trust-compact-item-{{ ai_gen_id }}');
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const index = Array.from(items).indexOf(entry.target);
+              setTimeout(() => {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+              }, index * 50);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -30px 0px'
+        });
+
+        items.forEach((item) => {
+          item.style.opacity = '0';
+          item.style.transform = 'translateY(15px)';
+          item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          observer.observe(item);
+        });
+      }
+    }
+
+    customElements.define('trust-compact-{{ ai_gen_id }}', TrustCompact{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Trust badges compact",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "min_item_width",
+      "label": "Minimum item width",
+      "min": 120,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "min_item_height",
+      "label": "Minimum item height",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "min_item_height_mobile",
+      "label": "Minimum item height mobile",
+      "min": 40,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between items",
+      "min": 4,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Gap mobile",
+      "min": 4,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Mobile layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Layout type",
+      "options": [
+        { "value": "grid", "label": "Grid" },
+        { "value": "scroll", "label": "Horizontal scroll" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "mobile_scroll_width",
+      "label": "Scroll item width",
+      "min": 60,
+      "max": 95,
+      "step": 5,
+      "unit": "%",
+      "default": 75
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "section_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top_mobile",
+      "label": "Top padding mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom_mobile",
+      "label": "Bottom padding mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "section_padding_horizontal_mobile",
+      "label": "Horizontal padding mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "item_padding",
+      "label": "Item padding",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "item_padding_mobile",
+      "label": "Item padding mobile",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "icon_gap",
+      "label": "Icon to text gap",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "item_background",
+      "label": "Item background",
+      "default": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "type": "color",
+      "id": "item_hover_background",
+      "label": "Item hover background",
+      "default": "rgba(0, 0, 0, 0.02)"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Border"
+    },
+    {
+      "type": "range",
+      "id": "border_top_width",
+      "label": "Top border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "border_bottom_width",
+      "label": "Bottom border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Item border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Icon style"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "label": "Size mobile",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "icon_stroke_width",
+      "label": "Stroke width",
+      "min": 1,
+      "max": 2.5,
+      "step": 0.5,
+      "default": 1.5
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Text size mobile",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "letter_spacing",
+      "label": "Letter spacing",
+      "default": "0em"
+    },
+    {
+      "type": "header",
+      "content": "Hover effects"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_hover",
+      "label": "Enable hover effects",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "hover_lift",
+      "label": "Lift distance",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "icon_hover_scale",
+      "label": "Icon scale",
+      "min": 1,
+      "max": 1.3,
+      "step": 0.1,
+      "default": 1.1
+    },
+    {
+      "type": "header",
+      "content": "Badge 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge_1",
+      "label": "Show",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_1_text",
+      "label": "Text",
+      "default": "Easy 3-Day Exchange"
+    },
+    {
+      "type": "header",
+      "content": "Badge 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge_2",
+      "label": "Show",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_2_text",
+      "label": "Text",
+      "default": "Cash on Delivery"
+    },
+    {
+      "type": "header",
+      "content": "Badge 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge_3",
+      "label": "Show",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_3_text",
+      "label": "Text",
+      "default": "Delivery in 2–5 Business Days"
+    },
+    {
+      "type": "header",
+      "content": "Badge 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge_4",
+      "label": "Show",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_4_text",
+      "label": "Text",
+      "default": "Premium Quality"
+    },
+    {
+      "type": "header",
+      "content": "Badge 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge_5",
+      "label": "Show",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_5_text",
+      "label": "Text",
+      "default": "Trusted by Thousands"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust badges compact"
+    }
+  ]
+}
 {% endschema %}
