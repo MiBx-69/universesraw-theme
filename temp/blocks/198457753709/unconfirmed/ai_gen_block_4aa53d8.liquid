@@ -1,6 +1,401 @@
+{% doc %}
+  @prompt
+    Creat a professional size chart function and get the size chart image from the product meta field key size_chart short he proper image of the product if the product have any size chart into the meta field than only show the size chart options otherwise hide it.
+    
+    Make it professional clean modern and simple, show the image proeprly its currrpt the image and not visible make the image visible and also make th e size chart button clean small and text format no ttooo biug and also the image should appear clean profesisonal and high quality , image is still not showing into the size chart show the image proeperl y, image still getting curuppted, https://admin.shopify.com/store/universesraw2/settings/custom_data/metaobjects/size_chart
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% assign size_chart_metaobject = product.metafields.custom.size_chart %}
+
+{% if size_chart_metaobject != blank %}
+  {% style %}
+    .ai-size-chart-{{ ai_gen_id }} {
+      display: block;
+      width: 100%;
+      margin: {{ block.settings.spacing_top }}px 0 {{ block.settings.spacing_bottom }}px;
+    }
+
+    .ai-size-chart-button-{{ ai_gen_id }} {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background-color: transparent;
+      color: {{ block.settings.button_text_color }};
+      border: none;
+      border-radius: 0;
+      font-size: {{ block.settings.button_font_size }}px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .ai-size-chart-button-{{ ai_gen_id }}:hover {
+      color: {{ block.settings.button_hover_text_color }};
+      text-decoration: underline;
+    }
+
+    .ai-size-chart-icon-{{ ai_gen_id }} {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .ai-size-chart-modal-{{ ai_gen_id }} {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    .ai-size-chart-modal-{{ ai_gen_id }}.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+    }
+
+    .ai-size-chart-modal-content-{{ ai_gen_id }} {
+      position: relative;
+      background-color: {{ block.settings.modal_background }};
+      border-radius: {{ block.settings.modal_border_radius }}px;
+      max-width: {{ block.settings.modal_max_width }}px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: {{ block.settings.modal_padding }}px;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .ai-size-chart-modal-{{ ai_gen_id }}.active .ai-size-chart-modal-content-{{ ai_gen_id }} {
+      transform: scale(1);
+    }
+
+    .ai-size-chart-modal-header-{{ ai_gen_id }} {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid {{ block.settings.modal_border_color }};
+    }
+
+    .ai-size-chart-modal-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.modal_title_size }}px;
+      font-weight: 600;
+      color: {{ block.settings.modal_text_color }};
+      margin: 0;
+    }
+
+    .ai-size-chart-close-{{ ai_gen_id }} {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: {{ block.settings.modal_text_color }};
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+    }
+
+    .ai-size-chart-close-{{ ai_gen_id }}:hover {
+      opacity: 1;
+    }
+
+    .ai-size-chart-close-icon-{{ ai_gen_id }} {
+      width: 20px;
+      height: 20px;
+    }
+
+    .ai-size-chart-image-wrapper-{{ ai_gen_id }} {
+      width: 100%;
+      display: block;
+      background-color: #ffffff;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .ai-size-chart-image-{{ ai_gen_id }} {
+      width: 100%;
+      height: auto;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+
+    @media screen and (max-width: 749px) {
+      .ai-size-chart-modal-{{ ai_gen_id }} {
+        padding: 10px;
+      }
+
+      .ai-size-chart-modal-content-{{ ai_gen_id }} {
+        max-height: 95vh;
+        padding: 20px;
+      }
+
+      .ai-size-chart-modal-title-{{ ai_gen_id }} {
+        font-size: {{ block.settings.modal_title_size | times: 0.85 }}px;
+      }
+
+      .ai-size-chart-button-{{ ai_gen_id }} {
+        font-size: {{ block.settings.button_font_size | times: 0.9 }}px;
+        padding: 6px 12px;
+      }
+    }
+  {% endstyle %}
+
+  <size-chart-{{ ai_gen_id }} class="ai-size-chart-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+    <button
+      type="button"
+      class="ai-size-chart-button-{{ ai_gen_id }}"
+      aria-label="View size chart"
+    >
+      <svg class="ai-size-chart-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="3" y1="9" x2="21" y2="9"></line>
+        <line x1="9" y1="21" x2="9" y2="9"></line>
+      </svg>
+      {{ block.settings.button_text }}
+    </button>
+
+    <div class="ai-size-chart-modal-{{ ai_gen_id }}" role="dialog" aria-modal="true" aria-labelledby="size-chart-title-{{ ai_gen_id }}">
+      <div class="ai-size-chart-modal-content-{{ ai_gen_id }}">
+        <div class="ai-size-chart-modal-header-{{ ai_gen_id }}">
+          <h2 class="ai-size-chart-modal-title-{{ ai_gen_id }}" id="size-chart-title-{{ ai_gen_id }}">
+            {{ block.settings.modal_title }}
+          </h2>
+          <button
+            type="button"
+            class="ai-size-chart-close-{{ ai_gen_id }}"
+            aria-label="Close size chart"
+          >
+            <svg class="ai-size-chart-close-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="ai-size-chart-image-wrapper-{{ ai_gen_id }}">
+          {% if size_chart_metaobject.image %}
+            <img
+              src="{{ size_chart_metaobject.image | image_url: width: 2000 }}"
+              alt="{{ block.settings.modal_title }}"
+              class="ai-size-chart-image-{{ ai_gen_id }}"
+              loading="lazy"
+            >
+          {% elsif size_chart_metaobject.value.image %}
+            <img
+              src="{{ size_chart_metaobject.value.image | image_url: width: 2000 }}"
+              alt="{{ block.settings.modal_title }}"
+              class="ai-size-chart-image-{{ ai_gen_id }}"
+              loading="lazy"
+            >
+          {% else %}
+            <img
+              src="{{ size_chart_metaobject | image_url: width: 2000 }}"
+              alt="{{ block.settings.modal_title }}"
+              class="ai-size-chart-image-{{ ai_gen_id }}"
+              loading="lazy"
+            >
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </size-chart-{{ ai_gen_id }}>
+
+  <script>
+    (function() {
+      class SizeChart{{ ai_gen_id }} extends HTMLElement {
+        constructor() {
+          super();
+        }
+
+        connectedCallback() {
+          this.button = this.querySelector('.ai-size-chart-button-{{ ai_gen_id }}');
+          this.modal = this.querySelector('.ai-size-chart-modal-{{ ai_gen_id }}');
+          this.closeButton = this.querySelector('.ai-size-chart-close-{{ ai_gen_id }}');
+
+          this.button.addEventListener('click', () => this.openModal());
+          this.closeButton.addEventListener('click', () => this.closeModal());
+          this.modal.addEventListener('click', (e) => {
+            if (e.target === this.modal) {
+              this.closeModal();
+            }
+          });
+
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modal.classList.contains('active')) {
+              this.closeModal();
+            }
+          });
+        }
+
+        openModal() {
+          this.modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+          this.closeButton.focus();
+        }
+
+        closeModal() {
+          this.modal.classList.remove('active');
+          document.body.style.overflow = '';
+          this.button.focus();
+        }
+      }
+
+      customElements.define('size-chart-{{ ai_gen_id }}', SizeChart{{ ai_gen_id }});
+    })();
+  </script>
+{% endif %}
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Size chart",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Size guide"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Font size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Modal"
+    },
+    {
+      "type": "text",
+      "id": "modal_title",
+      "label": "Title",
+      "default": "Size guide"
+    },
+    {
+      "type": "range",
+      "id": "modal_title_size",
+      "label": "Title size",
+      "min": 16,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "modal_max_width",
+      "label": "Maximum width",
+      "min": 500,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "modal_padding",
+      "label": "Padding",
+      "min": 20,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "modal_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "modal_background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "modal_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "modal_border_color",
+      "label": "Border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "spacing_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size chart"
+    }
+  ]
+}
 {% endschema %}
