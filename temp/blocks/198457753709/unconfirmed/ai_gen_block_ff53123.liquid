@@ -1,6 +1,587 @@
+{% doc %}
+  @prompt
+    Act as a senior Shopify Liquid developer and UX engineer.
+    
+    I want to add a professional "Size Guide" feature to my Shopify product page.
+    
+    Requirements:
+    
+    • Each product must have its own unique size chart using Product Metafields.
+    • Use the metafield namespace:
+      custom.size_chart
+    
+    • The metafield may be either:
+      1. Metaobject Reference (preferred)
+      OR
+      2. File/Image metafield
+    
+    The code should automatically support both.
+    
+    UI Requirements:
+    
+    - Display a small "📏 Size Guide" link beside or directly below the Size Variant Picker.
+    - Clicking the link opens a smooth animated expandable accordion (NOT a new page).
+    - Clicking again collapses/hides the size chart.
+    - Include a smooth CSS transition (300–400ms).
+    - Add an arrow icon that rotates when expanded.
+    - Default state: collapsed.
+    - Mobile-first responsive design.
+    - Clean premium luxury appearance suitable for a fashion brand.
+    - No external libraries or apps.
+    - Fully accessible (ARIA attributes, keyboard support).
+    - Lazy-load the image.
+    - If no size chart exists for the product, hide the entire component.
+    
+    Implementation Requirements:
+    
+    - Use Shopify Liquid.
+    - Use modern HTML5.
+    - Vanilla JavaScript only.
+    - No jQuery.
+    - CSS must be scoped to avoid conflicts.
+    - Do not modify existing product functionality.
+    - Compatible with Shopify Online Store 2.0.
+    - Compatible with Dawn and modern block-based themes.
+    - Keep the code modular and well commented.
+    
+    Output:
+    
+    1. Complete Liquid code
+    2. CSS
+    3. JavaScript
+    4. Exact location where to paste each section
+    5. Explain every step
+    6. Include troubleshooting notes
+    
+    The result should behave like premium brands such as Nike, Zara, H&M, and Uniqlo, with a smooth click-to-expand and click-to-collapse Size Guide.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign size_chart = product.metafields.custom.size_chart %}
+
+{% if size_chart != blank %}
+  {% style %}
+    .ai-size-guide-{{ ai_gen_id }} {
+      display: block;
+      width: 100%;
+      margin-top: {{ block.settings.spacing_top }}px;
+      margin-bottom: {{ block.settings.spacing_bottom }}px;
+    }
+
+    .ai-size-guide-trigger-{{ ai_gen_id }} {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: {{ block.settings.font_family.family }}, {{ block.settings.font_family.fallback_families }};
+      font-size: {{ block.settings.font_size }}px;
+      font-weight: {{ block.settings.font_weight }};
+      color: {{ block.settings.text_color }};
+      text-decoration: {{ block.settings.text_decoration }};
+      transition: color 0.3s ease, opacity 0.3s ease;
+    }
+
+    .ai-size-guide-trigger-{{ ai_gen_id }}:hover {
+      color: {{ block.settings.text_color_hover }};
+      opacity: 0.8;
+    }
+
+    .ai-size-guide-trigger-{{ ai_gen_id }}:focus-visible {
+      outline: 2px solid {{ block.settings.text_color }};
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
+    .ai-size-guide-icon-{{ ai_gen_id }} {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: {{ block.settings.icon_size }}px;
+      height: {{ block.settings.icon_size }}px;
+      flex-shrink: 0;
+    }
+
+    .ai-size-guide-icon-{{ ai_gen_id }} svg {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ai-size-guide-trigger-{{ ai_gen_id }}[aria-expanded="true"] .ai-size-guide-icon-{{ ai_gen_id }} svg {
+      transform: rotate(180deg);
+    }
+
+    .ai-size-guide-content-{{ ai_gen_id }} {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease, margin-top 0.35s ease;
+      opacity: 0;
+      margin-top: 0;
+    }
+
+    .ai-size-guide-content-{{ ai_gen_id }}.active {
+      max-height: 2000px;
+      opacity: 1;
+      margin-top: {{ block.settings.content_spacing }}px;
+    }
+
+    .ai-size-guide-inner-{{ ai_gen_id }} {
+      padding: {{ block.settings.content_padding }}px;
+      background-color: {{ block.settings.content_background }};
+      border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+      border-radius: {{ block.settings.border_radius }}px;
+      box-shadow: {{ block.settings.shadow_horizontal }}px {{ block.settings.shadow_vertical }}px {{ block.settings.shadow_blur }}px rgba(0, 0, 0, {{ block.settings.shadow_opacity }});
+    }
+
+    .ai-size-guide-image-{{ ai_gen_id }} {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: {{ block.settings.image_border_radius }}px;
+    }
+
+    .ai-size-guide-metaobject-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-size-guide-metaobject-{{ ai_gen_id }} img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: {{ block.settings.image_border_radius }}px;
+    }
+
+    @media screen and (max-width: 749px) {
+      .ai-size-guide-trigger-{{ ai_gen_id }} {
+        font-size: {{ block.settings.font_size | times: 0.9 }}px;
+      }
+
+      .ai-size-guide-icon-{{ ai_gen_id }} {
+        width: {{ block.settings.icon_size | times: 0.9 }}px;
+        height: {{ block.settings.icon_size | times: 0.9 }}px;
+      }
+
+      .ai-size-guide-inner-{{ ai_gen_id }} {
+        padding: {{ block.settings.content_padding | times: 0.75 }}px;
+      }
+    }
+  {% endstyle %}
+
+  <ai-size-guide-{{ ai_gen_id }}
+    class="ai-size-guide-{{ ai_gen_id }}"
+    {{ block.shopify_attributes }}
+  >
+    <button
+      type="button"
+      class="ai-size-guide-trigger-{{ ai_gen_id }}"
+      aria-expanded="false"
+      aria-controls="ai-size-guide-panel-{{ ai_gen_id }}"
+    >
+      {% if block.settings.show_icon %}
+        <span class="ai-size-guide-icon-{{ ai_gen_id }}" aria-hidden="true">
+          {% if block.settings.icon_type == 'ruler' %}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/>
+              <path d="m14.5 12.5 2-2"/>
+              <path d="m11.5 9.5 2-2"/>
+              <path d="m8.5 6.5 2-2"/>
+              <path d="m17.5 15.5 2-2"/>
+            </svg>
+          {% elsif block.settings.icon_type == 'chevron' %}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          {% elsif block.settings.icon_type == 'plus' %}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          {% endif %}
+        </span>
+      {% endif %}
+      <span>{{ block.settings.button_text }}</span>
+    </button>
+
+    <div
+      id="ai-size-guide-panel-{{ ai_gen_id }}"
+      class="ai-size-guide-content-{{ ai_gen_id }}"
+      role="region"
+      aria-labelledby="ai-size-guide-trigger-{{ ai_gen_id }}"
+    >
+      <div class="ai-size-guide-inner-{{ ai_gen_id }}">
+        {% if size_chart.type == 'file_reference' %}
+          <img
+            src="{{ size_chart | image_url: width: 1200 }}"
+            alt="{{ block.settings.button_text }}"
+            width="{{ size_chart.width }}"
+            height="{{ size_chart.height }}"
+            loading="lazy"
+            class="ai-size-guide-image-{{ ai_gen_id }}"
+          >
+        {% elsif size_chart.type == 'metaobject_reference' %}
+          <div class="ai-size-guide-metaobject-{{ ai_gen_id }}">
+            {% if size_chart.image %}
+              <img
+                src="{{ size_chart.image | image_url: width: 1200 }}"
+                alt="{{ size_chart.title | default: block.settings.button_text }}"
+                width="{{ size_chart.image.width }}"
+                height="{{ size_chart.image.height }}"
+                loading="lazy"
+              >
+            {% endif %}
+            {% if size_chart.description %}
+              <div style="margin-top: 16px; font-size: 14px; line-height: 1.6; color: {{ block.settings.text_color }};">
+                {{ size_chart.description }}
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <img
+            src="{{ size_chart | image_url: width: 1200 }}"
+            alt="{{ block.settings.button_text }}"
+            loading="lazy"
+            class="ai-size-guide-image-{{ ai_gen_id }}"
+          >
+        {% endif %}
+      </div>
+    </div>
+  </ai-size-guide-{{ ai_gen_id }}>
+
+  <script>
+    (function() {
+      class AiSizeGuide{{ ai_gen_id }} extends HTMLElement {
+        constructor() {
+          super();
+          this.trigger = this.querySelector('.ai-size-guide-trigger-{{ ai_gen_id }}');
+          this.content = this.querySelector('.ai-size-guide-content-{{ ai_gen_id }}');
+          this.isOpen = false;
+        }
+
+        connectedCallback() {
+          if (!this.trigger || !this.content) return;
+
+          this.trigger.addEventListener('click', this.toggle.bind(this));
+          this.trigger.addEventListener('keydown', this.handleKeydown.bind(this));
+
+          document.addEventListener('click', this.handleOutsideClick.bind(this));
+        }
+
+        disconnectedCallback() {
+          if (this.trigger) {
+            this.trigger.removeEventListener('click', this.toggle.bind(this));
+            this.trigger.removeEventListener('keydown', this.handleKeydown.bind(this));
+          }
+          document.removeEventListener('click', this.handleOutsideClick.bind(this));
+        }
+
+        toggle(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          this.isOpen = !this.isOpen;
+
+          if (this.isOpen) {
+            this.open();
+          } else {
+            this.close();
+          }
+        }
+
+        open() {
+          this.content.classList.add('active');
+          this.trigger.setAttribute('aria-expanded', 'true');
+          this.isOpen = true;
+        }
+
+        close() {
+          this.content.classList.remove('active');
+          this.trigger.setAttribute('aria-expanded', 'false');
+          this.isOpen = false;
+        }
+
+        handleKeydown(event) {
+          if (event.key === 'Escape' && this.isOpen) {
+            this.close();
+            this.trigger.focus();
+          }
+
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            this.toggle(event);
+          }
+        }
+
+        handleOutsideClick(event) {
+          if (this.isOpen && !this.contains(event.target)) {
+            this.close();
+          }
+        }
+      }
+
+      customElements.define('ai-size-guide-{{ ai_gen_id }}', AiSizeGuide{{ ai_gen_id }});
+    })();
+  </script>
+{% endif %}
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Size guide",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Trigger button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "📏 Size Guide"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "ruler",
+          "label": "Ruler"
+        },
+        {
+          "value": "chevron",
+          "label": "Chevron"
+        },
+        {
+          "value": "plus",
+          "label": "Plus"
+        }
+      ],
+      "default": "chevron"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "font_picker",
+      "id": "font_family",
+      "label": "Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "select",
+      "id": "text_decoration",
+      "label": "Text decoration",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "underline",
+          "label": "Underline"
+        }
+      ],
+      "default": "underline"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color_hover",
+      "label": "Hover text color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Content panel"
+    },
+    {
+      "type": "range",
+      "id": "content_spacing",
+      "label": "Top spacing",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "content_background",
+      "label": "Background",
+      "default": "#FAFAFA"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#E6E6E6"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Shadow"
+    },
+    {
+      "type": "range",
+      "id": "shadow_horizontal",
+      "label": "Horizontal offset",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "shadow_vertical",
+      "label": "Vertical offset",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "label": "Blur",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "shadow_opacity",
+      "label": "Opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.1
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "spacing_top",
+      "label": "Top margin",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom",
+      "label": "Bottom margin",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size guide"
+    }
+  ]
+}
 {% endschema %}
