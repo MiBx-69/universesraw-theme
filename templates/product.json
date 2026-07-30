@@ -12,6 +12,10 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "pify_size_charts_size_chart_inline_block_tF3i7J": {
+          "type": "shopify://apps/pify-size-charts/blocks/size-chart-inline-block/6acea2e6-5389-4b9c-9a1f-ae00732bccb4",
+          "settings": {}
+        },
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
@@ -836,6 +840,9 @@
           "blocks": {}
         }
       },
+      "block_order": [
+        "pify_size_charts_size_chart_inline_block_tF3i7J"
+      ],
       "settings": {
         "page_width": "page-width",
         "page_width_custom": 1570,
