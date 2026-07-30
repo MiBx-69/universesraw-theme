@@ -1,6 +1,419 @@
+{% doc %}
+  @prompt
+    Creat a professional size chart function and get the size chart image from the product meta field key size_chart short he proper image of the product if the product have any size chart into the meta field than only show the size chart options otherwise hide it.
+    
+    Make it professional clean modern and simple
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% if product.metafields.custom.size_chart != blank %}
+  {% style %}
+    .ai-size-chart-{{ ai_gen_id }} {
+      display: block;
+      width: 100%;
+      margin: {{ block.settings.spacing_top }}px 0 {{ block.settings.spacing_bottom }}px;
+    }
+
+    .ai-size-chart-button-{{ ai_gen_id }} {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background-color: {{ block.settings.button_background }};
+      color: {{ block.settings.button_text_color }};
+      border: {{ block.settings.button_border_width }}px solid {{ block.settings.button_border_color }};
+      border-radius: {{ block.settings.button_border_radius }}px;
+      font-size: {{ block.settings.button_font_size }}px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .ai-size-chart-button-{{ ai_gen_id }}:hover {
+      background-color: {{ block.settings.button_hover_background }};
+      color: {{ block.settings.button_hover_text_color }};
+      border-color: {{ block.settings.button_hover_border_color }};
+    }
+
+    .ai-size-chart-icon-{{ ai_gen_id }} {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .ai-size-chart-modal-{{ ai_gen_id }} {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .ai-size-chart-modal-{{ ai_gen_id }}.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+    }
+
+    .ai-size-chart-modal-content-{{ ai_gen_id }} {
+      position: relative;
+      background-color: {{ block.settings.modal_background }};
+      border-radius: {{ block.settings.modal_border_radius }}px;
+      max-width: {{ block.settings.modal_max_width }}px;
+      width: 90%;
+      max-height: 90vh;
+      overflow: auto;
+      padding: {{ block.settings.modal_padding }}px;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .ai-size-chart-modal-{{ ai_gen_id }}.active .ai-size-chart-modal-content-{{ ai_gen_id }} {
+      transform: scale(1);
+    }
+
+    .ai-size-chart-modal-header-{{ ai_gen_id }} {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid {{ block.settings.modal_border_color }};
+    }
+
+    .ai-size-chart-modal-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.modal_title_size }}px;
+      font-weight: 600;
+      color: {{ block.settings.modal_text_color }};
+      margin: 0;
+    }
+
+    .ai-size-chart-close-{{ ai_gen_id }} {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: {{ block.settings.modal_text_color }};
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .ai-size-chart-close-{{ ai_gen_id }}:hover {
+      opacity: 1;
+    }
+
+    .ai-size-chart-close-icon-{{ ai_gen_id }} {
+      width: 24px;
+      height: 24px;
+    }
+
+    .ai-size-chart-image-wrapper-{{ ai_gen_id }} {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .ai-size-chart-image-{{ ai_gen_id }} {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    @media screen and (max-width: 749px) {
+      .ai-size-chart-modal-content-{{ ai_gen_id }} {
+        width: 95%;
+        padding: 20px;
+      }
+
+      .ai-size-chart-modal-title-{{ ai_gen_id }} {
+        font-size: {{ block.settings.modal_title_size | times: 0.85 }}px;
+      }
+
+      .ai-size-chart-button-{{ ai_gen_id }} {
+        font-size: {{ block.settings.button_font_size | times: 0.9 }}px;
+        padding: 10px 20px;
+      }
+    }
+  {% endstyle %}
+
+  <size-chart-{{ ai_gen_id }} class="ai-size-chart-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+    <button
+      type="button"
+      class="ai-size-chart-button-{{ ai_gen_id }}"
+      aria-label="View size chart"
+    >
+      <svg class="ai-size-chart-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+      {{ block.settings.button_text }}
+    </button>
+
+    <div class="ai-size-chart-modal-{{ ai_gen_id }}" role="dialog" aria-modal="true" aria-labelledby="size-chart-title-{{ ai_gen_id }}">
+      <div class="ai-size-chart-modal-content-{{ ai_gen_id }}">
+        <div class="ai-size-chart-modal-header-{{ ai_gen_id }}">
+          <h2 class="ai-size-chart-modal-title-{{ ai_gen_id }}" id="size-chart-title-{{ ai_gen_id }}">
+            {{ block.settings.modal_title }}
+          </h2>
+          <button
+            type="button"
+            class="ai-size-chart-close-{{ ai_gen_id }}"
+            aria-label="Close size chart"
+          >
+            <svg class="ai-size-chart-close-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="ai-size-chart-image-wrapper-{{ ai_gen_id }}">
+          <img
+            src="{{ product.metafields.custom.size_chart | image_url: width: 1200 }}"
+            alt="{{ block.settings.modal_title }}"
+            class="ai-size-chart-image-{{ ai_gen_id }}"
+            loading="lazy"
+          >
+        </div>
+      </div>
+    </div>
+  </size-chart-{{ ai_gen_id }}>
+
+  <script>
+    (function() {
+      class SizeChart{{ ai_gen_id }} extends HTMLElement {
+        constructor() {
+          super();
+        }
+
+        connectedCallback() {
+          this.button = this.querySelector('.ai-size-chart-button-{{ ai_gen_id }}');
+          this.modal = this.querySelector('.ai-size-chart-modal-{{ ai_gen_id }}');
+          this.closeButton = this.querySelector('.ai-size-chart-close-{{ ai_gen_id }}');
+
+          this.button.addEventListener('click', () => this.openModal());
+          this.closeButton.addEventListener('click', () => this.closeModal());
+          this.modal.addEventListener('click', (e) => {
+            if (e.target === this.modal) {
+              this.closeModal();
+            }
+          });
+
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modal.classList.contains('active')) {
+              this.closeModal();
+            }
+          });
+        }
+
+        openModal() {
+          this.modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+          this.closeButton.focus();
+        }
+
+        closeModal() {
+          this.modal.classList.remove('active');
+          document.body.style.overflow = '';
+          this.button.focus();
+        }
+      }
+
+      customElements.define('size-chart-{{ ai_gen_id }}', SizeChart{{ ai_gen_id }});
+    })();
+  </script>
+{% endif %}
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Size chart",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Size guide"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Border color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Hover border color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Modal"
+    },
+    {
+      "type": "text",
+      "id": "modal_title",
+      "label": "Title",
+      "default": "Size guide"
+    },
+    {
+      "type": "range",
+      "id": "modal_title_size",
+      "label": "Title size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "modal_max_width",
+      "label": "Maximum width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "modal_padding",
+      "label": "Padding",
+      "min": 20,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "modal_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "modal_background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "modal_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "modal_border_color",
+      "label": "Border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "spacing_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size chart"
+    }
+  ]
+}
 {% endschema %}
