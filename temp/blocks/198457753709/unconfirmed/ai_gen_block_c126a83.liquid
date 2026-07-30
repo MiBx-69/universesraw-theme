@@ -1,6 +1,460 @@
+{% doc %}
+  @prompt
+    product metafield size chart
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-size-chart-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .ai-size-chart-container-{{ ai_gen_id }} {
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.padding }}px;
+  }
+
+  .ai-size-chart-header-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: {{ block.settings.spacing }}px;
+  }
+
+  .ai-size-chart-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .ai-size-chart-toggle-{{ ai_gen_id }} {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+  }
+
+  .ai-size-chart-toggle-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-size-chart-toggle-{{ ai_gen_id }}[aria-expanded="true"] .ai-size-chart-toggle-icon-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-size-chart-content-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .ai-size-chart-content-{{ ai_gen_id }}.active {
+    max-height: 1000px;
+  }
+
+  .ai-size-chart-table-wrapper-{{ ai_gen_id }} {
+    overflow-x: auto;
+    margin-bottom: {{ block.settings.spacing }}px;
+  }
+
+  .ai-size-chart-table-{{ ai_gen_id }} {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: {{ block.settings.text_size }}px;
+  }
+
+  .ai-size-chart-table-{{ ai_gen_id }} th,
+  .ai-size-chart-table-{{ ai_gen_id }} td {
+    padding: {{ block.settings.cell_padding }}px;
+    text-align: left;
+    border: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-size-chart-table-{{ ai_gen_id }} th {
+    background-color: {{ block.settings.header_background }};
+    color: {{ block.settings.header_text_color }};
+    font-weight: 600;
+  }
+
+  .ai-size-chart-table-{{ ai_gen_id }} td {
+    background-color: {{ block.settings.cell_background }};
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-size-chart-table-{{ ai_gen_id }} tbody tr:nth-child(even) td {
+    background-color: {{ block.settings.cell_alt_background }};
+  }
+
+  .ai-size-chart-description-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    line-height: 1.6;
+  }
+
+  .ai-size-chart-empty-{{ ai_gen_id }} {
+    padding: 40px 20px;
+    text-align: center;
+    color: {{ block.settings.text_color }};
+    opacity: 0.6;
+    font-style: italic;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-size-chart-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-size-chart-table-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.text_size }}px * 0.9);
+    }
+
+    .ai-size-chart-table-{{ ai_gen_id }} th,
+    .ai-size-chart-table-{{ ai_gen_id }} td {
+      padding: calc({{ block.settings.cell_padding }}px * 0.75);
+    }
+  }
+{% endstyle %}
+
+<size-chart-{{ ai_gen_id }} class="ai-size-chart-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-size-chart-container-{{ ai_gen_id }}">
+    <div class="ai-size-chart-header-{{ ai_gen_id }}">
+      {%- if block.settings.title != blank -%}
+        <h3 class="ai-size-chart-title-{{ ai_gen_id }}">{{ block.settings.title }}</h3>
+      {%- endif -%}
+      <button
+        class="ai-size-chart-toggle-{{ ai_gen_id }}"
+        aria-expanded="{{ block.settings.default_open }}"
+        aria-label="Toggle size chart"
+      >
+        <span>{{ block.settings.toggle_text }}</span>
+        <svg class="ai-size-chart-toggle-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ai-size-chart-content-{{ ai_gen_id }} {% if block.settings.default_open %}active{% endif %}">
+      {% liquid
+        assign size_chart_data = product.metafields.custom.size_chart.value
+      %}
+
+      {%- if size_chart_data != blank -%}
+        <div class="ai-size-chart-table-wrapper-{{ ai_gen_id }}">
+          <table class="ai-size-chart-table-{{ ai_gen_id }}">
+            <thead>
+              <tr>
+                <th>{{ block.settings.size_column_label }}</th>
+                {%- if block.settings.show_chest -%}
+                  <th>{{ block.settings.chest_label }}</th>
+                {%- endif -%}
+                {%- if block.settings.show_waist -%}
+                  <th>{{ block.settings.waist_label }}</th>
+                {%- endif -%}
+                {%- if block.settings.show_hips -%}
+                  <th>{{ block.settings.hips_label }}</th>
+                {%- endif -%}
+                {%- if block.settings.show_length -%}
+                  <th>{{ block.settings.length_label }}</th>
+                {%- endif -%}
+              </tr>
+            </thead>
+            <tbody>
+              {%- assign rows = size_chart_data | split: '|' -%}
+              {%- for row in rows -%}
+                {%- assign cells = row | split: ',' -%}
+                {%- if cells.size > 0 -%}
+                  <tr>
+                    {%- for cell in cells -%}
+                      <td>{{ cell | strip }}</td>
+                    {%- endfor -%}
+                  </tr>
+                {%- endif -%}
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+
+        {%- if block.settings.description != blank -%}
+          <div class="ai-size-chart-description-{{ ai_gen_id }}">
+            {{ block.settings.description }}
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        <div class="ai-size-chart-empty-{{ ai_gen_id }}">
+          Add size chart data to the product metafield: custom.size_chart
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</size-chart-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class SizeChart{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.toggle = this.querySelector('.ai-size-chart-toggle-{{ ai_gen_id }}');
+        this.content = this.querySelector('.ai-size-chart-content-{{ ai_gen_id }}');
+
+        if (this.toggle && this.content) {
+          this.toggle.addEventListener('click', this.handleToggle.bind(this));
+        }
+      }
+
+      handleToggle() {
+        const isExpanded = this.toggle.getAttribute('aria-expanded') === 'true';
+        this.toggle.setAttribute('aria-expanded', !isExpanded);
+        this.content.classList.toggle('active');
+      }
+    }
+
+    customElements.define('size-chart-{{ ai_gen_id }}', SizeChart{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Product size chart",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Size Chart"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "toggle_text",
+      "label": "Toggle text",
+      "default": "View chart"
+    },
+    {
+      "type": "checkbox",
+      "id": "default_open",
+      "label": "Open by default",
+      "default": false
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Measurements are in inches. For best fit, measure yourself and compare to the chart.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Table columns"
+    },
+    {
+      "type": "paragraph",
+      "content": "Configure which measurement columns to display in the size chart table."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "size_column_label",
+      "label": "Size column",
+      "default": "Size"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_chest",
+      "label": "Show chest",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "chest_label",
+      "label": "Chest label",
+      "default": "Chest"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_waist",
+      "label": "Show waist",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "waist_label",
+      "label": "Waist label",
+      "default": "Waist"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hips",
+      "label": "Show hips",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "hips_label",
+      "label": "Hips label",
+      "default": "Hips"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_length",
+      "label": "Show length",
+      "default": false
+    },
+    {
+      "type": "inline_richtext",
+      "id": "length_label",
+      "label": "Length label",
+      "default": "Length"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Spacing",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Table style"
+    },
+    {
+      "type": "range",
+      "id": "cell_padding",
+      "label": "Cell padding",
+      "min": 5,
+      "max": 25,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "header_background",
+      "label": "Header background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cell_background",
+      "label": "Cell background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cell_alt_background",
+      "label": "Alternate row background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product size chart"
+    }
+  ]
+}
 {% endschema %}
