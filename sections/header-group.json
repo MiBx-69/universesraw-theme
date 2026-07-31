@@ -68,13 +68,13 @@
             "alignment_mobile": "left",
             "type_preset": "custom",
             "font": "var(--font-heading--family)",
-            "font_size": "1.4rem",
+            "font_size": "1.6rem",
             "font_weight": "default",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "uppercase",
             "wrap": "pretty",
-            "color": "var(--color-foreground)",
+            "color": "var(--color-primary)",
             "background": false,
             "background_color": "#00000026",
             "background_gradient": "",
@@ -105,7 +105,7 @@
       "settings": {
         "movement_direction": "normal",
         "gap_between_elements": 23,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-luxury-navy",
         "background_media": "none",
         "background_image_position": "cover",
         "toggle_overlay": false,
@@ -141,7 +141,7 @@
             "link_url_1": "",
             "divider": false,
             "inherit_color_scheme": false,
-            "color_scheme": "scheme-2"
+            "color_scheme": "scheme-luxury-navy"
           }
         },
         "mega_menu_3_tEKfxg": {
@@ -164,7 +164,7 @@
             "link_url_1": "",
             "divider": false,
             "inherit_color_scheme": false,
-            "color_scheme": "scheme-2"
+            "color_scheme": "scheme-luxury-navy"
           }
         },
         "mega_menu_3_q8HGBq": {
@@ -187,7 +187,7 @@
             "link_url_1": "",
             "divider": false,
             "inherit_color_scheme": false,
-            "color_scheme": "scheme-2"
+            "color_scheme": "scheme-luxury-navy"
           }
         }
       },
@@ -310,10 +310,10 @@
         "product_color_scheme": "default",
         "enable_transparent_header_collection": false,
         "collection_color_scheme": "default",
-        "padding-block-start-top": 0,
-        "padding-block-end-top": 0,
-        "padding-block-start-bottom": 16,
-        "padding-block-end-bottom": 16
+        "padding-block-start-top": 24,
+        "padding-block-end-top": 24,
+        "padding-block-start-bottom": 28,
+        "padding-block-end-bottom": 28
       }
     }
   },

@@ -928,6 +928,10 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "178547563485aa0a94": {
+      "type": "_blocks",
+      "settings": {}
     }
   },
   "order": [
@@ -937,6 +941,7 @@
     "slideshow_C6dxVH",
     "slideshow_akKREr",
     "featured_collection_JwDQg9",
-    "178368302367a7de5f"
+    "178368302367a7de5f",
+    "178547563485aa0a94"
   ]
 }
