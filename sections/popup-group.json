@@ -304,6 +304,14 @@
             "link": "/"
           }
         },
+        "search_ktXppy": {
+          "type": "search",
+          "settings": {
+            "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewbox=\"0 0 24 24\">\n  <circle cx=\"11\" cy=\"11\" r=\"6.5\" stroke=\"currentColor\" stroke-width=\"1.6\"></circle>\n  <path d=\"M16 16L21 21\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>\n</svg>",
+            "title": "Search",
+            "action_type": "drawer"
+          }
+        },
         "link_t86n4W": {
           "type": "link",
           "settings": {
@@ -320,27 +328,28 @@
             "link": "shopify://collections/latest-collection"
           }
         },
-        "account_wEnmDA": {
-          "type": "account",
+        "cart_BKg8Fh": {
+          "type": "cart",
           "settings": {
-            "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M20 21a8 8 0 0 0-16 0\"></path>\n  <circle cx=\"12\" cy=\"8\" r=\"4\"></circle>\n</svg>",
-            "title": "Account",
-            "action_type": "page"
+            "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n\n  <circle cx=\"9\" cy=\"20\" r=\"1.5\"></circle>\n  <circle cx=\"18\" cy=\"20\" r=\"1.5\"></circle>\n\n  <path d=\"M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h9.8a1 1 0 0 0 1-.8L21 7H7\"></path>\n</svg>",
+            "title": "Cart",
+            "action_type": "drawer"
           }
         }
       },
       "block_order": [
         "link_44gGkw",
+        "search_ktXppy",
         "link_t86n4W",
         "link_j9h7tV",
-        "account_wEnmDA"
+        "cart_BKg8Fh"
       ],
       "name": "Sticky toolbar mobile",
       "settings": {
         "icon_size": 20,
         "color_scheme": "scheme-1",
-        "padding_top": 4,
-        "padding_bottom": 4
+        "padding_top": 7,
+        "padding_bottom": 6
       }
     },
     "promotion_popup_epACJx": {
