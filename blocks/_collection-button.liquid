@@ -40,7 +40,7 @@
           "label": "t:options.secondary"
         }
       ],
-      "default": "button"
+      "default": "button-secondary"
     },
     {
       "type": "select",
@@ -61,7 +61,7 @@
           "label": "t:options.custom"
         }
       ],
-      "default": "default"
+      "default": "custom"
     },
     {
       "type": "range",
@@ -82,7 +82,7 @@
       "step": 1,
       "unit": "px",
       "label": "t:settings.border_radius",
-      "default": 100,
+      "default": 0,
       "visible_if": "{{ block.settings.button_style == 'custom' }}"
     },
     {
@@ -104,7 +104,7 @@
           "label": "t:options.heading"
         }
       ],
-      "default": "var(--font-body--family)"
+      "default": "var(--font-subheading--family)"
     },
     {
       "type": "select",
@@ -204,7 +204,7 @@
           "label": "120px"
         }
       ],
-      "default": "1.6rem",
+      "default": "1.4rem",
       "visible_if": "{{ block.settings.button_style == 'custom' }}"
     },
     {
@@ -230,7 +230,7 @@
           "label": "t:options.bold"
         }
       ],
-      "default": "default"
+      "default": "400"
     },
     {
       "type": "select",
@@ -247,7 +247,7 @@
           "label": "t:options.uppercase"
         }
       ],
-      "default": "default"
+      "default": "uppercase"
     },
     {
       "type": "range",
@@ -300,7 +300,7 @@
           "label": "t:options.custom"
         }
       ],
-      "default": "fit-content"
+      "default": "custom"
     },
     {
       "type": "select",
@@ -349,7 +349,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 10,
+      "default": 18,
       "visible_if": "{{ block.settings.width == 'custom' }}"
     },
     {
@@ -360,7 +360,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 20,
+      "default": 32,
       "visible_if": "{{ block.settings.width == 'custom' }}"
     },
     {
@@ -377,7 +377,7 @@
           "label": "t:options.custom"
         }
       ],
-      "default": "fit-content"
+      "default": "custom"
     },
     {
       "type": "select",
@@ -426,7 +426,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 10,
+      "default": 16,
       "visible_if": "{{ block.settings.width_mobile == 'custom' }}"
     },
     {
@@ -437,7 +437,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 10,
+      "default": 24,
       "visible_if": "{{ block.settings.width_mobile == 'custom' }}"
     }
   ],
