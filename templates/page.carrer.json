@@ -43,22 +43,6 @@
     "careers_page_LwEErA": {
       "type": "careers-page",
       "blocks": {
-        "feature_PNee8G": {
-          "type": "feature",
-          "settings": {
-            "icon": "◆",
-            "title": "Craft-first culture",
-            "description": "We obsess over materials and making, not just marketing."
-          }
-        },
-        "feature_aEkqQm": {
-          "type": "feature",
-          "settings": {
-            "icon": "◆",
-            "title": "Grow fast",
-            "description": "Small teams, real ownership, and a clear path to more responsibility."
-          }
-        },
         "job_NqGnqm": {
           "type": "job",
           "settings": {
@@ -126,8 +110,6 @@
         }
       },
       "block_order": [
-        "feature_PNee8G",
-        "feature_aEkqQm",
         "job_NqGnqm",
         "process_step_aee8UX",
         "process_step_4rp4BA",
@@ -156,14 +138,14 @@
         "border_radius": 2,
         "enable_animations": true,
         "show_hero": true,
-        "hero_overlay_color": "#1B1A18",
+        "hero_overlay_color": "#B88E3A",
         "hero_overlay_opacity": 40,
         "hero_eyebrow": "Careers",
         "headline": "Join the Universe",
         "hero_description": "<p>We build for people who wear their convictions. Come make raw, honest fashion with us.</p>",
-        "hero_primary_cta_text": "View open roles",
+        "hero_primary_cta_text": "",
         "hero_primary_cta_link": "",
-        "hero_secondary_cta_text": "Our story",
+        "hero_secondary_cta_text": "",
         "hero_secondary_cta_link": "",
         "hero_text_align": "left",
         "hero_height": "large",
