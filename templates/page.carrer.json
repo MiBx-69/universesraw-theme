@@ -39,9 +39,176 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "careers_page_LwEErA": {
+      "type": "careers-page",
+      "blocks": {
+        "feature_PNee8G": {
+          "type": "feature",
+          "settings": {
+            "icon": "◆",
+            "title": "Craft-first culture",
+            "description": "We obsess over materials and making, not just marketing."
+          }
+        },
+        "feature_aEkqQm": {
+          "type": "feature",
+          "settings": {
+            "icon": "◆",
+            "title": "Grow fast",
+            "description": "Small teams, real ownership, and a clear path to more responsibility."
+          }
+        },
+        "job_NqGnqm": {
+          "type": "job",
+          "settings": {
+            "title": "Female Executive",
+            "department": "marketing",
+            "location": "Uttara",
+            "employment_type": "Full-time",
+            "experience_level": "Mid-level",
+            "salary": "",
+            "date_posted": "05 august 2026",
+            "deadline": "",
+            "short_description": "Join Universes RAW! We're looking for a confident and energetic Female Executive to handle online customer support, collect customer feedback, assist with showroom management, and conduct live product presentations. Prior cashier experience will be given priority.",
+            "responsibilities": "Handle day-to-day online tasks and customer support.\nCollect customer feedback and improve customer experience.\nAssist with showroom management and daily operations.\nConduct Facebook Live presentations to showcase products and engage with customers. (Mandatory)",
+            "requirements": "Female candidates only.\nGood communication and presentation skills.\nConfident in front of the camera.\nBasic computer and social media knowledge.\nPrior cashier experience will be given priority.\nExperience in retail, customer service, or e-commerce is a plus.",
+            "benefits": "Friendly and supportive work environment.\nOpportunity to grow your career.\nHands-on experience in e-commerce, retail, and digital marketing.",
+            "working_hours": "Full-time, on-site",
+            "office_location": "Uttara sector 13",
+            "apply_link": "https://wa.me/8801805205867?text=Hi%2C%20I'm%20interested%20in%20applying%20for%20the%20Female%20Executive%20position.",
+            "featured": true,
+            "hiring_badge": true,
+            "new_badge": true
+          }
+        },
+        "process_step_aee8UX": {
+          "type": "process_step",
+          "settings": {
+            "title": "Application",
+            "description": "Submit your portfolio and CV through the role you're interested in."
+          }
+        },
+        "process_step_4rp4BA": {
+          "type": "process_step",
+          "settings": {
+            "title": "Screening",
+            "description": "Submit your portfolio and CV through the role you're interested in."
+          }
+        },
+        "process_step_NFKi4K": {
+          "type": "process_step",
+          "settings": {
+            "title": "Interview",
+            "description": "Submit your portfolio and CV through the role you're interested in."
+          }
+        },
+        "process_step_Djyani": {
+          "type": "process_step",
+          "settings": {
+            "title": "Assessment",
+            "description": "Submit your portfolio and CV through the role you're interested in."
+          }
+        },
+        "process_step_dQCpxX": {
+          "type": "process_step",
+          "settings": {
+            "title": "Offer",
+            "description": "Submit your portfolio and CV through the role you're interested in."
+          }
+        },
+        "process_step_kp6F8U": {
+          "type": "process_step",
+          "settings": {
+            "title": "Welcome",
+            "description": "Submit your portfolio and CV through the role you're interested in."
+          }
+        }
+      },
+      "block_order": [
+        "feature_PNee8G",
+        "feature_aEkqQm",
+        "job_NqGnqm",
+        "process_step_aee8UX",
+        "process_step_4rp4BA",
+        "process_step_NFKi4K",
+        "process_step_Djyani",
+        "process_step_dQCpxX",
+        "process_step_kp6F8U"
+      ],
+      "name": "Careers page",
+      "settings": {
+        "org_name": "Universes Raw",
+        "org_logo": "shopify://shop_images/UNIVERSES_LOGO.webp",
+        "color_primary": "#1B1A18",
+        "color_secondary": "#8C8579",
+        "color_accent": "#AD8A56",
+        "color_background": "#FAF8F4",
+        "color_surface": "#E7DECD",
+        "color_button": "#1B1A18",
+        "color_button_text": "#FAF8F4",
+        "color_button_hover": "#AD8A56",
+        "font_heading": "playfair_display_n7",
+        "font_body": "assistant_n4",
+        "container_width": 1280,
+        "section_spacing": 96,
+        "mobile_spacing": 56,
+        "border_radius": 2,
+        "enable_animations": true,
+        "show_hero": true,
+        "hero_overlay_color": "#1B1A18",
+        "hero_overlay_opacity": 40,
+        "hero_eyebrow": "Careers",
+        "headline": "Join the Universe",
+        "hero_description": "<p>We build for people who wear their convictions. Come make raw, honest fashion with us.</p>",
+        "hero_primary_cta_text": "View open roles",
+        "hero_primary_cta_link": "",
+        "hero_secondary_cta_text": "Our story",
+        "hero_secondary_cta_link": "",
+        "hero_text_align": "left",
+        "hero_height": "large",
+        "stats_heading": "Universes RAW, by the numbers",
+        "why_eyebrow": "Why join us",
+        "why_heading": "Made for people who make things",
+        "why_subheading": "",
+        "gallery_heading": "Life at Universes RAW",
+        "gallery_layout": "grid",
+        "jobs_eyebrow": "Open roles",
+        "jobs_heading": "Current open positions",
+        "jobs_subheading": "",
+        "enable_jobs_search": true,
+        "enable_jobs_filters": true,
+        "jobs_empty_text": "No roles match your search right now. Try clearing a filter, or check back soon.",
+        "sticky_apply_text": "View open roles",
+        "process_heading": "Hiring process",
+        "benefits_heading": "Benefits",
+        "testimonials_heading": "From our team",
+        "faq_heading": "Frequently asked questions",
+        "enable_faq_search": false,
+        "show_cta": true,
+        "cta_heading": "Ready to apply?",
+        "cta_description": "Send us your portfolio. We read every application.",
+        "cta_button_text": "See open roles",
+        "cta_button_link": "",
+        "cta_overlay_color": "#1B1A18",
+        "cta_overlay_opacity": 55,
+        "show_contact": true,
+        "contact_heading": "Contact HR",
+        "contact_email": "hr@Universsesraw.com",
+        "contact_phone": "8801805205867",
+        "contact_address": "<p>House 35, Sonargao Jonopoth, Sector 7, Uttara, Dhaka 1230</p>",
+        "contact_hours": "<p>10am to 10 pm </p>",
+        "contact_map_embed": "",
+        "enable_newsletter": false,
+        "newsletter_heading": "Stay in the loop",
+        "newsletter_text": "Get new roles and studio news in your inbox.",
+        "newsletter_placeholder": "Your email address",
+        "newsletter_button_text": "Subscribe"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "careers_page_LwEErA"
   ]
 }
