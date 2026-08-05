@@ -1,0 +1,1452 @@
+{% comment %}
+  ============================================================================
+  UNIVERSES RAW — CAREERS PAGE SECTION
+  ============================================================================
+  Online Store 2.0 custom section. Fully theme-editor driven: no hardcoded
+  copy, images, or links. Every repeatable module (stats, feature cards,
+  gallery, jobs, process steps, benefits, testimonials, FAQ) is a block type,
+  so merchants can add, remove, and reorder freely from the editor.
+
+  Signature design element: open roles are presented as a lookbook index —
+  each role gets an oversized serif "N° 01" lot number and a hairline
+  divider instead of a boxed card, echoing an editorial collection index.
+
+  File structure (all in one file, per Shopify section conventions):
+    1. Scoped CSS      ({% style %})
+    2. Liquid markup   (semantic HTML5, one <section> per module)
+    3. Vanilla JS       (filtering, modal, sliders, counters — deferred)
+    4. JSON-LD          (Organization, BreadcrumbList, JobPosting)
+    5. Schema block     (settings, blocks, presets)
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign uid = section.id
+  assign s = section.settings
+  assign container_w = s.container_width | default: 1280
+  assign radius = s.border_radius | default: 2
+  assign anim = s.enable_animations
+%}
+
+{% style %}
+  .uraw-{{ uid }} {
+    --uraw-color-text: {{ s.color_primary | default: '#1B1A18' }};
+    --uraw-color-muted: {{ s.color_secondary | default: '#8C8579' }};
+    --uraw-color-accent: {{ s.color_accent | default: '#AD8A56' }};
+    --uraw-color-bg: {{ s.color_background | default: '#FAF8F4' }};
+    --uraw-color-surface: {{ s.color_surface | default: '#E7DECD' }};
+    --uraw-color-btn: {{ s.color_button | default: '#1B1A18' }};
+    --uraw-color-btn-text: {{ s.color_button_text | default: '#FAF8F4' }};
+    --uraw-color-btn-hover: {{ s.color_button_hover | default: '#AD8A56' }};
+    --uraw-container: {{ container_w }}px;
+    --uraw-radius: {{ radius }}px;
+    --uraw-space-desktop: {{ s.section_spacing | default: 96 }}px;
+    --uraw-space-mobile: {{ s.mobile_spacing | default: 56 }}px;
+    --uraw-font-heading: {{ s.font_heading.family | default: "'Playfair Display', Georgia, serif" }}{% if s.font_heading %}, {{ s.font_heading.fallback_families }}{% endif %};
+    --uraw-font-body: {{ s.font_body.family | default: "'Assistant', Helvetica, Arial, sans-serif" }}{% if s.font_body %}, {{ s.font_body.fallback_families }}{% endif %};
+    background: var(--uraw-color-bg);
+    color: var(--uraw-color-text);
+    font-family: var(--uraw-font-body);
+    overflow-x: hidden;
+  }
+  {% if s.font_heading %}{{ s.font_heading | font_face: font_display: 'swap' }}{% endif %}
+  {% if s.font_body %}{{ s.font_body | font_face: font_display: 'swap' }}{% endif %}
+
+  .uraw-{{ uid }} * { box-sizing: border-box; }
+  .uraw-{{ uid }} img { max-width: 100%; display: block; }
+  .uraw-{{ uid }} a { color: inherit; }
+  .uraw-{{ uid }} .uraw-wrap {
+    max-width: var(--uraw-container);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .uraw-{{ uid }} .uraw-module {
+    padding-block: var(--uraw-space-mobile);
+  }
+  @media (min-width: 750px) {
+    .uraw-{{ uid }} .uraw-module { padding-block: var(--uraw-space-desktop); }
+  }
+  .uraw-{{ uid }} .uraw-eyebrow {
+    font-family: var(--uraw-font-body);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--uraw-color-accent);
+    margin: 0 0 14px;
+    font-weight: 600;
+  }
+  .uraw-{{ uid }} h1.uraw-h,
+  .uraw-{{ uid }} h2.uraw-h,
+  .uraw-{{ uid }} h3.uraw-h {
+    font-family: var(--uraw-font-heading);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin: 0 0 16px;
+    color: var(--uraw-color-text);
+  }
+  .uraw-{{ uid }} h2.uraw-h { font-size: clamp(28px, 4vw, 44px); }
+  .uraw-{{ uid }} .uraw-sub {
+    font-size: 17px;
+    color: var(--uraw-color-muted);
+    max-width: 640px;
+    line-height: 1.6;
+    margin: 0 0 8px;
+  }
+  .uraw-{{ uid }} .uraw-head-block { margin-bottom: 48px; }
+  .uraw-{{ uid }} .uraw-head-block.uraw-center { text-align: center; margin-inline: auto; }
+  .uraw-{{ uid }} .uraw-hairline {
+    border: none;
+    border-top: 1px solid rgba(27,26,24,0.14);
+    margin: 0;
+  }
+  .uraw-{{ uid }} .uraw-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--uraw-color-btn);
+    color: var(--uraw-color-btn-text);
+    border: 1px solid var(--uraw-color-btn);
+    padding: 15px 30px;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: var(--uraw-radius);
+    cursor: pointer;
+    transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease;
+    font-weight: 600;
+    min-height: 48px;
+  }
+  .uraw-{{ uid }} .uraw-btn:hover { background: var(--uraw-color-btn-hover); border-color: var(--uraw-color-btn-hover); }
+  .uraw-{{ uid }} .uraw-btn:focus-visible { outline: 2px solid var(--uraw-color-accent); outline-offset: 3px; }
+  .uraw-{{ uid }} .uraw-btn-ghost {
+    background: transparent;
+    color: var(--uraw-color-text);
+    border: 1px solid rgba(27,26,24,0.35);
+  }
+  .uraw-{{ uid }} .uraw-btn-ghost:hover { background: var(--uraw-color-text); color: var(--uraw-color-bg); border-color: var(--uraw-color-text); }
+
+  /* ---------- Hero ---------- */
+  .uraw-{{ uid }} .uraw-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    color: #fff;
+    background: var(--uraw-color-text);
+  }
+  .uraw-{{ uid }} .uraw-hero[data-height="small"] { min-height: 60vh; }
+  .uraw-{{ uid }} .uraw-hero[data-height="medium"] { min-height: 75vh; }
+  .uraw-{{ uid }} .uraw-hero[data-height="large"] { min-height: 88vh; }
+  .uraw-{{ uid }} .uraw-hero[data-height="fullscreen"] { min-height: 100vh; }
+  .uraw-{{ uid }} .uraw-hero-media {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 0;
+  }
+  .uraw-{{ uid }} .uraw-hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+  }
+  .uraw-{{ uid }} .uraw-hero-content {
+    position: relative; z-index: 2;
+    padding: 64px 24px;
+    width: 100%;
+    max-width: var(--uraw-container);
+    margin: 0 auto;
+  }
+  .uraw-{{ uid }} .uraw-hero[data-align="center"] .uraw-hero-content { text-align: center; margin-inline: auto; }
+  .uraw-{{ uid }} .uraw-hero-eyebrow {
+    font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: rgba(255,255,255,0.85); margin-bottom: 18px; font-weight: 600;
+  }
+  .uraw-{{ uid }} .uraw-hero-title {
+    font-family: var(--uraw-font-heading);
+    font-size: clamp(38px, 7vw, 82px);
+    line-height: 1.02;
+    font-weight: 600;
+    margin: 0 0 22px;
+    letter-spacing: -0.01em;
+  }
+  .uraw-{{ uid }} .uraw-hero-desc {
+    font-size: 18px; line-height: 1.6; max-width: 560px;
+    color: rgba(255,255,255,0.88); margin: 0 0 32px;
+  }
+  .uraw-{{ uid }} .uraw-hero[data-align="center"] .uraw-hero-desc { margin-inline: auto; }
+  .uraw-{{ uid }} .uraw-hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+  .uraw-{{ uid }} .uraw-hero[data-align="center"] .uraw-hero-ctas { justify-content: center; }
+  .uraw-{{ uid }} .uraw-hero-ctas .uraw-btn-ghost { color: #fff; border-color: rgba(255,255,255,0.6); }
+  .uraw-{{ uid }} .uraw-hero-ctas .uraw-btn-ghost:hover { background: #fff; color: var(--uraw-color-text); }
+
+  {% if anim %}
+  .uraw-{{ uid }} .uraw-fade-up {
+    opacity: 0; transform: translateY(22px);
+    animation: uraw-fade-up .9s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  .uraw-{{ uid }} .uraw-hero-eyebrow.uraw-fade-up { animation-delay: .05s; }
+  .uraw-{{ uid }} .uraw-hero-title.uraw-fade-up { animation-delay: .18s; }
+  .uraw-{{ uid }} .uraw-hero-desc.uraw-fade-up { animation-delay: .32s; }
+  .uraw-{{ uid }} .uraw-hero-ctas.uraw-fade-up { animation-delay: .44s; }
+  @keyframes uraw-fade-up { to { opacity: 1; transform: translateY(0); } }
+  .uraw-{{ uid }} .uraw-reveal {
+    opacity: 0; transform: translateY(18px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .uraw-{{ uid }} .uraw-reveal.is-visible { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .uraw-{{ uid }} .uraw-fade-up, .uraw-{{ uid }} .uraw-reveal {
+      animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important;
+    }
+  }
+  {% else %}
+  .uraw-{{ uid }} .uraw-fade-up, .uraw-{{ uid }} .uraw-reveal { opacity: 1; transform: none; }
+  {% endif %}
+
+  /* ---------- Stats ---------- */
+  .uraw-{{ uid }} .uraw-stats-grid {
+    display: grid; gap: 32px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 750px) {
+    .uraw-{{ uid }} .uraw-stats-grid { grid-template-columns: repeat(var(--uraw-stat-cols, 4), 1fr); }
+  }
+  .uraw-{{ uid }} .uraw-stat { text-align: center; padding: 8px; }
+  .uraw-{{ uid }} .uraw-stat-icon { font-size: 26px; margin-bottom: 10px; color: var(--uraw-color-accent); }
+  .uraw-{{ uid }} .uraw-stat-number {
+    font-family: var(--uraw-font-heading);
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1; font-weight: 600; margin-bottom: 8px;
+  }
+  .uraw-{{ uid }} .uraw-stat-label { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--uraw-color-muted); font-weight: 600; }
+  .uraw-{{ uid }} .uraw-stat-desc { font-size: 14px; color: var(--uraw-color-muted); margin-top: 8px; line-height: 1.5; }
+
+  /* ---------- Why join / feature cards ---------- */
+  .uraw-{{ uid }} .uraw-feature-grid {
+    display: grid; gap: 1px;
+    background: rgba(27,26,24,0.1);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    border: 1px solid rgba(27,26,24,0.1);
+  }
+  .uraw-{{ uid }} .uraw-feature-card {
+    background: var(--uraw-color-bg);
+    padding: 40px 28px;
+    transition: transform .3s ease, background .3s ease;
+  }
+  .uraw-{{ uid }} .uraw-feature-card:hover { background: var(--uraw-color-surface); transform: translateY(-4px); }
+  .uraw-{{ uid }} .uraw-feature-image { border-radius: var(--uraw-radius); margin-bottom: 20px; aspect-ratio: 4/3; object-fit: cover; }
+  .uraw-{{ uid }} .uraw-feature-icon { font-size: 24px; color: var(--uraw-color-accent); margin-bottom: 16px; }
+  .uraw-{{ uid }} .uraw-feature-title { font-family: var(--uraw-font-heading); font-size: 21px; font-weight: 600; margin: 0 0 10px; }
+  .uraw-{{ uid }} .uraw-feature-desc { font-size: 15px; color: var(--uraw-color-muted); line-height: 1.6; margin: 0; }
+
+  /* ---------- Gallery ---------- */
+  .uraw-{{ uid }} .uraw-gallery[data-layout="grid"] {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 750px) {
+    .uraw-{{ uid }} .uraw-gallery[data-layout="grid"] { grid-template-columns: repeat(4, 1fr); }
+  }
+  .uraw-{{ uid }} .uraw-gallery[data-layout="masonry"] {
+    columns: 2; column-gap: 16px;
+  }
+  @media (min-width: 750px) { .uraw-{{ uid }} .uraw-gallery[data-layout="masonry"] { columns: 4; } }
+  .uraw-{{ uid }} .uraw-gallery[data-layout="masonry"] .uraw-gallery-item { break-inside: avoid; margin-bottom: 16px; }
+  .uraw-{{ uid }} .uraw-gallery[data-layout="slider"] {
+    display: flex; gap: 16px; overflow-x: auto;
+    scroll-snap-type: x mandatory; padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .uraw-{{ uid }} .uraw-gallery[data-layout="slider"] .uraw-gallery-item {
+    flex: 0 0 78%; scroll-snap-align: start;
+  }
+  @media (min-width: 750px) {
+    .uraw-{{ uid }} .uraw-gallery[data-layout="slider"] .uraw-gallery-item { flex-basis: 32%; }
+  }
+  .uraw-{{ uid }} .uraw-gallery-item { position: relative; border-radius: var(--uraw-radius); overflow: hidden; }
+  .uraw-{{ uid }} .uraw-gallery[data-layout="grid"] .uraw-gallery-item img { aspect-ratio: 3/4; object-fit: cover; width: 100%; height: 100%; }
+  .uraw-{{ uid }} .uraw-gallery-caption {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 14px 16px; font-size: 12px; letter-spacing: 0.04em;
+    color: #fff; background: linear-gradient(0deg, rgba(0,0,0,0.55), transparent);
+  }
+
+  /* ---------- Jobs (lookbook index — signature module) ---------- */
+  .uraw-{{ uid }} .uraw-jobs-toolbar {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    margin-bottom: 32px; padding-bottom: 24px;
+    border-bottom: 1px solid rgba(27,26,24,0.14);
+  }
+  .uraw-{{ uid }} .uraw-jobs-search {
+    flex: 1 1 240px; position: relative;
+  }
+  .uraw-{{ uid }} .uraw-jobs-search input {
+    width: 100%; padding: 13px 16px; font-size: 15px;
+    border: 1px solid rgba(27,26,24,0.25); background: var(--uraw-color-bg);
+    border-radius: var(--uraw-radius); font-family: var(--uraw-font-body);
+    min-height: 46px;
+  }
+  .uraw-{{ uid }} .uraw-jobs-search input:focus-visible { outline: 2px solid var(--uraw-color-accent); outline-offset: 1px; }
+  .uraw-{{ uid }} .uraw-jobs-select {
+    padding: 13px 16px; font-size: 14px; border: 1px solid rgba(27,26,24,0.25);
+    background: var(--uraw-color-bg); border-radius: var(--uraw-radius);
+    font-family: var(--uraw-font-body); min-height: 46px; cursor: pointer;
+  }
+  .uraw-{{ uid }} .uraw-jobs-select:focus-visible { outline: 2px solid var(--uraw-color-accent); }
+  .uraw-{{ uid }} .uraw-jobs-count { font-size: 13px; color: var(--uraw-color-muted); margin-bottom: 20px; }
+  .uraw-{{ uid }} .uraw-job-row {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 20px; align-items: center;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(27,26,24,0.14);
+    cursor: pointer;
+    transition: padding-left .25s ease, background .25s ease;
+  }
+  .uraw-{{ uid }} .uraw-job-row:hover, .uraw-{{ uid }} .uraw-job-row:focus-visible {
+    padding-left: 12px; background: var(--uraw-color-surface);
+  }
+  .uraw-{{ uid }} .uraw-job-row:focus-visible { outline: 2px solid var(--uraw-color-accent); outline-offset: -2px; }
+  .uraw-{{ uid }} .uraw-job-lot {
+    font-family: var(--uraw-font-heading); font-size: 30px; color: var(--uraw-color-accent);
+    font-weight: 600; line-height: 1;
+  }
+  .uraw-{{ uid }} .uraw-job-main { min-width: 0; }
+  .uraw-{{ uid }} .uraw-job-badges { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .uraw-{{ uid }} .uraw-badge {
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 100px; font-weight: 700;
+  }
+  .uraw-{{ uid }} .uraw-badge-featured { background: var(--uraw-color-text); color: var(--uraw-color-bg); }
+  .uraw-{{ uid }} .uraw-badge-hiring { background: var(--uraw-color-accent); color: #fff; }
+  .uraw-{{ uid }} .uraw-badge-new { background: transparent; border: 1px solid var(--uraw-color-text); color: var(--uraw-color-text); }
+  .uraw-{{ uid }} .uraw-job-title { font-family: var(--uraw-font-heading); font-size: 24px; font-weight: 600; margin: 0 0 8px; }
+  .uraw-{{ uid }} .uraw-job-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--uraw-color-muted); }
+  .uraw-{{ uid }} .uraw-job-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .uraw-{{ uid }} .uraw-job-arrow { font-size: 22px; color: var(--uraw-color-text); justify-self: end; }
+  .uraw-{{ uid }} .uraw-jobs-empty {
+    display: none; text-align: center; padding: 64px 20px; color: var(--uraw-color-muted);
+  }
+  .uraw-{{ uid }} .uraw-jobs-empty.is-visible { display: block; }
+  @media (max-width: 599px) {
+    .uraw-{{ uid }} .uraw-job-row { grid-template-columns: 40px 1fr; }
+    .uraw-{{ uid }} .uraw-job-arrow { display: none; }
+    .uraw-{{ uid }} .uraw-job-lot { font-size: 22px; }
+    .uraw-{{ uid }} .uraw-job-title { font-size: 19px; }
+  }
+
+  /* ---------- Job modal ---------- */
+  .uraw-{{ uid }} .uraw-modal-backdrop {
+    position: fixed; inset: 0; background: rgba(27,26,24,0.6);
+    z-index: 999; opacity: 0; visibility: hidden; transition: opacity .3s ease;
+  }
+  .uraw-{{ uid }} .uraw-modal-backdrop.is-open { opacity: 1; visibility: visible; }
+  .uraw-{{ uid }} .uraw-modal {
+    position: fixed; z-index: 1000;
+    top: 0; right: 0; height: 100%; width: 100%;
+    max-width: 620px; background: var(--uraw-color-bg);
+    transform: translateX(100%); transition: transform .35s cubic-bezier(.22,.61,.36,1);
+    overflow-y: auto; padding: 32px 28px 120px;
+  }
+  .uraw-{{ uid }} .uraw-modal.is-open { transform: translateX(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .uraw-{{ uid }} .uraw-modal, .uraw-{{ uid }} .uraw-modal-backdrop { transition: none; }
+  }
+  .uraw-{{ uid }} .uraw-modal-close {
+    position: absolute; top: 24px; right: 24px;
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid rgba(27,26,24,0.25); background: transparent;
+    font-size: 18px; cursor: pointer; color: var(--uraw-color-text);
+  }
+  .uraw-{{ uid }} .uraw-modal-close:hover { background: var(--uraw-color-text); color: var(--uraw-color-bg); }
+  .uraw-{{ uid }} .uraw-modal-image { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--uraw-radius); margin-bottom: 24px; }
+  .uraw-{{ uid }} .uraw-modal-title { font-family: var(--uraw-font-heading); font-size: 30px; margin: 0 0 12px; padding-right: 40px; }
+  .uraw-{{ uid }} .uraw-modal-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--uraw-color-muted); margin-bottom: 28px; }
+  .uraw-{{ uid }} .uraw-modal-section { margin-bottom: 26px; }
+  .uraw-{{ uid }} .uraw-modal-section h4 {
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--uraw-color-accent); margin: 0 0 12px; font-weight: 700;
+  }
+  .uraw-{{ uid }} .uraw-modal-section p, .uraw-{{ uid }} .uraw-modal-section li { font-size: 15px; line-height: 1.7; color: var(--uraw-color-text); }
+  .uraw-{{ uid }} .uraw-modal-section ul { margin: 0; padding-left: 20px; }
+  .uraw-{{ uid }} .uraw-modal-apply {
+    position: sticky; bottom: -32px; margin-top: 32px; padding-top: 20px;
+    background: var(--uraw-color-bg); border-top: 1px solid rgba(27,26,24,0.14);
+  }
+  .uraw-{{ uid }} .uraw-modal-apply .uraw-btn { width: 100%; justify-content: center; }
+
+  /* ---------- Hiring process timeline ---------- */
+  .uraw-{{ uid }} .uraw-timeline { display: flex; flex-direction: column; }
+  .uraw-{{ uid }} .uraw-timeline-step {
+    display: grid; grid-template-columns: 56px 1fr; gap: 20px; padding-bottom: 40px; position: relative;
+  }
+  .uraw-{{ uid }} .uraw-timeline-step:not(:last-child)::before {
+    content: ""; position: absolute; left: 27px; top: 56px; bottom: 0;
+    width: 1px; background: rgba(27,26,24,0.18);
+  }
+  .uraw-{{ uid }} .uraw-timeline-num {
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 1px solid var(--uraw-color-text);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--uraw-font-heading); font-size: 18px; flex-shrink: 0;
+    background: var(--uraw-color-bg); z-index: 1;
+  }
+  .uraw-{{ uid }} .uraw-timeline-title { font-family: var(--uraw-font-heading); font-size: 20px; margin: 10px 0 6px; }
+  .uraw-{{ uid }} .uraw-timeline-desc { font-size: 14px; color: var(--uraw-color-muted); line-height: 1.6; margin: 0; }
+  @media (min-width: 750px) {
+    .uraw-{{ uid }} .uraw-timeline { flex-direction: row; }
+    .uraw-{{ uid }} .uraw-timeline-step { flex: 1; grid-template-columns: 1fr; text-align: center; padding-bottom: 0; }
+    .uraw-{{ uid }} .uraw-timeline-num { margin: 0 auto; }
+    .uraw-{{ uid }} .uraw-timeline-step:not(:last-child)::before {
+      left: 50%; top: 27px; right: -50%; bottom: auto; width: auto; height: 1px;
+    }
+    .uraw-{{ uid }} .uraw-timeline-desc { max-width: 220px; margin-inline: auto; }
+  }
+
+  /* ---------- Benefits ---------- */
+  .uraw-{{ uid }} .uraw-benefits-grid {
+    display: grid; gap: 28px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .uraw-{{ uid }} .uraw-benefit-card {
+    padding: 28px; background: var(--uraw-color-surface); border-radius: var(--uraw-radius);
+    transition: transform .3s ease;
+  }
+  .uraw-{{ uid }} .uraw-benefit-card:hover { transform: translateY(-4px); }
+  .uraw-{{ uid }} .uraw-benefit-icon { font-size: 24px; margin-bottom: 14px; color: var(--uraw-color-accent); }
+  .uraw-{{ uid }} .uraw-benefit-title { font-family: var(--uraw-font-heading); font-size: 18px; margin: 0 0 8px; }
+  .uraw-{{ uid }} .uraw-benefit-desc { font-size: 14px; color: var(--uraw-color-muted); line-height: 1.6; margin: 0; }
+
+  /* ---------- Testimonials ---------- */
+  .uraw-{{ uid }} .uraw-testimonials { position: relative; }
+  .uraw-{{ uid }} .uraw-testimonial-track {
+    display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; padding-bottom: 8px; scrollbar-width: none;
+  }
+  .uraw-{{ uid }} .uraw-testimonial-track::-webkit-scrollbar { display: none; }
+  .uraw-{{ uid }} .uraw-testimonial-card {
+    flex: 0 0 88%; scroll-snap-align: start; background: var(--uraw-color-surface);
+    border-radius: var(--uraw-radius); padding: 36px 28px;
+  }
+  @media (min-width: 750px) { .uraw-{{ uid }} .uraw-testimonial-card { flex-basis: 44%; } }
+  .uraw-{{ uid }} .uraw-testimonial-rating { color: var(--uraw-color-accent); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+  .uraw-{{ uid }} .uraw-testimonial-quote { font-family: var(--uraw-font-heading); font-size: 19px; line-height: 1.5; margin: 0 0 24px; }
+  .uraw-{{ uid }} .uraw-testimonial-person { display: flex; align-items: center; gap: 12px; }
+  .uraw-{{ uid }} .uraw-testimonial-photo { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+  .uraw-{{ uid }} .uraw-testimonial-name { font-weight: 700; font-size: 14px; }
+  .uraw-{{ uid }} .uraw-testimonial-position { font-size: 13px; color: var(--uraw-color-muted); }
+  .uraw-{{ uid }} .uraw-slider-controls { display: flex; gap: 10px; justify-content: center; margin-top: 24px; }
+  .uraw-{{ uid }} .uraw-slider-btn {
+    width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(27,26,24,0.3);
+    background: transparent; cursor: pointer; font-size: 16px;
+  }
+  .uraw-{{ uid }} .uraw-slider-btn:hover { background: var(--uraw-color-text); color: var(--uraw-color-bg); }
+
+  /* ---------- FAQ ---------- */
+  .uraw-{{ uid }} .uraw-faq-search { margin-bottom: 24px; }
+  .uraw-{{ uid }} .uraw-faq-search input {
+    width: 100%; padding: 13px 16px; border: 1px solid rgba(27,26,24,0.25);
+    border-radius: var(--uraw-radius); font-size: 15px; background: var(--uraw-color-bg);
+    min-height: 46px; font-family: var(--uraw-font-body);
+  }
+  .uraw-{{ uid }} .uraw-faq-item { border-bottom: 1px solid rgba(27,26,24,0.14); }
+  .uraw-{{ uid }} .uraw-faq-item[hidden] { display: none; }
+  .uraw-{{ uid }} .uraw-faq-item summary {
+    padding: 22px 4px; cursor: pointer; font-family: var(--uraw-font-heading);
+    font-size: 17px; list-style: none; display: flex; justify-content: space-between;
+    align-items: center; gap: 16px;
+  }
+  .uraw-{{ uid }} .uraw-faq-item summary::-webkit-details-marker { display: none; }
+  .uraw-{{ uid }} .uraw-faq-item summary::after {
+    content: "+"; font-size: 22px; color: var(--uraw-color-accent); flex-shrink: 0;
+    transition: transform .25s ease;
+  }
+  .uraw-{{ uid }} .uraw-faq-item[open] summary::after { transform: rotate(45deg); }
+  .uraw-{{ uid }} .uraw-faq-answer { padding: 0 4px 22px; font-size: 15px; line-height: 1.7; color: var(--uraw-color-muted); }
+
+  /* ---------- CTA banner ---------- */
+  .uraw-{{ uid }} .uraw-cta-banner {
+    position: relative; border-radius: var(--uraw-radius); overflow: hidden;
+    padding: 72px 32px; text-align: center; color: #fff;
+    background: var(--uraw-color-text);
+  }
+  .uraw-{{ uid }} .uraw-cta-media { position: absolute; inset: 0; object-fit: cover; width: 100%; height: 100%; z-index: 0; }
+  .uraw-{{ uid }} .uraw-cta-overlay { position: absolute; inset: 0; z-index: 1; }
+  .uraw-{{ uid }} .uraw-cta-content { position: relative; z-index: 2; max-width: 620px; margin: 0 auto; }
+  .uraw-{{ uid }} .uraw-cta-content h2 { color: #fff; }
+  .uraw-{{ uid }} .uraw-cta-content p { color: rgba(255,255,255,0.85); margin-bottom: 28px; }
+
+  /* ---------- Contact ---------- */
+  .uraw-{{ uid }} .uraw-contact-grid { display: grid; gap: 40px; grid-template-columns: 1fr; }
+  @media (min-width: 750px) { .uraw-{{ uid }} .uraw-contact-grid { grid-template-columns: 1fr 1fr; } }
+  .uraw-{{ uid }} .uraw-contact-list { list-style: none; padding: 0; margin: 0; }
+  .uraw-{{ uid }} .uraw-contact-list li { padding: 16px 0; border-bottom: 1px solid rgba(27,26,24,0.14); font-size: 15px; }
+  .uraw-{{ uid }} .uraw-contact-list li strong { display: block; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--uraw-color-muted); margin-bottom: 6px; font-weight: 700; }
+  .uraw-{{ uid }} .uraw-contact-map { border-radius: var(--uraw-radius); overflow: hidden; border: 1px solid rgba(27,26,24,0.14); min-height: 280px; }
+  .uraw-{{ uid }} .uraw-contact-map iframe { width: 100%; height: 100%; min-height: 280px; border: 0; }
+
+  /* ---------- Newsletter ---------- */
+  .uraw-{{ uid }} .uraw-newsletter { text-align: center; background: var(--uraw-color-surface); border-radius: var(--uraw-radius); padding: 56px 24px; }
+  .uraw-{{ uid }} .uraw-newsletter-form { display: flex; gap: 12px; max-width: 440px; margin: 24px auto 0; flex-wrap: wrap; justify-content: center; }
+  .uraw-{{ uid }} .uraw-newsletter-form input[type="email"] {
+    flex: 1 1 240px; padding: 14px 16px; border: 1px solid rgba(27,26,24,0.3);
+    border-radius: var(--uraw-radius); font-size: 15px; min-height: 48px; font-family: var(--uraw-font-body);
+  }
+  .uraw-{{ uid }} .uraw-newsletter-success { color: var(--uraw-color-accent); font-size: 14px; margin-top: 14px; }
+
+  /* ---------- Sticky mobile apply bar ---------- */
+  .uraw-{{ uid }} .uraw-sticky-apply {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 500;
+    background: var(--uraw-color-bg); border-top: 1px solid rgba(27,26,24,0.14);
+    padding: 12px 16px; transform: translateY(100%); transition: transform .3s ease;
+    display: flex; box-shadow: 0 -6px 18px rgba(0,0,0,0.08);
+  }
+  .uraw-{{ uid }} .uraw-sticky-apply.is-visible { transform: translateY(0); }
+  .uraw-{{ uid }} .uraw-sticky-apply .uraw-btn { width: 100%; justify-content: center; }
+  @media (min-width: 750px) { .uraw-{{ uid }} .uraw-sticky-apply { display: none; } }
+
+  /* ---------- Accessibility ---------- */
+  .uraw-{{ uid }} .uraw-visually-hidden {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0; padding: 0; margin: -1px;
+  }
+  .uraw-{{ uid }} :focus-visible { outline: 2px solid var(--uraw-color-accent); outline-offset: 2px; }
+{% endstyle %}
+
+<div class="uraw-{{ uid }}" id="uraw-root-{{ uid }}">
+
+  {% comment %} ============ SKIP LINK ============ {% endcomment %}
+  <a class="uraw-visually-hidden" href="#uraw-jobs-{{ uid }}">Skip to open positions</a>
+
+  {% comment %} ============ HERO ============ {% endcomment %}
+  {% if s.show_hero %}
+  <header class="uraw-hero" data-height="{{ s.hero_height | default: 'large' }}" data-align="{{ s.hero_text_align | default: 'left' }}">
+    {% if s.hero_video %}
+      <video class="uraw-hero-media" autoplay muted loop playsinline aria-hidden="true">
+        <source src="{{ s.hero_video.sources.last.url }}" type="video/mp4">
+      </video>
+    {% elsif s.hero_image %}
+      {{ s.hero_image | image_url: width: 2000 | image_tag:
+        class: 'uraw-hero-media',
+        loading: 'eager',
+        fetchpriority: 'high',
+        widths: '750,1100,1500,2000',
+        sizes: '100vw',
+        alt: s.hero_image.alt | default: s.headline
+      }}
+    {% endif %}
+    <div class="uraw-hero-overlay" style="background:{{ s.hero_overlay_color | default: '#1B1A18' }}; opacity:{{ s.hero_overlay_opacity | default: 40 | divided_by: 100.0 }};" aria-hidden="true"></div>
+    <div class="uraw-hero-content">
+      {% if s.hero_eyebrow != blank %}<p class="uraw-hero-eyebrow uraw-fade-up">{{ s.hero_eyebrow }}</p>{% endif %}
+      <h1 class="uraw-hero-title uraw-fade-up">{{ s.headline | default: 'Join the Universe' }}</h1>
+      {% if s.hero_description != blank %}<div class="uraw-hero-desc uraw-fade-up">{{ s.hero_description }}</div>{% endif %}
+      <div class="uraw-hero-ctas uraw-fade-up">
+        {% if s.hero_primary_cta_text != blank %}
+          <a href="{{ s.hero_primary_cta_link | default: '#uraw-jobs-' | append: uid }}" class="uraw-btn">{{ s.hero_primary_cta_text }}</a>
+        {% endif %}
+        {% if s.hero_secondary_cta_text != blank %}
+          <a href="{{ s.hero_secondary_cta_link | default: '#' }}" class="uraw-btn uraw-btn-ghost">{{ s.hero_secondary_cta_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  {% endif %}
+
+  {% comment %} ============ COMPANY STATISTICS ============ {% endcomment %}
+  {% assign stat_blocks = section.blocks | where: 'type', 'stat' %}
+  {% if stat_blocks.size > 0 %}
+  <section class="uraw-module uraw-wrap" aria-labelledby="uraw-stats-h-{{ uid }}">
+    {% if s.stats_heading != blank %}
+      <div class="uraw-head-block uraw-center uraw-reveal">
+        <h2 class="uraw-h" id="uraw-stats-h-{{ uid }}">{{ s.stats_heading }}</h2>
+      </div>
+    {% endif %}
+    <div class="uraw-stats-grid" style="--uraw-stat-cols:{{ stat_blocks.size }};">
+      {% for block in stat_blocks %}
+        <div class="uraw-stat uraw-reveal" {{ block.shopify_attributes }}>
+          {% if block.settings.icon != blank %}<div class="uraw-stat-icon" aria-hidden="true">{{ block.settings.icon }}</div>{% endif %}
+          <div class="uraw-stat-number" data-counter data-target="{{ block.settings.number }}">{{ block.settings.number }}</div>
+          <div class="uraw-stat-label">{{ block.settings.label }}</div>
+          {% if block.settings.description != blank %}<p class="uraw-stat-desc">{{ block.settings.description }}</p>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% comment %} ============ WHY JOIN US ============ {% endcomment %}
+  {% assign feature_blocks = section.blocks | where: 'type', 'feature' %}
+  {% if feature_blocks.size > 0 %}
+  <section class="uraw-module uraw-wrap" aria-labelledby="uraw-why-h-{{ uid }}">
+    <div class="uraw-head-block uraw-reveal">
+      {% if s.why_eyebrow != blank %}<p class="uraw-eyebrow">{{ s.why_eyebrow }}</p>{% endif %}
+      <h2 class="uraw-h" id="uraw-why-h-{{ uid }}">{{ s.why_heading | default: 'Why join us' }}</h2>
+      {% if s.why_subheading != blank %}<p class="uraw-sub">{{ s.why_subheading }}</p>{% endif %}
+    </div>
+    <div class="uraw-feature-grid">
+      {% for block in feature_blocks %}
+        <div class="uraw-feature-card uraw-reveal" {{ block.shopify_attributes }}>
+          {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 600 | image_tag: class: 'uraw-feature-image', loading: 'lazy', widths: '300,450,600', alt: block.settings.title }}
+          {% elsif block.settings.icon != blank %}
+            <div class="uraw-feature-icon" aria-hidden="true">{{ block.settings.icon }}</div>
+          {% endif %}
+          <h3 class="uraw-feature-title">{{ block.settings.title }}</h3>
+          <p class="uraw-feature-desc">{{ block.settings.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% comment %} ============ LIFE AT UNIVERSES RAW — GALLERY ============ {% endcomment %}
+  {% assign gallery_blocks = section.blocks | where: 'type', 'gallery_image' %}
+  {% if gallery_blocks.size > 0 %}
+  <section class="uraw-module uraw-wrap" aria-labelledby="uraw-gallery-h-{{ uid }}">
+    <div class="uraw-head-block uraw-reveal">
+      <h2 class="uraw-h" id="uraw-gallery-h-{{ uid }}">{{ s.gallery_heading | default: 'Life at Universes RAW' }}</h2>
+    </div>
+    <div class="uraw-gallery uraw-reveal" data-layout="{{ s.gallery_layout | default: 'grid' }}" role="list">
+      {% for block in gallery_blocks %}
+        <figure class="uraw-gallery-item" role="listitem" {{ block.shopify_attributes }}>
+          {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450,650,900', alt: block.settings.caption | default: 'Life at Universes RAW' }}
+          {% endif %}
+          {% if block.settings.caption != blank %}
+            <figcaption class="uraw-gallery-caption">{{ block.settings.caption }}</figcaption>
+          {% endif %}
+        </figure>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% comment %} ============ CURRENT OPEN POSITIONS — LOOKBOOK INDEX ============ {% endcomment %}
+  {% assign job_blocks = section.blocks | where: 'type', 'job' %}
+  <section class="uraw-module uraw-wrap" id="uraw-jobs-{{ uid }}" aria-labelledby="uraw-jobs-h-{{ uid }}">
+    <div class="uraw-head-block uraw-reveal">
+      {% if s.jobs_eyebrow != blank %}<p class="uraw-eyebrow">{{ s.jobs_eyebrow }}</p>{% endif %}
+      <h2 class="uraw-h" id="uraw-jobs-h-{{ uid }}">{{ s.jobs_heading | default: 'Current open positions' }}</h2>
+      {% if s.jobs_subheading != blank %}<p class="uraw-sub">{{ s.jobs_subheading }}</p>{% endif %}
+    </div>
+
+    {% if job_blocks.size > 0 %}
+      {% if s.enable_jobs_search or s.enable_jobs_filters %}
+      <div class="uraw-jobs-toolbar" role="search">
+        {% if s.enable_jobs_search %}
+          <div class="uraw-jobs-search">
+            <label class="uraw-visually-hidden" for="uraw-search-{{ uid }}">Search open positions</label>
+            <input type="search" id="uraw-search-{{ uid }}" data-jobs-search placeholder="Search roles…" autocomplete="off">
+          </div>
+        {% endif %}
+        {% if s.enable_jobs_filters %}
+          <label class="uraw-visually-hidden" for="uraw-dept-{{ uid }}">Filter by department</label>
+          <select class="uraw-jobs-select" id="uraw-dept-{{ uid }}" data-jobs-filter="department">
+            <option value="">All departments</option>
+            {% assign departments = job_blocks | map: 'settings.department' | uniq %}
+            {% for d in departments %}{% if d != blank %}<option value="{{ d | escape }}">{{ d }}</option>{% endif %}{% endfor %}
+          </select>
+          <label class="uraw-visually-hidden" for="uraw-loc-{{ uid }}">Filter by location</label>
+          <select class="uraw-jobs-select" id="uraw-loc-{{ uid }}" data-jobs-filter="location">
+            <option value="">All locations</option>
+            {% assign locations = job_blocks | map: 'settings.location' | uniq %}
+            {% for l in locations %}{% if l != blank %}<option value="{{ l | escape }}">{{ l }}</option>{% endif %}{% endfor %}
+          </select>
+          <label class="uraw-visually-hidden" for="uraw-type-{{ uid }}">Filter by employment type</label>
+          <select class="uraw-jobs-select" id="uraw-type-{{ uid }}" data-jobs-filter="type">
+            <option value="">All types</option>
+            {% assign etypes = job_blocks | map: 'settings.employment_type' | uniq %}
+            {% for t in etypes %}{% if t != blank %}<option value="{{ t | escape }}">{{ t }}</option>{% endif %}{% endfor %}
+          </select>
+        {% endif %}
+        <label class="uraw-visually-hidden" for="uraw-sort-{{ uid }}">Sort positions</label>
+        <select class="uraw-jobs-select" id="uraw-sort-{{ uid }}" data-jobs-sort>
+          <option value="default">Sort: Featured</option>
+          <option value="title-asc">Sort: Title A–Z</option>
+          <option value="department">Sort: Department</option>
+          <option value="deadline">Sort: Deadline</option>
+        </select>
+      </div>
+      {% endif %}
+
+      <p class="uraw-jobs-count" data-jobs-count>{{ job_blocks.size }} open role{% if job_blocks.size != 1 %}s{% endif %}</p>
+
+      <div data-jobs-list role="list">
+        {% for block in job_blocks %}
+          {% assign lot = forloop.index | plus: 100 | modulo: 100 %}
+          <article
+            class="uraw-job-row uraw-reveal"
+            role="listitem button"
+            tabindex="0"
+            data-job-row
+            data-department="{{ block.settings.department | escape }}"
+            data-location="{{ block.settings.location | escape }}"
+            data-type="{{ block.settings.employment_type | escape }}"
+            data-title="{{ block.settings.title | escape | downcase }}"
+            data-featured="{{ block.settings.featured }}"
+            data-deadline="{{ block.settings.deadline }}"
+            data-modal-target="uraw-modal-{{ uid }}-{{ forloop.index }}"
+            aria-haspopup="dialog"
+            {{ block.shopify_attributes }}
+          >
+            <div class="uraw-job-lot" aria-hidden="true">N&deg;{{ forloop.index | prepend: '00' | slice: -2, 2 }}</div>
+            <div class="uraw-job-main">
+              <div class="uraw-job-badges">
+                {% if block.settings.featured %}<span class="uraw-badge uraw-badge-featured">Featured</span>{% endif %}
+                {% if block.settings.hiring_badge %}<span class="uraw-badge uraw-badge-hiring">Hiring now</span>{% endif %}
+                {% if block.settings.new_badge %}<span class="uraw-badge uraw-badge-new">New</span>{% endif %}
+              </div>
+              <h3 class="uraw-job-title">{{ block.settings.title }}</h3>
+              <div class="uraw-job-meta">
+                {% if block.settings.department != blank %}<span>{{ block.settings.department }}</span>{% endif %}
+                {% if block.settings.location != blank %}<span>{{ block.settings.location }}</span>{% endif %}
+                {% if block.settings.employment_type != blank %}<span>{{ block.settings.employment_type }}</span>{% endif %}
+                {% if block.settings.experience_level != blank %}<span>{{ block.settings.experience_level }}</span>{% endif %}
+                {% if block.settings.salary != blank %}<span>{{ block.settings.salary }}</span>{% endif %}
+              </div>
+            </div>
+            <div class="uraw-job-arrow" aria-hidden="true">&rarr;</div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <div class="uraw-jobs-empty" data-jobs-empty>
+        <p>{{ s.jobs_empty_text | default: 'No roles match your search right now. Try clearing a filter, or check back soon.' }}</p>
+      </div>
+
+      {% comment %} ---- Job detail modals ---- {% endcomment %}
+      <div class="uraw-modal-backdrop" data-modal-backdrop></div>
+      {% for block in job_blocks %}
+        <div class="uraw-modal" id="uraw-modal-{{ uid }}-{{ forloop.index }}" role="dialog" aria-modal="true" aria-labelledby="uraw-modal-title-{{ uid }}-{{ forloop.index }}" data-modal>
+          <button class="uraw-modal-close" type="button" data-modal-close aria-label="Close job details">&times;</button>
+          {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 900 | image_tag: class: 'uraw-modal-image', loading: 'lazy', alt: block.settings.title }}
+          {% endif %}
+          <h3 class="uraw-modal-title" id="uraw-modal-title-{{ uid }}-{{ forloop.index }}">{{ block.settings.title }}</h3>
+          <div class="uraw-modal-meta">
+            {% if block.settings.department != blank %}<span>{{ block.settings.department }}</span>{% endif %}
+            {% if block.settings.location != blank %}<span>{{ block.settings.location }}</span>{% endif %}
+            {% if block.settings.employment_type != blank %}<span>{{ block.settings.employment_type }}</span>{% endif %}
+            {% if block.settings.working_hours != blank %}<span>{{ block.settings.working_hours }}</span>{% endif %}
+            {% if block.settings.deadline != blank %}<span>Apply by {{ block.settings.deadline }}</span>{% endif %}
+          </div>
+          {% if block.settings.short_description != blank %}
+            <div class="uraw-modal-section"><h4>About the role</h4><p>{{ block.settings.short_description }}</p></div>
+          {% endif %}
+          {% if block.settings.responsibilities != blank %}
+            {% assign responsibility_lines = block.settings.responsibilities | newline_to_br | split: '<br />' %}
+            <div class="uraw-modal-section"><h4>Responsibilities</h4>
+              <ul>{% for line in responsibility_lines %}{% if line != blank %}<li>{{ line | strip }}</li>{% endif %}{% endfor %}</ul>
+            </div>
+          {% endif %}
+          {% if block.settings.requirements != blank %}
+            {% assign requirement_lines = block.settings.requirements | newline_to_br | split: '<br />' %}
+            <div class="uraw-modal-section"><h4>Qualifications</h4>
+              <ul>{% for line in requirement_lines %}{% if line != blank %}<li>{{ line | strip }}</li>{% endif %}{% endfor %}</ul>
+            </div>
+          {% endif %}
+          {% if block.settings.benefits != blank %}
+            {% assign benefit_lines = block.settings.benefits | newline_to_br | split: '<br />' %}
+            <div class="uraw-modal-section"><h4>Benefits</h4>
+              <ul>{% for line in benefit_lines %}{% if line != blank %}<li>{{ line | strip }}</li>{% endif %}{% endfor %}</ul>
+            </div>
+          {% endif %}
+          {% if block.settings.office_location != blank %}
+            <div class="uraw-modal-section"><h4>Office location</h4><p>{{ block.settings.office_location }}</p></div>
+          {% endif %}
+          <div class="uraw-modal-apply">
+            <a href="{{ block.settings.apply_link | default: '#' }}" class="uraw-btn">Apply for this role</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="uraw-jobs-empty is-visible">
+        <p>{{ s.jobs_empty_text | default: 'No open roles right now. Add a job block in the theme editor to publish one.' }}</p>
+      </div>
+    {% endif %}
+  </section>
+
+  {% comment %} ============ HIRING PROCESS ============ {% endcomment %}
+  {% assign process_blocks = section.blocks | where: 'type', 'process_step' %}
+  {% if process_blocks.size > 0 %}
+  <section class="uraw-module uraw-wrap" aria-labelledby="uraw-process-h-{{ uid }}">
+    <div class="uraw-head-block uraw-center uraw-reveal">
+      <h2 class="uraw-h" id="uraw-process-h-{{ uid }}">{{ s.process_heading | default: 'Hiring process' }}</h2>
+    </div>
+    <div class="uraw-timeline uraw-reveal">
+      {% for block in process_blocks %}
+        <div class="uraw-timeline-step" {{ block.shopify_attributes }}>
+          <div class="uraw-timeline-num" aria-hidden="true">{{ forloop.index }}</div>
+          <div>
+            <h3 class="uraw-timeline-title">{{ block.settings.title }}</h3>
+            {% if block.settings.description != blank %}<p class="uraw-timeline-desc">{{ block.settings.description }}</p>{% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% comment %} ============ EMPLOYEE BENEFITS ============ {% endcomment %}
+  {% assign benefit_blocks = section.blocks | where: 'type', 'benefit' %}
+  {% if benefit_blocks.size > 0 %}
+  <section class="uraw-module uraw-wrap" aria-labelledby="uraw-benefits-h-{{ uid }}">
+    <div class="uraw-head-block uraw-reveal">
+      <h2 class="uraw-h" id="uraw-benefits-h-{{ uid }}">{{ s.benefits_heading | default: 'Benefits' }}</h2>
+    </div>
+    <div class="uraw-benefits-grid">
+      {% for block in benefit_blocks %}
+        <div class="uraw-benefit-card uraw-reveal" {{ block.shopify_attributes }}>
+          {% if block.settings.icon != blank %}<div class="uraw-benefit-icon" aria-hidden="true">{{ block.settings.icon }}</div>{% endif %}
+          <h3 class="uraw-benefit-title">{{ block.settings.title }}</h3>
+          <p class="uraw-benefit-desc">{{ block.settings.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% comment %} ============ TESTIMONIALS ============ {% endcomment %}
+  {% assign testimonial_blocks = section.blocks | where: 'type', 'testimonial' %}
+  {% if testimonial_blocks.size > 0 %}
+  <section class="uraw-module uraw-wrap" aria-labelledby="uraw-testimonials-h-{{ uid }}">
+    <div class="uraw-head-block uraw-reveal">
+      <h2 class="uraw-h" id="uraw-testimonials-h-{{ uid }}">{{ s.testimonials_heading | default: 'From our team' }}</h2>
+    </div>
+    <div class="uraw-testimonials uraw-reveal">
+      <div class="uraw-testimonial-track" data-testimonial-track role="list">
+        {% for block in testimonial_blocks %}
+          <div class="uraw-testimonial-card" role="listitem" {{ block.shopify_attributes }}>
+            {% if block.settings.rating != blank %}
+              <div class="uraw-testimonial-rating" aria-label="Rated {{ block.settings.rating }} out of 5">
+                {% for i in (1..5) %}{% if i <= block.settings.rating %}&#9733;{% else %}&#9734;{% endif %}{% endfor %}
+              </div>
+            {% endif %}
+            <p class="uraw-testimonial-quote">&ldquo;{{ block.settings.quote }}&rdquo;</p>
+            <div class="uraw-testimonial-person">
+              {% if block.settings.photo %}
+                {{ block.settings.photo | image_url: width: 96 | image_tag: class: 'uraw-testimonial-photo', loading: 'lazy', alt: block.settings.name }}
+              {% endif %}
+              <div>
+                <div class="uraw-testimonial-name">{{ block.settings.name }}</div>
+                <div class="uraw-testimonial-position">{{ block.settings.position }}</div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="uraw-slider-controls">
+        <button type="button" class="uraw-slider-btn" data-testimonial-prev aria-label="Previous testimonial">&larr;</button>
+        <button type="button" class="uraw-slider-btn" data-testimonial-next aria-label="Next testimonial">&rarr;</button>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% comment %} ============ FAQ ============ {% endcomment %}
+  {% assign faq_blocks = section.blocks | where: 'type', 'faq_item' %}
+  {% if faq_blocks.size > 0 %}
+  <section class="uraw-module uraw-wrap" aria-labelledby="uraw-faq-h-{{ uid }}">
+    <div class="uraw-head-block uraw-reveal">
+      <h2 class="uraw-h" id="uraw-faq-h-{{ uid }}">{{ s.faq_heading | default: 'Frequently asked questions' }}</h2>
+    </div>
+    {% if s.enable_faq_search %}
+      <div class="uraw-faq-search">
+        <label class="uraw-visually-hidden" for="uraw-faq-search-{{ uid }}">Search FAQs</label>
+        <input type="search" id="uraw-faq-search-{{ uid }}" data-faq-search placeholder="Search questions…" autocomplete="off">
+      </div>
+    {% endif %}
+    <div data-faq-list>
+      {% for block in faq_blocks %}
+        <details class="uraw-faq-item" data-faq-item data-question="{{ block.settings.question | strip_html | escape | downcase }}" {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question }}</summary>
+          <div class="uraw-faq-answer">{{ block.settings.answer }}</div>
+        </details>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% comment %} ============ APPLICATION CTA BANNER ============ {% endcomment %}
+  {% if s.show_cta %}
+  <section class="uraw-module uraw-wrap">
+    <div class="uraw-cta-banner uraw-reveal">
+      {% if s.cta_image %}
+        {{ s.cta_image | image_url: width: 1600 | image_tag: class: 'uraw-cta-media', loading: 'lazy', widths: '800,1200,1600', alt: s.cta_heading }}
+        <div class="uraw-cta-overlay" style="background:{{ s.cta_overlay_color | default: '#1B1A18' }}; opacity:{{ s.cta_overlay_opacity | default: 55 | divided_by: 100.0 }};" aria-hidden="true"></div>
+      {% endif %}
+      <div class="uraw-cta-content">
+        <h2 class="uraw-h">{{ s.cta_heading | default: 'Ready to apply?' }}</h2>
+        {% if s.cta_description != blank %}<p>{{ s.cta_description }}</p>{% endif %}
+        {% if s.cta_button_text != blank %}
+          <a href="{{ s.cta_button_link | default: '#uraw-jobs-' | append: uid }}" class="uraw-btn">{{ s.cta_button_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% comment %} ============ CONTACT HR ============ {% endcomment %}
+  {% if s.show_contact %}
+  <section class="uraw-module uraw-wrap" aria-labelledby="uraw-contact-h-{{ uid }}">
+    <div class="uraw-head-block uraw-reveal">
+      <h2 class="uraw-h" id="uraw-contact-h-{{ uid }}">{{ s.contact_heading | default: 'Contact HR' }}</h2>
+    </div>
+    <div class="uraw-contact-grid uraw-reveal">
+      <ul class="uraw-contact-list">
+        {% if s.contact_email != blank %}<li><strong>Email</strong><a href="mailto:{{ s.contact_email }}">{{ s.contact_email }}</a></li>{% endif %}
+        {% if s.contact_phone != blank %}<li><strong>Phone</strong><a href="tel:{{ s.contact_phone }}">{{ s.contact_phone }}</a></li>{% endif %}
+        {% if s.contact_address != blank %}<li><strong>Office</strong>{{ s.contact_address }}</li>{% endif %}
+        {% if s.contact_hours != blank %}<li><strong>Working hours</strong>{{ s.contact_hours }}</li>{% endif %}
+      </ul>
+      {% if s.contact_map_embed != blank %}
+        <div class="uraw-contact-map">{{ s.contact_map_embed }}</div>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% comment %} ============ NEWSLETTER ============ {% endcomment %}
+  {% if s.enable_newsletter %}
+  <section class="uraw-module uraw-wrap">
+    <div class="uraw-newsletter uraw-reveal">
+      <h2 class="uraw-h">{{ s.newsletter_heading | default: 'Stay in the loop' }}</h2>
+      {% if s.newsletter_text != blank %}<p class="uraw-sub" style="margin-inline:auto;">{{ s.newsletter_text }}</p>{% endif %}
+      {% form 'customer', id: 'uraw-newsletter-form-' | append: uid, class: 'uraw-newsletter-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter,careers">
+        <label class="uraw-visually-hidden" for="uraw-newsletter-email-{{ uid }}">Email address</label>
+        <input type="email" id="uraw-newsletter-email-{{ uid }}" name="contact[email]" required placeholder="{{ s.newsletter_placeholder | default: 'Your email address' }}">
+        <button type="submit" class="uraw-btn">{{ s.newsletter_button_text | default: 'Subscribe' }}</button>
+        {% if form.posted_successfully? %}
+          <p class="uraw-newsletter-success" role="status">Thanks — you're on the list.</p>
+        {% endif %}
+      {% endform %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% comment %} ============ STICKY MOBILE APPLY BAR ============ {% endcomment %}
+  {% if job_blocks.size > 0 %}
+    <div class="uraw-sticky-apply" data-sticky-apply aria-hidden="true">
+      <a href="#uraw-jobs-{{ uid }}" class="uraw-btn">{{ s.sticky_apply_text | default: 'View open roles' }}</a>
+    </div>
+  {% endif %}
+</div>
+
+{% comment %} ============================================================
+  JSON-LD: Organization, BreadcrumbList, JobPosting (per job block)
+============================================================ {% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ s.org_name | default: shop.name | json }},
+  "url": {{ shop.url | append: page.url | default: shop.url | json }}
+  {% if s.org_logo %},"logo": {{ s.org_logo | image_url: width: 600 | prepend: "https:" | json }}{% endif %}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ shop.url | json }} },
+    { "@type": "ListItem", "position": 2, "name": "Careers", "item": {{ shop.url | append: page.url | default: shop.url | json }} }
+  ]
+}
+</script>
+{% for block in job_blocks %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "JobPosting",
+  "title": {{ block.settings.title | strip_html | json }},
+  "description": {{ block.settings.short_description | strip_html | default: block.settings.title | json }},
+  "identifier": {
+    "@type": "PropertyValue",
+    "name": {{ s.org_name | default: shop.name | json }},
+    "value": {{ block.id | json }}
+  },
+  "datePosted": {{ block.settings.date_posted | default: 'today' | date: '%Y-%m-%d' | json }},
+  {% if block.settings.deadline != blank %}"validThrough": {{ block.settings.deadline | date: '%Y-%m-%d' | json }},{% endif %}
+  "employmentType": {{ block.settings.employment_type | default: 'FULL_TIME' | upcase | replace: ' ', '_' | json }},
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": {{ s.org_name | default: shop.name | json }},
+    "sameAs": {{ shop.url | json }}
+    {% if s.org_logo %},"logo": {{ s.org_logo | image_url: width: 600 | prepend: "https:" | json }}{% endif %}
+  },
+  "jobLocation": {
+    "@type": "Place",
+    "address": { "@type": "PostalAddress", "addressLocality": {{ block.settings.location | default: 'Remote' | json }} }
+  }
+  {% if block.settings.salary != blank %},"baseSalary": { "@type": "MonetaryAmount", "currency": {{ shop.currency | json }}, "value": { "@type": "QuantitativeValue", "value": {{ block.settings.salary | json }} } }{% endif %}
+}
+</script>
+{% endfor %}
+
+{% comment %} ============================================================
+  VANILLA JS — deferred, scoped to this section instance
+============================================================ {% endcomment %}
+<script>
+(function () {
+  "use strict";
+  var root = document.getElementById("uraw-root-{{ uid }}");
+  if (!root) return;
+  var prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function init() {
+    initReveal();
+    initCounters();
+    initJobsFilter();
+    initModal();
+    initTestimonialSlider();
+    initFaqSearch();
+    initStickyApply();
+  }
+
+  /* Scroll-reveal for module headings / cards */
+  function initReveal() {
+    var items = root.querySelectorAll(".uraw-reveal");
+    if (!items.length) return;
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      items.forEach(function (el) { el.classList.add("is-visible"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+    items.forEach(function (el) { io.observe(el); });
+  }
+
+  /* Animated stat counters */
+  function initCounters() {
+    var counters = root.querySelectorAll("[data-counter]");
+    if (!counters.length) return;
+    var animate = function (el) {
+      var raw = (el.getAttribute("data-target") || "").trim();
+      var match = raw.match(/[\d.,]+/);
+      if (!match) return;
+      var prefix = raw.slice(0, match.index);
+      var suffix = raw.slice(match.index + match[0].length);
+      var target = parseFloat(match[0].replace(/,/g, ""));
+      if (isNaN(target)) return;
+      if (prefersReducedMotion) { el.textContent = raw; return; }
+      var duration = 1400, start = null;
+      function step(ts) {
+        if (start === null) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = target * eased;
+        var display = target % 1 === 0 ? Math.round(current).toLocaleString() : current.toFixed(1);
+        el.textContent = prefix + display + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = raw;
+      }
+      requestAnimationFrame(step);
+    };
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { animate(entry.target); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.5 });
+      counters.forEach(function (el) { io.observe(el); });
+    } else {
+      counters.forEach(animate);
+    }
+  }
+
+  /* Jobs: search, filter, sort, empty state */
+  function initJobsFilter() {
+    var list = root.querySelector("[data-jobs-list]");
+    if (!list) return;
+    var rows = Array.prototype.slice.call(list.querySelectorAll("[data-job-row]"));
+    var searchInput = root.querySelector("[data-jobs-search]");
+    var filterSelects = root.querySelectorAll("[data-jobs-filter]");
+    var sortSelect = root.querySelector("[data-jobs-sort]");
+    var emptyState = root.querySelector("[data-jobs-empty]");
+    var countEl = root.querySelector("[data-jobs-count]");
+
+    function apply() {
+      var term = searchInput ? searchInput.value.trim().toLowerCase() : "";
+      var filters = {};
+      filterSelects.forEach(function (sel) { filters[sel.getAttribute("data-jobs-filter")] = sel.value; });
+      var visible = 0;
+      rows.forEach(function (row) {
+        var matchesTerm = !term || row.getAttribute("data-title").indexOf(term) !== -1;
+        var matchesDept = !filters.department || row.getAttribute("data-department") === filters.department;
+        var matchesLoc = !filters.location || row.getAttribute("data-location") === filters.location;
+        var matchesType = !filters.type || row.getAttribute("data-type") === filters.type;
+        var show = matchesTerm && matchesDept && matchesLoc && matchesType;
+        row.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+      if (emptyState) emptyState.classList.toggle("is-visible", visible === 0);
+      if (countEl) countEl.textContent = visible + " open role" + (visible !== 1 ? "s" : "");
+    }
+
+    function sort() {
+      if (!sortSelect) return;
+      var val = sortSelect.value;
+      var sorted = rows.slice();
+      if (val === "title-asc") {
+        sorted.sort(function (a, b) { return a.getAttribute("data-title").localeCompare(b.getAttribute("data-title")); });
+      } else if (val === "department") {
+        sorted.sort(function (a, b) { return a.getAttribute("data-department").localeCompare(b.getAttribute("data-department")); });
+      } else if (val === "deadline") {
+        sorted.sort(function (a, b) {
+          var da = a.getAttribute("data-deadline") || "9999-99-99";
+          var db = b.getAttribute("data-deadline") || "9999-99-99";
+          return da.localeCompare(db);
+        });
+      } else {
+        sorted.sort(function (a, b) {
+          var fa = a.getAttribute("data-featured") === "true" ? 0 : 1;
+          var fb = b.getAttribute("data-featured") === "true" ? 0 : 1;
+          return fa - fb;
+        });
+      }
+      sorted.forEach(function (row) { list.appendChild(row); });
+    }
+
+    if (searchInput) searchInput.addEventListener("input", apply);
+    filterSelects.forEach(function (sel) { sel.addEventListener("change", apply); });
+    if (sortSelect) sortSelect.addEventListener("change", sort);
+  }
+
+  /* Job details modal */
+  function initModal() {
+    var backdrop = root.querySelector("[data-modal-backdrop]");
+    var triggers = root.querySelectorAll("[data-modal-target]");
+    var modals = root.querySelectorAll("[data-modal]");
+    if (!triggers.length || !modals.length) return;
+    var openModal = null;
+    var lastFocused = null;
+
+    function open(id) {
+      var modal = root.querySelector("#" + id);
+      if (!modal) return;
+      lastFocused = document.activeElement;
+      modal.classList.add("is-open");
+      if (backdrop) backdrop.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      openModal = modal;
+      var closeBtn = modal.querySelector("[data-modal-close]");
+      if (closeBtn) closeBtn.focus();
+      document.addEventListener("keydown", onKeydown);
+    }
+    function close() {
+      if (!openModal) return;
+      openModal.classList.remove("is-open");
+      if (backdrop) backdrop.classList.remove("is-open");
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKeydown);
+      if (lastFocused) lastFocused.focus();
+      openModal = null;
+    }
+    function onKeydown(e) {
+      if (e.key === "Escape") close();
+      if (e.key === "Tab" && openModal) {
+        var focusables = openModal.querySelectorAll('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (!focusables.length) return;
+        var first = focusables[0], last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
+
+    triggers.forEach(function (trigger) {
+      trigger.addEventListener("click", function () { open(trigger.getAttribute("data-modal-target")); });
+      trigger.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(trigger.getAttribute("data-modal-target")); }
+      });
+    });
+    modals.forEach(function (modal) {
+      var closeBtn = modal.querySelector("[data-modal-close]");
+      if (closeBtn) closeBtn.addEventListener("click", close);
+    });
+    if (backdrop) backdrop.addEventListener("click", close);
+  }
+
+  /* Testimonial slider (scroll-snap driven) */
+  function initTestimonialSlider() {
+    var track = root.querySelector("[data-testimonial-track]");
+    var prev = root.querySelector("[data-testimonial-prev]");
+    var next = root.querySelector("[data-testimonial-next]");
+    if (!track || (!prev && !next)) return;
+    function step(dir) {
+      var card = track.querySelector(".uraw-testimonial-card");
+      var amount = card ? card.getBoundingClientRect().width + 24 : 300;
+      track.scrollBy({ left: dir * amount, behavior: prefersReducedMotion ? "auto" : "smooth" });
+    }
+    if (prev) prev.addEventListener("click", function () { step(-1); });
+    if (next) next.addEventListener("click", function () { step(1); });
+  }
+
+  /* FAQ live search */
+  function initFaqSearch() {
+    var input = root.querySelector("[data-faq-search]");
+    var items = root.querySelectorAll("[data-faq-item]");
+    if (!input || !items.length) return;
+    input.addEventListener("input", function () {
+      var term = input.value.trim().toLowerCase();
+      items.forEach(function (item) {
+        var q = item.getAttribute("data-question") || "";
+        var text = item.textContent.toLowerCase();
+        var match = !term || q.indexOf(term) !== -1 || text.indexOf(term) !== -1;
+        item.hidden = !match;
+      });
+    });
+  }
+
+  /* Sticky mobile apply bar — shows once hero scrolls out of view */
+  function initStickyApply() {
+    var bar = root.querySelector("[data-sticky-apply]");
+    var hero = root.querySelector(".uraw-hero");
+    if (!bar) return;
+    if (!hero || !("IntersectionObserver" in window)) { bar.classList.add("is-visible"); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        bar.classList.toggle("is-visible", !entry.isIntersecting);
+      });
+    }, { threshold: 0 });
+    io.observe(hero);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+
+  /* Re-init cleanly when the section is edited live in the Theme Editor */
+  document.addEventListener("shopify:section:load", function (evt) {
+    if (evt.target && evt.target.contains(root)) init();
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Careers page",
+  "tag": "section",
+  "class": "uraw-careers-section",
+  "settings": [
+    { "type": "header", "content": "Global — brand & layout" },
+    { "type": "text", "id": "org_name", "label": "Organization name", "info": "Used in SEO schema. Defaults to store name." },
+    { "type": "image_picker", "id": "org_logo", "label": "Organization logo (for SEO schema)" },
+    { "type": "color", "id": "color_primary", "label": "Text color", "default": "#1B1A18" },
+    { "type": "color", "id": "color_secondary", "label": "Muted / secondary text", "default": "#8C8579" },
+    { "type": "color", "id": "color_accent", "label": "Accent color", "default": "#AD8A56" },
+    { "type": "color", "id": "color_background", "label": "Background color", "default": "#FAF8F4" },
+    { "type": "color", "id": "color_surface", "label": "Surface / card background", "default": "#E7DECD" },
+    { "type": "color", "id": "color_button", "label": "Button background", "default": "#1B1A18" },
+    { "type": "color", "id": "color_button_text", "label": "Button text", "default": "#FAF8F4" },
+    { "type": "color", "id": "color_button_hover", "label": "Button hover", "default": "#AD8A56" },
+    { "type": "font_picker", "id": "font_heading", "label": "Heading font", "default": "playfair_display_n7" },
+    { "type": "font_picker", "id": "font_body", "label": "Body font", "default": "assistant_n4" },
+    { "type": "range", "id": "container_width", "label": "Container width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+    { "type": "range", "id": "section_spacing", "label": "Section spacing (desktop)", "min": 40, "max": 160, "step": 8, "unit": "px", "default": 96 },
+    { "type": "range", "id": "mobile_spacing", "label": "Section spacing (mobile)", "min": 20, "max": 100, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "border_radius", "label": "Corner radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 2 },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable animations", "default": true, "info": "Reduced-motion preference is always respected." },
+
+    { "type": "header", "content": "Hero" },
+    { "type": "checkbox", "id": "show_hero", "label": "Show hero section", "default": true },
+    { "type": "image_picker", "id": "hero_image", "label": "Background image" },
+    { "type": "video", "id": "hero_video", "label": "Background video (optional, overrides image)" },
+    { "type": "color", "id": "hero_overlay_color", "label": "Overlay color", "default": "#1B1A18" },
+    { "type": "range", "id": "hero_overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 40 },
+    { "type": "text", "id": "hero_eyebrow", "label": "Small heading", "default": "Careers" },
+    { "type": "text", "id": "headline", "label": "Main headline", "default": "Join the Universe" },
+    { "type": "richtext", "id": "hero_description", "label": "Description", "default": "<p>We build for people who wear their convictions. Come make raw, honest fashion with us.</p>" },
+    { "type": "text", "id": "hero_primary_cta_text", "label": "Primary button label", "default": "View open roles" },
+    { "type": "url", "id": "hero_primary_cta_link", "label": "Primary button link" },
+    { "type": "text", "id": "hero_secondary_cta_text", "label": "Secondary button label", "default": "Our story" },
+    { "type": "url", "id": "hero_secondary_cta_link", "label": "Secondary button link" },
+    { "type": "select", "id": "hero_text_align", "label": "Text alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
+    { "type": "select", "id": "hero_height", "label": "Hero height", "default": "large", "options": [ { "value": "small", "label": "Small" }, { "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }, { "value": "fullscreen", "label": "Fullscreen" } ] },
+
+    { "type": "header", "content": "Company statistics" },
+    { "type": "text", "id": "stats_heading", "label": "Heading", "default": "Universes RAW, by the numbers" },
+
+    { "type": "header", "content": "Why join us" },
+    { "type": "text", "id": "why_eyebrow", "label": "Eyebrow", "default": "Why join us" },
+    { "type": "text", "id": "why_heading", "label": "Heading", "default": "Made for people who make things" },
+    { "type": "textarea", "id": "why_subheading", "label": "Subheading" },
+
+    { "type": "header", "content": "Life at Universes RAW — gallery" },
+    { "type": "text", "id": "gallery_heading", "label": "Heading", "default": "Life at Universes RAW" },
+    { "type": "select", "id": "gallery_layout", "label": "Layout", "default": "grid", "options": [ { "value": "grid", "label": "Grid" }, { "value": "masonry", "label": "Masonry" }, { "value": "slider", "label": "Slider" } ] },
+
+    { "type": "header", "content": "Open positions" },
+    { "type": "text", "id": "jobs_eyebrow", "label": "Eyebrow", "default": "Open roles" },
+    { "type": "text", "id": "jobs_heading", "label": "Heading", "default": "Current open positions" },
+    { "type": "textarea", "id": "jobs_subheading", "label": "Subheading" },
+    { "type": "checkbox", "id": "enable_jobs_search", "label": "Enable search", "default": true },
+    { "type": "checkbox", "id": "enable_jobs_filters", "label": "Enable filters (department, location, type)", "default": true },
+    { "type": "text", "id": "jobs_empty_text", "label": "Empty state message", "default": "No roles match your search right now. Try clearing a filter, or check back soon." },
+    { "type": "text", "id": "sticky_apply_text", "label": "Mobile sticky bar label", "default": "View open roles" },
+
+    { "type": "header", "content": "Hiring process" },
+    { "type": "text", "id": "process_heading", "label": "Heading", "default": "Hiring process" },
+
+    { "type": "header", "content": "Employee benefits" },
+    { "type": "text", "id": "benefits_heading", "label": "Heading", "default": "Benefits" },
+
+    { "type": "header", "content": "Testimonials" },
+    { "type": "text", "id": "testimonials_heading", "label": "Heading", "default": "From our team" },
+
+    { "type": "header", "content": "FAQ" },
+    { "type": "text", "id": "faq_heading", "label": "Heading", "default": "Frequently asked questions" },
+    { "type": "checkbox", "id": "enable_faq_search", "label": "Enable FAQ search", "default": false },
+
+    { "type": "header", "content": "Application CTA banner" },
+    { "type": "checkbox", "id": "show_cta", "label": "Show CTA banner", "default": true },
+    { "type": "text", "id": "cta_heading", "label": "Heading", "default": "Ready to apply?" },
+    { "type": "textarea", "id": "cta_description", "label": "Description", "default": "Send us your portfolio. We read every application." },
+    { "type": "text", "id": "cta_button_text", "label": "Button label", "default": "See open roles" },
+    { "type": "url", "id": "cta_button_link", "label": "Button link" },
+    { "type": "image_picker", "id": "cta_image", "label": "Background image" },
+    { "type": "color", "id": "cta_overlay_color", "label": "Overlay color", "default": "#1B1A18" },
+    { "type": "range", "id": "cta_overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 55 },
+
+    { "type": "header", "content": "Contact HR" },
+    { "type": "checkbox", "id": "show_contact", "label": "Show contact section", "default": true },
+    { "type": "text", "id": "contact_heading", "label": "Heading", "default": "Contact HR" },
+    { "type": "text", "id": "contact_email", "label": "Email" },
+    { "type": "text", "id": "contact_phone", "label": "Phone" },
+    { "type": "richtext", "id": "contact_address", "label": "Office address" },
+    { "type": "richtext", "id": "contact_hours", "label": "Working hours" },
+    { "type": "html", "id": "contact_map_embed", "label": "Google Map embed code", "info": "Paste an iframe embed code from Google Maps." },
+
+    { "type": "header", "content": "Careers newsletter" },
+    { "type": "checkbox", "id": "enable_newsletter", "label": "Enable newsletter signup", "default": false },
+    { "type": "text", "id": "newsletter_heading", "label": "Heading", "default": "Stay in the loop" },
+    { "type": "textarea", "id": "newsletter_text", "label": "Description", "default": "Get new roles and studio news in your inbox." },
+    { "type": "text", "id": "newsletter_placeholder", "label": "Input placeholder", "default": "Your email address" },
+    { "type": "text", "id": "newsletter_button_text", "label": "Button label", "default": "Subscribe" }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Statistic",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "120+" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Team members" },
+        { "type": "text", "id": "icon", "label": "Icon (emoji or short glyph)", "default": "◆" },
+        { "type": "textarea", "id": "description", "label": "Optional description" }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Why-join card",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji or short glyph)", "default": "◆" },
+        { "type": "image_picker", "id": "image", "label": "Optional image (overrides icon)" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Craft-first culture" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "We obsess over materials and making, not just marketing." }
+      ]
+    },
+    {
+      "type": "gallery_image",
+      "name": "Gallery image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "caption", "label": "Caption" }
+      ]
+    },
+    {
+      "type": "job",
+      "name": "Job listing",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Job title", "default": "Senior Pattern Cutter" },
+        { "type": "text", "id": "department", "label": "Department", "default": "Design" },
+        { "type": "text", "id": "location", "label": "Location", "default": "Milan, Italy" },
+        { "type": "select", "id": "employment_type", "label": "Employment type", "default": "Full-time", "options": [ { "value": "Full-time", "label": "Full-time" }, { "value": "Part-time", "label": "Part-time" }, { "value": "Contract", "label": "Contract" }, { "value": "Internship", "label": "Internship" }, { "value": "Remote", "label": "Remote" } ] },
+        { "type": "text", "id": "experience_level", "label": "Experience level", "default": "Mid-level" },
+        { "type": "text", "id": "salary", "label": "Salary", "info": "e.g. €45,000–55,000 / year" },
+        { "type": "text", "id": "date_posted", "label": "Date posted (YYYY-MM-DD)", "info": "Used for SEO schema. Defaults to today." },
+        { "type": "text", "id": "deadline", "label": "Application deadline (YYYY-MM-DD)" },
+        { "type": "textarea", "id": "short_description", "label": "Short description", "default": "Lead pattern development for our core collections, from first toile to production-ready spec." },
+        { "type": "image_picker", "id": "image", "label": "Featured image" },
+        { "type": "textarea", "id": "responsibilities", "label": "Responsibilities", "info": "One per line" },
+        { "type": "textarea", "id": "requirements", "label": "Requirements", "info": "One per line" },
+        { "type": "textarea", "id": "benefits", "label": "Benefits", "info": "One per line" },
+        { "type": "text", "id": "working_hours", "label": "Working hours", "default": "Full-time, on-site" },
+        { "type": "text", "id": "office_location", "label": "Office location detail" },
+        { "type": "url", "id": "apply_link", "label": "Apply link" },
+        { "type": "checkbox", "id": "featured", "label": "Featured badge", "default": false },
+        { "type": "checkbox", "id": "hiring_badge", "label": "Hiring now badge", "default": false },
+        { "type": "checkbox", "id": "new_badge", "label": "New badge", "default": false }
+      ]
+    },
+    {
+      "type": "process_step",
+      "name": "Hiring process step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Application" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Submit your portfolio and CV through the role you're interested in." }
+      ]
+    },
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji or short glyph)", "default": "◆" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Private health cover" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Comprehensive medical, dental, and vision from day one." }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Photo" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Alex Moreau" },
+        { "type": "text", "id": "position", "label": "Position", "default": "Senior Designer" },
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "This is the first studio where craft came before deadlines." },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Do you offer relocation support?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Yes — relocation packages are available for full-time roles outside your current location.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Careers page",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "120+", "label": "Team members" } },
+        { "type": "stat", "settings": { "number": "14", "label": "Countries" } },
+        { "type": "stat", "settings": { "number": "8", "label": "Studios" } },
+        { "type": "stat", "settings": { "number": "2019", "label": "Founded" } },
+        { "type": "feature", "settings": { "title": "Craft-first culture", "description": "We obsess over materials and making, not just marketing." } },
+        { "type": "feature", "settings": { "title": "Global studios", "description": "Work from Milan, Tokyo, or São Paulo — talent isn't limited by geography." } },
+        { "type": "feature", "settings": { "title": "Grow fast", "description": "Small teams, real ownership, and a clear path to more responsibility." } },
+        { "type": "job" },
+        { "type": "process_step", "settings": { "title": "Application" } },
+        { "type": "process_step", "settings": { "title": "Screening" } },
+        { "type": "process_step", "settings": { "title": "Interview" } },
+        { "type": "process_step", "settings": { "title": "Assessment" } },
+        { "type": "process_step", "settings": { "title": "Offer" } },
+        { "type": "process_step", "settings": { "title": "Welcome" } },
+        { "type": "benefit", "settings": { "title": "Private health cover" } },
+        { "type": "benefit", "settings": { "title": "Annual clothing allowance" } },
+        { "type": "benefit", "settings": { "title": "Flexible hours" } },
+        { "type": "testimonial" },
+        { "type": "faq_item" }
+      ]
+    }
+  ]
+}
+{% endschema %}
