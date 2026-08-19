@@ -4,11 +4,19 @@
   class="toolbar-mobile"
   data-toolbar-mobile
 >
+
   <div class="toolbar-mobile__inner">
 
     {%- for block in section.blocks -%}
 
       {%- case block.type -%}
+
+
+        {%- comment -%}
+        =====================================================
+        SEARCH
+        =====================================================
+        {%- endcomment -%}
 
         {%- when 'search' -%}
 
@@ -18,29 +26,51 @@
               class="toolbar-mobile__item"
               data-side-drawer="#Drawer-Search"
             >
+
               <button
                 class="toolbar-mobile__button"
                 type="button"
                 aria-haspopup="dialog"
                 aria-label="{{ 'content.search' | t }}"
               >
+
                 <span class="toolbar-mobile__icon">
+
                   {%- if block.settings.icon != blank -%}
+
                     {{ block.settings.icon }}
+
                   {%- else -%}
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <circle cx="11" cy="11" r="6.5"></circle>
-                      <path d="M16 16L21 21"></path>
+
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="10.8"
+                        cy="10.8"
+                        r="6.2"
+                      ></circle>
+
+                      <path
+                        d="M15.5 15.5L20.5 20.5"
+                      ></path>
                     </svg>
+
                   {%- endif -%}
+
                 </span>
 
                 {%- if block.settings.title != blank -%}
+
                   <span class="toolbar-mobile__label">
                     {{ block.settings.title | escape }}
                   </span>
+
                 {%- endif -%}
+
               </button>
+
             </side-drawer-opener>
 
           {%- else -%}
@@ -50,30 +80,56 @@
               class="toolbar-mobile__item"
               aria-label="{{ block.settings.title | escape }}"
             >
+
               <span class="toolbar-mobile__button">
 
                 <span class="toolbar-mobile__icon">
+
                   {%- if block.settings.icon != blank -%}
+
                     {{ block.settings.icon }}
+
                   {%- else -%}
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <circle cx="11" cy="11" r="6.5"></circle>
-                      <path d="M16 16L21 21"></path>
+
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="10.8"
+                        cy="10.8"
+                        r="6.2"
+                      ></circle>
+
+                      <path
+                        d="M15.5 15.5L20.5 20.5"
+                      ></path>
                     </svg>
+
                   {%- endif -%}
+
                 </span>
 
                 {%- if block.settings.title != blank -%}
+
                   <span class="toolbar-mobile__label">
                     {{ block.settings.title | escape }}
                   </span>
+
                 {%- endif -%}
 
               </span>
+
             </a>
 
           {%- endif -%}
 
+
+        {%- comment -%}
+        =====================================================
+        ACCOUNT
+        =====================================================
+        {%- endcomment -%}
 
         {%- when 'account' -%}
 
@@ -83,104 +139,188 @@
               class="toolbar-mobile__item"
               data-side-drawer="#Drawer-Account"
             >
+
               <button
                 class="toolbar-mobile__button"
                 type="button"
                 aria-haspopup="dialog"
-                aria-label="{% if customer %}{{ 'customer.account_fallback' | t }}{% else %}{{ 'customer.log_in' | t }}{% endif %}"
+                aria-label="
+                  {% if customer %}
+                    {{ 'customer.account_fallback' | t }}
+                  {% else %}
+                    {{ 'customer.log_in' | t }}
+                  {% endif %}
+                "
               >
+
                 <span class="toolbar-mobile__icon">
+
                   {%- if block.settings.icon != blank -%}
+
                     {{ block.settings.icon }}
+
                   {%- else -%}
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <circle cx="12" cy="8" r="3.5"></circle>
-                      <path d="M5 21C5.8 16.8 8.1 14.7 12 14.7C15.9 14.7 18.2 16.8 19 21"></path>
+
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="12"
+                        cy="8"
+                        r="3.2"
+                      ></circle>
+
+                      <path
+                        d="M5.2 20.5C6 16.5 8.2 14.5 12 14.5C15.8 14.5 18 16.5 18.8 20.5"
+                      ></path>
                     </svg>
+
                   {%- endif -%}
+
                 </span>
 
                 {%- if block.settings.title != blank -%}
+
                   <span class="toolbar-mobile__label">
                     {{ block.settings.title | escape }}
                   </span>
+
                 {%- endif -%}
+
               </button>
+
             </side-drawer-opener>
 
           {%- else -%}
 
             <a
-              href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+              href="
+                {% if customer %}
+                  {{ routes.account_url }}
+                {% else %}
+                  {{ routes.account_login_url }}
+                {% endif %}
+              "
               class="toolbar-mobile__item"
               aria-label="{{ block.settings.title | escape }}"
             >
+
               <span class="toolbar-mobile__button">
 
                 <span class="toolbar-mobile__icon">
+
                   {%- if block.settings.icon != blank -%}
+
                     {{ block.settings.icon }}
+
                   {%- else -%}
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <circle cx="12" cy="8" r="3.5"></circle>
-                      <path d="M5 21C5.8 16.8 8.1 14.7 12 14.7C15.9 14.7 18.2 16.8 19 21"></path>
+
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="12"
+                        cy="8"
+                        r="3.2"
+                      ></circle>
+
+                      <path
+                        d="M5.2 20.5C6 16.5 8.2 14.5 12 14.5C15.8 14.5 18 16.5 18.8 20.5"
+                      ></path>
                     </svg>
+
                   {%- endif -%}
+
                 </span>
 
                 {%- if block.settings.title != blank -%}
+
                   <span class="toolbar-mobile__label">
                     {{ block.settings.title | escape }}
                   </span>
+
                 {%- endif -%}
 
               </span>
+
             </a>
 
           {%- endif -%}
 
 
+        {%- comment -%}
+        =====================================================
+        HOME
+        =====================================================
+        {%- endcomment -%}
+
         {%- when 'home' -%}
 
           <a
-            href="/"
-            class="toolbar-mobile__item toolbar-mobile__item--home"
-            aria-label="{{ block.settings.title | default: 'Home' | escape }}"
+            href="{{ routes.root_url }}"
+            class="
+              toolbar-mobile__item
+              toolbar-mobile__item--home
+            "
+            aria-label="
+              {{ block.settings.title | default: 'Home' | escape }}
+            "
           >
 
-            <span class="toolbar-mobile__home-wrap">
+            <span class="toolbar-mobile__home-mark">
 
-              <span class="toolbar-mobile__home-icon">
+              {%- if block.settings.icon != blank -%}
 
-                {%- if block.settings.icon != blank -%}
+                {{ block.settings.icon }}
 
-                  {{ block.settings.icon }}
+              {%- else -%}
 
-                {%- else -%}
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
 
-                  <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path d="M3.5 10.5L12 3.5L20.5 10.5"></path>
-                    <path d="M5.5 9.5V20.5H18.5V9.5"></path>
-                    <path d="M9.5 20.5V15H14.5V20.5"></path>
-                  </svg>
+                  <path
+                    d="M3.8 10.5L12 3.8L20.2 10.5"
+                  ></path>
 
-                {%- endif -%}
+                  <path
+                    d="M5.5 9.5V20H18.5V9.5"
+                  ></path>
 
-              </span>
+                  <path
+                    d="M9.5 20V14.8H14.5V20"
+                  ></path>
+
+                </svg>
+
+              {%- endif -%}
 
             </span>
 
             {%- if block.settings.title != blank -%}
-              <span class="toolbar-mobile__label toolbar-mobile__label--home">
+
+              <span
+                class="
+                  toolbar-mobile__label
+                  toolbar-mobile__label--home
+                "
+              >
                 {{ block.settings.title | escape }}
               </span>
+
             {%- endif -%}
 
           </a>
 
+
+        {%- comment -%}
+        =====================================================
+        CART
+        =====================================================
+        {%- endcomment -%}
 
         {%- when 'cart' -%}
 
@@ -195,7 +335,11 @@
                 class="toolbar-mobile__button"
                 type="button"
                 aria-haspopup="dialog"
-                aria-label="{{ 'content.cart.cart_items' | t: count: cart.item_count }}"
+                aria-label="
+                  {{ 'content.cart.cart_items' | t:
+                    count: cart.item_count
+                  }}
+                "
               >
 
                 <span class="toolbar-mobile__icon toolbar-mobile__cart-icon">
@@ -206,13 +350,31 @@
 
                   {%- else -%}
 
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M4 5H6L8.2 16.5H18L20 8H7"></path>
-                      <circle cx="9.5" cy="20" r="1.2"></circle>
-                      <circle cx="17" cy="20" r="1.2"></circle>
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+
+                      <path
+                        d="M4 5H6L8.3 16.2H18L20 8H7"
+                      ></path>
+
+                      <circle
+                        cx="9.5"
+                        cy="20"
+                        r="1.1"
+                      ></circle>
+
+                      <circle
+                        cx="17"
+                        cy="20"
+                        r="1.1"
+                      ></circle>
+
                     </svg>
 
                   {%- endif -%}
+
 
                   {%- if cart.item_count > 0 and cart.item_count < 100 -%}
 
@@ -228,9 +390,11 @@
                 </span>
 
                 {%- if block.settings.title != blank -%}
+
                   <span class="toolbar-mobile__label">
                     {{ block.settings.title | escape }}
                   </span>
+
                 {%- endif -%}
 
               </button>
@@ -242,7 +406,11 @@
             <a
               href="{{ routes.cart_url }}"
               class="toolbar-mobile__item"
-              aria-label="{{ 'content.cart.cart_items' | t: count: cart.item_count }}"
+              aria-label="
+                {{ 'content.cart.cart_items' | t:
+                  count: cart.item_count
+                }}
+              "
             >
 
               <span class="toolbar-mobile__button">
@@ -255,13 +423,31 @@
 
                   {%- else -%}
 
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M4 5H6L8.2 16.5H18L20 8H7"></path>
-                      <circle cx="9.5" cy="20" r="1.2"></circle>
-                      <circle cx="17" cy="20" r="1.2"></circle>
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+
+                      <path
+                        d="M4 5H6L8.3 16.2H18L20 8H7"
+                      ></path>
+
+                      <circle
+                        cx="9.5"
+                        cy="20"
+                        r="1.1"
+                      ></circle>
+
+                      <circle
+                        cx="17"
+                        cy="20"
+                        r="1.1"
+                      ></circle>
+
                     </svg>
 
                   {%- endif -%}
+
 
                   {%- if cart.item_count > 0 and cart.item_count < 100 -%}
 
@@ -277,9 +463,11 @@
                 </span>
 
                 {%- if block.settings.title != blank -%}
+
                   <span class="toolbar-mobile__label">
                     {{ block.settings.title | escape }}
                   </span>
+
                 {%- endif -%}
 
               </span>
@@ -295,15 +483,22 @@
   </div>
 </toolbar-mobile>
 
-<script src="{{ 'toolbar-mobile.js' | asset_url }}" defer="defer"></script>
+
+<script
+  src="{{ 'toolbar-mobile.js' | asset_url }}"
+  defer="defer"
+></script>
 
 
 {% schema %}
 
 {
   "name": "Premium Mobile Toolbar",
+
   "tag": "section",
+
   "class": "shopify-section--toolbar-mobile",
+
   "limit": 1,
 
   "enabled_on": {
@@ -316,141 +511,199 @@
 
     {
       "type": "search",
+
       "name": "Search",
+
       "limit": 1,
 
       "settings": [
 
         {
           "type": "textarea",
+
           "id": "icon",
+
           "label": "Custom SVG icon"
         },
 
         {
           "type": "text",
+
           "id": "title",
+
           "label": "Label",
+
           "default": "Search"
         },
 
         {
           "type": "select",
+
           "id": "action_type",
+
           "label": "Action",
+
           "options": [
+
             {
               "value": "drawer",
+
               "label": "Open drawer"
             },
+
             {
               "value": "page",
+
               "label": "Search page"
             }
+
           ],
+
           "default": "drawer"
         }
 
       ]
     },
 
+
     {
       "type": "account",
+
       "name": "Account",
+
       "limit": 1,
 
       "settings": [
 
         {
           "type": "textarea",
+
           "id": "icon",
+
           "label": "Custom SVG icon"
         },
 
         {
           "type": "text",
+
           "id": "title",
+
           "label": "Label",
+
           "default": "Account"
         },
 
         {
           "type": "select",
+
           "id": "action_type",
+
           "label": "Action",
+
           "options": [
+
             {
               "value": "drawer",
+
               "label": "Open drawer"
             },
+
             {
               "value": "page",
+
               "label": "Account page"
             }
+
           ],
+
           "default": "drawer"
         }
 
       ]
     },
 
+
     {
       "type": "home",
+
       "name": "Home",
+
       "limit": 1,
 
       "settings": [
 
         {
           "type": "textarea",
+
           "id": "icon",
+
           "label": "Custom SVG icon"
         },
 
         {
           "type": "text",
+
           "id": "title",
+
           "label": "Label",
+
           "default": "Home"
         }
 
       ]
     },
 
+
     {
       "type": "cart",
+
       "name": "Cart",
+
       "limit": 1,
 
       "settings": [
 
         {
           "type": "textarea",
+
           "id": "icon",
+
           "label": "Custom SVG icon"
         },
 
         {
           "type": "text",
+
           "id": "title",
+
           "label": "Label",
+
           "default": "Cart"
         },
 
         {
           "type": "select",
+
           "id": "action_type",
+
           "label": "Action",
+
           "options": [
+
             {
               "value": "drawer",
+
               "label": "Open drawer"
             },
+
             {
               "value": "page",
+
               "label": "Cart page"
             }
+
           ],
+
           "default": "drawer"
         }
 
@@ -459,24 +712,30 @@
 
   ],
 
+
   "presets": [
 
     {
       "name": "Premium Mobile Toolbar",
 
       "blocks": [
+
         {
           "type": "search"
         },
+
         {
           "type": "account"
         },
+
         {
           "type": "home"
         },
+
         {
           "type": "cart"
         }
+
       ]
     }
 
