@@ -936,41 +936,44 @@
     "collection_grid_pro_D3RCF3": {
       "type": "collection-grid-pro",
       "blocks": {
-        "collection_xhNLxi": {
+        "collection_JP6Bcg": {
           "type": "collection",
           "settings": {
-            "collection": "latest-collection",
-            "image": "shopify://shop_images/new-arrival-texted-colelction-image.png",
-            "title": ""
-          }
-        },
-        "collection_mRbfdq": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "title": ""
-          }
-        },
-        "collection_mGbGF3": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "title": ""
+            "collection": "knit-polo",
+            "image": "shopify://shop_images/premium-striped-and-luxuirous-knit-polo-colelction-image.png",
+            "title": "KNIT POLO"
           }
         },
         "collection_TRTL7Q": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "latest-collection",
+            "image": "shopify://shop_images/new-arrival-texted-colelction-image.png",
+            "title": "NEW ARRIVALS"
+          }
+        },
+        "collection_kLCe3K": {
+          "type": "collection",
+          "settings": {
+            "collection": "remi-cotton-shirt",
+            "image": "shopify://shop_images/premium-remi-cottton-shirt-collection-image-high-quality-premium-and-best-squre-ratio.png",
+            "title": ""
+          }
+        },
+        "collection_LNLmWY": {
+          "type": "collection",
+          "settings": {
+            "collection": "premium-shirts",
+            "image": "shopify://shop_images/creta-a-collection-image-for-our-premium-stipe-shirts.png",
             "title": ""
           }
         }
       },
       "block_order": [
-        "collection_xhNLxi",
-        "collection_mRbfdq",
-        "collection_mGbGF3",
-        "collection_TRTL7Q"
+        "collection_JP6Bcg",
+        "collection_TRTL7Q",
+        "collection_kLCe3K",
+        "collection_LNLmWY"
       ],
       "name": "Collection Grid Pro",
       "settings": {
@@ -987,7 +990,7 @@
         "mobile_columns": "2",
         "grid_gap": 24,
         "mobile_grid_gap": 14,
-        "image_ratio": "portrait",
+        "image_ratio": "adapt",
         "image_position": "center center",
         "image_background": "#F4F1EC",
         "image_radius": 2,
