@@ -69,14 +69,6 @@
             "title": "NEW ARRIVALS"
           }
         },
-        "collection_cbEkRN": {
-          "type": "collection",
-          "settings": {
-            "collection": "summer-collection",
-            "image": "shopify://shop_images/creat-a-summer-colelction-og-image-usig-old-money-polo-shirt-remi-cotton-shirt.png",
-            "title": ""
-          }
-        },
         "collection_kLCe3K": {
           "type": "collection",
           "settings": {
@@ -89,7 +81,7 @@
           "type": "collection",
           "settings": {
             "collection": "premium-shirts",
-            "image": "shopify://shop_images/creta-a-collection-image-for-our-premium-stipe-shirts.png",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_19_2026_05_07_13_PM.png",
             "title": ""
           }
         },
@@ -112,7 +104,6 @@
       },
       "block_order": [
         "collection_TRTL7Q",
-        "collection_cbEkRN",
         "collection_kLCe3K",
         "collection_LNLmWY",
         "collection_JP6Bcg",
