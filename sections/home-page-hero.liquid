@@ -1,519 +1,1885 @@
 {% comment %}
-  Section: Home Page Hero
-  A fully customizable, mobile-first, snap-scrolling hero section.
+  UNIVERSes RAW — Premium Home Page Hero
+  - Responsive desktop/mobile imagery
+  - Premium editorial typography
+  - Flexible content positioning
+  - Desktop + mobile alignment controls
+  - Smooth slider
+  - Optional autoplay
+  - Progress navigation
+  - Accessible controls
+  - Shopify Theme Editor friendly
 {% endcomment %}
 
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
+<section
+  id="URHero-{{ section.id }}"
+  class="ur-hero"
+  data-section-id="{{ section.id }}"
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
+  aria-label="{{ section.settings.accessibility_label | escape }}"
+>
 
-{%- style -%}
-  #Hph-{{ section.id }} {
-    --heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
-    --heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
-    --subheading-size: {{ section.settings.subheading_size }}px;
-    --text-size: {{ section.settings.text_size }}px;
-    --btn-font-size: {{ section.settings.button_font_size }}px;
-    --btn-pad-v: {{ section.settings.button_padding_v }}px;
-    --btn-pad-h: {{ section.settings.button_padding_h }}px;
-  }
-{%- endstyle -%}
+  <div class="ur-hero__viewport">
 
-<style>
-  .hph-section {
-    position: relative;
-  }
-  .hph-slider {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-  }
-  .hph-slider::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
-  }
-  .hph-slide {
-    flex: 0 0 100%;
-    scroll-snap-align: start;
-    position: relative;
-    min-height: 85vh; /* Mobile height */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-  @media (min-width: 768px) {
-    .hph-slide {
-      min-height: 80vh; /* Desktop height */
-    }
-  }
+    <div class="ur-hero__track">
 
-  /* Images */
-  .hph-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-  }
-  .hph-bg-mobile {
-    display: block;
-  }
-  .hph-bg-desktop {
-    display: none;
-  }
-  @media (min-width: 768px) {
-    .hph-bg-mobile { display: none; }
-    .hph-bg-desktop { display: block; }
-  }
+      {% for block in section.blocks %}
 
-  /* Overlay */
-  .hph-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.85) 100%);
-  }
+        {% liquid
+          assign desktop_image = block.settings.image_desktop
+          assign mobile_image = block.settings.image_mobile
 
-  /* Content */
-  .hph-content-wrapper {
-    position: relative;
-    z-index: 2;
-    padding: 0 20px 80px; /* Leave room for bottom bar */
-    width: 100%;
-    max-width: var(--page-width, 1400px);
-    margin: 0 auto;
-  }
-  @media (min-width: 768px) {
-    .hph-content-wrapper {
-      padding: 0 40px 100px;
-    }
-  }
+          if mobile_image == blank
+            assign mobile_image = desktop_image
+          endif
+        %}
 
-  .hph-subheading {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: #fff;
-    font-size: var(--subheading-size);
-    font-weight: 600;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .hph-subheading::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: #fff;
-  }
-  
-  .hph-heading {
-    color: #fff;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: var(--heading-size-mobile);
-    font-weight: 400;
-    line-height: 1.1;
-    margin: 0 0 16px;
-  }
-  @media (min-width: 768px) {
-    .hph-heading {
-      font-size: var(--heading-size-desktop);
-      margin-bottom: 24px;
-    }
-  }
-  .hph-desc {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: var(--text-size);
-    line-height: 1.5;
-    margin: 0 0 32px;
-    max-width: 400px;
-  }
+        <article
+          class="ur-hero__slide {% if forloop.first %}is-active{% endif %}"
+          data-slide="{{ forloop.index0 }}"
+          {{ block.shopify_attributes }}
+        >
 
-  /* Buttons */
-  .hph-actions {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 12px;
-  }
-  .hph-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--btn-pad-v) var(--btn-pad-h);
-    border-radius: 999px;
-    font-size: var(--btn-font-size);
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: transform 0.2s, opacity 0.2s;
-    white-space: nowrap;
-  }
-  .hph-btn:hover {
-    transform: scale(1.02);
-  }
-  .hph-btn--primary {
-    background: #fff;
-    color: #111;
-    gap: 8px;
-  }
-  .hph-btn--primary svg {
-    width: 14px;
-    height: 14px;
-  }
-  .hph-btn--outline {
-    background: transparent;
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.3);
-  }
-  .hph-btn--outline:hover {
-    background: rgba(255,255,255,0.1);
-  }
+          <!-- Image -->
+          <div class="ur-hero__media">
 
-  /* Bottom Bar */
-  .hph-bottom-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    max-width: var(--page-width, 1400px);
-    margin: 0 auto;
-    width: 100%;
-  }
-  @media (min-width: 768px) {
-    .hph-bottom-bar {
-      padding: 24px 40px;
-    }
-  }
+            {% if desktop_image != blank %}
 
-  .hph-features {
-    display: flex;
-    gap: 32px;
-  }
-  .hph-feature {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .hph-feature svg {
-    width: 16px;
-    height: 16px;
-    stroke: #c3192e;
-    fill: none;
-    stroke-width: 1.5;
-  }
+              <picture>
 
-  .hph-indicators {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-  .hph-dot {
-    width: 16px;
-    height: 3px;
-    background: rgba(255,255,255,0.3);
-    border-radius: 2px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  .hph-dot.active {
-    background: #fff;
-    width: 24px;
-  }
-</style>
+                {% if mobile_image != blank %}
+                  <source
+                    media="(max-width: 767px)"
+                    srcset="
+                      {{ mobile_image | image_url: width: 750 }} 750w,
+                      {{ mobile_image | image_url: width: 1100 }} 1100w,
+                      {{ mobile_image | image_url: width: 1500 }} 1500w
+                    "
+                  >
+                {% endif %}
 
-<div class="hph-section" id="Hph-{{ section.id }}">
-  <div class="hph-slider" id="Slider-{{ section.id }}">
-    {%- for block in section.blocks -%}
-      <div class="hph-slide" id="Slide-{{ block.id }}" {{ block.shopify_attributes }}>
-        
-        {%- if block.settings.image_desktop != blank -%}
-          {{ block.settings.image_desktop | image_url: width: 3840 | image_tag: class: 'hph-bg hph-bg-desktop', loading: 'lazy' }}
-        {%- else -%}
-          {{ 'lifestyle-2' | placeholder_svg_tag: 'hph-bg hph-bg-desktop placeholder-svg' }}
-        {%- endif -%}
+                <img
+                  class="ur-hero__image"
+                  src="{{ desktop_image | image_url: width: 2200 }}"
+                  srcset="
+                    {{ desktop_image | image_url: width: 1200 }} 1200w,
+                    {{ desktop_image | image_url: width: 1600 }} 1600w,
+                    {{ desktop_image | image_url: width: 2200 }} 2200w,
+                    {{ desktop_image | image_url: width: 3000 }} 3000w
+                  "
+                  sizes="100vw"
+                  alt="{{ desktop_image.alt | default: block.settings.heading | escape }}"
+                  width="{{ desktop_image.width }}"
+                  height="{{ desktop_image.height }}"
+                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                  {% if forloop.first %}fetchpriority="high"{% endif %}
+                >
 
-        {%- if block.settings.image_mobile != blank -%}
-          {{ block.settings.image_mobile | image_url: width: 1200 | image_tag: class: 'hph-bg hph-bg-mobile', loading: 'lazy' }}
-        {%- else -%}
-          {{ 'lifestyle-1' | placeholder_svg_tag: 'hph-bg hph-bg-mobile placeholder-svg' }}
-        {%- endif -%}
+              </picture>
 
-        <div class="hph-overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+            {% else %}
 
-        <div class="hph-content-wrapper">
-          {%- if block.settings.subheading != blank -%}
-            <div class="hph-subheading">{{ block.settings.subheading }}</div>
-          {%- endif -%}
-          
-          {%- if block.settings.heading != blank -%}
-            <h2 class="hph-heading">{{ block.settings.heading }}</h2>
-          {%- endif -%}
-          
-          {%- if block.settings.text != blank -%}
-            <div class="hph-desc">{{ block.settings.text }}</div>
-          {%- endif -%}
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'ur-hero__image ur-hero__placeholder' }}
 
-          <div class="hph-actions">
-            {%- if block.settings.btn1_label != blank -%}
-              <a href="{{ block.settings.btn1_link }}" class="hph-btn hph-btn--primary">
-                {{ block.settings.btn1_label }}
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
-            {%- endif -%}
-            {%- if block.settings.btn2_label != blank -%}
-              <a href="{{ block.settings.btn2_link }}" class="hph-btn hph-btn--outline">
-                {{ block.settings.btn2_label }}
-              </a>
-            {%- endif -%}
+            {% endif %}
+
           </div>
-        </div>
 
-      </div>
-    {%- endfor -%}
-  </div>
 
-  <div class="hph-bottom-bar">
-    <div class="hph-features">
-      {%- if section.settings.show_features -%}
-        <!-- Ribbon Icon -->
-        <div class="hph-feature">
-          <svg viewBox="0 0 24 24"><path d="M12 15V3m0 12l-4 4m4-4l4 4M2 12h20M2 16h20M2 8h20" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <!-- Truck Icon -->
-        <div class="hph-feature">
-          <svg viewBox="0 0 24 24"><path d="M8 22V8h8v14M3 13h18M3 17h18" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <!-- Shield Icon -->
-        <div class="hph-feature">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      {%- endif -%}
+          <!-- Premium overlay -->
+          <div
+            class="ur-hero__overlay"
+            style="--slide-overlay: {{ block.settings.overlay_opacity }}%;"
+          ></div>
+
+
+          <!-- Content -->
+          <div
+            class="
+              ur-hero__content
+              ur-hero__content--{{ block.settings.desktop_horizontal }}
+              ur-hero__content--{{ block.settings.desktop_vertical }}
+              ur-hero__content-mobile--{{ block.settings.mobile_horizontal }}
+              ur-hero__content-mobile--{{ block.settings.mobile_vertical }}
+            "
+          >
+
+            <div class="ur-hero__content-inner">
+
+              {% if block.settings.subheading != blank %}
+                <div class="ur-hero__eyebrow">
+
+                  {% if block.settings.show_eyebrow_line %}
+                    <span class="ur-hero__eyebrow-line"></span>
+                  {% endif %}
+
+                  <span>
+                    {{ block.settings.subheading }}
+                  </span>
+
+                </div>
+              {% endif %}
+
+
+              {% if block.settings.heading != blank %}
+                <h1 class="ur-hero__heading">
+                  {{ block.settings.heading | newline_to_br }}
+                </h1>
+              {% endif %}
+
+
+              {% if block.settings.text != blank %}
+                <div class="ur-hero__description">
+                  {{ block.settings.text }}
+                </div>
+              {% endif %}
+
+
+              {% if block.settings.btn1_label != blank or block.settings.btn2_label != blank %}
+
+                <div class="ur-hero__actions">
+
+                  {% if block.settings.btn1_label != blank %}
+
+                    <a
+                      href="{{ block.settings.btn1_link }}"
+                      class="ur-hero__button ur-hero__button--primary"
+                    >
+                      <span>{{ block.settings.btn1_label }}</span>
+
+                      {% if block.settings.show_arrow %}
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M5 12h13M13 6l6 6-6 6"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      {% endif %}
+                    </a>
+
+                  {% endif %}
+
+
+                  {% if block.settings.btn2_label != blank %}
+
+                    <a
+                      href="{{ block.settings.btn2_link }}"
+                      class="ur-hero__button ur-hero__button--secondary"
+                    >
+                      {{ block.settings.btn2_label }}
+                    </a>
+
+                  {% endif %}
+
+                </div>
+
+              {% endif %}
+
+            </div>
+
+          </div>
+
+        </article>
+
+      {% endfor %}
+
     </div>
 
-    {%- if section.blocks.size > 1 -%}
-      <div class="hph-indicators">
-        {%- for block in section.blocks -%}
-          <div class="hph-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}"></div>
-        {%- endfor -%}
+
+    {% if section.blocks.size > 1 %}
+
+      <!-- Navigation -->
+      <div class="ur-hero__navigation">
+
+        <button
+          type="button"
+          class="ur-hero__nav ur-hero__nav--prev"
+          aria-label="Previous slide"
+        >
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M15 18l-6-6 6-6"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+
+        <div
+          class="ur-hero__progress"
+          role="tablist"
+          aria-label="Hero slides"
+        >
+
+          {% for block in section.blocks %}
+
+            <button
+              type="button"
+              class="
+                ur-hero__progress-item
+                {% if forloop.first %}is-active{% endif %}
+              "
+              data-slide-to="{{ forloop.index0 }}"
+              role="tab"
+              aria-label="Go to slide {{ forloop.index }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              <span></span>
+            </button>
+
+          {% endfor %}
+
+        </div>
+
+
+        <button
+          type="button"
+          class="ur-hero__nav ur-hero__nav--next"
+          aria-label="Next slide"
+        >
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M9 18l6-6-6-6"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
       </div>
-    {%- endif -%}
+
+    {% endif %}
+
   </div>
-</div>
+
+</section>
+
+
+<style>
+
+  /* ============================================================
+     UNIVERSes RAW — PREMIUM HERO
+     ============================================================ */
+
+  #URHero-{{ section.id }} {
+
+    --hero-desktop-height: {{ section.settings.desktop_height }}vh;
+    --hero-mobile-height: {{ section.settings.mobile_height }}vh;
+
+    --hero-max-width: {{ section.settings.content_max_width }}px;
+
+    --heading-mobile: {{ section.settings.heading_size_mobile }}px;
+    --heading-desktop: {{ section.settings.heading_size_desktop }}px;
+
+    --description-size: {{ section.settings.description_size }}px;
+
+    --button-size: {{ section.settings.button_font_size }}px;
+
+    --button-radius: {{ section.settings.button_radius }}px;
+
+    --content-width: {{ section.settings.content_width }}px;
+
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+
+    background: #111;
+
+    isolation: isolate;
+  }
+
+
+  /* ============================================================
+     VIEWPORT
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__viewport {
+
+    position: relative;
+
+    width: 100%;
+
+    height: var(--hero-mobile-height);
+
+    min-height: 520px;
+
+    overflow: hidden;
+  }
+
+
+  /* ============================================================
+     TRACK
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__track {
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+  }
+
+
+  /* ============================================================
+     SLIDE
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__slide {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    visibility: hidden;
+
+    opacity: 0;
+
+    transform: scale(1.015);
+
+    transition:
+      opacity 0.75s cubic-bezier(.22,.61,.36,1),
+      transform 1.1s cubic-bezier(.22,.61,.36,1),
+      visibility 0.75s;
+
+    pointer-events: none;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__slide.is-active {
+
+    visibility: visible;
+
+    opacity: 1;
+
+    transform: scale(1);
+
+    pointer-events: auto;
+
+    z-index: 2;
+  }
+
+
+  /* ============================================================
+     IMAGE
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__media {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__image {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center center;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+    transform: scale(1.001);
+
+    transition:
+      transform 1.8s cubic-bezier(.22,.61,.36,1);
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__slide.is-active
+  .ur-hero__image {
+
+    transform: scale(1.025);
+  }
+
+
+  /* ============================================================
+     OVERLAY
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+
+      linear-gradient(
+        90deg,
+        rgba(0,0,0,.48) 0%,
+        rgba(0,0,0,.22) 35%,
+        rgba(0,0,0,.03) 70%,
+        rgba(0,0,0,.08) 100%
+      ),
+
+      linear-gradient(
+        0deg,
+        rgba(0,0,0,.58) 0%,
+        rgba(0,0,0,.12) 38%,
+        rgba(0,0,0,0) 72%
+      );
+
+    opacity: calc(var(--slide-overlay) / 100);
+
+    mix-blend-mode: normal;
+  }
+
+
+  /* ============================================================
+     CONTENT
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__content {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 3;
+
+    display: flex;
+
+    padding:
+
+      {{ section.settings.content_padding_mobile }}px
+
+      20px
+
+      {{ section.settings.content_padding_mobile | plus: 70 }}px;
+
+    pointer-events: none;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__content-inner {
+
+    width: min(
+      100%,
+      var(--content-width)
+    );
+
+    pointer-events: auto;
+  }
+
+
+  /* Horizontal */
+
+  #URHero-{{ section.id }} .ur-hero__content--left {
+
+    justify-content: flex-start;
+
+    text-align: left;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__content--center {
+
+    justify-content: center;
+
+    text-align: center;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__content--right {
+
+    justify-content: flex-end;
+
+    text-align: right;
+  }
+
+
+  /* Vertical */
+
+  #URHero-{{ section.id }} .ur-hero__content--top {
+
+    align-items: flex-start;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__content--center {
+
+    align-items: center;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__content--bottom {
+
+    align-items: flex-end;
+  }
+
+
+  /* ============================================================
+     EYEBROW
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+
+    color: rgba(255,255,255,.9);
+
+    font-size: 10px;
+
+    line-height: 1;
+
+    font-weight: 600;
+
+    letter-spacing: .28em;
+
+    text-transform: uppercase;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__eyebrow-line {
+
+    display: block;
+
+    width: 25px;
+
+    height: 1px;
+
+    background: rgba(255,255,255,.85);
+
+    flex: 0 0 auto;
+  }
+
+
+  /* ============================================================
+     HEADING
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__heading {
+
+    margin: 0;
+
+    max-width: 760px;
+
+    color: #fff;
+
+    font-family:
+      "Cormorant Garamond",
+      "Times New Roman",
+      serif;
+
+    font-size: var(--heading-mobile);
+
+    font-weight: 400;
+
+    line-height: .96;
+
+    letter-spacing: -.025em;
+
+    text-wrap: balance;
+
+    text-shadow:
+      0 2px 25px rgba(0,0,0,.15);
+  }
+
+
+  /* ============================================================
+     DESCRIPTION
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__description {
+
+    max-width: 470px;
+
+    margin-top: 20px;
+
+    color: rgba(255,255,255,.84);
+
+    font-size: var(--description-size);
+
+    line-height: 1.55;
+
+    font-weight: 400;
+
+    letter-spacing: .01em;
+  }
+
+
+  /* ============================================================
+     BUTTONS
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__actions {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 28px;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 48px;
+
+    padding:
+      0
+      23px;
+
+    border-radius: var(--button-radius);
+
+    font-size: var(--button-size);
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    letter-spacing: .14em;
+
+    text-transform: uppercase;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    transition:
+
+      background .25s ease,
+      color .25s ease,
+      border-color .25s ease,
+      transform .25s ease;
+
+    -webkit-tap-highlight-color: transparent;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__button svg {
+
+    margin-left: 9px;
+
+    transition:
+      transform .25s ease;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__button:hover {
+
+    transform: translateY(-2px);
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__button:hover svg {
+
+    transform: translateX(3px);
+  }
+
+
+  /* Primary */
+
+  #URHero-{{ section.id }} .ur-hero__button--primary {
+
+    color: #111;
+
+    background: #fff;
+
+    border: 1px solid #fff;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__button--primary:hover {
+
+    background: #f2f2f2;
+
+    border-color: #f2f2f2;
+  }
+
+
+  /* Secondary */
+
+  #URHero-{{ section.id }} .ur-hero__button--secondary {
+
+    color: #fff;
+
+    background: rgba(255,255,255,.04);
+
+    border: 1px solid rgba(255,255,255,.65);
+
+    backdrop-filter: blur(5px);
+
+    -webkit-backdrop-filter: blur(5px);
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__button--secondary:hover {
+
+    color: #111;
+
+    background: #fff;
+
+    border-color: #fff;
+  }
+
+
+  /* ============================================================
+     NAVIGATION
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__navigation {
+
+    position: absolute;
+
+    right: 30px;
+
+    bottom: 28px;
+
+    z-index: 10;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+  }
+
+
+  /* Arrows */
+
+  #URHero-{{ section.id }} .ur-hero__nav {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 34px;
+
+    height: 34px;
+
+    padding: 0;
+
+    color: #fff;
+
+    background: rgba(0,0,0,.12);
+
+    border: 1px solid rgba(255,255,255,.28);
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(7px);
+
+    -webkit-backdrop-filter: blur(7px);
+
+    transition:
+
+      background .25s ease,
+      border-color .25s ease,
+      transform .25s ease;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__nav:hover {
+
+    background: rgba(255,255,255,.14);
+
+    border-color: rgba(255,255,255,.7);
+
+    transform: scale(1.05);
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__nav svg {
+
+    width: 16px;
+
+    height: 16px;
+  }
+
+
+  /* ============================================================
+     PROGRESS
+     ============================================================ */
+
+  #URHero-{{ section.id }} .ur-hero__progress {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__progress-item {
+
+    position: relative;
+
+    width: 24px;
+
+    height: 20px;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    cursor: pointer;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__progress-item span {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 1px;
+
+    background: rgba(255,255,255,.4);
+
+    transform: translateY(-50%);
+
+    transition:
+
+      background .3s ease,
+      height .3s ease;
+  }
+
+
+  #URHero-{{ section.id }} .ur-hero__progress-item.is-active span {
+
+    height: 2px;
+
+    background: #fff;
+  }
+
+
+  /* ============================================================
+     MOBILE ALIGNMENT
+     ============================================================ */
+
+  @media (max-width: 767px) {
+
+    #URHero-{{ section.id }} .ur-hero__content-mobile--left {
+
+      justify-content: flex-start;
+
+      text-align: left;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__content-mobile--center {
+
+      justify-content: center;
+
+      text-align: center;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__content-mobile--right {
+
+      justify-content: flex-end;
+
+      text-align: right;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__content-mobile--top {
+
+      align-items: flex-start;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__content-mobile--center {
+
+      align-items: center;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__content-mobile--bottom {
+
+      align-items: flex-end;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__description {
+
+      max-width: 360px;
+
+      margin-top: 17px;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__actions {
+
+      margin-top: 24px;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__button {
+
+      min-height: 45px;
+
+      padding: 0 19px;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__navigation {
+
+      right: 20px;
+
+      bottom: 20px;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__nav {
+
+      display: none;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__progress-item {
+
+      width: 22px;
+    }
+
+  }
+
+
+  /* ============================================================
+     DESKTOP
+     ============================================================ */
+
+  @media (min-width: 768px) {
+
+    #URHero-{{ section.id }} .ur-hero__viewport {
+
+      height: var(--hero-desktop-height);
+
+      min-height: 580px;
+
+      max-height: 900px;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__content {
+
+      padding:
+
+        60px
+
+        max(
+          40px,
+          calc(
+            (100vw - var(--hero-max-width)) / 2
+          )
+        )
+
+        120px;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__heading {
+
+      font-size: var(--heading-desktop);
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__description {
+
+      margin-top: 24px;
+    }
+
+
+    #URHero-{{ section.id }} .ur-hero__actions {
+
+      margin-top: 32px;
+    }
+
+  }
+
+
+  /* ============================================================
+     REDUCED MOTION
+     ============================================================ */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    #URHero-{{ section.id }} .ur-hero__slide,
+    #URHero-{{ section.id }} .ur-hero__image,
+    #URHero-{{ section.id }} .ur-hero__button {
+
+      transition: none !important;
+    }
+
+  }
+
+
+</style>
+
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const slider = document.getElementById('Slider-{{ section.id }}');
-    const dots = document.querySelectorAll('#Hph-{{ section.id }} .hph-dot');
-    
-    if (!slider || dots.length === 0) return;
 
-    slider.addEventListener('scroll', () => {
-      const scrollPos = slider.scrollLeft;
-      const slideWidth = slider.clientWidth;
-      const activeIndex = Math.round(scrollPos / slideWidth);
+  (() => {
 
-      dots.forEach((dot, index) => {
-        if (index === activeIndex) {
-          dot.classList.add('active');
-        } else {
-          dot.classList.remove('active');
+    const hero = document.getElementById(
+      'URHero-{{ section.id }}'
+    );
+
+    if (!hero) return;
+
+
+    const slides = Array.from(
+      hero.querySelectorAll('.ur-hero__slide')
+    );
+
+    const progressItems = Array.from(
+      hero.querySelectorAll('.ur-hero__progress-item')
+    );
+
+    const previousButton =
+      hero.querySelector('.ur-hero__nav--prev');
+
+    const nextButton =
+      hero.querySelector('.ur-hero__nav--next');
+
+
+    if (slides.length <= 1) return;
+
+
+    let currentIndex = 0;
+
+    let autoplayTimer = null;
+
+    let isAnimating = false;
+
+
+    const autoplay =
+      hero.dataset.autoplay === 'true';
+
+    const autoplaySpeed =
+      parseInt(hero.dataset.autoplaySpeed, 10) || 5000;
+
+
+    /* ==========================================================
+       UPDATE SLIDE
+       ========================================================== */
+
+    function goToSlide(index) {
+
+      if (isAnimating) return;
+
+      if (index < 0) {
+
+        index = slides.length - 1;
+
+      }
+
+      if (index >= slides.length) {
+
+        index = 0;
+
+      }
+
+
+      if (index === currentIndex) return;
+
+
+      isAnimating = true;
+
+
+      slides[currentIndex]
+        .classList
+        .remove('is-active');
+
+
+      slides[index]
+        .classList
+        .add('is-active');
+
+
+      progressItems.forEach(
+        (item, itemIndex) => {
+
+          const active =
+            itemIndex === index;
+
+          item.classList.toggle(
+            'is-active',
+            active
+          );
+
+          item.setAttribute(
+            'aria-selected',
+            active ? 'true' : 'false'
+          );
+
         }
-      });
-    });
+      );
 
-    dots.forEach((dot) => {
-      dot.addEventListener('click', () => {
-        const index = parseInt(dot.getAttribute('data-index'));
-        const slideWidth = slider.clientWidth;
-        slider.scrollTo({
-          left: index * slideWidth,
-          behavior: 'smooth'
-        });
-      });
-    });
-  });
+
+      currentIndex = index;
+
+
+      window.setTimeout(
+        () => {
+
+          isAnimating = false;
+
+        },
+        750
+      );
+
+    }
+
+
+    /* ==========================================================
+       NEXT / PREVIOUS
+       ========================================================== */
+
+    function nextSlide() {
+
+      goToSlide(
+        currentIndex + 1
+      );
+
+    }
+
+
+    function previousSlide() {
+
+      goToSlide(
+        currentIndex - 1
+      );
+
+    }
+
+
+    if (nextButton) {
+
+      nextButton.addEventListener(
+        'click',
+        () => {
+
+          nextSlide();
+
+          restartAutoplay();
+
+        }
+      );
+
+    }
+
+
+    if (previousButton) {
+
+      previousButton.addEventListener(
+        'click',
+        () => {
+
+          previousSlide();
+
+          restartAutoplay();
+
+        }
+      );
+
+    }
+
+
+    /* ==========================================================
+       PROGRESS BUTTONS
+       ========================================================== */
+
+    progressItems.forEach(
+      (button) => {
+
+        button.addEventListener(
+          'click',
+          () => {
+
+            const index =
+              parseInt(
+                button.dataset.slideTo,
+                10
+              );
+
+            goToSlide(index);
+
+            restartAutoplay();
+
+          }
+        );
+
+      }
+    );
+
+
+    /* ==========================================================
+       AUTOPLAY
+       ========================================================== */
+
+    function startAutoplay() {
+
+      if (!autoplay) return;
+
+      stopAutoplay();
+
+
+      autoplayTimer =
+        window.setInterval(
+          () => {
+
+            nextSlide();
+
+          },
+          autoplaySpeed
+        );
+
+    }
+
+
+    function stopAutoplay() {
+
+      if (autoplayTimer) {
+
+        window.clearInterval(
+          autoplayTimer
+        );
+
+        autoplayTimer = null;
+
+      }
+
+    }
+
+
+    function restartAutoplay() {
+
+      stopAutoplay();
+
+      startAutoplay();
+
+    }
+
+
+    /* ==========================================================
+       PAUSE ON HOVER
+       ========================================================== */
+
+    {% if section.settings.pause_on_hover %}
+
+      hero.addEventListener(
+        'mouseenter',
+        stopAutoplay
+      );
+
+
+      hero.addEventListener(
+        'mouseleave',
+        startAutoplay
+      );
+
+    {% endif %}
+
+
+    /* ==========================================================
+       KEYBOARD
+       ========================================================== */
+
+    hero.addEventListener(
+      'keydown',
+      (event) => {
+
+        if (event.key === 'ArrowRight') {
+
+          nextSlide();
+
+          restartAutoplay();
+
+        }
+
+
+        if (event.key === 'ArrowLeft') {
+
+          previousSlide();
+
+          restartAutoplay();
+
+        }
+
+      }
+    );
+
+
+    /* ==========================================================
+       TOUCH SWIPE
+       ========================================================== */
+
+    let touchStartX = 0;
+
+    let touchEndX = 0;
+
+
+    hero.addEventListener(
+      'touchstart',
+      (event) => {
+
+        touchStartX =
+          event.changedTouches[0].screenX;
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    hero.addEventListener(
+      'touchend',
+      (event) => {
+
+        touchEndX =
+          event.changedTouches[0].screenX;
+
+
+        const difference =
+          touchStartX - touchEndX;
+
+
+        if (Math.abs(difference) < 50) return;
+
+
+        if (difference > 0) {
+
+          nextSlide();
+
+        } else {
+
+          previousSlide();
+
+        }
+
+
+        restartAutoplay();
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    /* ==========================================================
+       SHOPIFY THEME EDITOR
+       ========================================================== */
+
+    document.addEventListener(
+      'shopify:section:unload',
+      (event) => {
+
+        if (
+          event.detail.sectionId ===
+          '{{ section.id }}'
+        ) {
+
+          stopAutoplay();
+
+        }
+
+      }
+    );
+
+
+    startAutoplay();
+
+  })();
+
 </script>
 
+
 {% schema %}
+
 {
-  "name": "Home Page Hero",
+  "name": "Premium Hero",
   "tag": "section",
-  "class": "section",
+  "class": "section-premium-hero",
+
   "settings": [
+
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "Accessibility label",
+      "default": "Featured collections"
+    },
+
+    {
+      "type": "header",
+      "content": "Hero Height"
+    },
+
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop height",
+      "min": 55,
+      "max": 95,
+      "step": 1,
+      "unit": "vh",
+      "default": 78
+    },
+
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile height",
+      "min": 60,
+      "max": 95,
+      "step": 1,
+      "unit": "vh",
+      "default": 78
+    },
+
+    {
+      "type": "header",
+      "content": "Content"
+    },
+
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Content width",
+      "min": 320,
+      "max": 850,
+      "step": 10,
+      "unit": "px",
+      "default": 620
+    },
+
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Maximum hero width",
+      "min": 1000,
+      "max": 1800,
+      "step": 50,
+      "unit": "px",
+      "default": 1400
+    },
+
+    {
+      "type": "range",
+      "id": "content_padding_mobile",
+      "label": "Mobile content padding",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 55
+    },
+
     {
       "type": "range",
       "id": "overlay_opacity",
-      "min": 0,
+      "label": "Default overlay opacity",
+      "min": 20,
       "max": 100,
       "step": 5,
       "unit": "%",
-      "label": "Overlay Opacity",
-      "default": 100
+      "default": 75
     },
-    {
-      "type": "checkbox",
-      "id": "show_features",
-      "label": "Show bottom feature icons",
-      "default": true
-    },
+
     {
       "type": "header",
-      "content": "Typography Settings"
+      "content": "Typography"
     },
+
     {
       "type": "range",
       "id": "heading_size_mobile",
-      "min": 24,
-      "max": 72,
+      "label": "Mobile heading size",
+      "min": 30,
+      "max": 70,
       "step": 1,
       "unit": "px",
-      "label": "Heading Size (Mobile)",
       "default": 48
     },
+
     {
       "type": "range",
       "id": "heading_size_desktop",
-      "min": 32,
-      "max": 100,
+      "label": "Desktop heading size",
+      "min": 45,
+      "max": 110,
       "step": 1,
       "unit": "px",
-      "label": "Heading Size (Desktop)",
-      "default": 64
+      "default": 78
     },
+
     {
       "type": "range",
-      "id": "subheading_size",
-      "min": 8,
-      "max": 24,
-      "step": 1,
-      "unit": "px",
-      "label": "Subheading Size",
-      "default": 11
-    },
-    {
-      "type": "range",
-      "id": "text_size",
+      "id": "description_size",
+      "label": "Description size",
       "min": 12,
-      "max": 24,
+      "max": 22,
       "step": 1,
       "unit": "px",
-      "label": "Description Size",
-      "default": 16
+      "default": 15
     },
+
     {
       "type": "header",
-      "content": "Button Settings"
+      "content": "Buttons"
     },
+
     {
       "type": "range",
       "id": "button_font_size",
-      "min": 8,
-      "max": 20,
+      "label": "Button font size",
+      "min": 9,
+      "max": 16,
       "step": 1,
       "unit": "px",
-      "label": "Button Font Size",
-      "default": 12
+      "default": 10
     },
+
     {
       "type": "range",
-      "id": "button_padding_v",
-      "min": 8,
-      "max": 32,
+      "id": "button_radius",
+      "label": "Button corner radius",
+      "min": 0,
+      "max": 30,
       "step": 1,
       "unit": "px",
-      "label": "Button Vertical Padding",
-      "default": 14
+      "default": 0
     },
+
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay",
+      "default": true
+    },
+
     {
       "type": "range",
-      "id": "button_padding_h",
-      "min": 12,
-      "max": 64,
+      "id": "autoplay_speed",
+      "label": "Slide duration",
+      "min": 3,
+      "max": 12,
       "step": 1,
-      "unit": "px",
-      "label": "Button Horizontal Padding",
-      "default": 24
+      "unit": "sec",
+      "default": 6
+    },
+
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause autoplay on hover",
+      "default": true
     }
+
   ],
+
   "blocks": [
+
     {
       "type": "slide",
-      "name": "Slide",
+      "name": "Hero Slide",
+
       "settings": [
+
         {
-          "type": "image_picker",
-          "id": "image_mobile",
-          "label": "Mobile Image"
+          "type": "header",
+          "content": "Images"
         },
+
         {
           "type": "image_picker",
           "id": "image_desktop",
-          "label": "Desktop Image"
+          "label": "Desktop image"
         },
+
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile image"
+        },
+
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Image overlay",
+          "min": 20,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 75
+        },
+
+        {
+          "type": "header",
+          "content": "Content"
+        },
+
         {
           "type": "text",
           "id": "subheading",
-          "label": "Subheading",
-          "default": "AUTUMN COLLECTION 2026"
+          "label": "Eyebrow",
+          "default": "NEW COLLECTION"
         },
+
+        {
+          "type": "checkbox",
+          "id": "show_eyebrow_line",
+          "label": "Show eyebrow line",
+          "default": true
+        },
+
         {
           "type": "textarea",
           "id": "heading",
           "label": "Heading",
-          "default": "Bold. Confident. Raw."
+          "default": "Made for your presence."
         },
+
         {
           "type": "textarea",
           "id": "text",
           "label": "Description",
-          "default": "A curated edit of premium menswear engineered for the uncompromising."
+          "default": "Premium menswear designed with confidence, simplicity and character."
         },
+
+        {
+          "type": "header",
+          "content": "Desktop Position"
+        },
+
+        {
+          "type": "select",
+          "id": "desktop_horizontal",
+          "label": "Horizontal alignment",
+          "default": "left",
+
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+
+        {
+          "type": "select",
+          "id": "desktop_vertical",
+          "label": "Vertical alignment",
+          "default": "bottom",
+
+          "options": [
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ]
+        },
+
+        {
+          "type": "header",
+          "content": "Mobile Position"
+        },
+
+        {
+          "type": "select",
+          "id": "mobile_horizontal",
+          "label": "Horizontal alignment",
+          "default": "left",
+
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+
+        {
+          "type": "select",
+          "id": "mobile_vertical",
+          "label": "Vertical alignment",
+          "default": "bottom",
+
+          "options": [
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ]
+        },
+
+        {
+          "type": "header",
+          "content": "Primary Button"
+        },
+
         {
           "type": "text",
           "id": "btn1_label",
-          "label": "Primary Button Label",
+          "label": "Label",
           "default": "SHOP NOW"
         },
+
         {
           "type": "url",
           "id": "btn1_link",
-          "label": "Primary Button Link"
+          "label": "Link"
         },
+
+        {
+          "type": "checkbox",
+          "id": "show_arrow",
+          "label": "Show arrow",
+          "default": true
+        },
+
+        {
+          "type": "header",
+          "content": "Secondary Button"
+        },
+
         {
           "type": "text",
           "id": "btn2_label",
-          "label": "Outline Button Label",
+          "label": "Label",
           "default": "NEW ARRIVALS"
         },
+
         {
           "type": "url",
           "id": "btn2_link",
-          "label": "Outline Button Link"
+          "label": "Link"
         }
+
       ]
     }
+
   ],
+
   "presets": [
+
     {
-      "name": "Home Page Hero",
+      "name": "Premium Hero",
+
       "blocks": [
+
         {
           "type": "slide"
         },
+
         {
           "type": "slide"
         }
+
       ]
     }
+
   ]
+
 }
+
 {% endschema %}
