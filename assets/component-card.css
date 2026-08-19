@@ -1063,30 +1063,51 @@
   }
 }
 
-/* ── Sale / badge pill ── */
+/* ── Sale / badge pill — minimalist, bottom-left, premium ── */
 .product-card-wrapper:not(.product-card-list) .card__badge {
-  inset: 12px auto auto 12px !important;
+  inset: auto auto 12px 12px !important;
   padding: 0 !important;
   z-index: 4;
 }
 
 .product-card-wrapper:not(.product-card-list) .card__badge .badge {
   align-items: center;
-  background: #c3192e;
-  border: 0;
-  border-radius: 999px;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgb(0 0 0 / 0.08);
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.06);
+  color: #111;
   display: inline-flex;
-  font-size: 11px;
-  font-weight: 700;
-  height: 24px;
+  font-size: 10px;
+  font-weight: 500;
+  height: auto;
   justify-content: center;
-  letter-spacing: 0;
+  letter-spacing: 0.06em;
   line-height: 1;
   margin: 0;
   min-width: 0;
   padding: 6px 10px !important;
-  text-transform: none;
+  text-transform: uppercase;
+}
+
+/* Sale badge — quiet dark contrast instead of loud red pill */
+.product-card-wrapper:not(.product-card-list) .card__badge .sale-badge {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+
+/* Sold out — muted, not alarming */
+.product-card-wrapper:not(.product-card-list) .card__badge .sold-out-badge {
+  background: rgb(0 0 0 / 0.06);
+  border-color: rgb(0 0 0 / 0.08);
+  color: #555;
+}
+
+/* Stack badges vertically if more than one is shown */
+.product-card-wrapper:not(.product-card-list) .card__badge .badge + .badge {
+  margin-top: 6px;
 }
 
 /* ── Wishlist / action group — top-right, fades in on hover (desktop) ── */
