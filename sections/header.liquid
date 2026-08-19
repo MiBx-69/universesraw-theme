@@ -5,6 +5,406 @@
   {{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
 </noscript>
 
+<style>
+  /* =========================================================
+     UNIVERSes RAW — PREMIUM HEADER / MOBILE-FIRST OVERRIDES
+     Self-contained in header.liquid
+     ========================================================= */
+
+  :root {
+    --ur-header-accent: #9b7a4c;
+    --ur-header-ink: #211e1a;
+    --ur-menu-bg: #f7f4ee;
+    --ur-menu-line: rgba(33, 30, 26, .09);
+  }
+
+  /* Keep the custom mobile trigger visible only on mobile. */
+  .ur-mobile-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    z-index: 5;
+  }
+
+  .ur-mobile-menu__trigger {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 42px;
+    height: 42px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: currentColor;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .ur-mobile-menu__hamburger {
+    width: 20px;
+    height: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .ur-mobile-menu__hamburger span {
+    display: block;
+    width: 20px;
+    height: 1.2px;
+    border-radius: 99px;
+    background: currentColor;
+    transform-origin: center;
+    transition: transform .2s ease, opacity .16s ease;
+  }
+
+  /* =========================================================
+     MOBILE DRAWER
+     ========================================================= */
+
+  .ur-mobile-drawer {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 2147483000;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: opacity .16s ease, visibility .16s ease;
+  }
+
+  .ur-mobile-drawer.is-open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .ur-mobile-drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 16, 14, .38);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .ur-mobile-drawer__panel {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: min(88vw, 410px);
+    height: 100%;
+    background: var(--ur-menu-bg);
+    color: var(--ur-header-ink);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 18px 0 55px rgba(20, 17, 14, .16);
+    transform: translate3d(-102%, 0, 0);
+    transition: transform .24s cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
+  }
+
+  .ur-mobile-drawer.is-open .ur-mobile-drawer__panel {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .ur-mobile-drawer__header {
+    min-height: 76px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--ur-menu-line);
+    flex: 0 0 auto;
+  }
+
+  .ur-mobile-drawer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .ur-mobile-drawer__eyebrow {
+    font-size: 8px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: .22em;
+    color: var(--ur-header-accent);
+  }
+
+  .ur-mobile-drawer__title {
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: .16em;
+  }
+
+  .ur-mobile-drawer__close {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(155, 122, 76, .09);
+    color: var(--ur-header-ink);
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+
+  .ur-mobile-drawer__close span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .ur-mobile-drawer__close span:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .ur-mobile-drawer__close span:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .ur-mobile-drawer__nav {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .ur-mobile-drawer__nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ur-mobile-drawer__list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0 28px;
+  }
+
+  .ur-mobile-drawer__item {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--ur-menu-line);
+  }
+
+  .ur-mobile-drawer__item > a,
+  .ur-mobile-drawer__item > details > summary {
+    min-height: 61px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    color: var(--ur-header-ink);
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .ur-mobile-drawer__item > details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .ur-mobile-drawer__link-title {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: .075em;
+    text-transform: uppercase;
+  }
+
+  .ur-mobile-drawer__index {
+    min-width: 20px;
+    color: var(--ur-header-accent);
+    font-size: 8px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: .08em;
+  }
+
+  .ur-mobile-drawer__arrow {
+    color: var(--ur-header-accent);
+    font-size: 17px;
+    line-height: 1;
+    font-weight: 300;
+    flex: 0 0 auto;
+  }
+
+  .ur-mobile-submenu {
+    padding: 0 22px 18px 56px;
+    background: rgba(155, 122, 76, .045);
+  }
+
+  .ur-mobile-submenu__all {
+    display: block;
+    padding: 16px 0 11px;
+    color: var(--ur-header-accent);
+    font-size: 8px;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-decoration: none;
+  }
+
+  .ur-mobile-submenu__link {
+    display: block;
+    padding: 9px 0;
+    color: #5b534a;
+    font-size: 11px;
+    line-height: 1.25;
+    font-weight: 400;
+    letter-spacing: .04em;
+    text-decoration: none;
+  }
+
+  .ur-mobile-submenu__grandchild {
+    display: block;
+    padding: 6px 0 6px 14px;
+    color: #81766a;
+    font-size: 10px;
+    line-height: 1.25;
+    text-decoration: none;
+  }
+
+  .ur-mobile-drawer__footer {
+    min-height: 46px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-top: 1px solid var(--ur-menu-line);
+    color: #9a9084;
+    font-size: 7px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: .13em;
+    flex: 0 0 auto;
+  }
+
+  html.ur-menu-is-open,
+  body.ur-menu-is-open {
+    overflow: hidden !important;
+    overscroll-behavior: none;
+  }
+
+  /* =========================================================
+     MOBILE HEADER — CLEAN / CENTERED / LUXURY
+     ========================================================= */
+
+  @media screen and (max-width: 989px) {
+    #header-component {
+      position: relative;
+      z-index: 1000;
+    }
+
+    #header-component .header__row--top .header__columns {
+      min-height: 62px;
+      position: relative;
+    }
+
+    #header-component .ur-mobile-menu {
+      position: relative;
+      margin-left: -4px;
+    }
+
+    #header-component .header__row--top .header__columns > .ur-mobile-menu {
+      align-self: center;
+    }
+
+    #header-component .header__row--top .header__columns {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    #header-component .header__row--top .header__columns > * {
+      min-width: 0;
+    }
+
+    #header-component .header__icon {
+      min-width: 40px;
+      min-height: 40px;
+    }
+
+    #header-component .header__icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    #header-component .header__logo {
+      max-width: 145px;
+    }
+  }
+
+  /* =========================================================
+     DESKTOP — QUIET LUXURY
+     ========================================================= */
+
+  @media screen and (min-width: 990px) {
+    .ur-mobile-menu {
+      display: none !important;
+    }
+
+    #header-component .header__row {
+      transition: background-color .2s ease, box-shadow .2s ease;
+    }
+
+    #header-component .header__row--top .header__columns {
+      min-height: 72px;
+    }
+
+    #header-component .header__menu-item {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .085em;
+      text-transform: uppercase;
+      transition: color .18s ease, opacity .18s ease;
+    }
+
+    #header-component .header__menu-item:hover {
+      color: var(--ur-header-accent);
+    }
+
+    #header-component .header__icon {
+      transition: color .18s ease, opacity .18s ease;
+    }
+
+    #header-component .header__icon:hover {
+      color: var(--ur-header-accent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ur-mobile-drawer,
+    .ur-mobile-drawer__panel,
+    .ur-mobile-drawer__item > a,
+    .ur-mobile-drawer__item > details > summary,
+    #header-component .header__menu-item,
+    #header-component .header__icon {
+      transition: none !important;
+    }
+  }
+</style>
+
 {%- liquid
   assign sec_stts = section.settings
 
@@ -66,10 +466,80 @@
     render 'header-menu-snippet', header_settings: sec_stts, blocks: section.blocks, menu_gap: sec_stts.menu_gap
   endcapture
 
-  capture mobile_menu
-    render 'header-menu-snippet', header_settings: sec_stts, blocks: section.blocks, variant: 'mobile'
-  endcapture
+  assign mobile_menu = blank
+  -%}
 
+{% capture mobile_menu %}
+    <div class="ur-mobile-menu" data-ur-mobile-menu>
+      <button type="button" class="ur-mobile-menu__trigger" data-ur-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="UR-Mobile-Drawer">
+        <span class="ur-mobile-menu__hamburger" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
+
+      <div id="UR-Mobile-Drawer" class="ur-mobile-drawer" data-ur-mobile-drawer aria-hidden="true">
+        <div class="ur-mobile-drawer__overlay" data-ur-menu-close></div>
+        <aside class="ur-mobile-drawer__panel" role="dialog" aria-modal="true" aria-label="Navigation">
+          <div class="ur-mobile-drawer__header">
+            <div class="ur-mobile-drawer__brand">
+              <span class="ur-mobile-drawer__eyebrow">EXPLORE</span>
+              <span class="ur-mobile-drawer__title">MENU</span>
+            </div>
+            <button type="button" class="ur-mobile-drawer__close" data-ur-menu-close aria-label="Close menu">
+              <span></span><span></span>
+            </button>
+          </div>
+
+          <nav class="ur-mobile-drawer__nav" aria-label="Mobile navigation">
+            <ul class="ur-mobile-drawer__list">
+              {% for link in section.settings.menu.links %}
+                <li class="ur-mobile-drawer__item">
+                  {% if link.links != blank %}
+                    <details>
+                      <summary>
+                        <span class="ur-mobile-drawer__link-title">
+                          <span class="ur-mobile-drawer__index">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                          <span>{{ link.title | escape }}</span>
+                        </span>
+                        <span class="ur-mobile-drawer__arrow" aria-hidden="true">+</span>
+                      </summary>
+
+                      <div class="ur-mobile-submenu">
+                        <a class="ur-mobile-submenu__all" href="{{ link.url }}">VIEW ALL {{ link.title | upcase | escape }}</a>
+
+                        {% for childlink in link.links %}
+                          <a class="ur-mobile-submenu__link" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
+
+                          {% if childlink.links != blank %}
+                            {% for grandchildlink in childlink.links %}
+                              <a class="ur-mobile-submenu__grandchild" href="{{ grandchildlink.url }}">{{ grandchildlink.title | escape }}</a>
+                            {% endfor %}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    </details>
+                  {% else %}
+                    <a class="ur-mobile-drawer__direct-link" href="{{ link.url }}">
+                      <span class="ur-mobile-drawer__link-title">
+                        <span class="ur-mobile-drawer__index">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                        <span>{{ link.title | escape }}</span>
+                      </span>
+                      <span class="ur-mobile-drawer__arrow" aria-hidden="true">→</span>
+                    </a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </nav>
+
+          <div class="ur-mobile-drawer__footer">
+            <span>{{ shop.name | escape }}</span>
+            <span>PREMIUM MENSWEAR</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+{% endcapture %}
+
+{%- liquid
   capture account
     render 'header-account', sec_stts: sec_stts, custom_header_utility: sec_stts.custom_header_utility, header_utility_size: sec_stts.header_utility_size, header_utility_font: sec_stts.header_utility_font, header_utility_weight: sec_stts.header_utility_weight, header_utility_line_height: sec_stts.header_utility_line_height, header_utility_letter_spacing: sec_stts.header_utility_letter_spacing, header_utility_case: sec_stts.header_utility_case, header_utility_wrap: sec_stts.header_utility_wrap
   endcapture
@@ -79,11 +549,11 @@
   endcapture
 
   capture actions
-    render 'header-functions', sec_stts: sec_stts, blocks: section.blocks, enable_cart: true, enable_wishlist: settings.show_wishlist, custom_header_utility: sec_stts.custom_header_utility, header_utility_size: sec_stts.header_utility_size, header_utility_font: sec_stts.header_utility_font, header_utility_weight: sec_stts.header_utility_weight, header_utility_line_height: sec_stts.header_utility_line_height, header_utility_letter_spacing: sec_stts.header_utility_letter_spacing, header_utility_case: sec_stts.header_utility_case, header_utility_wrap: sec_stts.header_utility_wrap
+    render 'header-functions', sec_stts: sec_stts, blocks: section.blocks, enable_cart: true, enable_wishlist: false, custom_header_utility: sec_stts.custom_header_utility, header_utility_size: sec_stts.header_utility_size, header_utility_font: sec_stts.header_utility_font, header_utility_weight: sec_stts.header_utility_weight, header_utility_line_height: sec_stts.header_utility_line_height, header_utility_letter_spacing: sec_stts.header_utility_letter_spacing, header_utility_case: sec_stts.header_utility_case, header_utility_wrap: sec_stts.header_utility_wrap
   endcapture
 
   capture actions_mobile
-    render 'header-functions', sec_stts: sec_stts, blocks: section.blocks, enable_cart: true, enable_wishlist: settings.show_wishlist, custom_header_utility: sec_stts.custom_header_utility, header_utility_size: sec_stts.header_utility_size, header_utility_font: sec_stts.header_utility_font, header_utility_weight: sec_stts.header_utility_weight, header_utility_line_height: sec_stts.header_utility_line_height, header_utility_letter_spacing: sec_stts.header_utility_letter_spacing, header_utility_case: sec_stts.header_utility_case, header_utility_wrap: sec_stts.header_utility_wrap, extra_class: 'lg:none'
+    render 'header-functions', sec_stts: sec_stts, blocks: section.blocks, enable_cart: true, enable_wishlist: false, custom_header_utility: sec_stts.custom_header_utility, header_utility_size: sec_stts.header_utility_size, header_utility_font: sec_stts.header_utility_font, header_utility_weight: sec_stts.header_utility_weight, header_utility_line_height: sec_stts.header_utility_line_height, header_utility_letter_spacing: sec_stts.header_utility_letter_spacing, header_utility_case: sec_stts.header_utility_case, header_utility_wrap: sec_stts.header_utility_wrap, extra_class: 'lg:none'
   endcapture
 
   if shop.customer_accounts_enabled
@@ -382,6 +852,124 @@
     }
   </script>
 {%- endif -%}
+
+
+<script>
+  (() => {
+    const initUniversalMobileHeader = (root) => {
+      if (!root || root.dataset.urInitialized === 'true') return;
+      root.dataset.urInitialized = 'true';
+
+      const drawer = root.querySelector('[data-ur-mobile-drawer]');
+      const openButton = root.querySelector('[data-ur-menu-open]');
+      const closeButtons = root.querySelectorAll('[data-ur-menu-close]');
+      const panel = root.querySelector('.ur-mobile-drawer__panel');
+
+      if (!drawer || !openButton || !panel) return;
+
+      let lastFocused = null;
+
+      const setBodyLock = (locked) => {
+        document.documentElement.classList.toggle('ur-menu-is-open', locked);
+        document.body.classList.toggle('ur-menu-is-open', locked);
+      };
+
+      const openMenu = () => {
+        lastFocused = document.activeElement;
+        drawer.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        openButton.setAttribute('aria-expanded', 'true');
+        setBodyLock(true);
+
+        requestAnimationFrame(() => {
+          const close = drawer.querySelector('[data-ur-menu-close]');
+          if (close) close.focus({ preventScroll: true });
+        });
+      };
+
+      const closeMenu = () => {
+        drawer.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        openButton.setAttribute('aria-expanded', 'false');
+        setBodyLock(false);
+
+        if (lastFocused && typeof lastFocused.focus === 'function') {
+          requestAnimationFrame(() => lastFocused.focus({ preventScroll: true }));
+        }
+      };
+
+      openButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (drawer.classList.contains('is-open')) closeMenu();
+        else openMenu();
+      });
+
+      closeButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+          event.preventDefault();
+          closeMenu();
+        });
+      });
+
+      drawer.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => closeMenu(), { passive: true });
+      });
+
+      drawer.querySelectorAll('details').forEach((details) => {
+        details.addEventListener('toggle', () => {
+          const arrow = details.querySelector(':scope > summary .ur-mobile-drawer__arrow');
+          if (arrow) arrow.textContent = details.open ? '−' : '+';
+        });
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (!drawer.classList.contains('is-open')) return;
+
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          closeMenu();
+          return;
+        }
+
+        if (event.key !== 'Tab') return;
+
+        const focusable = drawer.querySelectorAll(
+          'button, a[href], summary, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+
+      drawer.addEventListener('click', (event) => {
+        if (event.target === drawer) closeMenu();
+      });
+    };
+
+    const boot = () => {
+      document.querySelectorAll('[data-ur-mobile-menu]').forEach(initUniversalMobileHeader);
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', boot, { once: true });
+    } else {
+      boot();
+    }
+
+    document.addEventListener('shopify:section:load', boot);
+  })();
+</script>
 
 {% schema %}
   {
@@ -1424,8 +2012,7 @@
       },
       {
         "type": "header",
-        "content": "Menu link level 1",
-      },
+        "content": "Menu link level 1"},
       {
         "type": "select",
         "id": "button_type_font_link",
@@ -1540,8 +2127,7 @@
       },
       {
         "type": "header",
-        "content": "Menu link level 2",
-      },
+        "content": "Menu link level 2"},
       {
         "type": "select",
         "id": "button_type_font_link_2",
