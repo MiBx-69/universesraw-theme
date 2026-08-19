@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main-search": {
@@ -83,6 +92,7 @@
           "type": "_product-card",
           "static": true,
           "settings": {
+            "show_badges": true,
             "inherit_color_scheme": true,
             "scheme_background": "#ffffff",
             "scheme_background_gradient": "",
@@ -139,7 +149,11 @@
                 "padding_top": 0,
                 "padding_right": 0,
                 "padding_bottom": 0,
-                "padding_left": 0
+                "padding_left": 0,
+                "padding_top_mb": 0,
+                "padding_right_mb": 0,
+                "padding_bottom_mb": 0,
+                "padding_left_mb": 0
               },
               "blocks": {
                 "card_product_vendor_flex_RFqEFm": {
@@ -147,6 +161,7 @@
                   "name": "Product vendor",
                   "settings": {
                     "product": "{{ closest.product }}",
+                    "enable_vendor_image": false,
                     "width": "fit-content",
                     "alignment": "left",
                     "type_preset": "rte",
@@ -177,6 +192,7 @@
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "1.6rem",
+                    "weight": "default",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
@@ -198,9 +214,14 @@
                     "alignment": "left",
                     "font": "var(--font-body--family)",
                     "font_size": "1.6rem",
+                    "font_weight": "default",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
+                    "custom_price_regular": false,
+                    "font_size_regular": "1.6rem",
+                    "font_weight_regular": "default",
+                    "regular_gap": 8,
                     "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
@@ -233,6 +254,7 @@
         },
         "static-blog-post-block": {
           "type": "_blog-post-block",
+          "disabled": true,
           "static": true,
           "settings": {
             "content_direction": "column",
@@ -301,6 +323,8 @@
                 "shadow_vertical_offset": 0,
                 "shadow_blur": 0,
                 "spread_radius": 0,
+                "article_informarion_left": 0,
+                "article_informarion_right": 0,
                 "margin-block-start": 0,
                 "margin-block-start-mobile": 0,
                 "margin-block-end": 0,
@@ -309,6 +333,8 @@
                 "margin-inline-start-mobile": 0,
                 "margin-inline-end": 0,
                 "margin-inline-end-mobile": 0,
+                "text_effect": "none",
+                "animation_repeat": false,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -323,13 +349,15 @@
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "1.6rem",
+                    "font_weight": "default",
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
+                    "color": "var(--color-foreground)",
                     "padding-block-start": 0,
-                    "padding-inline-end": 0,
                     "padding-block-end": 0,
-                    "padding-inline-start": 0
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 },
@@ -342,13 +370,14 @@
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "1.6rem",
+                    "font_weight": "default",
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
                     "padding-block-start": 0,
-                    "padding-inline-end": 0,
                     "padding-block-end": 0,
-                    "padding-inline-start": 0
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 },
@@ -362,14 +391,15 @@
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "1.6rem",
+                    "font_weight": "default",
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
                     "color": "var(--color-foreground)",
                     "padding-block-start": 0,
-                    "padding-inline-end": 0,
                     "padding-block-end": 0,
-                    "padding-inline-start": 0
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 }
@@ -410,9 +440,9 @@
                     "border_opacity": 100,
                     "border_radius": 0,
                     "padding-block-start": 0,
-                    "padding-inline-end": 0,
                     "padding-block-end": 0,
-                    "padding-inline-start": 0
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 }
