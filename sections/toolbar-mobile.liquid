@@ -6,10 +6,6 @@
 >
   <div class="toolbar-mobile__inner">
 
-    {%- comment -%}
-      SEARCH
-    {%- endcomment -%}
-
     {%- for block in section.blocks -%}
 
       {%- case block.type -%}
@@ -32,7 +28,10 @@
                   {%- if block.settings.icon != blank -%}
                     {{ block.settings.icon }}
                   {%- else -%}
-                    {{ 'icon-search.svg' | inline_asset_content }}
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="11" cy="11" r="6.5"></circle>
+                      <path d="M16 16L21 21"></path>
+                    </svg>
                   {%- endif -%}
                 </span>
 
@@ -57,7 +56,10 @@
                   {%- if block.settings.icon != blank -%}
                     {{ block.settings.icon }}
                   {%- else -%}
-                    {{ 'icon-search.svg' | inline_asset_content }}
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="11" cy="11" r="6.5"></circle>
+                      <path d="M16 16L21 21"></path>
+                    </svg>
                   {%- endif -%}
                 </span>
 
@@ -87,12 +89,14 @@
                 aria-haspopup="dialog"
                 aria-label="{% if customer %}{{ 'customer.account_fallback' | t }}{% else %}{{ 'customer.log_in' | t }}{% endif %}"
               >
-
                 <span class="toolbar-mobile__icon">
                   {%- if block.settings.icon != blank -%}
                     {{ block.settings.icon }}
                   {%- else -%}
-                    {{ 'icon-account.svg' | inline_asset_content }}
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="12" cy="8" r="3.5"></circle>
+                      <path d="M5 21C5.8 16.8 8.1 14.7 12 14.7C15.9 14.7 18.2 16.8 19 21"></path>
+                    </svg>
                   {%- endif -%}
                 </span>
 
@@ -101,7 +105,6 @@
                     {{ block.settings.title | escape }}
                   </span>
                 {%- endif -%}
-
               </button>
             </side-drawer-opener>
 
@@ -112,14 +115,16 @@
               class="toolbar-mobile__item"
               aria-label="{{ block.settings.title | escape }}"
             >
-
               <span class="toolbar-mobile__button">
 
                 <span class="toolbar-mobile__icon">
                   {%- if block.settings.icon != blank -%}
                     {{ block.settings.icon }}
                   {%- else -%}
-                    {{ 'icon-account.svg' | inline_asset_content }}
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="12" cy="8" r="3.5"></circle>
+                      <path d="M5 21C5.8 16.8 8.1 14.7 12 14.7C15.9 14.7 18.2 16.8 19 21"></path>
+                    </svg>
                   {%- endif -%}
                 </span>
 
@@ -130,15 +135,6 @@
                 {%- endif -%}
 
               </span>
-
-              <span class="visually-hidden">
-                {%- if customer -%}
-                  {{ 'customer.account_fallback' | t }}
-                {%- else -%}
-                  {{ 'customer.log_in' | t }}
-                {%- endif -%}
-              </span>
-
             </a>
 
           {%- endif -%}
@@ -152,35 +148,33 @@
             aria-label="{{ block.settings.title | default: 'Home' | escape }}"
           >
 
-            <span class="toolbar-mobile__home-button">
+            <span class="toolbar-mobile__home-wrap">
 
               <span class="toolbar-mobile__home-icon">
+
                 {%- if block.settings.icon != blank -%}
+
                   {{ block.settings.icon }}
+
                 {%- else -%}
 
                   <svg
                     viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
                   >
-                    <path
-                      d="M3 10.8L12 3L21 10.8V20C21 20.55 20.55 21 20 21H15V14H9V21H4C3.45 21 3 20.55 3 20V10.8Z"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
+                    <path d="M3.5 10.5L12 3.5L20.5 10.5"></path>
+                    <path d="M5.5 9.5V20.5H18.5V9.5"></path>
+                    <path d="M9.5 20.5V15H14.5V20.5"></path>
                   </svg>
 
                 {%- endif -%}
+
               </span>
 
             </span>
 
             {%- if block.settings.title != blank -%}
-              <span class="toolbar-mobile__label">
+              <span class="toolbar-mobile__label toolbar-mobile__label--home">
                 {{ block.settings.title | escape }}
               </span>
             {%- endif -%}
@@ -198,24 +192,32 @@
             >
 
               <button
-                class="toolbar-mobile__button toolbar-mobile__button--cart"
+                class="toolbar-mobile__button"
                 type="button"
                 aria-haspopup="dialog"
                 aria-label="{{ 'content.cart.cart_items' | t: count: cart.item_count }}"
               >
 
-                <span class="toolbar-mobile__icon toolbar-mobile__cart-icon-wrapper">
+                <span class="toolbar-mobile__icon toolbar-mobile__cart-icon">
 
                   {%- if block.settings.icon != blank -%}
+
                     {{ block.settings.icon }}
+
                   {%- else -%}
-                    {{ 'icon-cart_2.svg' | inline_asset_content }}
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M4 5H6L8.2 16.5H18L20 8H7"></path>
+                      <circle cx="9.5" cy="20" r="1.2"></circle>
+                      <circle cx="17" cy="20" r="1.2"></circle>
+                    </svg>
+
                   {%- endif -%}
 
-                  {%- if cart.item_count < 100 -%}
+                  {%- if cart.item_count > 0 and cart.item_count < 100 -%}
 
                     <span
-                      class="toolbar-mobile__cart-count cart-count-bubble"
+                      class="toolbar-mobile__cart-count"
                       data-cart-count
                     >
                       {{ cart.item_count }}
@@ -243,20 +245,28 @@
               aria-label="{{ 'content.cart.cart_items' | t: count: cart.item_count }}"
             >
 
-              <span class="toolbar-mobile__button toolbar-mobile__button--cart">
+              <span class="toolbar-mobile__button">
 
-                <span class="toolbar-mobile__icon toolbar-mobile__cart-icon-wrapper">
+                <span class="toolbar-mobile__icon toolbar-mobile__cart-icon">
 
                   {%- if block.settings.icon != blank -%}
+
                     {{ block.settings.icon }}
+
                   {%- else -%}
-                    {{ 'icon-cart_2.svg' | inline_asset_content }}
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M4 5H6L8.2 16.5H18L20 8H7"></path>
+                      <circle cx="9.5" cy="20" r="1.2"></circle>
+                      <circle cx="17" cy="20" r="1.2"></circle>
+                    </svg>
+
                   {%- endif -%}
 
-                  {%- if cart.item_count < 100 -%}
+                  {%- if cart.item_count > 0 and cart.item_count < 100 -%}
 
                     <span
-                      class="toolbar-mobile__cart-count cart-count-bubble"
+                      class="toolbar-mobile__cart-count"
                       data-cart-count
                     >
                       {{ cart.item_count }}
@@ -285,7 +295,6 @@
   </div>
 </toolbar-mobile>
 
-
 <script src="{{ 'toolbar-mobile.js' | asset_url }}" defer="defer"></script>
 
 
@@ -301,18 +310,7 @@
     "groups": ["custom.popup"]
   },
 
-  "settings": [
-    {
-      "type": "range",
-      "id": "icon_size",
-      "label": "Icon size",
-      "min": 16,
-      "max": 26,
-      "step": 1,
-      "unit": "px",
-      "default": 20
-    }
-  ],
+  "settings": [],
 
   "blocks": [
 
@@ -356,7 +354,6 @@
       ]
     },
 
-
     {
       "type": "account",
       "name": "Account",
@@ -397,7 +394,6 @@
       ]
     },
 
-
     {
       "type": "home",
       "name": "Home",
@@ -420,7 +416,6 @@
 
       ]
     },
-
 
     {
       "type": "cart",
@@ -473,15 +468,12 @@
         {
           "type": "search"
         },
-
         {
           "type": "account"
         },
-
         {
           "type": "home"
         },
-
         {
           "type": "cart"
         }
