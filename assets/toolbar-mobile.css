@@ -1,27 +1,20 @@
 /* =========================================================
    UNIVERSes RAW
-   PREMIUM LUXURY MOBILE TOOLBAR
-   Ivory / Espresso / Champagne
-   ========================================================= */
-
-
-/* =========================================================
-   DESKTOP
+   MOBILE LUXURY TOOLBAR
+   QUIET / COMPACT / EDITORIAL
    ========================================================= */
 
 .toolbar-mobile {
   display: none;
 }
 
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
 @media screen and (max-width: 989px) {
 
-  .toolbar-mobile {
+  /* -------------------------------------------------------
+     ROOT
+     ------------------------------------------------------- */
 
+  .toolbar-mobile {
     display: block;
 
     position: fixed;
@@ -39,28 +32,27 @@
     padding:
       0
       0
-      max(12px, env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-bottom))
       0;
   }
 
 
-  /* =======================================================
-     MAIN FLOATING BAR
-     ======================================================= */
+  /* -------------------------------------------------------
+     BAR
+     ------------------------------------------------------- */
 
   .toolbar-mobile__inner {
-
     position: relative;
 
-    width: calc(100% - 28px);
+    width: calc(100% - 32px);
 
-    max-width: 520px;
+    max-width: 480px;
 
-    height: 66px;
+    height: 58px;
 
     margin: 0 auto;
 
-    padding: 6px 7px;
+    padding: 3px 4px;
 
     display: grid;
 
@@ -70,106 +62,82 @@
     align-items: center;
 
     background:
-      linear-gradient(
-        135deg,
-        rgba(250, 248, 243, 0.97),
-        rgba(244, 239, 229, 0.94)
-      );
+      rgba(248, 246, 241, 0.94);
 
     border:
-      1px solid rgba(179, 154, 103, 0.25);
+      1px solid rgba(55, 46, 37, 0.10);
 
-    border-radius: 25px;
+    border-radius: 20px;
 
     box-shadow:
-      0 18px 50px rgba(55, 45, 34, 0.13),
-      0 5px 18px rgba(55, 45, 34, 0.07),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      0 8px 30px rgba(45, 37, 29, 0.10),
+      0 2px 8px rgba(45, 37, 29, 0.04);
 
     backdrop-filter:
-      blur(24px)
-      saturate(125%);
+      blur(22px)
+      saturate(120%);
 
     -webkit-backdrop-filter:
-      blur(24px)
-      saturate(125%);
+      blur(22px)
+      saturate(120%);
 
     pointer-events: auto;
-
-    overflow: visible;
   }
 
 
-  /* =======================================================
-     SUBTLE TOP HIGHLIGHT
-     ======================================================= */
+  /* -------------------------------------------------------
+     VERY SUBTLE INNER LINE
+     ------------------------------------------------------- */
 
-  .toolbar-mobile__inner::before {
-
+  .toolbar-mobile__inner::after {
     content: "";
 
     position: absolute;
 
-    top: 0;
-    left: 18%;
+    left: 18px;
+    right: 18px;
 
-    width: 64%;
+    top: 0;
 
     height: 1px;
 
     background:
-      linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,0.95),
-        transparent
-      );
-
-    opacity: 0.9;
+      rgba(255,255,255,0.75);
 
     pointer-events: none;
   }
 
 
-  /* =======================================================
-     ITEMS
-     ======================================================= */
+  /* -------------------------------------------------------
+     ITEM
+     ------------------------------------------------------- */
 
   .toolbar-mobile__item {
-
     position: relative;
 
     width: 100%;
-
-    height: 54px;
-
-    min-width: 0;
+    height: 50px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
-    text-decoration: none;
+    color: #302b26;
 
-    color: #29241f;
+    text-decoration: none;
 
     -webkit-tap-highlight-color: transparent;
 
     outline: none;
-
-    transition:
-      color 220ms ease;
   }
 
 
-  /* =======================================================
+  /* -------------------------------------------------------
      BUTTON
-     ======================================================= */
+     ------------------------------------------------------- */
 
   .toolbar-mobile__button {
-
     width: 100%;
     height: 100%;
 
@@ -178,12 +146,11 @@
     flex-direction: column;
 
     align-items: center;
-
     justify-content: center;
 
-    gap: 4px;
+    gap: 3px;
 
-    padding: 4px;
+    padding: 0;
 
     margin: 0;
 
@@ -195,46 +162,41 @@
 
     font: inherit;
 
-    cursor: pointer;
-
     text-decoration: none;
 
+    cursor: pointer;
+
     transition:
-      transform 220ms cubic-bezier(.22,.61,.36,1),
-      opacity 220ms ease;
+      opacity 180ms ease,
+      transform 180ms ease;
   }
 
 
-  /* =======================================================
+  /* -------------------------------------------------------
      ICON
-     ======================================================= */
+     ------------------------------------------------------- */
 
   .toolbar-mobile__icon {
-
-    position: relative;
-
-    width: 21px;
-    height: 21px;
+    width: 19px;
+    height: 19px;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    color: #393229;
+    position: relative;
 
-    flex-shrink: 0;
+    color: #332e28;
 
     transition:
-      transform 220ms ease,
-      color 220ms ease;
+      color 180ms ease;
   }
 
 
   .toolbar-mobile__icon svg {
-
-    width: 21px;
-    height: 21px;
+    width: 19px;
+    height: 19px;
 
     display: block;
 
@@ -242,115 +204,71 @@
 
     stroke: currentColor;
 
-    stroke-width: 1.45;
+    stroke-width: 1.35;
 
     stroke-linecap: round;
 
     stroke-linejoin: round;
-
-    overflow: visible;
   }
 
 
-  /* =======================================================
+  /* -------------------------------------------------------
      LABEL
-     ======================================================= */
+     ------------------------------------------------------- */
 
   .toolbar-mobile__label {
-
     display: block;
 
-    font-family: inherit;
+    color: #756d63;
 
-    font-size: 8.5px;
+    font-size: 8px;
 
     font-weight: 500;
 
     line-height: 1;
 
-    letter-spacing: 0.095em;
+    letter-spacing: 0.085em;
 
     text-transform: uppercase;
 
     white-space: nowrap;
 
-    color: #655c52;
-
     opacity: 0.9;
-
-    transition:
-      color 220ms ease,
-      opacity 220ms ease,
-      transform 220ms ease;
   }
 
 
-  /* =======================================================
-     HOME — LUXURY ACCENT
-     ======================================================= */
+  /* -------------------------------------------------------
+     HOME
+     ------------------------------------------------------- */
 
   .toolbar-mobile__item--home {
-
-    z-index: 3;
-
-    transform:
-      translateY(-1px);
+    position: relative;
   }
 
 
   .toolbar-mobile__home-wrap {
-
-    position: relative;
-
-    width: 38px;
-    height: 38px;
+    width: 19px;
+    height: 19px;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    border-radius: 50%;
+    color: #9a7b4d;
 
-    background:
-      linear-gradient(
-        145deg,
-        #d9c9a8,
-        #b9a47b
-      );
+    background: transparent;
 
-    color: #2d271f;
-
-    box-shadow:
-      0 6px 18px rgba(126, 101, 62, 0.18),
-      inset 0 1px 1px rgba(255,255,255,0.7),
-      inset 0 -1px 1px rgba(86,66,36,0.12);
-
-    transition:
-      transform 240ms cubic-bezier(.22,.61,.36,1),
-      box-shadow 240ms ease;
+    box-shadow: none;
   }
 
 
   .toolbar-mobile__home-wrap::after {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 3px;
-
-    border:
-      1px solid rgba(255,255,255,0.28);
-
-    border-radius: inherit;
-
-    pointer-events: none;
+    display: none;
   }
 
 
   .toolbar-mobile__home-icon {
-
     width: 19px;
     height: 19px;
 
@@ -362,7 +280,6 @@
 
 
   .toolbar-mobile__home-icon svg {
-
     width: 19px;
     height: 19px;
 
@@ -378,9 +295,28 @@
   }
 
 
-  .toolbar-mobile__label--home {
+  /* Tiny luxury accent beneath Home */
 
-    color: #4d4439;
+  .toolbar-mobile__item--home::after {
+    content: "";
+
+    position: absolute;
+
+    bottom: 1px;
+
+    width: 13px;
+    height: 1px;
+
+    background: #b39a69;
+
+    border-radius: 10px;
+
+    opacity: 0.8;
+  }
+
+
+  .toolbar-mobile__label--home {
+    color: #6e604f;
 
     font-weight: 600;
 
@@ -388,25 +324,23 @@
   }
 
 
-  /* =======================================================
-     CART
-     ======================================================= */
+  /* -------------------------------------------------------
+     CART BADGE
+     ------------------------------------------------------- */
 
   .toolbar-mobile__cart-icon {
-
     position: relative;
   }
 
 
   .toolbar-mobile__cart-count {
-
     position: absolute;
 
-    top: -7px;
-    right: -9px;
+    top: -6px;
+    right: -8px;
 
-    min-width: 15px;
-    height: 15px;
+    min-width: 13px;
+    height: 13px;
 
     padding: 0 3px;
 
@@ -415,18 +349,16 @@
     align-items: center;
     justify-content: center;
 
-    border-radius: 999px;
+    border-radius: 50%;
 
-    background:
-      #a98c5e;
+    background: #a8895d;
 
-    color:
-      #fffaf0;
+    color: #fff;
 
     border:
-      2px solid #f7f3ea;
+      1.5px solid #f8f6f1;
 
-    font-size: 7.5px;
+    font-size: 7px;
 
     font-weight: 700;
 
@@ -435,209 +367,123 @@
     letter-spacing: 0;
 
     box-sizing: content-box;
-
-    box-shadow:
-      0 2px 5px rgba(73, 57, 33, 0.14);
   }
 
 
-  /* =======================================================
+  /* -------------------------------------------------------
      HOVER
-     ======================================================= */
+     ------------------------------------------------------- */
 
   @media (hover: hover) {
 
     .toolbar-mobile__item:hover
     .toolbar-mobile__icon {
-
-      color: #9b7e4d;
-
-      transform:
-        translateY(-1px);
+      color: #9c7d4e;
     }
-
 
     .toolbar-mobile__item:hover
     .toolbar-mobile__label {
-
-      color: #8f7245;
-
-      opacity: 1;
+      color: #927448;
     }
-
 
     .toolbar-mobile__item:hover
-    .toolbar-mobile__home-wrap {
-
-      transform:
-        translateY(-2px)
-        scale(1.025);
-
-      box-shadow:
-        0 9px 23px rgba(126, 101, 62, 0.23),
-        inset 0 1px 1px rgba(255,255,255,0.75);
+    .toolbar-mobile__button {
+      transform: translateY(-1px);
     }
-
   }
 
 
-  /* =======================================================
-     TAP
-     ======================================================= */
+  /* -------------------------------------------------------
+     TOUCH
+     ------------------------------------------------------- */
 
   .toolbar-mobile__item:active
   .toolbar-mobile__button {
+    transform: scale(0.94);
 
-    transform:
-      scale(0.94);
-
-    opacity: 0.72;
+    opacity: 0.65;
   }
 
 
-  .toolbar-mobile__item:active
-  .toolbar-mobile__home-wrap {
-
-    transform:
-      scale(0.91);
-
-    box-shadow:
-      0 4px 10px rgba(126, 101, 62, 0.14);
-  }
-
-
-  /* =======================================================
+  /* -------------------------------------------------------
      FOCUS
-     ======================================================= */
+     ------------------------------------------------------- */
 
   .toolbar-mobile__item:focus-visible {
-
     outline:
-      1px solid #b39a67;
+      1px solid rgba(166, 137, 91, 0.55);
 
-    outline-offset:
-      3px;
+    outline-offset: 2px;
 
-    border-radius:
-      18px;
+    border-radius: 14px;
   }
 
 
-  /* =======================================================
-     CURRENT / ACTIVE PAGE
-     ======================================================= */
-
-  .toolbar-mobile__item.is-active
-  .toolbar-mobile__icon {
-
-    color: #a08251;
-  }
-
-
-  .toolbar-mobile__item.is-active
-  .toolbar-mobile__label {
-
-    color: #927447;
-
-    opacity: 1;
-  }
-
-
-  /* =======================================================
+  /* -------------------------------------------------------
      SMALL PHONES
-     ======================================================= */
+     ------------------------------------------------------- */
 
   @media screen and (max-width: 380px) {
 
     .toolbar-mobile__inner {
+      width: calc(100% - 24px);
 
-      width: calc(100% - 22px);
+      height: 56px;
 
-      height: 63px;
+      border-radius: 19px;
 
-      padding: 5px 5px;
-
-      border-radius: 23px;
+      padding-left: 3px;
+      padding-right: 3px;
     }
 
 
     .toolbar-mobile__item {
-
-      height: 52px;
+      height: 48px;
     }
 
 
     .toolbar-mobile__icon,
-    .toolbar-mobile__icon svg {
-
-      width: 19px;
-      height: 19px;
-    }
-
-
-    .toolbar-mobile__label {
-
-      font-size: 8px;
-
-      letter-spacing:
-        0.075em;
-    }
-
-
-    .toolbar-mobile__home-wrap {
-
-      width: 36px;
-      height: 36px;
-    }
-
-
+    .toolbar-mobile__icon svg,
+    .toolbar-mobile__home-wrap,
     .toolbar-mobile__home-icon,
     .toolbar-mobile__home-icon svg {
-
       width: 18px;
       height: 18px;
     }
 
+
+    .toolbar-mobile__label {
+      font-size: 7.5px;
+
+      letter-spacing: 0.07em;
+    }
   }
 
 
-  /* =======================================================
-     VERY SMALL PHONES
-     ======================================================= */
+  /* -------------------------------------------------------
+     VERY SMALL DEVICES
+     ------------------------------------------------------- */
 
   @media screen and (max-width: 340px) {
 
     .toolbar-mobile__inner {
-
       width: calc(100% - 18px);
 
-      height: 60px;
+      height: 54px;
 
-      border-radius: 21px;
+      border-radius: 18px;
     }
 
 
     .toolbar-mobile__label {
-
-      font-size: 7.5px;
-
-      letter-spacing:
-        0.06em;
+      font-size: 7px;
     }
-
-
-    .toolbar-mobile__home-wrap {
-
-      width: 34px;
-      height: 34px;
-    }
-
   }
 
 
-  /* =======================================================
-     DARK THEME SUPPORT
-     ======================================================= */
+  /* -------------------------------------------------------
+     DARK THEME
+     ------------------------------------------------------- */
 
   .color-background-2
   .toolbar-mobile__inner,
@@ -645,18 +491,13 @@
   .toolbar-mobile__inner {
 
     background:
-      linear-gradient(
-        135deg,
-        rgba(39, 35, 30, 0.96),
-        rgba(29, 26, 23, 0.94)
-      );
+      rgba(31, 29, 26, 0.94);
 
     border-color:
-      rgba(207, 184, 143, 0.20);
+      rgba(218, 195, 157, 0.14);
 
     box-shadow:
-      0 18px 50px rgba(0,0,0,0.28),
-      inset 0 1px 0 rgba(255,255,255,0.06);
+      0 10px 35px rgba(0,0,0,0.28);
   }
 
 
@@ -665,7 +506,7 @@
   .color-inverse
   .toolbar-mobile__icon {
 
-    color: #e9dfcf;
+    color: #e3d8c7;
   }
 
 
@@ -674,7 +515,16 @@
   .color-inverse
   .toolbar-mobile__label {
 
-    color: #cfc3b1;
+    color: #bdb1a1;
+  }
+
+
+  .color-background-2
+  .toolbar-mobile__item--home,
+  .color-inverse
+  .toolbar-mobile__item--home {
+
+    color: #c9a972;
   }
 
 
@@ -683,23 +533,7 @@
   .color-inverse
   .toolbar-mobile__label--home {
 
-    color: #d8c29b;
-  }
-
-
-  .color-background-2
-  .toolbar-mobile__home-wrap,
-  .color-inverse
-  .toolbar-mobile__home-wrap {
-
-    background:
-      linear-gradient(
-        145deg,
-        #d9c9a8,
-        #a88d5e
-      );
-
-    color: #29231d;
+    color: #cbb184;
   }
 
 
@@ -709,24 +543,20 @@
   .toolbar-mobile__cart-count {
 
     border-color:
-      #27231f;
+      #201e1b;
   }
 
 
-  /* =======================================================
+  /* -------------------------------------------------------
      REDUCED MOTION
-     ======================================================= */
+     ------------------------------------------------------- */
 
   @media (prefers-reduced-motion: reduce) {
 
     .toolbar-mobile__button,
-    .toolbar-mobile__home-wrap,
-    .toolbar-mobile__icon,
-    .toolbar-mobile__label {
-
+    .toolbar-mobile__icon {
       transition: none !important;
     }
-
   }
 
 }

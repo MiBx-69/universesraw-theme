@@ -296,12 +296,19 @@
     "toolbar_mobile_3HBwAV": {
       "type": "toolbar-mobile",
       "blocks": {
-        "link_44gGkw": {
-          "type": "link",
+        "home_yYBiVf": {
+          "type": "home",
           "settings": {
-            "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M3 10.5L12 3l9 7.5\"></path>\n  <path d=\"M5 9.5V21h14V9.5\"></path>\n</svg>",
-            "title": "Home",
-            "link": "/"
+            "icon": "",
+            "title": "Home"
+          }
+        },
+        "account_Dr4miT": {
+          "type": "account",
+          "settings": {
+            "icon": "",
+            "title": "Account",
+            "action_type": "drawer"
           }
         },
         "search_ktXppy": {
@@ -310,22 +317,6 @@
             "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewbox=\"0 0 24 24\">\n  <circle cx=\"11\" cy=\"11\" r=\"6.5\" stroke=\"currentColor\" stroke-width=\"1.6\"></circle>\n  <path d=\"M16 16L21 21\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>\n</svg>",
             "title": "Search",
             "action_type": "drawer"
-          }
-        },
-        "link_t86n4W": {
-          "type": "link",
-          "settings": {
-            "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"4\" width=\"6\" height=\"6\" rx=\"1.5\"></rect>\n  <rect x=\"14\" y=\"4\" width=\"6\" height=\"6\" rx=\"1.5\"></rect>\n  <rect x=\"4\" y=\"14\" width=\"6\" height=\"6\" rx=\"1.5\"></rect>\n  <rect x=\"14\" y=\"14\" width=\"6\" height=\"6\" rx=\"1.5\"></rect>\n</svg>",
-            "title": "Catalog",
-            "link": "shopify://collections"
-          }
-        },
-        "link_j9h7tV": {
-          "type": "link",
-          "settings": {
-            "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12 3l1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2L12 3z\"></path>\n  <path d=\"M18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2z\"></path>\n  <path d=\"M5.5 15.5l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6z\"></path>\n</svg>",
-            "title": "New Arrivals",
-            "link": "shopify://collections/latest-collection"
           }
         },
         "cart_BKg8Fh": {
@@ -338,19 +329,13 @@
         }
       },
       "block_order": [
-        "link_44gGkw",
+        "home_yYBiVf",
+        "account_Dr4miT",
         "search_ktXppy",
-        "link_t86n4W",
-        "link_j9h7tV",
         "cart_BKg8Fh"
       ],
       "name": "Sticky toolbar mobile",
-      "settings": {
-        "icon_size": 20,
-        "color_scheme": "scheme-1",
-        "padding_top": 7,
-        "padding_bottom": 6
-      }
+      "settings": {}
     },
     "promotion_popup_epACJx": {
       "type": "promotion-popup",
