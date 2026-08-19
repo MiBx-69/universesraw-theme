@@ -13,144 +13,8 @@
       --bg-color: var(--color-background);
     {% endif %}
   "
-
 >
-
-  <style>
-    /* =========================================================
-       UNIVERSes RAW — PREMIUM PRODUCT INFORMATION
-       Minimal / editorial / mobile-first
-       ========================================================= */
-    #ProductInformation-{{ section.id }} {
-      --ur-text: #111111;
-      --ur-muted: rgba(17,17,17,.58);
-      --ur-line: rgba(17,17,17,.11);
-      --ur-soft: #f7f7f5;
-      --ur-radius: 0px;
-      color: var(--ur-text);
-    }
-
-    #ProductInformation-{{ section.id }} .view-product-title {
-      display: none;
-    }
-
-    #ProductInformation-{{ section.id }} > .group {
-      width: 100%;
-    }
-
-    #ProductInformation-{{ section.id }} .product-details__premium-title {
-      margin: 0 0 6px;
-      font-size: clamp(1.55rem, 2.2vw, 2.15rem);
-      line-height: 1.08;
-      letter-spacing: -.025em;
-      font-weight: 600;
-    }
-
-    #ProductInformation-{{ section.id }} .product-details__premium-title a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    #ProductInformation-{{ section.id }} .product-details__rating {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 0 0 13px;
-      color: var(--ur-muted);
-      font-size: 10px;
-      line-height: 1;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    #ProductInformation-{{ section.id }} .product-details__rating-stars {
-      color: var(--ur-text);
-      letter-spacing: .12em;
-      font-size: 11px;
-    }
-
-    #ProductInformation-{{ section.id }} .product-details__microcopy {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 16px;
-      margin: 14px 0 2px;
-      color: var(--ur-muted);
-      font-size: 10px;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-    }
-
-    #ProductInformation-{{ section.id }} .product-details__microcopy span {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    #ProductInformation-{{ section.id }} .product-details__microcopy span::before {
-      content: '';
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: currentColor;
-      opacity: .55;
-    }
-
-    #ProductInformation-{{ section.id }} .product-details__divider {
-      height: 1px;
-      margin: 18px 0;
-      background: var(--ur-line);
-    }
-
-    #ProductInformation-{{ section.id }} .product-details__blocks {
-      width: 100%;
-    }
-
-    #ProductInformation-{{ section.id }} .accordion,
-    #ProductInformation-{{ section.id }} .product-accordion {
-      border-color: var(--ur-line);
-    }
-
-    #ProductInformation-{{ section.id }} @media (max-width: 749px) {
-      .product-details__premium-title { font-size: 1.55rem; }
-    }
-
-    @media (max-width: 749px) {
-      #ProductInformation-{{ section.id }} .product-details__premium-title {
-        font-size: 1.55rem;
-      }
-      #ProductInformation-{{ section.id }} .product-details__microcopy {
-        gap: 7px 12px;
-        font-size: 8.5px;
-      }
-      #ProductInformation-{{ section.id }} .product-details__divider {
-        margin: 14px 0;
-      }
-    }
-  </style>
-
-  <div class="product-details__premium-heading">
-    <h1 class="product-details__premium-title">
-      <a href="{{ product.selected_or_first_available_variant.url }}">
-        {{- product.title -}}
-      </a>
-    </h1>
-
-    <div class="product-details__rating" aria-label="Product rating">
-      <span class="product-details__rating-stars" aria-hidden="true">★★★★★</span>
-      <span>Premium collection</span>
-    </div>
-
-    <div class="product-details__microcopy" aria-label="Product benefits">
-      <span>Premium quality</span>
-      <span>Secure checkout</span>
-      <span>Easy exchange</span>
-    </div>
-  </div>
-
-  <div class="product-details__divider" aria-hidden="true"></div>
-
-  <div class="product-details__blocks">
-
+  <div class="view-product-title">
     <a
       href="{{ product.selected_or_first_available_variant.url }}"
       class="link"
@@ -163,8 +27,7 @@
     {% content_for 'blocks' %}
   {% endcapture %}
 
-  {{ children }}
-  </div>
+  {% render 'group', children: children, settings: block.settings, shopify_attributes: block.shopify_attributes %}
 </div>
 
 {% schema %}
