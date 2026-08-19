@@ -829,15 +829,19 @@
     text-decoration: none !important;
   }
 
-  html body #header-component .ur-mobile-shell__brand img {
+  html body #header-component .ur-mobile-shell__brand img,
+  html body #header-component .ur-mobile-shell__brand .ur-mobile-shell__logo-image {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     width: auto !important;
-    max-width: min(54vw, 165px) !important;
-    max-height: 39px !important;
+    min-width: 80px !important;
+    max-width: min(58vw, 190px) !important;
+    max-height: 42px !important;
     height: auto !important;
     object-fit: contain !important;
+    object-position: center !important;
+    flex: 0 0 auto !important;
   }
 
   html body #header-component .ur-mobile-shell__brand-text {
@@ -1274,14 +1278,17 @@
         <span class="ur-mobile-shell__menu-lines" aria-hidden="true"><span></span><span></span><span></span></span>
       </button>
       <a class="ur-mobile-shell__brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
-        {% if sec_stts.logo != blank %}
-          <img
-            src="{{ sec_stts.logo | image_url: width: 420 }}"
-            alt="{{ shop.name | escape }}"
-            width="{{ sec_stts.logo.width }}"
-            height="{{ sec_stts.logo.height }}"
-            loading="eager"
-          >
+        {% if section.settings.logo != blank %}
+          {{
+            section.settings.logo
+            | image_url: width: 600
+            | image_tag:
+              class: 'ur-mobile-shell__logo-image',
+              widths: '160,240,320,420,600',
+              sizes: '(max-width: 989px) 58vw',
+              loading: 'eager',
+              alt: shop.name
+          }}
         {% elsif sec_stts.logo_text != blank %}
           <span class="ur-mobile-shell__brand-text">{{ sec_stts.logo_text }}</span>
         {% else %}
