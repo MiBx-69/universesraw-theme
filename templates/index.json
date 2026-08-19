@@ -58,11 +58,122 @@
         "button_padding_h": 24
       }
     },
+    "collection_grid_pro_D3RCF3": {
+      "type": "collection-grid-pro",
+      "blocks": {
+        "collection_TRTL7Q": {
+          "type": "collection",
+          "settings": {
+            "collection": "latest-collection",
+            "image": "shopify://shop_images/new-arrival-texted-colelction-image.png",
+            "title": "NEW ARRIVALS"
+          }
+        },
+        "collection_cbEkRN": {
+          "type": "collection",
+          "settings": {
+            "collection": "summer-collection",
+            "image": "shopify://shop_images/creat-a-summer-colelction-og-image-usig-old-money-polo-shirt-remi-cotton-shirt.png",
+            "title": ""
+          }
+        },
+        "collection_kLCe3K": {
+          "type": "collection",
+          "settings": {
+            "collection": "remi-cotton-shirt",
+            "image": "shopify://shop_images/premium-remi-cottton-shirt-collection-image-high-quality-premium-and-best-squre-ratio.png",
+            "title": ""
+          }
+        },
+        "collection_LNLmWY": {
+          "type": "collection",
+          "settings": {
+            "collection": "premium-shirts",
+            "image": "shopify://shop_images/creta-a-collection-image-for-our-premium-stipe-shirts.png",
+            "title": ""
+          }
+        },
+        "collection_JP6Bcg": {
+          "type": "collection",
+          "settings": {
+            "collection": "knit-polo",
+            "image": "shopify://shop_images/premium-striped-and-luxuirous-knit-polo-colelction-image.png",
+            "title": "KNIT POLO"
+          }
+        },
+        "collection_9VAYyd": {
+          "type": "collection",
+          "settings": {
+            "collection": "bootcut-jeans",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_19_2026_05_03_17_PM.png",
+            "title": "BOOTCUT DENIM"
+          }
+        }
+      },
+      "block_order": [
+        "collection_TRTL7Q",
+        "collection_cbEkRN",
+        "collection_kLCe3K",
+        "collection_LNLmWY",
+        "collection_JP6Bcg",
+        "collection_9VAYyd"
+      ],
+      "name": "Collection Grid Pro",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Shop by Collection",
+        "subheading": "",
+        "header_align": "center",
+        "mobile_header_align": "center",
+        "color_scheme": "",
+        "background_color": "#FFFFFF",
+        "section_width": "contained",
+        "max_width": 1320,
+        "desktop_columns": "4",
+        "mobile_columns": "2",
+        "grid_gap": 24,
+        "mobile_grid_gap": 14,
+        "image_ratio": "adapt",
+        "image_position": "center center",
+        "image_background": "#F4F1EC",
+        "image_radius": 2,
+        "image_opacity": 100,
+        "hover_scale": 4,
+        "shadow_opacity": 4,
+        "title_tag": "h3",
+        "title_color": "#151515",
+        "title_size": 16,
+        "mobile_title_size": 14,
+        "title_weight": "500",
+        "title_align": "center",
+        "title_transform": "none",
+        "title_letter_spacing": 2,
+        "title_gap": 14,
+        "eyebrow_color": "#8D7658",
+        "eyebrow_size": 11,
+        "heading_color": "#111111",
+        "heading_size": 36,
+        "mobile_heading_size": 28,
+        "heading_weight": "500",
+        "subheading_color": "#666666",
+        "subheading_size": 15,
+        "mobile_subheading_size": 14,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "side_padding": 24,
+        "mobile_padding_top": 36,
+        "mobile_padding_bottom": 40,
+        "mobile_side_padding": 14,
+        "header_gap": 36,
+        "mobile_header_gap": 24
+      }
+    },
     "17841805206947be4f": {
       "type": "_blocks",
       "blocks": {
         "ai_gen_block_bcbccc3_w8DgwB": {
           "type": "ai_gen_block_bcbccc3",
+          "disabled": true,
           "settings": {
             "label": "CURATED COLLECTIONS",
             "heading": "EXPLORE CATEGORIES",
@@ -932,109 +1043,17 @@
     "178547563485aa0a94": {
       "type": "_blocks",
       "settings": {}
-    },
-    "collection_grid_pro_D3RCF3": {
-      "type": "collection-grid-pro",
-      "blocks": {
-        "collection_JP6Bcg": {
-          "type": "collection",
-          "settings": {
-            "collection": "knit-polo",
-            "image": "shopify://shop_images/premium-striped-and-luxuirous-knit-polo-colelction-image.png",
-            "title": "KNIT POLO"
-          }
-        },
-        "collection_TRTL7Q": {
-          "type": "collection",
-          "settings": {
-            "collection": "latest-collection",
-            "image": "shopify://shop_images/new-arrival-texted-colelction-image.png",
-            "title": "NEW ARRIVALS"
-          }
-        },
-        "collection_kLCe3K": {
-          "type": "collection",
-          "settings": {
-            "collection": "remi-cotton-shirt",
-            "image": "shopify://shop_images/premium-remi-cottton-shirt-collection-image-high-quality-premium-and-best-squre-ratio.png",
-            "title": ""
-          }
-        },
-        "collection_LNLmWY": {
-          "type": "collection",
-          "settings": {
-            "collection": "premium-shirts",
-            "image": "shopify://shop_images/creta-a-collection-image-for-our-premium-stipe-shirts.png",
-            "title": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_JP6Bcg",
-        "collection_TRTL7Q",
-        "collection_kLCe3K",
-        "collection_LNLmWY"
-      ],
-      "name": "Collection Grid Pro",
-      "settings": {
-        "eyebrow": "",
-        "heading": "Shop by Collection",
-        "subheading": "",
-        "header_align": "center",
-        "mobile_header_align": "center",
-        "color_scheme": "",
-        "background_color": "#FFFFFF",
-        "section_width": "contained",
-        "max_width": 1320,
-        "desktop_columns": "4",
-        "mobile_columns": "2",
-        "grid_gap": 24,
-        "mobile_grid_gap": 14,
-        "image_ratio": "adapt",
-        "image_position": "center center",
-        "image_background": "#F4F1EC",
-        "image_radius": 2,
-        "image_opacity": 100,
-        "hover_scale": 4,
-        "shadow_opacity": 4,
-        "title_tag": "h3",
-        "title_color": "#151515",
-        "title_size": 16,
-        "mobile_title_size": 14,
-        "title_weight": "500",
-        "title_align": "center",
-        "title_transform": "none",
-        "title_letter_spacing": 2,
-        "title_gap": 14,
-        "eyebrow_color": "#8D7658",
-        "eyebrow_size": 11,
-        "heading_color": "#111111",
-        "heading_size": 36,
-        "mobile_heading_size": 28,
-        "heading_weight": "500",
-        "subheading_color": "#666666",
-        "subheading_size": 15,
-        "mobile_subheading_size": 14,
-        "padding_top": 64,
-        "padding_bottom": 64,
-        "side_padding": 24,
-        "mobile_padding_top": 36,
-        "mobile_padding_bottom": 40,
-        "mobile_side_padding": 14,
-        "header_gap": 36,
-        "mobile_header_gap": 24
-      }
     }
   },
   "order": [
     "home_page_hero_zNiWPJ",
+    "collection_grid_pro_D3RCF3",
     "17841805206947be4f",
     "section_9z3FDA",
     "slideshow_C6dxVH",
     "slideshow_akKREr",
     "featured_collection_JwDQg9",
     "178368302367a7de5f",
-    "178547563485aa0a94",
-    "collection_grid_pro_D3RCF3"
+    "178547563485aa0a94"
   ]
 }
