@@ -5,6 +5,1031 @@
   {{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
 </noscript>
 
+<style>
+  /* =========================================================
+     UNIVERSes RAW — PREMIUM HEADER / MOBILE-FIRST OVERRIDES
+     Self-contained in header.liquid
+     ========================================================= */
+
+  :root {
+    --ur-header-accent: #9b7a4c;
+    --ur-header-ink: #211e1a;
+    --ur-menu-bg: #f7f4ee;
+    --ur-menu-line: rgba(33, 30, 26, .09);
+  }
+
+  /* Keep the custom mobile trigger visible only on mobile. */
+  .ur-mobile-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    z-index: 5;
+  }
+
+  .ur-mobile-menu__trigger {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 42px;
+    height: 42px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: currentColor;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .ur-mobile-menu__hamburger {
+    width: 20px;
+    height: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .ur-mobile-menu__hamburger span {
+    display: block;
+    width: 20px;
+    height: 1.2px;
+    border-radius: 99px;
+    background: currentColor;
+    transform-origin: center;
+    transition: transform .2s ease, opacity .16s ease;
+  }
+
+  /* =========================================================
+     MOBILE DRAWER
+     ========================================================= */
+
+  .ur-mobile-drawer {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 2147483000;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: opacity .16s ease, visibility .16s ease;
+  }
+
+  .ur-mobile-drawer.is-open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .ur-mobile-drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 16, 14, .38);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .ur-mobile-drawer__panel {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: min(88vw, 410px);
+    height: 100%;
+    background: var(--ur-menu-bg);
+    color: var(--ur-header-ink);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 18px 0 55px rgba(20, 17, 14, .16);
+    transform: translate3d(-102%, 0, 0);
+    transition: transform .24s cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
+  }
+
+  .ur-mobile-drawer.is-open .ur-mobile-drawer__panel {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .ur-mobile-drawer__header {
+    min-height: 76px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--ur-menu-line);
+    flex: 0 0 auto;
+  }
+
+  .ur-mobile-drawer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .ur-mobile-drawer__eyebrow {
+    font-size: 8px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: .22em;
+    color: var(--ur-header-accent);
+  }
+
+  .ur-mobile-drawer__title {
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: .16em;
+  }
+
+  .ur-mobile-drawer__close {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(155, 122, 76, .09);
+    color: var(--ur-header-ink);
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+
+  .ur-mobile-drawer__close span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .ur-mobile-drawer__close span:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .ur-mobile-drawer__close span:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .ur-mobile-drawer__nav {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .ur-mobile-drawer__nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ur-mobile-drawer__list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0 28px;
+  }
+
+  .ur-mobile-drawer__item {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--ur-menu-line);
+  }
+
+  .ur-mobile-drawer__item > a,
+  .ur-mobile-drawer__item > details > summary {
+    min-height: 61px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    color: var(--ur-header-ink);
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .ur-mobile-drawer__item > details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .ur-mobile-drawer__link-title {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: .075em;
+    text-transform: uppercase;
+  }
+
+  .ur-mobile-drawer__index {
+    min-width: 20px;
+    color: var(--ur-header-accent);
+    font-size: 8px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: .08em;
+  }
+
+  .ur-mobile-drawer__arrow {
+    color: var(--ur-header-accent);
+    font-size: 17px;
+    line-height: 1;
+    font-weight: 300;
+    flex: 0 0 auto;
+  }
+
+  .ur-mobile-submenu {
+    padding: 0 22px 18px 56px;
+    background: rgba(155, 122, 76, .045);
+  }
+
+  .ur-mobile-submenu__all {
+    display: block;
+    padding: 16px 0 11px;
+    color: var(--ur-header-accent);
+    font-size: 8px;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-decoration: none;
+  }
+
+  .ur-mobile-submenu__link {
+    display: block;
+    padding: 9px 0;
+    color: #5b534a;
+    font-size: 11px;
+    line-height: 1.25;
+    font-weight: 400;
+    letter-spacing: .04em;
+    text-decoration: none;
+  }
+
+  .ur-mobile-submenu__grandchild {
+    display: block;
+    padding: 6px 0 6px 14px;
+    color: #81766a;
+    font-size: 10px;
+    line-height: 1.25;
+    text-decoration: none;
+  }
+
+  .ur-mobile-drawer__footer {
+    min-height: 46px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-top: 1px solid var(--ur-menu-line);
+    color: #9a9084;
+    font-size: 7px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: .13em;
+    flex: 0 0 auto;
+  }
+
+  html.ur-menu-is-open,
+  body.ur-menu-is-open {
+    overflow: hidden !important;
+    overscroll-behavior: none;
+  }
+
+  /* =========================================================
+     MOBILE HEADER — CLEAN / CENTERED / LUXURY
+     ========================================================= */
+
+  @media screen and (max-width: 989px) {
+    #header-component {
+      position: relative;
+      z-index: 1000;
+    }
+
+    #header-component .header__row--top .header__columns {
+      min-height: 62px;
+      position: relative;
+    }
+
+    #header-component .ur-mobile-menu {
+      position: relative;
+      margin-left: -4px;
+    }
+
+    #header-component .header__row--top .header__columns > .ur-mobile-menu {
+      align-self: center;
+    }
+
+    #header-component .header__row--top .header__columns {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    #header-component .header__row--top .header__columns > * {
+      min-width: 0;
+    }
+
+    #header-component .header__icon {
+      min-width: 40px;
+      min-height: 40px;
+    }
+
+    #header-component .header__icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    #header-component .header__logo {
+      max-width: 145px;
+    }
+  }
+
+  /* =========================================================
+     MOBILE SHELL — INDEPENDENT / LUXURY
+     Keeps the theme's desktop header untouched and prevents
+     the native mobile header layout from collapsing.
+     ========================================================= */
+  .ur-mobile-shell { display: none; }
+
+  @media screen and (max-width: 989px) {
+    /* Completely disable the theme's native mobile header rows.
+       This also catches sticky/re-rendered header states. */
+    #header-component .row-group,
+    #header-component .header__row,
+    .header-wrapper .row-group,
+    .header-wrapper .header__row {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    #header-component {
+      position: relative;
+      z-index: 10000;
+    }
+
+    .header-wrapper .ur-mobile-shell,
+    #header-component .ur-mobile-shell {
+      position: relative;
+      z-index: 1001;
+      display: block;
+      width: 100%;
+      background: var(--ur-mobile-bg, #f8f5ef);
+      color: var(--ur-mobile-ink, #211e1a);
+      border-bottom: 1px solid rgba(33,30,26,.10);
+      box-shadow: 0 1px 0 rgba(255,255,255,.65);
+    }
+
+    .ur-mobile-shell__bar {
+      min-height: 64px;
+      height: 64px;
+      padding: 0 12px;
+      display: grid;
+      grid-template-columns: 44px minmax(0,1fr) auto;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ur-mobile-shell__menu,
+    .ur-mobile-shell__action {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .ur-mobile-shell__actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 2px;
+    }
+
+    .ur-mobile-shell__icon {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+      text-decoration: none;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ur-mobile-shell__icon svg {
+      width: 19px !important;
+      height: 19px !important;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    .ur-mobile-shell__cart-count {
+      position: absolute;
+      top: 6px;
+      right: 4px;
+      min-width: 14px;
+      height: 14px;
+      padding: 0 3px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #9b7a4c;
+      color: #fff;
+      font-size: 8px;
+      line-height: 1;
+    }
+
+    .ur-mobile-shell__icon--cart {
+      position: relative;
+    }
+
+    .ur-mobile-shell__menu-lines {
+      width: 20px;
+      height: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .ur-mobile-shell__menu-lines span {
+      width: 20px;
+      height: 1px;
+      background: currentColor;
+      display: block;
+      transition: transform .22s ease, opacity .18s ease;
+    }
+
+    .ur-mobile-shell__brand {
+      min-width: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .ur-mobile-shell__brand > * { max-width: 150px; }
+    .ur-mobile-shell__brand img { max-height: 38px; width: auto; object-fit: contain; }
+    .ur-mobile-shell__brand svg { max-width: 150px; max-height: 38px; }
+
+    .ur-mobile-shell__actions {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 2px;
+    }
+    .ur-mobile-shell__actions .header__icon,
+    .ur-mobile-shell__actions .header__icon--icon,
+    .ur-mobile-shell__actions .button {
+      min-width: 40px;
+      min-height: 40px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+    }
+    .ur-mobile-shell__actions svg { width: 18px; height: 18px; }
+    .ur-mobile-shell__actions .header__icon__text,
+    .ur-mobile-shell__actions .header__icon-label { display: none; }
+
+    /* Only the useful action icons remain in the compact bar. */
+    .ur-mobile-shell__account .header__icon,
+    .ur-mobile-shell__cart .header__icon { display: inline-flex; }
+
+    .ur-mobile-shell__drawer {
+      position: fixed;
+      inset: 0;
+      z-index: 2147483000;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease, visibility .18s ease;
+    }
+    .ur-mobile-shell__drawer.is-open {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .ur-mobile-shell__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(19,17,15,.42);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+    .ur-mobile-shell__panel {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: min(91vw, 430px);
+      background: #f8f5ef;
+      color: #211e1a;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 20px 0 60px rgba(0,0,0,.16);
+      transform: translateX(-102%);
+      transition: transform .28s cubic-bezier(.22,.61,.36,1);
+    }
+    .ur-mobile-shell__drawer.is-open .ur-mobile-shell__panel { transform: translateX(0); }
+    .ur-mobile-shell__drawer-head {
+      height: 82px;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(33,30,26,.10);
+    }
+    .ur-mobile-shell__drawer-kicker {
+      display: block;
+      margin-bottom: 6px;
+      color: #9b7a4c;
+      font-size: 8px;
+      line-height: 1;
+      letter-spacing: .22em;
+      font-weight: 600;
+    }
+    .ur-mobile-shell__drawer-title {
+      font-size: 16px;
+      line-height: 1;
+      letter-spacing: .16em;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    .ur-mobile-shell__close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(33,30,26,.14);
+      border-radius: 50%;
+      background: transparent;
+      position: relative;
+      cursor: pointer;
+    }
+    .ur-mobile-shell__close span {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 15px; height: 1px;
+      background: currentColor;
+    }
+    .ur-mobile-shell__close span:first-child { transform: translate(-50%,-50%) rotate(45deg); }
+    .ur-mobile-shell__close span:last-child { transform: translate(-50%,-50%) rotate(-45deg); }
+
+    .ur-mobile-shell__nav {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .ur-mobile-shell__nav::-webkit-scrollbar { display: none; }
+    .ur-mobile-shell__list { list-style: none; margin: 0; padding: 10px 0 30px; }
+    .ur-mobile-shell__item { border-bottom: 1px solid rgba(33,30,26,.08); }
+    .ur-mobile-shell__item > a,
+    .ur-mobile-shell__item > details > summary {
+      min-height: 62px;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      list-style: none;
+    }
+    .ur-mobile-shell__item summary::-webkit-details-marker { display: none; }
+    .ur-mobile-shell__item-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 500;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+    .ur-mobile-shell__num { width: 20px; color: #9b7a4c; font-size: 8px; letter-spacing: .08em; }
+    .ur-mobile-shell__chevron { color: #9b7a4c; font-size: 17px; font-weight: 300; }
+    .ur-mobile-shell__submenu { padding: 2px 22px 20px 56px; background: rgba(155,122,76,.045); }
+    .ur-mobile-shell__all {
+      display: block; padding: 15px 0 10px; color: #9b7a4c; text-decoration: none;
+      font-size: 8px; font-weight: 600; letter-spacing: .14em;
+    }
+    .ur-mobile-shell__subitem { display: block; padding: 8px 0; color: #5b534a; text-decoration: none; font-size: 11px; letter-spacing: .04em; }
+    .ur-mobile-shell__footer {
+      min-height: 48px; padding: 0 22px; border-top: 1px solid rgba(33,30,26,.10);
+      display: flex; align-items: center; justify-content: space-between;
+      color: #9a9084; font-size: 7px; letter-spacing: .13em; text-transform: uppercase;
+    }
+    html.ur-mobile-open, body.ur-mobile-open { overflow: hidden !important; }
+
+    /* Sticky/re-rendered states must never reveal the original toolbar. */
+    .header-wrapper[data-sticky-type] .row-group,
+    .header-wrapper.is-sticky .row-group,
+    .header-wrapper.sticky .row-group,
+    .header-wrapper.header--sticky .row-group {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+
+    .header-wrapper[data-sticky-type] .ur-mobile-shell,
+    .header-wrapper.is-sticky .ur-mobile-shell,
+    .header-wrapper.sticky .ur-mobile-shell,
+    .header-wrapper.header--sticky .ur-mobile-shell {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+  }
+
+  /* =========================================================
+     DESKTOP — QUIET LUXURY
+     ========================================================= */
+
+  @media screen and (min-width: 990px) {
+    .ur-mobile-menu {
+      display: none !important;
+    }
+
+    #header-component .header__row {
+      transition: background-color .2s ease, box-shadow .2s ease;
+    }
+
+    #header-component .header__row--top .header__columns {
+      min-height: 72px;
+    }
+
+    #header-component .header__menu-item {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .085em;
+      text-transform: uppercase;
+      transition: color .18s ease, opacity .18s ease;
+    }
+
+    #header-component .header__menu-item:hover {
+      color: var(--ur-header-accent);
+    }
+
+    #header-component .header__icon {
+      transition: color .18s ease, opacity .18s ease;
+    }
+
+    #header-component .header__icon:hover {
+      color: var(--ur-header-accent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ur-mobile-drawer,
+    .ur-mobile-drawer__panel,
+    .ur-mobile-drawer__item > a,
+    .ur-mobile-drawer__item > details > summary,
+    #header-component .header__menu-item,
+    #header-component .header__icon {
+      transition: none !important;
+    }
+  }
+</style>
+
+<style>
+/* =========================================================
+   UNIVERSes RAW — MOBILE HEADER V2
+   Authoritative mobile layer.
+   The theme's native mobile header is completely suppressed.
+   ========================================================= */
+
+@media screen and (max-width: 989px) {
+
+  /* Never allow the original/sticky header rows to return. */
+  html body #header-component .row-group,
+  html body #header-component .header__row,
+  html body #header-component .header__row-group,
+  html body .header-wrapper#header-component > .row-group,
+  html body .header-wrapper#header-component > .header__row {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* The custom shell is the ONLY mobile header. */
+  html body #header-component {
+    display: block !important;
+    position: relative !important;
+    min-height: 66px !important;
+    height: 66px !important;
+    z-index: 2147482000 !important;
+    transform: none !important;
+  }
+
+  html body #header-component .ur-mobile-shell {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 2147482500 !important;
+    background: rgba(250,248,244,.97) !important;
+    color: #211e1a !important;
+    border-bottom: 1px solid rgba(33,30,26,.10) !important;
+    box-shadow: 0 3px 18px rgba(31,26,21,.055) !important;
+    backdrop-filter: blur(16px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__bar {
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-columns: 46px minmax(0,1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  /* Large, easy-to-tap menu target. */
+  html body #header-component .ur-mobile-shell__menu {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #211e1a !important;
+    z-index: 3 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__menu-lines {
+    width: 23px !important;
+    height: 17px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__menu-lines span {
+    width: 23px !important;
+    height: 1.5px !important;
+    background: #211e1a !important;
+  }
+
+  /* Real logo — don't reuse the theme's desktop visibility rules. */
+  html body #header-component .ur-mobile-shell__brand {
+    width: 100% !important;
+    height: 66px !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: hidden !important;
+    text-decoration: none !important;
+  }
+
+  html body #header-component .ur-mobile-shell__brand img,
+  html body #header-component .ur-mobile-shell__brand .ur-mobile-shell__logo-image {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    min-width: 80px !important;
+    max-width: min(58vw, 190px) !important;
+    max-height: 42px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    flex: 0 0 auto !important;
+  }
+
+  html body #header-component .ur-mobile-shell__brand-text {
+    display: block !important;
+    color: #211e1a !important;
+    font-size: 15px !important;
+    line-height: 1 !important;
+    font-weight: 600 !important;
+    letter-spacing: .16em !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  /* Actions: larger targets, restrained icons. */
+  html body #header-component .ur-mobile-shell__actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0 !important;
+    min-width: 0 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__icon {
+    position: relative !important;
+    width: 42px !important;
+    height: 44px !important;
+    min-width: 42px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #211e1a !important;
+    opacity: 1 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__icon svg {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__cart-count {
+    top: 5px !important;
+    right: 3px !important;
+    min-width: 15px !important;
+    height: 15px !important;
+    padding: 0 3px !important;
+    background: #9b7a4c !important;
+    color: #fff !important;
+    border: 2px solid #faf8f4 !important;
+    font-size: 8px !important;
+    font-weight: 700 !important;
+  }
+
+  /* Premium menu: wider, larger type, comfortable Bangladesh-friendly tap areas. */
+  html body #header-component .ur-mobile-shell__drawer {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    z-index: 2147483600 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__backdrop {
+    background: rgba(18,16,14,.46) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__panel {
+    width: min(94vw, 460px) !important;
+    max-width: 460px !important;
+    height: 100dvh !important;
+    background: #fbf9f5 !important;
+    box-shadow: 24px 0 70px rgba(0,0,0,.18) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__drawer-head {
+    height: 92px !important;
+    min-height: 92px !important;
+    padding: 0 24px !important;
+    border-bottom: 1px solid rgba(33,30,26,.10) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__drawer-kicker {
+    margin-bottom: 7px !important;
+    font-size: 9px !important;
+    letter-spacing: .18em !important;
+  }
+
+  html body #header-component .ur-mobile-shell__drawer-title {
+    font-size: 20px !important;
+    letter-spacing: .12em !important;
+    font-weight: 500 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__close {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    background: rgba(155,122,76,.08) !important;
+    border: 1px solid rgba(33,30,26,.12) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__close span {
+    width: 18px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__list {
+    padding: 8px 0 34px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__item > a,
+  html body #header-component .ur-mobile-shell__item > details > summary {
+    min-height: 70px !important;
+    padding: 0 24px !important;
+    gap: 18px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__item-title {
+    gap: 16px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    letter-spacing: .065em !important;
+  }
+
+  html body #header-component .ur-mobile-shell__num {
+    width: 24px !important;
+    font-size: 9px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__chevron {
+    font-size: 21px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__submenu {
+    padding: 4px 24px 24px 64px !important;
+    background: #f5f1e9 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__all {
+    padding: 16px 0 13px !important;
+    font-size: 9px !important;
+    letter-spacing: .12em !important;
+  }
+
+  html body #header-component .ur-mobile-shell__subitem {
+    padding: 11px 0 !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__footer {
+    min-height: 58px !important;
+    padding: 0 24px !important;
+    font-size: 8px !important;
+    letter-spacing: .10em !important;
+  }
+
+  /* Keep the shell visible through sticky state changes. */
+  .header-wrapper[data-sticky-type],
+  .header-wrapper.is-sticky,
+  .header-wrapper.sticky,
+  .header-wrapper.header--sticky {
+    min-height: 66px !important;
+    height: 66px !important;
+  }
+
+  /* On small phones use nearly full-width menu with the same large controls. */
+  @media screen and (max-width: 380px) {
+    html body #header-component .ur-mobile-shell__panel {
+      width: 96vw !important;
+    }
+
+    html body #header-component .ur-mobile-shell__item > a,
+    html body #header-component .ur-mobile-shell__item > details > summary {
+      min-height: 66px !important;
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+
+    html body #header-component .ur-mobile-shell__item-title {
+      font-size: 13px !important;
+    }
+  }
+}
+</style>
+
 {%- liquid
   assign sec_stts = section.settings
 
@@ -66,10 +1091,12 @@
     render 'header-menu-snippet', header_settings: sec_stts, blocks: section.blocks, menu_gap: sec_stts.menu_gap
   endcapture
 
-  capture mobile_menu
-    render 'header-menu-snippet', header_settings: sec_stts, blocks: section.blocks, variant: 'mobile'
-  endcapture
+  assign mobile_menu = blank
+  -%}
 
+{% assign mobile_menu = blank %}
+
+{%- liquid
   capture account
     render 'header-account', sec_stts: sec_stts, custom_header_utility: sec_stts.custom_header_utility, header_utility_size: sec_stts.header_utility_size, header_utility_font: sec_stts.header_utility_font, header_utility_weight: sec_stts.header_utility_weight, header_utility_line_height: sec_stts.header_utility_line_height, header_utility_letter_spacing: sec_stts.header_utility_letter_spacing, header_utility_case: sec_stts.header_utility_case, header_utility_wrap: sec_stts.header_utility_wrap
   endcapture
@@ -229,125 +1256,6 @@
 -%}
 
 
-
-<style>
-/* =========================================================
-   UNIVERSes RAW — MOBILE HEADER LOGO FIX
-   Uses the real Theme Settings logo directly.
-   Does not modify menu/search/cart functionality.
-   ========================================================= */
-.ur-mobile-brand-logo { display:none; }
-
-@media screen and (max-width: 989px) {
-  #header-component {
-    position: relative !important;
-    z-index: 1000 !important;
-  }
-
-  .ur-mobile-brand-logo {
-    position:absolute !important;
-    left:50% !important;
-    top:50% !important;
-    transform:translate(-50%,-50%) !important;
-    width:min(46vw, 190px) !important;
-    height:48px !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    z-index:50 !important;
-    text-decoration:none !important;
-    color:inherit !important;
-    overflow:visible !important;
-    pointer-events:auto !important;
-  }
-
-  .ur-mobile-brand-logo__image {
-    display:block !important;
-    width:auto !important;
-    max-width:100% !important;
-    height:auto !important;
-    max-height:42px !important;
-    object-fit:contain !important;
-    object-position:center !important;
-    visibility:visible !important;
-    opacity:1 !important;
-  }
-
-  .ur-mobile-brand-logo__svg {
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    width:100% !important;
-    max-height:42px !important;
-    overflow:hidden !important;
-  }
-
-  .ur-mobile-brand-logo__svg svg {
-    display:block !important;
-    width:auto !important;
-    max-width:100% !important;
-    height:auto !important;
-    max-height:42px !important;
-  }
-
-  .ur-mobile-brand-logo__text {
-    display:block !important;
-    font-family:var(--font-heading--family, sans-serif) !important;
-    font-size:16px !important;
-    font-weight:600 !important;
-    letter-spacing:.14em !important;
-    text-transform:uppercase !important;
-    white-space:nowrap !important;
-  }
-
-  /* Hide only the native mobile logo so the direct logo above is authoritative. */
-  #header-component .header__row .header__logo,
-  #header-component .header__row .header-logo,
-  #header-component .header__row [data-main-logo],
-  #header-component .header__row [data-logo],
-  #header-component .header__row [data-header-logo] {
-    visibility:hidden !important;
-    opacity:0 !important;
-  }
-
-  /* Keep the real controls clickable above the logo layer. */
-  #header-component .header__row button,
-  #header-component .header__row a,
-  #header-component .header__row side-drawer-opener {
-    position:relative;
-    z-index:60;
-  }
-
-  /* Make sure the hamburger remains visible and touch-friendly. */
-  #header-component .header__icon--menu,
-  #header-component side-drawer-opener.header__icon--menu {
-    display:flex !important;
-    visibility:visible !important;
-    opacity:1 !important;
-    width:44px !important;
-    height:44px !important;
-  }
-
-  /* Keep mobile search/account/cart controls visible. */
-  #header-component .header__icon,
-  #header-component .header__icon svg,
-  #header-component .svg-wrapper {
-    visibility:visible !important;
-  }
-}
-
-@media screen and (max-width: 380px) {
-  .ur-mobile-brand-logo {
-    width:44vw !important;
-    max-width:170px !important;
-  }
-  .ur-mobile-brand-logo__image,
-  .ur-mobile-brand-logo__svg svg {
-    max-height:38px !important;
-  }
-}
-</style>
-
 <{{ header_wrapper }}
   class="
     header-wrapper
@@ -364,19 +1272,99 @@
   {% endif %}
   id="header-component"
 >
-  <a
-    href="{{ routes.root_url }}"
-    class="ur-mobile-brand-logo"
-    aria-label="{{ shop.name | escape }}"
-  >
-    {%- if settings.logo != blank -%}
-      {{- settings.logo | image_url: width: 420 | image_tag: loading: 'eager', widths: '160,240,320,420', sizes: '42vw', class: 'ur-mobile-brand-logo__image', alt: shop.name -}}
-    {%- elsif settings.logo_svg != blank -%}
-      <span class="ur-mobile-brand-logo__svg">{{ settings.logo_svg }}</span>
-    {%- else -%}
-      <span class="ur-mobile-brand-logo__text">{{ shop.name | escape }}</span>
-    {%- endif -%}
-  </a>
+  <div class="ur-mobile-shell" data-ur-mobile-shell>
+    <div class="ur-mobile-shell__bar">
+      <button class="ur-mobile-shell__menu" type="button" data-ur-mobile-open aria-label="Open menu" aria-expanded="false" aria-controls="UR-Mobile-Luxury-Drawer">
+        <span class="ur-mobile-shell__menu-lines" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
+      <a class="ur-mobile-shell__brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+        {% if section.settings.logo != blank %}
+          {{
+            section.settings.logo
+            | image_url: width: 600
+            | image_tag:
+              class: 'ur-mobile-shell__logo-image',
+              widths: '160,240,320,420,600',
+              sizes: '(max-width: 989px) 58vw',
+              loading: 'eager',
+              alt: shop.name
+          }}
+        {% elsif sec_stts.logo_text != blank %}
+          <span class="ur-mobile-shell__brand-text">{{ sec_stts.logo_text }}</span>
+        {% else %}
+          <span class="ur-mobile-shell__brand-text">{{ shop.name | escape }}</span>
+        {% endif %}
+      </a>
+      <div class="ur-mobile-shell__actions">
+        {% if sec_stts.show_search %}
+          <a class="ur-mobile-shell__icon" href="{{ routes.search_url }}" aria-label="Search">
+            {{- 'icon-search.svg' | inline_asset_content -}}
+          </a>
+        {% endif %}
+        {% if shop.customer_accounts_enabled %}
+          <a class="ur-mobile-shell__icon" href="{{ routes.account_url }}" aria-label="Account">
+            {{- 'icon-account.svg' | inline_asset_content -}}
+          </a>
+        {% endif %}
+        <a class="ur-mobile-shell__icon ur-mobile-shell__icon--cart" href="{{ routes.cart_url }}" aria-label="Cart">
+          {{- 'icon-cart.svg' | inline_asset_content -}}
+          {% if cart.item_count > 0 %}<span class="ur-mobile-shell__cart-count">{{ cart.item_count }}</span>{% endif %}
+        </a>
+      </div>
+    </div>
+
+    <div id="UR-Mobile-Luxury-Drawer" class="ur-mobile-shell__drawer" data-ur-mobile-drawer aria-hidden="true">
+      <div class="ur-mobile-shell__backdrop" data-ur-mobile-close></div>
+      <aside class="ur-mobile-shell__panel" role="dialog" aria-modal="true" aria-label="{{ 'accessibility.menu' | t }}">
+        <div class="ur-mobile-shell__drawer-head">
+          <div>
+            <span class="ur-mobile-shell__drawer-kicker">{{ shop.name | escape }}</span>
+            <div class="ur-mobile-shell__drawer-title">Explore</div>
+          </div>
+          <button class="ur-mobile-shell__close" type="button" data-ur-mobile-close aria-label="Close menu"><span></span><span></span></button>
+        </div>
+        <nav class="ur-mobile-shell__nav" aria-label="Mobile navigation">
+          <ul class="ur-mobile-shell__list">
+            {% for link in section.settings.menu.links %}
+              <li class="ur-mobile-shell__item">
+                {% if link.links != blank %}
+                  <details>
+                    <summary>
+                      <span class="ur-mobile-shell__item-title">
+                        <span class="ur-mobile-shell__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                        <span>{{ link.title | escape }}</span>
+                      </span>
+                      <span class="ur-mobile-shell__chevron">+</span>
+                    </summary>
+                    <div class="ur-mobile-shell__submenu">
+                      <a class="ur-mobile-shell__all" href="{{ link.url }}">VIEW ALL {{ link.title | upcase | escape }}</a>
+                      {% for childlink in link.links %}
+                        <a class="ur-mobile-shell__subitem" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
+                        {% if childlink.links != blank %}
+                          {% for grandchildlink in childlink.links %}
+                            <a class="ur-mobile-shell__subitem" style="padding-left:14px;color:#81766a;" href="{{ grandchildlink.url }}">{{ grandchildlink.title | escape }}</a>
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </details>
+                {% else %}
+                  <a href="{{ link.url }}">
+                    <span class="ur-mobile-shell__item-title">
+                      <span class="ur-mobile-shell__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                      <span>{{ link.title | escape }}</span>
+                    </span>
+                    <span class="ur-mobile-shell__chevron">→</span>
+                  </a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+        <div class="ur-mobile-shell__footer"><span>{{ shop.name | escape }}</span><span>Premium Menswear</span></div>
+      </aside>
+    </div>
+  </div>
 
   <div class="row-group{% if sec_stts.enable_shadow %} row-group--shadow{% endif %}"
   style="
@@ -515,6 +1503,108 @@
     }
   </script>
 {%- endif -%}
+
+
+<script>
+  (() => {
+    const initLuxuryMobileHeader = (root) => {
+      if (!root || root.dataset.urLuxuryReady === 'true') return;
+      root.dataset.urLuxuryReady = 'true';
+
+      const drawer = root.querySelector('[data-ur-mobile-drawer]');
+      const open = root.querySelector('[data-ur-mobile-open]');
+      const closes = root.querySelectorAll('[data-ur-mobile-close]');
+      if (!drawer || !open) return;
+
+      let previousFocus = null;
+
+      const lock = (state) => {
+        document.documentElement.classList.toggle('ur-mobile-open', state);
+        document.body.classList.toggle('ur-mobile-open', state);
+      };
+
+      const openMenu = () => {
+        previousFocus = document.activeElement;
+        drawer.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        open.setAttribute('aria-expanded', 'true');
+        lock(true);
+        requestAnimationFrame(() => drawer.querySelector('.ur-mobile-shell__close')?.focus({ preventScroll: true }));
+      };
+
+      const closeMenu = () => {
+        drawer.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        open.setAttribute('aria-expanded', 'false');
+        lock(false);
+        requestAnimationFrame(() => previousFocus?.focus?.({ preventScroll: true }));
+      };
+
+      open.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openMenu(); });
+      closes.forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); closeMenu(); }));
+
+      drawer.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+      drawer.querySelectorAll('details').forEach((details) => {
+        details.addEventListener('toggle', () => {
+          const icon = details.querySelector(':scope > summary .ur-mobile-shell__chevron');
+          if (icon) icon.textContent = details.open ? '−' : '+';
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (!drawer.classList.contains('is-open')) return;
+        if (e.key === 'Escape') { e.preventDefault(); closeMenu(); }
+      });
+    };
+
+    const boot = () => document.querySelectorAll('[data-ur-mobile-shell]').forEach(initLuxuryMobileHeader);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
+    else boot();
+    document.addEventListener('shopify:section:load', boot);
+
+    /* The theme's sticky header can toggle classes or rebuild its rows.
+       Keep the custom mobile shell authoritative at all times. */
+    const enforceMobileShell = () => {
+      if (window.innerWidth >= 990) return;
+
+      document.querySelectorAll(
+        '#header-component .row-group, #header-component .header__row, #header-component .header__row-group'
+      ).forEach((el) => {
+        el.style.setProperty('display', 'none', 'important');
+        el.style.setProperty('visibility', 'hidden', 'important');
+        el.style.setProperty('opacity', '0', 'important');
+        el.style.setProperty('pointer-events', 'none', 'important');
+        el.style.setProperty('height', '0', 'important');
+        el.style.setProperty('min-height', '0', 'important');
+        el.style.setProperty('max-height', '0', 'important');
+        el.style.setProperty('overflow', 'hidden', 'important');
+      });
+
+      document.querySelectorAll(
+        '#header-component .ur-mobile-shell'
+      ).forEach((el) => {
+        el.style.setProperty('display', 'block', 'important');
+        el.style.setProperty('visibility', 'visible', 'important');
+        el.style.setProperty('opacity', '1', 'important');
+        el.style.setProperty('position', 'fixed', 'important');
+        el.style.setProperty('top', '0', 'important');
+        el.style.setProperty('left', '0', 'important');
+        el.style.setProperty('right', '0', 'important');
+        el.style.setProperty('z-index', '2147482500', 'important');
+      });
+    };
+
+    enforceMobileShell();
+    window.addEventListener('resize', enforceMobileShell, { passive: true });
+    window.addEventListener('scroll', enforceMobileShell, { passive: true });
+    new MutationObserver(enforceMobileShell).observe(document.documentElement, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['class', 'style', 'data-sticky-state']
+    });
+  })();
+</script>
 
 {% schema %}
   {
@@ -1557,8 +2647,7 @@
       },
       {
         "type": "header",
-        "content": "Menu link level 1",
-      },
+        "content": "Menu link level 1"},
       {
         "type": "select",
         "id": "button_type_font_link",
@@ -1673,8 +2762,7 @@
       },
       {
         "type": "header",
-        "content": "Menu link level 2",
-      },
+        "content": "Menu link level 2"},
       {
         "type": "select",
         "id": "button_type_font_link_2",
