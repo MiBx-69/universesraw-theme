@@ -1615,7 +1615,7 @@
         el.style.setProperty('display', 'block', 'important');
         el.style.setProperty('visibility', 'visible', 'important');
         el.style.setProperty('opacity', '1', 'important');
-        el.style.setProperty('position', 'fixed', 'important');
+        el.style.setProperty('position', 'absolute', 'important');
         el.style.setProperty('top', '0', 'important');
         el.style.setProperty('left', '0', 'important');
         el.style.setProperty('right', '0', 'important');
@@ -1625,7 +1625,6 @@
 
     enforceMobileShell();
     window.addEventListener('resize', enforceMobileShell, { passive: true });
-    window.addEventListener('scroll', enforceMobileShell, { passive: true });
     new MutationObserver(enforceMobileShell).observe(document.documentElement, {
       subtree: true,
       childList: true,
@@ -1634,6 +1633,150 @@
     });
   })();
 </script>
+
+<style>
+/* =========================================================
+   UNIVERSes RAW — MOBILE HEADER FINAL STACK / HIT-TEST FIX
+   Prevents products/sections from painting or receiving taps
+   through the header after scrolling.
+   ========================================================= */
+@media screen and (max-width: 989px) {
+  /* The header itself owns the top stacking layer and remains in
+     normal document flow, so the page cannot create a click-through
+     gap underneath it. */
+  html body #header-component {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    perspective: none !important;
+    contain: none !important;
+    isolation: isolate !important;
+    z-index: 2147483640 !important;
+    pointer-events: auto !important;
+  }
+
+  /* The shell is now a layer inside the sticky header instead of a
+     fixed descendant. This avoids fixed-position stacking/transform
+     bugs that can let product cards win the hit test. */
+  html body #header-component .ur-mobile-shell {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+    transform: translateZ(0) !important;
+    z-index: 2147483641 !important;
+    pointer-events: auto !important;
+    isolation: isolate !important;
+  }
+
+  html body #header-component .ur-mobile-shell__bar {
+    position: relative !important;
+    z-index: 2 !important;
+    pointer-events: auto !important;
+  }
+
+  html body #header-component .ur-mobile-shell__menu,
+  html body #header-component .ur-mobile-shell__brand,
+  html body #header-component .ur-mobile-shell__icon {
+    position: relative !important;
+    z-index: 3 !important;
+    pointer-events: auto !important;
+  }
+
+  /* The header surface itself is a real hit-test surface. */
+  html body #header-component .ur-mobile-shell::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    pointer-events: auto !important;
+    background: transparent !important;
+  }
+
+  /* Keep controls above the transparent hit shield. */
+  html body #header-component .ur-mobile-shell__bar,
+  html body #header-component .ur-mobile-shell__bar * {
+    pointer-events: auto !important;
+  }
+
+  /* The drawer must always sit above the header and every product card. */
+  html body #header-component .ur-mobile-shell__drawer {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    z-index: 2147483647 !important;
+    pointer-events: none !important;
+  }
+
+  html body #header-component .ur-mobile-shell__drawer.is-open {
+    pointer-events: auto !important;
+  }
+
+  html body #header-component .ur-mobile-shell__backdrop,
+  html body #header-component .ur-mobile-shell__panel {
+    pointer-events: auto !important;
+  }
+
+  /* Product images/cards must never establish a competing top layer. */
+  html body .shopify-section:not(#shopify-section-header),
+  html body .product-card,
+  html body .card-wrapper,
+  html body .card,
+  html body .product-grid,
+  html body .collection-list,
+  html body .section {
+    isolation: auto;
+  }
+
+  /* Avoid browser compositor glitches caused by theme transforms on
+     the header wrapper while scrolling. */
+  html body #header-component,
+  html body #header-component * {
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+  }
+
+  /* The native header rows are disabled, but keep them completely out
+     of hit testing even if Shopify re-renders the sticky state. */
+  html body #header-component > .row-group,
+  html body #header-component .row-group,
+  html body #header-component .header__row,
+  html body #header-component .header__row-group {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+  }
+}
+</style>
 
 {% schema %}
   {
