@@ -19,11 +19,6 @@
     aria-haspopup="dialog"
     aria-label="{{ 'content.menu' | t }}"
   >
-    {% comment %} <span class="icon-hamburger-custom">
-      <span class="icon-hamburger-custom__line"></span>
-      <span class="icon-hamburger-custom__line"></span>
-      <span class="icon-hamburger-custom__line"></span>
-    </span> {% endcomment %}
     <span class="svg-wrapper">
       {{- 'icon-hamburger.svg' | inline_asset_content -}}
     </span>
@@ -31,5 +26,8 @@
 </side-drawer-opener>
 
 {% if settings.enable_multi_tab_layout_mobile == false %}
-  {% render 'header-drawer', color_scheme: section.settings.menu_mobile_color_scheme, section_id: section_id %}
+  {% render 'header-drawer',
+    color_scheme: section.settings.menu_mobile_color_scheme,
+    section_id: section_id
+  %}
 {% endif %}
