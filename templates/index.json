@@ -100,6 +100,13 @@
             "image": "shopify://shop_images/ChatGPT_Image_Aug_19_2026_05_03_17_PM.png",
             "title": "BOOTCUT DENIM"
           }
+        },
+        "collection_Tnq3iJ": {
+          "type": "collection",
+          "settings": {
+            "collection": "premium-polo",
+            "title": ""
+          }
         }
       },
       "block_order": [
@@ -107,7 +114,8 @@
         "collection_kLCe3K",
         "collection_LNLmWY",
         "collection_JP6Bcg",
-        "collection_9VAYyd"
+        "collection_9VAYyd",
+        "collection_Tnq3iJ"
       ],
       "name": "Collection Grid Pro",
       "settings": {
