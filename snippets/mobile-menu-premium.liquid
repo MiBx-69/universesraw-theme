@@ -1,0 +1,408 @@
+{% comment %}
+  UNIVERSes RAW
+  Premium Mobile Navigation
+{% endcomment %}
+
+<div
+  class="ur-mobile-menu"
+  data-ur-mobile-menu
+>
+
+  <!-- MOBILE MENU BUTTON -->
+
+  <button
+    type="button"
+    class="ur-mobile-menu__trigger"
+    data-ur-menu-open
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="UR-Mobile-Drawer"
+  >
+
+    <span class="ur-mobile-menu__hamburger">
+
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </span>
+
+  </button>
+
+
+  <!-- MOBILE DRAWER -->
+
+  <div
+    id="UR-Mobile-Drawer"
+    class="ur-mobile-drawer"
+    data-ur-mobile-drawer
+    aria-hidden="true"
+  >
+
+    <div
+      class="ur-mobile-drawer__overlay"
+      data-ur-menu-close
+    ></div>
+
+
+    <aside
+      class="ur-mobile-drawer__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Navigation"
+    >
+
+      <!-- DRAWER HEADER -->
+
+      <div class="ur-mobile-drawer__header">
+
+        <div class="ur-mobile-drawer__brand">
+
+          <span class="ur-mobile-drawer__eyebrow">
+            EXPLORE
+          </span>
+
+          <span class="ur-mobile-drawer__title">
+            MENU
+          </span>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="ur-mobile-drawer__close"
+          data-ur-menu-close
+          aria-label="Close menu"
+        >
+
+          <span></span>
+          <span></span>
+
+        </button>
+
+      </div>
+
+
+      <!-- NAVIGATION -->
+
+      <nav class="ur-mobile-drawer__nav">
+
+        <ul class="ur-mobile-drawer__list">
+
+          {% for link in section.settings.menu.links %}
+
+            <li
+              class="
+                ur-mobile-drawer__item
+                {% if link.links != blank %}
+                  has-children
+                {% endif %}
+              "
+            >
+
+              {% if link.links != blank %}
+
+                <details>
+
+                  <summary>
+
+                    <span class="ur-mobile-drawer__link-title">
+
+                      <span class="ur-mobile-drawer__index">
+                        {{ forloop.index | prepend: '0' | slice: -2, 2 }}
+                      </span>
+
+                      <span>
+                        {{ link.title | escape }}
+                      </span>
+
+                    </span>
+
+
+                    <span class="ur-mobile-drawer__arrow">
+                      +
+                    </span>
+
+                  </summary>
+
+
+                  <div class="ur-mobile-submenu">
+
+                    <a
+                      href="{{ link.url }}"
+                      class="ur-mobile-submenu__all"
+                    >
+                      VIEW ALL {{ link.title | upcase }}
+                    </a>
+
+
+                    {% for childlink in link.links %}
+
+                      <a
+                        href="{{ childlink.url }}"
+                        class="ur-mobile-submenu__link"
+                      >
+                        {{ childlink.title | escape }}
+                      </a>
+
+                    {% endfor %}
+
+                  </div>
+
+                </details>
+
+              {% else %}
+
+                <a
+                  href="{{ link.url }}"
+                  class="ur-mobile-drawer__direct-link"
+                >
+
+                  <span class="ur-mobile-drawer__link-title">
+
+                    <span class="ur-mobile-drawer__index">
+                      {{ forloop.index | prepend: '0' | slice: -2, 2 }}
+                    </span>
+
+                    <span>
+                      {{ link.title | escape }}
+                    </span>
+
+                  </span>
+
+                  <span class="ur-mobile-drawer__arrow">
+                    →
+                  </span>
+
+                </a>
+
+              {% endif %}
+
+            </li>
+
+          {% endfor %}
+
+        </ul>
+
+      </nav>
+
+
+      <!-- FOOTER -->
+
+      <div class="ur-mobile-drawer__footer">
+
+        <span>
+          UNIVERSes RAW
+        </span>
+
+        <span>
+          PREMIUM MENSWEAR
+        </span>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+</div>
+
+
+<script>
+(function () {
+
+  function initURMobileMenu() {
+
+    const root =
+      document.querySelector('[data-ur-mobile-menu]');
+
+    if (!root || root.dataset.initialized === 'true') {
+      return;
+    }
+
+    root.dataset.initialized = 'true';
+
+
+    const drawer =
+      root.querySelector('[data-ur-mobile-drawer]');
+
+    const openButton =
+      root.querySelector('[data-ur-menu-open]');
+
+    const closeButtons =
+      root.querySelectorAll('[data-ur-menu-close]');
+
+
+    if (!drawer || !openButton) {
+      return;
+    }
+
+
+    function openMenu() {
+
+      drawer.classList.add(
+        'is-open'
+      );
+
+      drawer.setAttribute(
+        'aria-hidden',
+        'false'
+      );
+
+      openButton.setAttribute(
+        'aria-expanded',
+        'true'
+      );
+
+      document.documentElement.classList.add(
+        'ur-menu-is-open'
+      );
+
+      document.body.classList.add(
+        'ur-menu-is-open'
+      );
+
+    }
+
+
+    function closeMenu() {
+
+      drawer.classList.remove(
+        'is-open'
+      );
+
+      drawer.setAttribute(
+        'aria-hidden',
+        'true'
+      );
+
+      openButton.setAttribute(
+        'aria-expanded',
+        'false'
+      );
+
+      document.documentElement.classList.remove(
+        'ur-menu-is-open'
+      );
+
+      document.body.classList.remove(
+        'ur-menu-is-open'
+      );
+
+    }
+
+
+    openButton.addEventListener(
+      'click',
+      function (event) {
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+        openMenu();
+
+      }
+    );
+
+
+    closeButtons.forEach(
+      function (button) {
+
+        button.addEventListener(
+          'click',
+          function (event) {
+
+            event.preventDefault();
+
+            closeMenu();
+
+          }
+        );
+
+      }
+    );
+
+
+    document.addEventListener(
+      'keydown',
+      function (event) {
+
+        if (
+          event.key === 'Escape' &&
+          drawer.classList.contains('is-open')
+        ) {
+
+          closeMenu();
+
+        }
+
+      }
+    );
+
+
+    drawer
+      .querySelectorAll('details')
+      .forEach(
+        function (details) {
+
+          details.addEventListener(
+            'toggle',
+            function () {
+
+              const summary =
+                details.querySelector('summary');
+
+              if (!summary) {
+                return;
+              }
+
+              if (details.open) {
+
+                summary
+                  .querySelector(
+                    '.ur-mobile-drawer__arrow'
+                  )
+                  ?.replaceChildren(
+                    document.createTextNode('−')
+                  );
+
+              } else {
+
+                summary
+                  .querySelector(
+                    '.ur-mobile-drawer__arrow'
+                  )
+                  ?.replaceChildren(
+                    document.createTextNode('+')
+                  );
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+  }
+
+
+  if (
+    document.readyState === 'loading'
+  ) {
+
+    document.addEventListener(
+      'DOMContentLoaded',
+      initURMobileMenu
+    );
+
+  } else {
+
+    initURMobileMenu();
+
+  }
+
+})();
+</script>
