@@ -2157,3 +2157,178 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+/* =========================================================
+   UNIVERSes RAW — FINAL DYNAMIC BADGE POSITION SYSTEM
+   Shopify Theme Editor controls Top/Bottom + Left/Right.
+   This intentionally overrides older hard-coded badge rules.
+   ========================================================= */
+
+.product-card-wrapper:not(.product-card-list) .card__badge {
+  position: absolute !important;
+  inset: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 10 !important;
+  align-self: auto !important;
+  justify-self: auto !important;
+  transform: none !important;
+}
+
+/* TOP LEFT */
+.product-card-wrapper:not(.product-card-list) .card__badge.top.left,
+.product-card-wrapper:not(.product-card-list) .card__badge.top-left {
+  top: 10px !important;
+  left: 10px !important;
+  right: auto !important;
+  bottom: auto !important;
+}
+
+/* TOP RIGHT */
+.product-card-wrapper:not(.product-card-list) .card__badge.top.right,
+.product-card-wrapper:not(.product-card-list) .card__badge.top-right {
+  top: 10px !important;
+  right: 10px !important;
+  bottom: auto !important;
+  left: auto !important;
+}
+
+/* BOTTOM LEFT */
+.product-card-wrapper:not(.product-card-list) .card__badge.bottom.left,
+.product-card-wrapper:not(.product-card-list) .card__badge.bottom-left {
+  top: auto !important;
+  right: auto !important;
+  bottom: 10px !important;
+  left: 10px !important;
+}
+
+/* BOTTOM RIGHT */
+.product-card-wrapper:not(.product-card-list) .card__badge.bottom.right,
+.product-card-wrapper:not(.product-card-list) .card__badge.bottom-right {
+  top: auto !important;
+  right: 10px !important;
+  bottom: 10px !important;
+  left: auto !important;
+}
+
+/* Single-axis fallback for theme markup that uses separate
+   top/bottom and left/right classes. */
+.product-card-wrapper:not(.product-card-list) .card__badge.top:not(.bottom) {
+  top: 10px !important;
+  bottom: auto !important;
+}
+
+.product-card-wrapper:not(.product-card-list) .card__badge.bottom:not(.top) {
+  top: auto !important;
+  bottom: 10px !important;
+}
+
+.product-card-wrapper:not(.product-card-list) .card__badge.left:not(.right) {
+  left: 10px !important;
+  right: auto !important;
+}
+
+.product-card-wrapper:not(.product-card-list) .card__badge.right:not(.left) {
+  right: 10px !important;
+  left: auto !important;
+}
+
+/* Custom badge: preserve Shopify's selected position too. */
+.product-card-wrapper:not(.product-card-list) .card__badge.custom {
+  position: absolute !important;
+  z-index: 10 !important;
+}
+
+/* Minimal luxury badge appearance. */
+.product-card-wrapper:not(.product-card-list) .card__badge .badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  width: auto !important;
+  height: 22px !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  border: 0 !important;
+  border-radius: 2px !important;
+  background: rgba(17,17,17,.94) !important;
+  color: #fff !important;
+  font-size: 9px !important;
+  font-weight: 600 !important;
+  letter-spacing: .08em !important;
+  line-height: 22px !important;
+  text-transform: uppercase !important;
+  box-shadow: none !important;
+  white-space: nowrap !important;
+}
+
+/* Mobile: smaller, quieter positioning. */
+@media screen and (max-width: 749px) {
+  .product-card-wrapper:not(.product-card-list) .card__badge {
+    z-index: 10 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__badge.top.left,
+  .product-card-wrapper:not(.product-card-list) .card__badge.top-left {
+    top: 8px !important;
+    left: 8px !important;
+    right: auto !important;
+    bottom: auto !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__badge.top.right,
+  .product-card-wrapper:not(.product-card-list) .card__badge.top-right {
+    top: 8px !important;
+    right: 8px !important;
+    bottom: auto !important;
+    left: auto !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__badge.bottom.left,
+  .product-card-wrapper:not(.product-card-list) .card__badge.bottom-left {
+    top: auto !important;
+    right: auto !important;
+    bottom: 8px !important;
+    left: 8px !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__badge.bottom.right,
+  .product-card-wrapper:not(.product-card-list) .card__badge.bottom-right {
+    top: auto !important;
+    right: 8px !important;
+    bottom: 8px !important;
+    left: auto !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__badge.top:not(.bottom) {
+    top: 8px !important;
+    bottom: auto !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__badge.bottom:not(.top) {
+    top: auto !important;
+    bottom: 8px !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__badge.left:not(.right) {
+    left: 8px !important;
+    right: auto !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__badge.right:not(.left) {
+    right: 8px !important;
+    left: auto !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__badge .badge {
+    height: 20px !important;
+    padding: 0 7px !important;
+    font-size: 8px !important;
+    line-height: 20px !important;
+    letter-spacing: .06em !important;
+  }
+}
