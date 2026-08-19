@@ -1,6 +1,111 @@
+{% doc %}
+  @prompt
+    minimalsit simpel premium high quality middle of the screen mobile first design view all button 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-view-all-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: {{ block.settings.padding_vertical }}px 16px;
+    text-align: center;
+  }
+
+  .ai-view-all-{{ ai_gen_id }}__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    max-width: 100%;
+    padding: 12px 28px;
+    color: {{ block.settings.text_color }};
+    background: {{ block.settings.background_color }};
+    border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+  }
+
+  .ai-view-all-{{ ai_gen_id }}__link:hover {
+    color: {{ block.settings.hover_text_color }};
+    background: {{ block.settings.hover_background_color }};
+    border-color: {{ block.settings.hover_border_color }};
+  }
+
+  .ai-view-all-{{ ai_gen_id }}__link:focus-visible {
+    outline: 2px solid {{ block.settings.focus_color }};
+    outline-offset: 4px;
+  }
+
+  .ai-view-all-{{ ai_gen_id }}__arrow {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-view-all-{{ ai_gen_id }} {
+      width: 100%;
+      padding: {{ block.settings.mobile_padding_vertical }}px 12px;
+    }
+
+    .ai-view-all-{{ ai_gen_id }}__link {
+      width: 100%;
+      padding-right: 22px;
+      padding-left: 22px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-view-all-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.button_link != blank %}
+    <a class="ai-view-all-{{ ai_gen_id }}__link" href="{{ block.settings.button_link }}">
+      <span>{{ block.settings.button_label }}</span>
+      <svg class="ai-view-all-{{ ai_gen_id }}__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  {% else %}
+    <span class="ai-view-all-{{ ai_gen_id }}__link" role="link" aria-disabled="true">
+      <span>{{ block.settings.button_label }}</span>
+      <svg class="ai-view-all-{{ ai_gen_id }}__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  {% endif %}
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "View all button",
+  "settings": [
+    {"type":"text","id":"button_label","label":"Label","default":"View all"},
+    {"type":"url","id":"button_link","label":"Link"},
+    {"type":"range","id":"desktop_width_percent","label":"Desktop width","min":50,"max":100,"step":5,"unit":"%","default":100},
+    {"type":"range","id":"text_size","label":"Text size","min":10,"max":22,"step":1,"unit":"px","default":12},
+    {"type":"range","id":"border_radius","label":"Corner radius","min":0,"max":40,"step":2,"unit":"px","default":0},
+    {"type":"range","id":"border_width","label":"Border width","min":0,"max":3,"step":1,"unit":"px","default":1},
+    {"type":"range","id":"padding_vertical","label":"Vertical spacing","min":0,"max":60,"step":5,"unit":"px","default":20},
+    {"type":"range","id":"mobile_padding_vertical","label":"Mobile spacing","min":0,"max":50,"step":5,"unit":"px","default":15},
+    {"type":"color","id":"background_color","label":"Background","default":"#000000"},
+    {"type":"color","id":"text_color","label":"Text","default":"#FFFFFF"},
+    {"type":"color","id":"border_color","label":"Border","default":"#000000"},
+    {"type":"color","id":"hover_background_color","label":"Hover background","default":"#FFFFFF"},
+    {"type":"color","id":"hover_text_color","label":"Hover text","default":"#000000"},
+    {"type":"color","id":"hover_border_color","label":"Hover border","default":"#000000"},
+    {"type":"color","id":"focus_color","label":"Focus outline","default":"#000F9F"}
+  ],
+  "presets":[{"name":"View all button"}],
+  "tag":null,
+  "class":"view-all-button-block"
+}
 {% endschema %}
