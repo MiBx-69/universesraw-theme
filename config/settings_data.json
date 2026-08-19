@@ -119,7 +119,7 @@
     "badge_text_font": "heading",
     "badge_text_font_size": "1.4rem",
     "badge_text_transform": "uppercase",
-    "show_new_badge": false,
+    "show_new_badge": true,
     "new_badge_type": "auto",
     "new_badge_time": 20,
     "show_sold_out_badge": true,
@@ -128,7 +128,7 @@
     "padding_left": 13,
     "padding_right": 13,
     "padding_top": 5,
-    "padding_bottom": 6,
+    "padding_bottom": 0,
     "cart_type": "drawer",
     "show_vendor": true,
     "show_item_subtotal": false,
@@ -332,14 +332,6 @@
           "utm_campaign": true,
           "utm_term": true,
           "ref": true
-        }
-      },
-      "6158297803058687402": {
-        "type": "shopify://apps/pai-ai-blog-aeo/blocks/pai-snippets/019f11a7-7fc9-7462-b6a8-b3e7e9681909",
-        "disabled": false,
-        "settings": {
-          "enable_product": true,
-          "enable_collection": true
         }
       }
     },
