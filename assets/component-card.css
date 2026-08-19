@@ -2332,3 +2332,412 @@
     letter-spacing: .06em !important;
   }
 }
+
+
+/* =========================================================
+   UNIVERSes RAW — FINAL MOBILE PRODUCT GRID
+   EXACT MINIMAL / LUXURY LAYOUT
+   ---------------------------------------------------------
+   Goals:
+   - perfectly aligned 2-column mobile cards
+   - equal image heights
+   - equal information starting points
+   - quiet editorial typography
+   - NEW badge ABOVE discount badge
+   - discount badge BELOW NEW badge
+   - no badges sharing one horizontal row
+   - Shopify position setting remains respected
+   ========================================================= */
+
+@media screen and (max-width: 749px) {
+
+  /* -------------------------------------------------------
+     GRID
+     ------------------------------------------------------- */
+  .product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: 14px !important;
+    row-gap: 30px !important;
+    align-items: start !important;
+  }
+
+  .product-grid > .grid__item,
+  .product-grid .grid__item {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-self: start !important;
+  }
+
+  /* -------------------------------------------------------
+     CARD RESET
+     ------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list),
+  .product-card-wrapper:not(.product-card-list) > .card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) > .card {
+    display: block !important;
+    position: relative !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__content {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* -------------------------------------------------------
+     IMAGE — SAME SIZE FOR EVERY PRODUCT
+     ------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) .card__inner,
+  .product-card-wrapper:not(.product-card-list) .card--block-media {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4 / 5 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 10px !important;
+    background: #f6f6f4 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__media,
+  .product-card-wrapper:not(.product-card-list) .card__media .media,
+  .product-card-wrapper:not(.product-card-list) .card--block-media .media {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    border-radius: 10px !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__media .media img,
+  .product-card-wrapper:not(.product-card-list) .card--block-media .media img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+  /* -------------------------------------------------------
+     BADGE CONTAINER
+     -------------------------------------------------------
+     Shopify's selected position determines where the whole
+     badge stack sits. The two badges themselves are vertical.
+     ------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) .card__badge {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 4px !important;
+    width: max-content !important;
+    max-width: calc(100% - 16px) !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 20 !important;
+  }
+
+  /* Never allow badges to sit beside each other. */
+  .product-card-wrapper:not(.product-card-list) .card__badge .badge {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    width: max-content !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 21px !important;
+    min-height: 21px !important;
+    margin: 0 !important;
+    padding: 0 8px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 0 !important;
+    border-radius: 2px !important;
+    background: rgba(17,17,17,.96) !important;
+    color: #fff !important;
+    font-family: inherit !important;
+    font-size: 8px !important;
+    font-weight: 600 !important;
+    letter-spacing: .08em !important;
+    line-height: 21px !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    box-shadow: none !important;
+  }
+
+  /* First badge = NEW / primary sale label. */
+  .product-card-wrapper:not(.product-card-list) .card__badge .badge:first-child {
+    order: 1 !important;
+  }
+
+  /* Second badge = discount percentage. */
+  .product-card-wrapper:not(.product-card-list) .card__badge .badge:nth-child(2) {
+    order: 2 !important;
+  }
+
+  /* Slightly stronger visual distinction for discount. */
+  .product-card-wrapper:not(.product-card-list) .card__badge .badge:nth-child(2) {
+    background: #111 !important;
+  }
+
+  /* -------------------------------------------------------
+     PRODUCT INFORMATION — SAME STARTING POINT
+     ------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) .card__information,
+  .product-card-wrapper:not(.product-card-list) .card-product-information {
+    display: block !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 14px 0 0 !important;
+    text-align: left !important;
+  }
+
+  /* -------------------------------------------------------
+     VENDOR
+     ------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) .caption-with-letter-spacing,
+  .product-card-wrapper:not(.product-card-list) .card--block-vendor,
+  .product-card-wrapper:not(.product-card-list) .card--block-vendor a {
+    display: block !important;
+    width: 100% !important;
+    height: 14px !important;
+    min-height: 14px !important;
+    margin: 0 0 7px !important;
+    overflow: hidden !important;
+    color: #999 !important;
+    font-size: 9px !important;
+    font-weight: 500 !important;
+    letter-spacing: .22em !important;
+    line-height: 14px !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  /* -------------------------------------------------------
+     TITLE — FIXED TWO-LINE HEIGHT
+     ------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) .card__heading,
+  .product-card-wrapper:not(.product-card-list) .card--block-title {
+    display: block !important;
+    width: 100% !important;
+    height: 43px !important;
+    min-height: 43px !important;
+    max-height: 43px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    color: #111 !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: 15px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0 !important;
+    line-height: 1.42 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__heading .full-unstyled-link,
+  .product-card-wrapper:not(.product-card-list) .card--block-title a {
+    display: -webkit-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    color: inherit !important;
+    text-decoration: none !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  /* -------------------------------------------------------
+     PRICE — ALWAYS ALIGNED
+     ------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) .card-information,
+  .product-card-wrapper:not(.product-card-list) .card-price {
+    width: 100% !important;
+    min-height: 23px !important;
+    margin: 7px 0 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card-information .price,
+  .product-card-wrapper:not(.product-card-list) .card-price .price {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: left !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .price__container {
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .price--on-sale .price__sale {
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    width: 100% !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .price--on-sale .price-item--regular {
+    color: #999 !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    text-decoration: line-through !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .price--on-sale .price-item--sale.price-item--last,
+  .product-card-wrapper:not(.product-card-list) .price:not(.price--on-sale) .price__regular .price-item--regular {
+    color: #111 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+  }
+
+  /* -------------------------------------------------------
+     SIZE PREVIEW / SWATCHES — QUIET FOOTER
+     ------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) .card__bottom,
+  .product-card-wrapper:not(.product-card-list) .card--block-variant {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    min-height: 15px !important;
+    margin: 7px 0 0 !important;
+    padding: 0 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card-size-preview {
+    display: flex !important;
+    width: 100% !important;
+    height: 12px !important;
+    min-height: 12px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    overflow: hidden !important;
+    color: #999 !important;
+    font-size: 9px !important;
+    letter-spacing: .08em !important;
+    line-height: 12px !important;
+    white-space: nowrap !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__swatch .swatch-list {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 5px !important;
+    margin: 0 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__swatch .swatch {
+    width: 9px !important;
+    height: 9px !important;
+    min-width: 9px !important;
+    min-height: 9px !important;
+  }
+
+  /* -------------------------------------------------------
+     NO VISUAL JUMP FROM HOVER / TRANSFORMS ON MOBILE
+     ------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list):hover > .card,
+  .product-card-wrapper:not(.product-card-list) > .card {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* =========================================================
+   DESKTOP — KEEP THE SAME CLEAN PRODUCT RHYTHM
+   ========================================================= */
+@media screen and (min-width: 750px) {
+  .product-grid {
+    align-items: start !important;
+  }
+
+  .product-grid > .grid__item {
+    align-self: start !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__information,
+  .product-card-wrapper:not(.product-card-list) .card-product-information {
+    text-align: left !important;
+  }
+}
+
+/* =========================================================
+   FINAL BADGE STACK — WORKS WITH ALL SHOPIFY POSITIONS
+   The whole stack follows Shopify's selected position.
+   NEW stays above the discount percentage.
+   ========================================================= */
+
+.product-card-wrapper:not(.product-card-list) .card__badge {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 4px !important;
+  width: max-content !important;
+  height: auto !important;
+}
+
+.product-card-wrapper:not(.product-card-list) .card__badge .badge {
+  position: static !important;
+  display: flex !important;
+  width: max-content !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  margin: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* NEW = upper label */
+.product-card-wrapper:not(.product-card-list) .card__badge .badge:first-child {
+  order: 1 !important;
+}
+
+/* DISCOUNT = lower label */
+.product-card-wrapper:not(.product-card-list) .card__badge .badge:nth-child(2) {
+  order: 2 !important;
+}
+
+@media screen and (max-width: 749px) {
+  .product-card-wrapper:not(.product-card-list) .card__badge {
+    gap: 3px !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__badge .badge {
+    height: 20px !important;
+    min-height: 20px !important;
+    padding: 0 7px !important;
+    font-size: 8px !important;
+    line-height: 20px !important;
+  }
+}
