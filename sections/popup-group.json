@@ -289,7 +289,7 @@
         }
       },
       "settings": {
-        "cart_drawer_collection": "",
+        "cart_drawer_collection": "latest-collection",
         "color_scheme": ""
       }
     },
