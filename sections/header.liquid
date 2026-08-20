@@ -1056,6 +1056,29 @@
   assign check_menu_tab = section.blocks | where: 'type', 'menu_tab'
   if check_menu_tab.size > 0
     assign has_menu_tab = true
+    assign mobile_menu_block = check_menu_tab | first
+    assign mobile_menu_icon_style = mobile_menu_block.settings.menu_icon | default: 'style_1'
+    assign mobile_menu_icon_custom = mobile_menu_block.settings.custom_menu_icon_size
+    assign mobile_menu_icon_size = mobile_menu_block.settings.menu_icon_size | default: 22
+  else
+    assign mobile_menu_icon_style = 'style_1'
+    assign mobile_menu_icon_icon_custom = false
+    assign mobile_menu_icon_size = 22
+  endif
+
+  assign mobile_logo_width = sec_stts.logo_width_mobile | default: 100
+  assign mobile_logo_position = sec_stts.logo_position | default: 'center'
+  assign mobile_logo_spacing_left = sec_stts.logo_spacing_left | default: 0
+  assign mobile_logo_spacing_right = sec_stts.logo_spacing_right | default: 0
+
+  assign mobile_bg = sec_stts.color_scheme_top_mb.settings.background
+  assign mobile_fg = sec_stts.color_scheme_top_mb.settings.foreground
+
+  if mobile_bg == blank
+    assign mobile_bg = '#faf8f4'
+  endif
+  if mobile_fg == blank
+    assign mobile_fg = '#211e1a'
   endif
 
   assign order = 'multi_tab_menu,logo,mobile_logo,menu,message,account,search,localization,mobile_search,actions'
@@ -1291,11 +1314,36 @@
   {% endif %}
   id="header-component"
 >
-  <div class="ur-mobile-shell" data-ur-mobile-shell>
+  <div
+    class="ur-mobile-shell"
+    data-ur-mobile-shell
+    style="
+      --ur-mobile-bg: {{ mobile_bg }};
+      --ur-mobile-fg: {{ mobile_fg }};
+      --ur-mobile-logo-width: {{ mobile_logo_width }}px;
+      --ur-mobile-logo-position: {{ mobile_logo_position }};
+      --ur-mobile-logo-spacing-left: {{ mobile_logo_spacing_left }}px;
+      --ur-mobile-logo-spacing-right: {{ mobile_logo_spacing_right }}px;
+      --ur-mobile-menu-icon-size: {% if mobile_menu_icon_custom %}{{ mobile_menu_icon_size }}px{% else %}20px{% endif %};
+    "
+  >
     <div class="ur-mobile-shell__bar">
-      <button class="ur-mobile-shell__menu" type="button" data-ur-mobile-open aria-label="Open menu" aria-expanded="false" aria-controls="UR-Mobile-Luxury-Drawer">
-        <span class="ur-mobile-shell__menu-lines" aria-hidden="true"><span></span><span></span><span></span></span>
-      </button>
+      {% if has_menu_tab or sec_stts.menu != blank %}
+        <button
+          class="ur-mobile-shell__menu ur-mobile-shell__menu--{{ mobile_menu_icon_style }}"
+          type="button"
+          data-ur-mobile-open
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="UR-Mobile-Luxury-Drawer"
+        >
+          <span class="ur-mobile-shell__menu-lines" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+      {% else %}
+        <span class="ur-mobile-shell__menu-spacer" aria-hidden="true"></span>
+      {% endif %}
       <a
         class="ur-mobile-shell__brand"
         href="{{ routes.root_url }}"
@@ -1313,7 +1361,7 @@
             | image_tag:
               class: 'ur-mobile-shell__logo-image',
               widths: '180,240,320,420,600,750,900',
-              sizes: '(max-width: 989px) 55vw',
+              sizes: '(max-width: 989px) var(--ur-mobile-logo-width)',
               loading: 'eager',
               fetchpriority: 'high',
               alt: shop.name
@@ -1330,7 +1378,7 @@
             {{- 'icon-search.svg' | inline_asset_content -}}
           </a>
         {% endif %}
-        {% if shop.customer_accounts_enabled %}
+        {% if shop.customer_accounts_enabled and sec_stts.show_account %}
           <a class="ur-mobile-shell__icon" href="{{ routes.account_url }}" aria-label="Account">
             {{- 'icon-account.svg' | inline_asset_content -}}
           </a>
@@ -1995,6 +2043,237 @@
 @media (prefers-reduced-motion: reduce) {
   html body #header-component .ur-mobile-shell__drawer,
   html body #header-component .ur-mobile-shell__panel {
+    transition: none !important;
+  }
+}
+</style>
+
+
+<style>
+/* =========================================================
+   UNIVERSes RAW — FINAL MOBILE HEADER
+   Compact + always sticky + settings-driven
+   ========================================================= */
+@media screen and (max-width: 989px) {
+  :root {
+    --ur-mobile-header-height: 56px;
+  }
+
+  /* Keep Shopify's section in normal flow, but never let its
+     scroll-up state control the visible mobile shell. */
+  html body #header-component {
+    min-height: var(--ur-mobile-header-height) !important;
+    height: var(--ur-mobile-header-height) !important;
+    max-height: var(--ur-mobile-header-height) !important;
+    overflow: visible !important;
+    transform: none !important;
+  }
+
+  /* The custom shell is a true fixed mobile header and is a
+     sibling of #header-component, so Shopify sticky JS cannot
+     hide/translate it on scroll. */
+  html body > .ur-mobile-shell,
+  html body .header-section > .ur-mobile-shell,
+  html body .header-wrapper > .ur-mobile-shell,
+  html body .ur-mobile-shell {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: var(--ur-mobile-header-height) !important;
+    min-height: var(--ur-mobile-header-height) !important;
+    max-height: var(--ur-mobile-header-height) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    perspective: none !important;
+    overflow: visible !important;
+    z-index: 2147483000 !important;
+    background: var(--ur-mobile-bg, #faf8f4) !important;
+    color: var(--ur-mobile-fg, #211e1a) !important;
+    border-bottom: 1px solid color-mix(in srgb, var(--ur-mobile-fg, #211e1a) 10%, transparent) !important;
+    box-shadow: 0 2px 14px rgba(25, 21, 17, .055) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  html body .ur-mobile-shell__bar {
+    width: 100% !important;
+    height: var(--ur-mobile-header-height) !important;
+    min-height: var(--ur-mobile-header-height) !important;
+    padding: 0 8px !important;
+    display: grid !important;
+    grid-template-columns: 42px minmax(0,1fr) auto !important;
+    align-items: center !important;
+    gap: 4px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Compact but still finger-friendly. */
+  html body .ur-mobile-shell__menu,
+  html body .ur-mobile-shell__menu-spacer {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  html body .ur-mobile-shell__menu {
+    border: 0 !important;
+    background: transparent !important;
+    color: var(--ur-mobile-fg, #211e1a) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  html body .ur-mobile-shell__menu-lines {
+    width: var(--ur-mobile-menu-icon-size, 20px) !important;
+    height: 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  html body .ur-mobile-shell__menu--style_2 .ur-mobile-shell__menu-lines {
+    height: 10px !important;
+  }
+
+  html body .ur-mobile-shell__menu-lines span {
+    width: 100% !important;
+    height: 1.4px !important;
+    background: currentColor !important;
+    border-radius: 99px !important;
+  }
+
+  /* Theme setting: logo width + position + spacing. */
+  html body .ur-mobile-shell__brand {
+    min-width: 0 !important;
+    width: 100% !important;
+    height: var(--ur-mobile-header-height) !important;
+    padding-left: var(--ur-mobile-logo-spacing-left, 0px) !important;
+    padding-right: var(--ur-mobile-logo-spacing-right, 0px) !important;
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    text-decoration: none !important;
+  }
+
+  html body .ur-mobile-shell__brand[style*="--ur-mobile-logo-position: left"],
+  html body .ur-mobile-shell__brand {
+    justify-content: center !important;
+  }
+
+  html body .ur-mobile-shell__logo-image,
+  html body .ur-mobile-shell__brand img {
+    display: block !important;
+    width: min(var(--ur-mobile-logo-width, 100px), 58vw) !important;
+    max-width: min(var(--ur-mobile-logo-width, 100px), 58vw) !important;
+    max-height: 34px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center !important;
+  }
+
+  /* Position follows the Logo Position setting. */
+  html body .ur-mobile-shell[style*="--ur-mobile-logo-position: left"] .ur-mobile-shell__brand {
+    justify-content: flex-start !important;
+  }
+
+  html body .ur-mobile-shell[style*="--ur-mobile-logo-position: right"] .ur-mobile-shell__brand {
+    justify-content: flex-end !important;
+  }
+
+  html body .ur-mobile-shell[style*="--ur-mobile-logo-position: center"] .ur-mobile-shell__brand {
+    justify-content: center !important;
+  }
+
+  html body .ur-mobile-shell__actions {
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0 !important;
+  }
+
+  html body .ur-mobile-shell__icon {
+    width: 38px !important;
+    height: 42px !important;
+    min-width: 38px !important;
+    min-height: 42px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--ur-mobile-fg, #211e1a) !important;
+    text-decoration: none !important;
+    position: relative !important;
+    touch-action: manipulation !important;
+  }
+
+  html body .ur-mobile-shell__icon svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  html body .ur-mobile-shell__cart-count {
+    top: 3px !important;
+    right: 1px !important;
+    min-width: 14px !important;
+    height: 14px !important;
+    font-size: 7px !important;
+    border: 2px solid var(--ur-mobile-bg, #faf8f4) !important;
+  }
+
+  /* Full-screen menu stays above everything, including product cards. */
+  html body .ur-mobile-shell__drawer {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    z-index: 2147483647 !important;
+  }
+
+  html body .ur-mobile-shell__panel {
+    height: 100dvh !important;
+    width: min(90vw, 410px) !important;
+    max-width: 410px !important;
+    transform: translate3d(-102%,0,0) !important;
+    transition: transform .20s cubic-bezier(.22,.61,.36,1) !important;
+    will-change: transform !important;
+    backface-visibility: hidden !important;
+  }
+
+  html body .ur-mobile-shell__drawer.is-open .ur-mobile-shell__panel {
+    transform: translate3d(0,0,0) !important;
+  }
+
+  /* Remove the old forced sticky-height rules that made the header
+     visually large after Shopify changed state. */
+  .header-wrapper[data-sticky-type],
+  .header-wrapper.is-sticky,
+  .header-wrapper.sticky,
+  .header-wrapper.header--sticky {
+    min-height: var(--ur-mobile-header-height) !important;
+    height: var(--ur-mobile-header-height) !important;
+    max-height: var(--ur-mobile-header-height) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body .ur-mobile-shell__panel,
+  html body .ur-mobile-shell__drawer {
     transition: none !important;
   }
 }
