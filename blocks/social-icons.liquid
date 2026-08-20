@@ -5,7 +5,7 @@
 -%}
 
 {%- capture class_item -%}
-  list-social__item social__item--effect {% if block.settings.social_style == 'custom' %}social__item--custom{% endif %}
+  list-social__item social__item--effect{% if block.settings.social_style == 'custom' %} social__item--custom{% endif %}
 {%- endcapture -%}
 
 {%- capture class_link -%}
@@ -39,7 +39,10 @@
   >
 
   <noscript>
-    <link rel="stylesheet" href="{{ 'component-list-social.css' | asset_url }}">
+    <link
+      rel="stylesheet"
+      href="{{ 'component-list-social.css' | asset_url }}"
+    >
   </noscript>
 
   <div
@@ -65,6 +68,7 @@
             <span class="svg-wrapper">
               {{- 'icon-twitter.svg' | inline_asset_content -}}
             </span>
+
             <span class="visually-hidden">
               {{ 'content.social.twitter' | t }}
             </span>
@@ -85,6 +89,7 @@
             <span class="svg-wrapper">
               {{- 'icon-facebook.svg' | inline_asset_content -}}
             </span>
+
             <span class="visually-hidden">
               {{ 'content.social.facebook' | t }}
             </span>
@@ -105,6 +110,7 @@
             <span class="svg-wrapper">
               {{- 'icon-pinterest.svg' | inline_asset_content -}}
             </span>
+
             <span class="visually-hidden">
               {{ 'content.social.pinterest' | t }}
             </span>
@@ -125,6 +131,7 @@
             <span class="svg-wrapper">
               {{- 'icon-instagram.svg' | inline_asset_content -}}
             </span>
+
             <span class="visually-hidden">
               {{ 'content.social.instagram' | t }}
             </span>
@@ -145,6 +152,7 @@
             <span class="svg-wrapper">
               {{- 'icon-tiktok.svg' | inline_asset_content -}}
             </span>
+
             <span class="visually-hidden">
               {{ 'content.social.tiktok' | t }}
             </span>
@@ -165,6 +173,7 @@
             <span class="svg-wrapper">
               {{- 'icon-tumblr.svg' | inline_asset_content -}}
             </span>
+
             <span class="visually-hidden">
               {{ 'content.social.tumblr' | t }}
             </span>
@@ -185,6 +194,7 @@
             <span class="svg-wrapper">
               {{- 'icon-snapchat.svg' | inline_asset_content -}}
             </span>
+
             <span class="visually-hidden">
               {{ 'content.social.snapchat' | t }}
             </span>
@@ -205,6 +215,7 @@
             <span class="svg-wrapper">
               {{- 'icon-youtube.svg' | inline_asset_content -}}
             </span>
+
             <span class="visually-hidden">
               {{ 'content.social.youtube' | t }}
             </span>
@@ -225,6 +236,7 @@
             <span class="svg-wrapper">
               {{- 'icon-vimeo.svg' | inline_asset_content -}}
             </span>
+
             <span class="visually-hidden">
               {{ 'content.social.vimeo' | t }}
             </span>
@@ -239,22 +251,19 @@
   <style>
     /* =========================================================
        UNIVERSes RAW
-       SOCIAL ICONS — QUIET LUXURY
+       SOCIAL ICONS
+       SVG VISIBILITY + QUIET LUXURY
        ========================================================= */
 
     .ur-social-luxury {
-
       --ur-social-text: #292622;
-      --ur-social-muted: rgba(41, 38, 34, .58);
-      --ur-social-border: rgba(41, 38, 34, .14);
+      --ur-social-muted: rgba(41, 38, 34, .68);
+      --ur-social-border: rgba(41, 38, 34, .18);
       --ur-social-accent: #a58a62;
 
       position: relative;
-
       width: 100%;
-
-      color:
-        var(--ur-social-text);
+      color: var(--ur-social-text);
     }
 
 
@@ -263,23 +272,17 @@
        ========================================================= */
 
     .ur-social-luxury .list-social {
-
       display: flex !important;
-
       align-items: center;
-
       justify-content: flex-start;
-
       flex-wrap: wrap;
 
-      gap:
-        8px !important;
+      gap: 8px !important;
 
-      margin: 0;
+      margin: 0 !important;
+      padding: 0 !important;
 
-      padding: 0;
-
-      list-style: none;
+      list-style: none !important;
     }
 
 
@@ -288,14 +291,14 @@
        ========================================================= */
 
     .ur-social-luxury .list-social__item {
-
-      display: flex;
-
+      display: flex !important;
       align-items: center;
       justify-content: center;
 
-      margin: 0 !important;
+      width: auto;
+      height: auto;
 
+      margin: 0 !important;
       padding: 0 !important;
     }
 
@@ -305,109 +308,148 @@
        ========================================================= */
 
     .ur-social-luxury .list-social__link {
-
       position: relative;
 
       display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
 
-      align-items: center;
-      justify-content: center;
+      width: 34px !important;
+      height: 34px !important;
 
-      width:
-        32px !important;
+      min-width: 34px !important;
+      min-height: 34px !important;
 
-      height:
-        32px !important;
+      margin: 0 !important;
+      padding: 0 !important;
 
-      min-width:
-        32px !important;
+      box-sizing: border-box !important;
 
-      padding:
-        0 !important;
+      color: #292622 !important;
+      background: #ffffff !important;
 
-      color:
-        var(--ur-social-muted) !important;
+      border: 1px solid var(--ur-social-border) !important;
+      border-radius: 50% !important;
 
-      background:
-        transparent !important;
+      text-decoration: none !important;
 
-      border:
-        1px solid var(--ur-social-border) !important;
+      opacity: 1 !important;
+      visibility: visible !important;
 
-      border-radius:
-        50% !important;
-
-      text-decoration:
-        none !important;
-
-      overflow:
-        hidden;
-
-      transform:
-        translateZ(0);
+      overflow: hidden;
 
       transition:
         color .25s ease,
         background-color .25s ease,
         border-color .25s ease,
-        transform .25s cubic-bezier(.22,1,.36,1),
+        transform .25s cubic-bezier(.22, 1, .36, 1),
         box-shadow .25s ease !important;
     }
 
 
     /* =========================================================
-       ICON
+       SVG WRAPPER
        ========================================================= */
 
     .ur-social-luxury .list-social__link .svg-wrapper {
+      position: relative;
 
-      display: flex;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
 
-      align-items: center;
-      justify-content: center;
+      width: 15px !important;
+      height: 15px !important;
 
-      width:
-        13px;
+      min-width: 15px !important;
+      min-height: 15px !important;
 
-      height:
-        13px;
+      flex: 0 0 15px !important;
 
-      color:
-        currentColor;
+      margin: 0 !important;
+      padding: 0 !important;
 
-      line-height:
-        0;
+      color: inherit !important;
 
-      z-index:
-        2;
+      line-height: 0 !important;
+
+      opacity: 1 !important;
+      visibility: visible !important;
+
+      z-index: 5;
     }
 
 
-    .ur-social-luxury .list-social__link svg {
+    /* =========================================================
+       SVG
+       ========================================================= */
 
-      display:
-        block;
+    .ur-social-luxury .list-social__link .svg-wrapper svg {
+      display: block !important;
 
-      width:
-        13px !important;
+      position: relative !important;
 
-      height:
-        13px !important;
+      width: 15px !important;
+      height: 15px !important;
 
-      max-width:
-        13px;
+      min-width: 15px !important;
+      min-height: 15px !important;
 
-      max-height:
-        13px;
+      max-width: 15px !important;
+      max-height: 15px !important;
 
-      fill:
-        currentColor;
+      margin: 0 !important;
+      padding: 0 !important;
 
-      color:
-        currentColor;
+      color: currentColor !important;
+      fill: currentColor !important;
 
-      transition:
-        transform .25s cubic-bezier(.22,1,.36,1);
+      opacity: 1 !important;
+      visibility: visible !important;
+
+      overflow: visible !important;
+    }
+
+
+    /* =========================================================
+       SVG PATHS
+       ========================================================= */
+
+    .ur-social-luxury .list-social__link .svg-wrapper svg path {
+      fill: currentColor !important;
+      color: currentColor !important;
+
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+
+    /* =========================================================
+       OUTLINE SVG ELEMENTS
+       ========================================================= */
+
+    .ur-social-luxury .list-social__link .svg-wrapper svg line,
+    .ur-social-luxury .list-social__link .svg-wrapper svg polyline,
+    .ur-social-luxury .list-social__link .svg-wrapper svg polygon,
+    .ur-social-luxury .list-social__link .svg-wrapper svg circle,
+    .ur-social-luxury .list-social__link .svg-wrapper svg rect {
+      stroke: currentColor !important;
+
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+
+    /* =========================================================
+       DEFAULT MODE
+       ========================================================= */
+
+    .ur-social-luxury .list-social--default .list-social__link {
+      color: #292622 !important;
+      background: #ffffff !important;
+
+      border-color:
+        rgba(41, 38, 34, .18) !important;
     }
 
 
@@ -416,58 +458,54 @@
        ========================================================= */
 
     .ur-social-luxury .list-social__link:hover {
+      color: #ffffff !important;
 
-      color:
-        var(--ur-social-text) !important;
+      background: #292622 !important;
 
-      background:
-        rgba(165,138,98,.07) !important;
+      border-color: #292622 !important;
 
-      border-color:
-        rgba(165,138,98,.42) !important;
-
-      transform:
-        translateY(-2px);
+      transform: translateY(-2px);
 
       box-shadow:
-        0 5px 14px rgba(37,33,29,.07);
+        0 6px 16px rgba(37, 33, 29, .10);
+    }
+
+
+    .ur-social-luxury .list-social__link:hover .svg-wrapper,
+    .ur-social-luxury .list-social__link:hover svg {
+      color: #ffffff !important;
     }
 
 
     .ur-social-luxury .list-social__link:hover svg {
+      fill: currentColor !important;
 
-      transform:
-        scale(1.08);
+      transform: scale(1.04);
     }
 
 
     /* =========================================================
-       MICRO HIGHLIGHT
+       SUBTLE HIGHLIGHT
        ========================================================= */
 
     .ur-social-luxury .list-social__link::before {
+      content: "";
 
-      content:
-        "";
-
-      position:
-        absolute;
-
-      inset:
-        0;
+      position: absolute;
+      inset: 0;
 
       background:
         linear-gradient(
           135deg,
-          rgba(255,255,255,.25),
-          transparent 50%
+          rgba(255, 255, 255, .20),
+          transparent 52%
         );
 
-      opacity:
-        0;
+      opacity: 0;
 
-      pointer-events:
-        none;
+      pointer-events: none;
+
+      z-index: 1;
 
       transition:
         opacity .25s ease;
@@ -475,27 +513,7 @@
 
 
     .ur-social-luxury .list-social__link:hover::before {
-
-      opacity:
-        1;
-    }
-
-
-    /* =========================================================
-       REMOVE THEME DEFAULT LINK EFFECT
-       ========================================================= */
-
-    .ur-social-luxury .list-social__link.link::after {
-
-      display:
-        none !important;
-    }
-
-
-    .ur-social-luxury .list-social__link::after {
-
-      display:
-        none !important;
+      opacity: 1;
     }
 
 
@@ -504,37 +522,66 @@
        ========================================================= */
 
     .ur-social-luxury .list-social--custom .list-social__link {
-
       width:
-        var(--social-item-size, 32px) !important;
+        var(--social-item-size, 34px) !important;
 
       height:
-        var(--social-item-size, 32px) !important;
+        var(--social-item-size, 34px) !important;
 
       min-width:
-        var(--social-item-size, 32px) !important;
+        var(--social-item-size, 34px) !important;
+
+      min-height:
+        var(--social-item-size, 34px) !important;
 
       color:
-        var(--social-item-color, var(--ur-social-muted)) !important;
+        var(--social-item-color, #292622) !important;
 
       background:
-        var(--social-item-bg-color, transparent) !important;
+        var(--social-item-bg-color, #ffffff) !important;
 
       border-color:
-        var(--social-item-border-color, var(--ur-social-border)) !important;
+        var(
+          --social-item-border-color,
+          rgba(41, 38, 34, .18)
+        ) !important;
     }
 
 
     .ur-social-luxury .list-social--custom .list-social__link:hover {
-
       color:
-        var(--social-item-color-hover, var(--ur-social-text)) !important;
+        var(
+          --social-item-color-hover,
+          #ffffff
+        ) !important;
 
       background:
-        var(--social-item-bg-color-hover, rgba(165,138,98,.07)) !important;
+        var(
+          --social-item-bg-color-hover,
+          #292622
+        ) !important;
 
       border-color:
-        var(--social-item-border-color-hover, rgba(165,138,98,.42)) !important;
+        var(
+          --social-item-border-color-hover,
+          #292622
+        ) !important;
+    }
+
+
+    /* =========================================================
+       REMOVE DEFAULT LINK EFFECT
+       ========================================================= */
+
+    .ur-social-luxury .list-social__link::after {
+      display: none !important;
+      content: none !important;
+    }
+
+
+    .ur-social-luxury .list-social__link.link::after {
+      display: none !important;
+      content: none !important;
     }
 
 
@@ -543,12 +590,10 @@
        ========================================================= */
 
     .ur-social-luxury .list-social__link:focus-visible {
-
       outline:
         1px solid var(--ur-social-accent) !important;
 
-      outline-offset:
-        3px !important;
+      outline-offset: 3px !important;
     }
 
 
@@ -559,56 +604,56 @@
     @media screen and (max-width: 749px) {
 
       .ur-social-luxury .list-social {
-
-        gap:
-          7px !important;
+        gap: 7px !important;
       }
 
 
       .ur-social-luxury .list-social__link {
+        width: 32px !important;
+        height: 32px !important;
 
-        width:
-          30px !important;
-
-        height:
-          30px !important;
-
-        min-width:
-          30px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
       }
 
 
       .ur-social-luxury .list-social__link .svg-wrapper {
+        width: 14px !important;
+        height: 14px !important;
 
-        width:
-          12px;
+        min-width: 14px !important;
+        min-height: 14px !important;
 
-        height:
-          12px;
+        flex-basis: 14px !important;
       }
 
 
-      .ur-social-luxury .list-social__link svg {
+      .ur-social-luxury .list-social__link .svg-wrapper svg {
+        width: 14px !important;
+        height: 14px !important;
 
-        width:
-          12px !important;
+        min-width: 14px !important;
+        min-height: 14px !important;
 
-        height:
-          12px !important;
+        max-width: 14px !important;
+        max-height: 14px !important;
       }
 
 
       .ur-social-luxury .list-social--custom .list-social__link {
-
         width:
-          var(--social-item-size-mobile, 30px) !important;
+          var(--social-item-size-mobile, 32px) !important;
 
         height:
-          var(--social-item-size-mobile, 30px) !important;
+          var(--social-item-size-mobile, 32px) !important;
 
         min-width:
-          var(--social-item-size-mobile, 30px) !important;
+          var(--social-item-size-mobile, 32px) !important;
+
+        min-height:
+          var(--social-item-size-mobile, 32px) !important;
       }
+
     }
 
 
@@ -621,11 +666,11 @@
       .ur-social-luxury .list-social__link,
       .ur-social-luxury .list-social__link svg,
       .ur-social-luxury .list-social__link::before {
-
-        transition:
-          none !important;
+        transition: none !important;
       }
+
     }
+
   </style>
 
 {%- endif -%}
