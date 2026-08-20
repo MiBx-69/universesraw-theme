@@ -1,12 +1,367 @@
 {% assign bl_stts = block.settings %}
 
 <div
-  class="cart-discounts spacing-style {{ bl_stts.alignment }}"
+  class="cart-discounts cart-discounts--luxury spacing-style {{ bl_stts.alignment }}"
   style="{% render 'spacing-style', settings: bl_stts %}"
   {{ block.shopify_attributes }}
 >
   {% render 'cart-discounts', section: section %}
 </div>
+
+<style>
+  /* =========================================================
+     UNIVERSes RAW
+     QUIET LUXURY CART COUPON
+     Minimal / Compact / Premium
+     ========================================================= */
+
+  .cart-discounts--luxury {
+    --coupon-text: #26221e;
+    --coupon-muted: rgba(38, 34, 30, 0.58);
+    --coupon-border: rgba(38, 34, 30, 0.16);
+    --coupon-border-hover: rgba(165, 138, 98, 0.55);
+    --coupon-bg: #faf8f4;
+    --coupon-accent: #a58a62;
+  }
+
+
+  /* =========================================================
+     COUPON / DISCOUNT CONTAINER
+     ========================================================= */
+
+  .cart-discounts--luxury {
+    width: 100%;
+  }
+
+  .cart-discounts--luxury .cart-discounts__form,
+  .cart-discounts--luxury .discount-form,
+  .cart-discounts--luxury .coupon-form,
+  .cart-discounts--luxury form {
+    width: 100%;
+  }
+
+
+  /* =========================================================
+     LABEL
+     ========================================================= */
+
+  .cart-discounts--luxury label {
+    display: block;
+
+    margin-bottom: 7px !important;
+
+    color: var(--coupon-text) !important;
+
+    font-size: 9px !important;
+    font-weight: 600 !important;
+
+    line-height: 1.3 !important;
+
+    letter-spacing: 0.14em !important;
+
+    text-transform: uppercase !important;
+  }
+
+
+  /* =========================================================
+     INPUT ROW
+     ========================================================= */
+
+  .cart-discounts--luxury .field,
+  .cart-discounts--luxury .discount-form__field,
+  .cart-discounts--luxury .coupon-field,
+  .cart-discounts--luxury .form-field {
+    display: flex !important;
+    align-items: stretch !important;
+
+    width: 100% !important;
+
+    gap: 7px !important;
+  }
+
+
+  /* =========================================================
+     COUPON INPUT
+     ========================================================= */
+
+  .cart-discounts--luxury input[type="text"],
+  .cart-discounts--luxury input[type="search"],
+  .cart-discounts--luxury input[name*="discount"],
+  .cart-discounts--luxury input[name*="coupon"],
+  .cart-discounts--luxury input[name*="code"] {
+    flex: 1 1 auto !important;
+
+    min-width: 0 !important;
+
+    height: 42px !important;
+
+    padding: 0 13px !important;
+
+    background: var(--coupon-bg) !important;
+
+    color: var(--coupon-text) !important;
+
+    border: 1px solid var(--coupon-border) !important;
+
+    border-radius: 3px !important;
+
+    outline: none !important;
+
+    font-family: inherit !important;
+
+    font-size: 11px !important;
+    font-weight: 400 !important;
+
+    letter-spacing: 0.04em !important;
+
+    box-shadow:
+      inset 0 1px 1px rgba(0, 0, 0, 0.018) !important;
+
+    transition:
+      border-color 0.25s ease,
+      background-color 0.25s ease,
+      box-shadow 0.25s ease !important;
+  }
+
+
+  /* Placeholder */
+
+  .cart-discounts--luxury input::placeholder {
+    color: var(--coupon-muted) !important;
+
+    opacity: 1 !important;
+
+    font-size: 10px !important;
+
+    letter-spacing: 0.04em !important;
+  }
+
+
+  /* Focus */
+
+  .cart-discounts--luxury input:focus {
+    background: #fff !important;
+
+    border-color: var(--coupon-border-hover) !important;
+
+    box-shadow:
+      0 0 0 2px rgba(165, 138, 98, 0.07) !important;
+  }
+
+
+  /* =========================================================
+     APPLY BUTTON
+     ========================================================= */
+
+  .cart-discounts--luxury button,
+  .cart-discounts--luxury input[type="submit"],
+  .cart-discounts--luxury button[type="submit"] {
+    flex: 0 0 auto !important;
+
+    min-width: 82px !important;
+
+    height: 42px !important;
+
+    padding: 0 15px !important;
+
+    background: transparent !important;
+
+    color: var(--coupon-text) !important;
+
+    border: 1px solid var(--coupon-border) !important;
+
+    border-radius: 3px !important;
+
+    font-family: inherit !important;
+
+    font-size: 9px !important;
+    font-weight: 600 !important;
+
+    line-height: 1 !important;
+
+    letter-spacing: 0.13em !important;
+
+    text-transform: uppercase !important;
+
+    cursor: pointer !important;
+
+    box-shadow: none !important;
+
+    transition:
+      color 0.25s ease,
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      transform 0.2s ease !important;
+  }
+
+
+  /* Hover */
+
+  .cart-discounts--luxury button:hover,
+  .cart-discounts--luxury input[type="submit"]:hover,
+  .cart-discounts--luxury button[type="submit"]:hover {
+    background: var(--coupon-text) !important;
+
+    color: #f8f5ef !important;
+
+    border-color: var(--coupon-text) !important;
+
+    transform: translateY(-1px) !important;
+  }
+
+
+  /* Active */
+
+  .cart-discounts--luxury button:active,
+  .cart-discounts--luxury input[type="submit"]:active,
+  .cart-discounts--luxury button[type="submit"]:active {
+    transform: translateY(0) !important;
+  }
+
+
+  /* =========================================================
+     APPLIED DISCOUNT / DISCOUNT CHIPS
+     ========================================================= */
+
+  .cart-discounts--luxury .discounts,
+  .cart-discounts--luxury .discount-list,
+  .cart-discounts--luxury .cart-discount {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-top: 9px !important;
+  }
+
+
+  .cart-discounts--luxury .discounts__discount,
+  .cart-discounts--luxury .discount,
+  .cart-discounts--luxury .discount-item {
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 26px;
+
+    padding: 0 9px;
+
+    background: rgba(165, 138, 98, 0.07);
+
+    color: var(--coupon-text);
+
+    border: 1px solid rgba(165, 138, 98, 0.20);
+
+    border-radius: 2px;
+
+    font-size: 9px;
+
+    letter-spacing: 0.04em;
+  }
+
+
+  /* =========================================================
+     DISCOUNT ICON
+     ========================================================= */
+
+  .cart-discounts--luxury .svg-wrapper {
+    width: 12px;
+    height: 12px;
+
+    margin-right: 5px;
+
+    color: var(--coupon-accent);
+  }
+
+
+  .cart-discounts--luxury .svg-wrapper svg {
+    width: 100%;
+    height: 100%;
+  }
+
+
+  /* =========================================================
+     ERROR / SUCCESS MESSAGES
+     ========================================================= */
+
+  .cart-discounts--luxury .errors,
+  .cart-discounts--luxury .form__message,
+  .cart-discounts--luxury .error {
+    margin-top: 7px !important;
+
+    font-size: 10px !important;
+
+    line-height: 1.4 !important;
+  }
+
+
+  /* =========================================================
+     ACCESSIBILITY
+     ========================================================= */
+
+  .cart-discounts--luxury button:focus-visible,
+  .cart-discounts--luxury input:focus-visible {
+    outline: 1px solid var(--coupon-accent) !important;
+
+    outline-offset: 3px !important;
+  }
+
+
+  /* =========================================================
+     MOBILE
+     ========================================================= */
+
+  @media screen and (max-width: 749px) {
+
+    .cart-discounts--luxury .field,
+    .cart-discounts--luxury .discount-form__field,
+    .cart-discounts--luxury .coupon-field,
+    .cart-discounts--luxury .form-field {
+      gap: 6px !important;
+    }
+
+    .cart-discounts--luxury input[type="text"],
+    .cart-discounts--luxury input[type="search"],
+    .cart-discounts--luxury input[name*="discount"],
+    .cart-discounts--luxury input[name*="coupon"],
+    .cart-discounts--luxury input[name*="code"] {
+      height: 40px !important;
+
+      padding: 0 11px !important;
+
+      font-size: 10px !important;
+    }
+
+    .cart-discounts--luxury button,
+    .cart-discounts--luxury input[type="submit"],
+    .cart-discounts--luxury button[type="submit"] {
+      min-width: 76px !important;
+
+      height: 40px !important;
+
+      padding: 0 12px !important;
+
+      font-size: 8px !important;
+
+      letter-spacing: 0.11em !important;
+    }
+  }
+
+
+  /* =========================================================
+     REDUCED MOTION
+     ========================================================= */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .cart-discounts--luxury input,
+    .cart-discounts--luxury button,
+    .cart-discounts--luxury input[type="submit"] {
+      transition: none !important;
+    }
+  }
+</style>
 
 {% schema %}
 {
