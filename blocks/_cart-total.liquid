@@ -1,12 +1,238 @@
 {% assign bl_stts = block.settings %}
 
 <div
-  class="js-contents cart-total spacing-style {{ bl_stts.alignment }}"
+  class="js-contents cart-total cart-total--luxury spacing-style {{ bl_stts.alignment }}"
   style="{% render 'spacing-style', settings: bl_stts %}"
   {{ block.shopify_attributes }}
 >
   {% render 'cart-total' %}
 </div>
+
+<style>
+  /* =========================================================
+     UNIVERSes RAW
+     CART SUBTOTAL — QUIET LUXURY
+     ========================================================= */
+
+  .cart-total--luxury {
+    --subtotal-text: #25211d;
+    --subtotal-muted: rgba(37, 33, 29, 0.58);
+    --subtotal-line: rgba(37, 33, 29, 0.13);
+    --subtotal-accent: #a58a62;
+
+    width: 100%;
+  }
+
+  /* =========================================================
+     SUMMARY WRAPPER
+     ========================================================= */
+
+  .cart-total--luxury .cart-total__wrapper,
+  .cart-total--luxury .cart__total,
+  .cart-total--luxury .totals {
+    width: 100%;
+  }
+
+  /* =========================================================
+     TOP DIVIDER
+     ========================================================= */
+
+  .cart-total--luxury::before {
+    content: "";
+
+    display: block;
+
+    width: 100%;
+    height: 1px;
+
+    margin-bottom: 17px;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--subtotal-line) 12%,
+        var(--subtotal-line) 88%,
+        transparent 100%
+      );
+  }
+
+  /* =========================================================
+     SUBTOTAL ROW
+     ========================================================= */
+
+  .cart-total--luxury .totals,
+  .cart-total--luxury .cart-total__row,
+  .cart-total--luxury .cart__total-row {
+    display: flex !important;
+
+    align-items: baseline !important;
+    justify-content: space-between !important;
+
+    width: 100% !important;
+
+    gap: 20px !important;
+  }
+
+  /* =========================================================
+     LABEL
+     ========================================================= */
+
+  .cart-total--luxury .totals__subtotal,
+  .cart-total--luxury .totals__subtotal-value,
+  .cart-total--luxury .cart__total-label,
+  .cart-total--luxury .cart-total__label,
+  .cart-total--luxury .subtotal-label {
+    color: var(--subtotal-muted) !important;
+
+    font-family: inherit !important;
+
+    font-size: 9px !important;
+    font-weight: 600 !important;
+
+    line-height: 1.3 !important;
+
+    letter-spacing: 0.16em !important;
+
+    text-transform: uppercase !important;
+  }
+
+  /* =========================================================
+     PRICE
+     ========================================================= */
+
+  .cart-total--luxury .totals__total-value,
+  .cart-total--luxury .totals__subtotal-value,
+  .cart-total--luxury .cart__total-price,
+  .cart-total--luxury .cart-total__price,
+  .cart-total--luxury .subtotal-price {
+    color: var(--subtotal-text) !important;
+
+    font-family: inherit !important;
+
+    font-size: 18px !important;
+    font-weight: 600 !important;
+
+    line-height: 1 !important;
+
+    letter-spacing: -0.025em !important;
+
+    white-space: nowrap !important;
+  }
+
+  /* =========================================================
+     MONEY / CURRENCY
+     ========================================================= */
+
+  .cart-total--luxury .money {
+    color: inherit !important;
+  }
+
+  /* =========================================================
+     TAX / SHIPPING NOTE
+     ========================================================= */
+
+  .cart-total--luxury .tax-note,
+  .cart-total--luxury .cart__tax-note,
+  .cart-total--luxury .totals__tax-note,
+  .cart-total--luxury small {
+    display: block;
+
+    margin-top: 9px !important;
+
+    color: var(--subtotal-muted) !important;
+
+    font-size: 9px !important;
+
+    line-height: 1.5 !important;
+
+    letter-spacing: 0.025em !important;
+  }
+
+  /* =========================================================
+     COMPARE / DISCOUNTED TOTALS
+     ========================================================= */
+
+  .cart-total--luxury s,
+  .cart-total--luxury .price--compare,
+  .cart-total--luxury .compare-at-price {
+    color: var(--subtotal-muted) !important;
+
+    font-size: 10px !important;
+
+    font-weight: 400 !important;
+  }
+
+  /* =========================================================
+     DISCOUNT VALUE
+     ========================================================= */
+
+  .cart-total--luxury .discounts {
+    margin-top: 7px !important;
+
+    color: var(--subtotal-accent) !important;
+
+    font-size: 9px !important;
+
+    letter-spacing: 0.04em !important;
+  }
+
+  /* =========================================================
+     REMOVE EXCESSIVE THEME DECORATION
+     ========================================================= */
+
+  .cart-total--luxury .button,
+  .cart-total--luxury .badge {
+    box-shadow: none;
+  }
+
+  /* =========================================================
+     MOBILE
+     ========================================================= */
+
+  @media screen and (max-width: 749px) {
+
+    .cart-total--luxury::before {
+      margin-bottom: 15px;
+    }
+
+    .cart-total--luxury .totals__subtotal,
+    .cart-total--luxury .totals__subtotal-value,
+    .cart-total--luxury .cart__total-label,
+    .cart-total--luxury .cart-total__label,
+    .cart-total--luxury .subtotal-label {
+      font-size: 8.5px !important;
+
+      letter-spacing: 0.14em !important;
+    }
+
+    .cart-total--luxury .totals__total-value,
+    .cart-total--luxury .totals__subtotal-value,
+    .cart-total--luxury .cart__total-price,
+    .cart-total--luxury .cart-total__price,
+    .cart-total--luxury .subtotal-price {
+      font-size: 17px !important;
+    }
+
+    .cart-total--luxury .tax-note,
+    .cart-total--luxury .cart__tax-note,
+    .cart-total--luxury .totals__tax-note,
+    .cart-total--luxury small {
+      font-size: 8.5px !important;
+    }
+  }
+
+  /* =========================================================
+     REDUCED MOTION
+     ========================================================= */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .cart-total--luxury * {
+      transition: none !important;
+    }
+  }
+</style>
 
 {% schema %}
 {
