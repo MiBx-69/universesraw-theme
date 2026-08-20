@@ -1,12 +1,377 @@
 {% assign bl_stts = block.settings %}
 
 <div
-  class="cart-note spacing-style {{ bl_stts.alignment }}"
+  class="cart-note cart-note--luxury spacing-style {{ bl_stts.alignment }}"
   style="{% render 'spacing-style', settings: bl_stts %}"
   {{ block.shopify_attributes }}
 >
   {% render 'cart-note' %}
 </div>
+
+<style>
+  /* =========================================================
+     UNIVERSes RAW
+     CART NOTE — QUIET LUXURY
+     Minimal / Compact / Premium
+     ========================================================= */
+
+  .cart-note--luxury {
+    --note-text: #25211d;
+    --note-muted: rgba(37, 33, 29, 0.58);
+    --note-border: rgba(37, 33, 29, 0.14);
+    --note-border-hover: rgba(165, 138, 98, 0.55);
+    --note-bg: #faf8f4;
+    --note-accent: #a58a62;
+
+    width: 100%;
+  }
+
+
+  /* =========================================================
+     NOTE WRAPPER
+     ========================================================= */
+
+  .cart-note--luxury .cart-note__wrapper,
+  .cart-note--luxury .cart__note,
+  .cart-note--luxury .cart-note-form,
+  .cart-note--luxury form {
+    width: 100%;
+  }
+
+
+  /* =========================================================
+     NOTE TITLE / TOGGLE
+     ========================================================= */
+
+  .cart-note--luxury summary,
+  .cart-note--luxury .cart-note__toggle,
+  .cart-note--luxury button,
+  .cart-note--luxury .note-toggle {
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    width: 100% !important;
+
+    min-height: 38px !important;
+
+    padding: 0 !important;
+
+    background: transparent !important;
+
+    color: var(--note-text) !important;
+
+    border: 0 !important;
+
+    border-bottom: 1px solid var(--note-border) !important;
+
+    border-radius: 0 !important;
+
+    font-family: inherit !important;
+
+    font-size: 9px !important;
+    font-weight: 600 !important;
+
+    line-height: 1.3 !important;
+
+    letter-spacing: 0.15em !important;
+
+    text-align: left !important;
+    text-transform: uppercase !important;
+
+    cursor: pointer !important;
+
+    box-shadow: none !important;
+
+    transition:
+      color 0.25s ease,
+      border-color 0.25s ease !important;
+  }
+
+
+  /* =========================================================
+     HOVER
+     ========================================================= */
+
+  .cart-note--luxury summary:hover,
+  .cart-note--luxury .cart-note__toggle:hover,
+  .cart-note--luxury button:hover,
+  .cart-note--luxury .note-toggle:hover {
+    color: var(--note-accent) !important;
+
+    border-bottom-color: var(--note-border-hover) !important;
+
+    transform: none !important;
+  }
+
+
+  /* =========================================================
+     ARROW / ICON
+     ========================================================= */
+
+  .cart-note--luxury summary svg,
+  .cart-note--luxury .cart-note__toggle svg,
+  .cart-note--luxury button svg,
+  .cart-note--luxury .note-toggle svg {
+    width: 13px !important;
+    height: 13px !important;
+
+    flex: 0 0 13px;
+
+    color: var(--note-muted) !important;
+
+    transition:
+      transform 0.25s ease,
+      color 0.25s ease !important;
+  }
+
+
+  /* Rotate icon when opened */
+
+  .cart-note--luxury details[open] summary svg,
+  .cart-note--luxury details[open] .cart-note__toggle svg {
+    transform: rotate(180deg);
+
+    color: var(--note-accent) !important;
+  }
+
+
+  /* =========================================================
+     NOTE CONTENT
+     ========================================================= */
+
+  .cart-note--luxury details[open] .cart-note__content,
+  .cart-note--luxury details[open] .cart-note__body,
+  .cart-note--luxury .cart-note__content {
+    padding-top: 10px !important;
+  }
+
+
+  /* =========================================================
+     TEXTAREA
+     ========================================================= */
+
+  .cart-note--luxury textarea,
+  .cart-note--luxury textarea[name="note"] {
+    display: block !important;
+
+    width: 100% !important;
+
+    min-height: 76px !important;
+
+    padding: 11px 12px !important;
+
+    background: var(--note-bg) !important;
+
+    color: var(--note-text) !important;
+
+    border: 1px solid var(--note-border) !important;
+
+    border-radius: 3px !important;
+
+    outline: none !important;
+
+    resize: vertical !important;
+
+    font-family: inherit !important;
+
+    font-size: 11px !important;
+
+    font-weight: 400 !important;
+
+    line-height: 1.5 !important;
+
+    letter-spacing: 0.02em !important;
+
+    box-shadow:
+      inset 0 1px 2px rgba(0, 0, 0, 0.018) !important;
+
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease !important;
+  }
+
+
+  /* Placeholder */
+
+  .cart-note--luxury textarea::placeholder {
+    color: var(--note-muted) !important;
+
+    opacity: 1 !important;
+
+    font-size: 10px !important;
+  }
+
+
+  /* Focus */
+
+  .cart-note--luxury textarea:focus {
+    background: #fff !important;
+
+    border-color: var(--note-border-hover) !important;
+
+    box-shadow:
+      0 0 0 2px rgba(165, 138, 98, 0.06) !important;
+  }
+
+
+  /* =========================================================
+     NOTE LABEL
+     ========================================================= */
+
+  .cart-note--luxury label {
+    display: block !important;
+
+    margin-bottom: 6px !important;
+
+    color: var(--note-muted) !important;
+
+    font-size: 8px !important;
+
+    font-weight: 500 !important;
+
+    line-height: 1.3 !important;
+
+    letter-spacing: 0.12em !important;
+
+    text-transform: uppercase !important;
+  }
+
+
+  /* =========================================================
+     SAVE / UPDATE BUTTON
+     ========================================================= */
+
+  .cart-note--luxury input[type="submit"],
+  .cart-note--luxury button[type="submit"],
+  .cart-note--luxury .cart-note__save {
+    display: inline-flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-height: 34px !important;
+
+    margin-top: 8px !important;
+
+    padding: 0 14px !important;
+
+    background: var(--note-text) !important;
+
+    color: #f8f5ef !important;
+
+    border: 1px solid var(--note-text) !important;
+
+    border-radius: 2px !important;
+
+    font-family: inherit !important;
+
+    font-size: 8px !important;
+
+    font-weight: 600 !important;
+
+    line-height: 1 !important;
+
+    letter-spacing: 0.13em !important;
+
+    text-transform: uppercase !important;
+
+    cursor: pointer !important;
+
+    box-shadow: none !important;
+
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      transform 0.2s ease !important;
+  }
+
+
+  .cart-note--luxury input[type="submit"]:hover,
+  .cart-note--luxury button[type="submit"]:hover,
+  .cart-note--luxury .cart-note__save:hover {
+    background: transparent !important;
+
+    color: var(--note-text) !important;
+
+    border-color: var(--note-text) !important;
+
+    transform: translateY(-1px) !important;
+  }
+
+
+  .cart-note--luxury input[type="submit"]:active,
+  .cart-note--luxury button[type="submit"]:active,
+  .cart-note--luxury .cart-note__save:active {
+    transform: translateY(0) !important;
+  }
+
+
+  /* =========================================================
+     FOCUS ACCESSIBILITY
+     ========================================================= */
+
+  .cart-note--luxury summary:focus-visible,
+  .cart-note--luxury button:focus-visible,
+  .cart-note--luxury textarea:focus-visible,
+  .cart-note--luxury input:focus-visible {
+    outline: 1px solid var(--note-accent) !important;
+
+    outline-offset: 3px !important;
+  }
+
+
+  /* =========================================================
+     MOBILE
+     ========================================================= */
+
+  @media screen and (max-width: 749px) {
+
+    .cart-note--luxury summary,
+    .cart-note--luxury .cart-note__toggle,
+    .cart-note--luxury button,
+    .cart-note--luxury .note-toggle {
+      min-height: 36px !important;
+
+      font-size: 8.5px !important;
+
+      letter-spacing: 0.13em !important;
+    }
+
+    .cart-note--luxury textarea,
+    .cart-note--luxury textarea[name="note"] {
+      min-height: 70px !important;
+
+      padding: 10px !important;
+
+      font-size: 10px !important;
+    }
+
+    .cart-note--luxury input[type="submit"],
+    .cart-note--luxury button[type="submit"],
+    .cart-note--luxury .cart-note__save {
+      min-height: 32px !important;
+
+      padding: 0 12px !important;
+
+      font-size: 7.5px !important;
+    }
+  }
+
+
+  /* =========================================================
+     REDUCED MOTION
+     ========================================================= */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .cart-note--luxury * {
+      transition: none !important;
+    }
+  }
+</style>
 
 {% schema %}
 {

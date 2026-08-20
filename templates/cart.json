@@ -105,46 +105,6 @@
             "scheme_shadow": "#000000"
           },
           "blocks": {
-            "image_with_content_tLAWVm": {
-              "type": "image-with-content",
-              "name": "Image with content",
-              "settings": {
-                "content_direction": "row",
-                "content_direction_mobile": "row",
-                "horizontal_alignment": "flex-start",
-                "horizontal_alignment_mobile": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "gap": 13,
-                "icon_position": "icon-left",
-                "icon": "security",
-                "icon_custom": "none",
-                "svg_upload": "",
-                "image_ratio": "adapt",
-                "icon_width": 20,
-                "border": "none",
-                "border_width": 1,
-                "border_radius": 0,
-                "text": "<p>Secure Shopping Guarantee</p>",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1.6rem",
-                "font_weight": "default",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "subtext": "",
-                "width": "fit-content",
-                "alignment": "left",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "cart-product": {
               "type": "_cart-product",
               "static": true,
@@ -186,9 +146,7 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "image_with_content_tLAWVm"
-          ]
+          "block_order": []
         },
         "cart-page-summary": {
           "type": "_cart-summary",
