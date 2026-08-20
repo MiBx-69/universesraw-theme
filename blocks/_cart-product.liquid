@@ -1,4 +1,393 @@
-{% render 'cart-products' %}
+{% assign bl_stts = block.settings %}
+
+<div
+  class="cart-products cart-products--luxury spacing-style"
+  style="{% render 'spacing-style', settings: bl_stts %}"
+  {{ block.shopify_attributes }}
+>
+  {% render 'cart-products' %}
+</div>
+
+<style>
+  /* =========================================================
+     UNIVERSes RAW
+     CART PRODUCTS — QUIET LUXURY
+     Minimal / Clean / Premium
+     ========================================================= */
+
+  .cart-products--luxury {
+    --cart-text: #25211d;
+    --cart-muted: rgba(37, 33, 29, 0.58);
+    --cart-border: rgba(37, 33, 29, 0.12);
+    --cart-accent: #a58a62;
+    --cart-surface: #faf8f4;
+
+    width: 100%;
+  }
+
+
+  /* =========================================================
+     PRODUCT ROW
+     ========================================================= */
+
+  .cart-products--luxury .cart-item {
+    position: relative;
+
+    transition:
+      opacity .25s ease,
+      background-color .25s ease;
+  }
+
+
+  /* =========================================================
+     IMAGE
+     ========================================================= */
+
+  .cart-products--luxury .cart-item__image-container {
+    overflow: hidden;
+
+    background: #f7f5f1;
+
+    border-radius: 2px;
+  }
+
+
+  .cart-products--luxury .cart-item__image {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+      transform .45s cubic-bezier(.22,1,.36,1);
+  }
+
+
+  .cart-products--luxury .cart-item__media:hover .cart-item__image {
+    transform: scale(1.025);
+  }
+
+
+  /* =========================================================
+     PRODUCT NAME
+     ========================================================= */
+
+  .cart-products--luxury .cart-item__name {
+    color: var(--cart-text) !important;
+
+    font-family: inherit !important;
+
+    font-size: 12px !important;
+    font-weight: 500 !important;
+
+    line-height: 1.4 !important;
+
+    letter-spacing: .015em !important;
+
+    text-decoration: none !important;
+  }
+
+
+  .cart-products--luxury .cart-item__name:hover {
+    color: var(--cart-accent) !important;
+  }
+
+
+  /* =========================================================
+     VARIANT / OPTIONS
+     ========================================================= */
+
+  .cart-products--luxury .product-option,
+  .cart-products--luxury .cart-item__details .caption-with-letter-spacing {
+    color: var(--cart-muted) !important;
+
+    font-size: 9px !important;
+
+    line-height: 1.45 !important;
+
+    letter-spacing: .04em !important;
+  }
+
+
+  /* =========================================================
+     PRICE
+     ========================================================= */
+
+  .cart-products--luxury .price,
+  .cart-products--luxury .cart-item__price {
+    color: var(--cart-text) !important;
+
+    font-size: 11px !important;
+
+    font-weight: 600 !important;
+
+    letter-spacing: .01em !important;
+  }
+
+
+  /* =========================================================
+     OLD PRICE
+     ========================================================= */
+
+  .cart-products--luxury .cart-item__old-price {
+    color: var(--cart-muted) !important;
+
+    font-size: 9px !important;
+
+    font-weight: 400 !important;
+  }
+
+
+  /* =========================================================
+     DISCOUNT
+     ========================================================= */
+
+  .cart-products--luxury .discounts__discount {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    margin-top: 5px;
+
+    color: var(--cart-accent) !important;
+
+    font-size: 8px !important;
+
+    font-weight: 500 !important;
+
+    letter-spacing: .04em !important;
+  }
+
+
+  .cart-products--luxury .discounts__discount .svg-wrapper {
+    width: 11px;
+    height: 11px;
+  }
+
+
+  /* =========================================================
+     QUANTITY SELECTOR
+     ========================================================= */
+
+  .cart-products--luxury .quantity-selector {
+    display: inline-flex !important;
+
+    align-items: center !important;
+
+    min-height: 34px !important;
+
+    background: var(--cart-surface) !important;
+
+    border: 1px solid var(--cart-border) !important;
+
+    border-radius: 2px !important;
+
+    overflow: hidden !important;
+  }
+
+
+  .cart-products--luxury .quantity__button {
+    width: 32px !important;
+    height: 32px !important;
+
+    padding: 0 !important;
+
+    color: var(--cart-muted) !important;
+
+    transition:
+      color .2s ease,
+      background-color .2s ease !important;
+  }
+
+
+  .cart-products--luxury .quantity__button:hover {
+    background: rgba(165,138,98,.06) !important;
+
+    color: var(--cart-text) !important;
+  }
+
+
+  .cart-products--luxury .quantity__input {
+    width: 34px !important;
+    min-width: 34px !important;
+
+    height: 32px !important;
+
+    padding: 0 !important;
+
+    color: var(--cart-text) !important;
+
+    background: transparent !important;
+
+    border: 0 !important;
+
+    font-size: 10px !important;
+
+    font-weight: 500 !important;
+
+    text-align: center !important;
+
+    outline: none !important;
+  }
+
+
+  /* =========================================================
+     REMOVE BUTTON
+     ========================================================= */
+
+  .cart-products--luxury .cart-item__remove button {
+    color: rgba(37,33,29,.42) !important;
+
+    transition:
+      color .2s ease,
+      transform .2s ease !important;
+  }
+
+
+  .cart-products--luxury .cart-item__remove button:hover {
+    color: var(--cart-text) !important;
+
+    transform: rotate(90deg) !important;
+  }
+
+
+  /* =========================================================
+     ROW DIVIDER
+     ========================================================= */
+
+  .cart-products--luxury .cart-items--border {
+    border-color: var(--cart-border) !important;
+  }
+
+
+  /* =========================================================
+     ERROR MESSAGE
+     ========================================================= */
+
+  .cart-products--luxury .cart-item__error {
+    color: #8a5147 !important;
+
+    font-size: 8px !important;
+
+    line-height: 1.4 !important;
+  }
+
+
+  /* =========================================================
+     EMPTY CART
+     ========================================================= */
+
+  .cart-products--luxury .cart__warnings {
+    padding: 30px 15px !important;
+
+    text-align: center;
+  }
+
+
+  .cart-products--luxury .cart__empty-text {
+    margin: 0 0 14px !important;
+
+    color: var(--cart-text) !important;
+
+    font-size: 14px !important;
+
+    font-weight: 500 !important;
+
+    letter-spacing: .02em !important;
+  }
+
+
+  .cart-products--luxury .cart__warnings .button {
+    min-height: 42px;
+
+    padding: 0 20px;
+
+    background: var(--cart-text);
+
+    color: #f8f5ef;
+
+    border: 1px solid var(--cart-text);
+
+    border-radius: 2px;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: .13em;
+
+    text-transform: uppercase;
+
+    box-shadow: none;
+
+    transition:
+      background-color .25s ease,
+      color .25s ease,
+      transform .2s ease;
+  }
+
+
+  .cart-products--luxury .cart__warnings .button:hover {
+    background: transparent;
+
+    color: var(--cart-text);
+
+    transform: translateY(-1px);
+  }
+
+
+  /* =========================================================
+     MOBILE
+     ========================================================= */
+
+  @media screen and (max-width: 749px) {
+
+    .cart-products--luxury .cart-item__name {
+      font-size: 11px !important;
+    }
+
+    .cart-products--luxury .product-option,
+    .cart-products--luxury .cart-item__details .caption-with-letter-spacing {
+      font-size: 8px !important;
+    }
+
+    .cart-products--luxury .price,
+    .cart-products--luxury .cart-item__price {
+      font-size: 10px !important;
+    }
+
+    .cart-products--luxury .quantity-selector {
+      min-height: 32px !important;
+    }
+
+    .cart-products--luxury .quantity__button {
+      width: 30px !important;
+      height: 30px !important;
+    }
+
+    .cart-products--luxury .quantity__input {
+      width: 32px !important;
+      min-width: 32px !important;
+      height: 30px !important;
+    }
+  }
+
+
+  /* =========================================================
+     REDUCED MOTION
+     ========================================================= */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .cart-products--luxury * {
+      transition: none !important;
+    }
+  }
+</style>
 
 {% schema %}
 {
