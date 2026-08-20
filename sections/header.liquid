@@ -1049,6 +1049,75 @@
 }
 </style>
 
+<style>
+/* Mobile drawer bug fix only: when open, the drawer is temporarily portaled
+   to <body> so sticky/isolated header stacking contexts cannot place it below
+   product images. Visual design, colors, transparency and dimensions remain
+   unchanged. */
+@media screen and (max-width: 989px) {
+  html body .ur-mobile-shell__drawer.ur-mobile-drawer-portal {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    z-index: 2147483647 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  html body .ur-mobile-shell__drawer.ur-mobile-drawer-portal .ur-mobile-shell__backdrop {
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: auto !important;
+    background: rgba(18,16,14,.46) !important;
+  }
+
+  html body .ur-mobile-shell__drawer.ur-mobile-drawer-portal .ur-mobile-shell__panel {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: min(94vw, 460px) !important;
+    max-width: 460px !important;
+    height: 100dvh !important;
+    background: #fbf9f5 !important;
+    box-shadow: 24px 0 70px rgba(0,0,0,.18) !important;
+    pointer-events: auto !important;
+  }
+
+  html body .ur-mobile-shell__drawer.ur-mobile-drawer-portal .ur-mobile-shell__drawer-head {
+    height: 92px !important;
+    min-height: 92px !important;
+    padding: 0 24px !important;
+    border-bottom: 1px solid rgba(33,30,26,.10) !important;
+  }
+
+  html body .ur-mobile-shell__drawer.ur-mobile-drawer-portal .ur-mobile-shell__list {
+    padding: 8px 0 34px !important;
+  }
+
+  html body .ur-mobile-shell__drawer.ur-mobile-drawer-portal .ur-mobile-shell__item > a,
+  html body .ur-mobile-shell__drawer.ur-mobile-drawer-portal .ur-mobile-shell__item > details > summary {
+    min-height: 70px !important;
+    padding: 0 24px !important;
+    gap: 18px !important;
+  }
+
+  @media screen and (max-width: 380px) {
+    html body .ur-mobile-shell__drawer.ur-mobile-drawer-portal .ur-mobile-shell__panel {
+      width: 96vw !important;
+    }
+    html body .ur-mobile-shell__drawer.ur-mobile-drawer-portal .ur-mobile-shell__item > a,
+    html body .ur-mobile-shell__drawer.ur-mobile-drawer-portal .ur-mobile-shell__item > details > summary {
+      min-height: 66px !important;
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+  }
+}
+</style>
+
 {%- liquid
   assign sec_stts = section.settings
 
@@ -1552,8 +1621,33 @@
         document.body.classList.toggle('ur-mobile-open', state);
       };
 
+      // Keep the drawer's original parent so Shopify section reloads remain safe.
+      const drawerParent = drawer.parentNode;
+      const drawerNextSibling = drawer.nextSibling;
+
+      const moveDrawerToBody = () => {
+        if (drawer.parentNode !== document.body) {
+          drawer.classList.add('ur-mobile-drawer-portal');
+          document.body.appendChild(drawer);
+        }
+      };
+
+      const restoreDrawer = () => {
+        if (drawer.parentNode === document.body && drawerParent) {
+          drawer.classList.remove('ur-mobile-drawer-portal');
+          if (drawerNextSibling && drawerNextSibling.parentNode === drawerParent) {
+            drawerParent.insertBefore(drawer, drawerNextSibling);
+          } else {
+            drawerParent.appendChild(drawer);
+          }
+        }
+      };
+
       const openMenu = () => {
         previousFocus = document.activeElement;
+        // A fixed drawer inside the sticky/isolated header can be trapped
+        // below product stacking contexts. Portal only the drawer to body.
+        moveDrawerToBody();
         drawer.classList.add('is-open');
         drawer.setAttribute('aria-hidden', 'false');
         open.setAttribute('aria-expanded', 'true');
@@ -1566,6 +1660,7 @@
         drawer.setAttribute('aria-hidden', 'true');
         open.setAttribute('aria-expanded', 'false');
         lock(false);
+        restoreDrawer();
         requestAnimationFrame(() => previousFocus?.focus?.({ preventScroll: true }));
       };
 
@@ -1591,46 +1686,11 @@
     else boot();
     document.addEventListener('shopify:section:load', boot);
 
-    /* The theme's sticky header can toggle classes or rebuild its rows.
-       Keep the custom mobile shell authoritative at all times. */
-    const enforceMobileShell = () => {
-      if (window.innerWidth >= 990) return;
-
-      document.querySelectorAll(
-        '#header-component .row-group, #header-component .header__row, #header-component .header__row-group'
-      ).forEach((el) => {
-        el.style.setProperty('display', 'none', 'important');
-        el.style.setProperty('visibility', 'hidden', 'important');
-        el.style.setProperty('opacity', '0', 'important');
-        el.style.setProperty('pointer-events', 'none', 'important');
-        el.style.setProperty('height', '0', 'important');
-        el.style.setProperty('min-height', '0', 'important');
-        el.style.setProperty('max-height', '0', 'important');
-        el.style.setProperty('overflow', 'hidden', 'important');
-      });
-
-      document.querySelectorAll(
-        '#header-component .ur-mobile-shell'
-      ).forEach((el) => {
-        el.style.setProperty('display', 'block', 'important');
-        el.style.setProperty('visibility', 'visible', 'important');
-        el.style.setProperty('opacity', '1', 'important');
-        el.style.setProperty('position', 'absolute', 'important');
-        el.style.setProperty('top', '0', 'important');
-        el.style.setProperty('left', '0', 'important');
-        el.style.setProperty('right', '0', 'important');
-        el.style.setProperty('z-index', '2147482500', 'important');
-      });
-    };
-
-    enforceMobileShell();
-    window.addEventListener('resize', enforceMobileShell, { passive: true });
-    new MutationObserver(enforceMobileShell).observe(document.documentElement, {
-      subtree: true,
-      childList: true,
-      attributes: true,
-      attributeFilter: ['class', 'style', 'data-sticky-state']
-    });
+    // Do not use a document-wide MutationObserver here. The previous
+    // implementation watched style/class mutations while also rewriting
+    // those same attributes, which could create repeated mutation cycles
+    // and interfere with the theme's sticky header state. The existing CSS
+    // handles sticky/re-rendered states without runtime style injection.
   })();
 </script>
 
