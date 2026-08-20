@@ -90,8 +90,8 @@
     position: absolute;
     inset: 0;
     background: rgba(18, 16, 14, .38);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .ur-mobile-drawer__panel {
@@ -537,8 +537,8 @@
       position: absolute;
       inset: 0;
       background: rgba(19,17,15,.42);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
     .ur-mobile-shell__panel {
       position: absolute;
@@ -769,8 +769,8 @@
     color: #211e1a !important;
     border-bottom: 1px solid rgba(33,30,26,.10) !important;
     box-shadow: 0 3px 18px rgba(31,26,21,.055) !important;
-    backdrop-filter: blur(16px) saturate(120%) !important;
-    -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 
   html body #header-component .ur-mobile-shell__bar {
@@ -1536,43 +1536,66 @@
 
 <script>
   (() => {
-    const initLuxuryMobileHeader = (root) => {
-      if (!root || root.dataset.urLuxuryReady === 'true') return;
-      root.dataset.urLuxuryReady = 'true';
+    'use strict';
+
+    const MOBILE_MAX = 989;
+
+    const lockPage = (locked) => {
+      document.documentElement.classList.toggle('ur-mobile-open', locked);
+      document.body.classList.toggle('ur-mobile-open', locked);
+    };
+
+    const initMobileHeader = (root) => {
+      if (!root || root.dataset.urMobileReady === 'true') return;
 
       const drawer = root.querySelector('[data-ur-mobile-drawer]');
-      const open = root.querySelector('[data-ur-mobile-open]');
-      const closes = root.querySelectorAll('[data-ur-mobile-close]');
-      if (!drawer || !open) return;
+      const openButton = root.querySelector('[data-ur-mobile-open]');
+      const closeButtons = root.querySelectorAll('[data-ur-mobile-close]');
 
-      let previousFocus = null;
+      if (!drawer || !openButton) return;
+      root.dataset.urMobileReady = 'true';
 
-      const lock = (state) => {
-        document.documentElement.classList.toggle('ur-mobile-open', state);
-        document.body.classList.toggle('ur-mobile-open', state);
-      };
+      let lastFocused = null;
 
       const openMenu = () => {
-        previousFocus = document.activeElement;
+        if (window.innerWidth > MOBILE_MAX) return;
+
+        lastFocused = document.activeElement;
         drawer.classList.add('is-open');
         drawer.setAttribute('aria-hidden', 'false');
-        open.setAttribute('aria-expanded', 'true');
-        lock(true);
-        requestAnimationFrame(() => drawer.querySelector('.ur-mobile-shell__close')?.focus({ preventScroll: true }));
+        openButton.setAttribute('aria-expanded', 'true');
+        lockPage(true);
       };
 
       const closeMenu = () => {
         drawer.classList.remove('is-open');
         drawer.setAttribute('aria-hidden', 'true');
-        open.setAttribute('aria-expanded', 'false');
-        lock(false);
-        requestAnimationFrame(() => previousFocus?.focus?.({ preventScroll: true }));
+        openButton.setAttribute('aria-expanded', 'false');
+        lockPage(false);
+
+        if (lastFocused && typeof lastFocused.focus === 'function') {
+          requestAnimationFrame(() => lastFocused.focus({ preventScroll: true }));
+        }
       };
 
-      open.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openMenu(); });
-      closes.forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); closeMenu(); }));
+      openButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        openMenu();
+      }, { passive: false });
 
-      drawer.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+      closeButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          closeMenu();
+        }, { passive: false });
+      });
+
+      drawer.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', closeMenu, { passive: true });
+      });
+
       drawer.querySelectorAll('details').forEach((details) => {
         details.addEventListener('toggle', () => {
           const icon = details.querySelector(':scope > summary .ur-mobile-shell__chevron');
@@ -1580,57 +1603,47 @@
         });
       });
 
-      document.addEventListener('keydown', (e) => {
-        if (!drawer.classList.contains('is-open')) return;
-        if (e.key === 'Escape') { e.preventDefault(); closeMenu(); }
-      });
+      root.__urCloseMenu = closeMenu;
     };
 
-    const boot = () => document.querySelectorAll('[data-ur-mobile-shell]').forEach(initLuxuryMobileHeader);
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
-    else boot();
+    const keepMobileHeaderVisible = () => {
+      const header = document.getElementById('header-component');
+      if (!header || window.innerWidth > MOBILE_MAX) return;
+
+      /*
+       * The theme setting may be "scroll-up". On mobile that behaviour is
+       * intentionally disabled: the compact header must stay available while
+       * the customer scrolls, so the menu is always reachable.
+       */
+      if (header.dataset.stickyType === 'scroll-up') {
+        header.dataset.stickyType = 'always';
+      }
+    };
+
+    const boot = () => {
+      document.querySelectorAll('[data-ur-mobile-shell]').forEach(initMobileHeader);
+      keepMobileHeaderVisible();
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', boot, { once: true });
+    } else {
+      boot();
+    }
+
     document.addEventListener('shopify:section:load', boot);
 
-    /* The theme's sticky header can toggle classes or rebuild its rows.
-       Keep the custom mobile shell authoritative at all times. */
-    const enforceMobileShell = () => {
-      if (window.innerWidth >= 990) return;
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
 
-      document.querySelectorAll(
-        '#header-component .row-group, #header-component .header__row, #header-component .header__row-group'
-      ).forEach((el) => {
-        el.style.setProperty('display', 'none', 'important');
-        el.style.setProperty('visibility', 'hidden', 'important');
-        el.style.setProperty('opacity', '0', 'important');
-        el.style.setProperty('pointer-events', 'none', 'important');
-        el.style.setProperty('height', '0', 'important');
-        el.style.setProperty('min-height', '0', 'important');
-        el.style.setProperty('max-height', '0', 'important');
-        el.style.setProperty('overflow', 'hidden', 'important');
-      });
+      const drawer = document.querySelector('[data-ur-mobile-drawer].is-open');
+      if (!drawer) return;
 
-      document.querySelectorAll(
-        '#header-component .ur-mobile-shell'
-      ).forEach((el) => {
-        el.style.setProperty('display', 'block', 'important');
-        el.style.setProperty('visibility', 'visible', 'important');
-        el.style.setProperty('opacity', '1', 'important');
-        el.style.setProperty('position', 'absolute', 'important');
-        el.style.setProperty('top', '0', 'important');
-        el.style.setProperty('left', '0', 'important');
-        el.style.setProperty('right', '0', 'important');
-        el.style.setProperty('z-index', '2147482500', 'important');
-      });
-    };
+      event.preventDefault();
+      drawer.closest('[data-ur-mobile-shell]')?.__urCloseMenu?.();
+    }, { passive: false });
 
-    enforceMobileShell();
-    window.addEventListener('resize', enforceMobileShell, { passive: true });
-    new MutationObserver(enforceMobileShell).observe(document.documentElement, {
-      subtree: true,
-      childList: true,
-      attributes: true,
-      attributeFilter: ['class', 'style', 'data-sticky-state']
-    });
+    window.addEventListener('resize', boot, { passive: true });
   })();
 </script>
 
@@ -1686,7 +1699,7 @@
     visibility: visible !important;
     opacity: 1 !important;
     overflow: visible !important;
-    transform: translateZ(0) !important;
+    transform: none !important;
     z-index: 2147483641 !important;
     pointer-events: auto !important;
     isolation: isolate !important;
@@ -1774,6 +1787,215 @@
     min-height: 0 !important;
     max-height: 0 !important;
     overflow: hidden !important;
+  }
+}
+</style>
+
+
+<style>
+/* =========================================================
+   UNIVERSes RAW — FINAL MOBILE HEADER FIX
+   Mobile header NEVER hides on scroll.
+   The Shopify desktop/native rows remain disabled on mobile.
+   No MutationObserver. No backdrop blur. No transformed shell.
+   ========================================================= */
+@media screen and (max-width: 989px) {
+
+  /* Keep the header in the document's sticky system. */
+  html body #header-component {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
+    margin: 0 !important;
+    display: block !important;
+    overflow: visible !important;
+
+    /* Critical: never let scroll-up animation hide the header. */
+    transform: none !important;
+    translate: none !important;
+    top: 0 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    z-index: 2147483000 !important;
+    isolation: isolate !important;
+    contain: none !important;
+    filter: none !important;
+    perspective: none !important;
+  }
+
+  /*
+   * Do not animate the header itself. Only the drawer panel animates.
+   * This prevents the header from lagging/flickering during scroll.
+   */
+  html body #header-component,
+  html body #header-component.header--sticky,
+  html body #header-component.is-sticky,
+  html body #header-component.sticky {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Custom mobile bar is the only visible mobile header surface. */
+  html body #header-component .ur-mobile-shell {
+    position: absolute !important;
+    inset: 0 0 auto 0 !important;
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
+
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+
+    transform: none !important;
+    translate: none !important;
+    filter: none !important;
+    perspective: none !important;
+    contain: layout paint !important;
+    isolation: isolate !important;
+
+    z-index: 2147483001 !important;
+    pointer-events: auto !important;
+  }
+
+  html body #header-component .ur-mobile-shell__bar {
+    position: relative !important;
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    z-index: 2 !important;
+    pointer-events: auto !important;
+  }
+
+  html body #header-component .ur-mobile-shell__menu,
+  html body #header-component .ur-mobile-shell__brand,
+  html body #header-component .ur-mobile-shell__icon {
+    position: relative !important;
+    z-index: 3 !important;
+    pointer-events: auto !important;
+  }
+
+  /*
+   * Native header rows are not allowed to come back over the custom bar.
+   * They remain completely out of layout and hit testing on mobile.
+   */
+  html body #header-component > .row-group,
+  html body #header-component .row-group,
+  html body #header-component .header__row,
+  html body #header-component .header__row-group {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /*
+   * The drawer is a true viewport layer.
+   * It is not positioned relative to the 66px header.
+   */
+  html body #header-component .ur-mobile-shell__drawer {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-width: none !important;
+    max-height: none !important;
+
+    z-index: 2147483647 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+
+    transform: none !important;
+    translate: none !important;
+    filter: none !important;
+    perspective: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+
+    transition: opacity .18s ease, visibility .18s ease !important;
+  }
+
+  html body #header-component .ur-mobile-shell__drawer.is-open {
+    pointer-events: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__backdrop {
+    position: absolute !important;
+    inset: 0 !important;
+    background: rgba(18,16,14,.42) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  html body #header-component .ur-mobile-shell__panel {
+    position: absolute !important;
+    inset: 0 auto 0 0 !important;
+    width: min(92vw, 430px) !important;
+    max-width: 430px !important;
+    height: 100% !important;
+    max-height: none !important;
+
+    overflow: hidden !important;
+    transform: translate3d(-101%,0,0) !important;
+    transition: transform .22s cubic-bezier(.22,.61,.36,1) !important;
+    will-change: transform !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+
+    box-shadow: 18px 0 55px rgba(20,17,14,.16) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__drawer.is-open .ur-mobile-shell__panel {
+    transform: translate3d(0,0,0) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__nav {
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /*
+   * The page cannot scroll underneath an open menu.
+   * No JS scroll-lock loop is used.
+   */
+  html.ur-mobile-open,
+  html.ur-mobile-open body {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  html body #header-component .ur-mobile-shell__panel {
+    width: 95vw !important;
+    max-width: 95vw !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body #header-component .ur-mobile-shell__drawer,
+  html body #header-component .ur-mobile-shell__panel {
+    transition: none !important;
   }
 }
 </style>
