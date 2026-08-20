@@ -6,284 +6,1046 @@
 </noscript>
 
 <style>
-/* =========================================================
-   UNIVERSes RAW — CLEAN HEADER SYSTEM
-   One mobile layer. One sticky state. One drawer portal.
-   ========================================================= */
-:root {
-  --ur-header-accent: #9b7a4c;
-  --ur-header-ink: #211e1a;
-  --ur-header-bg: #faf8f4;
-  --ur-menu-bg: #fbf9f5;
-  --ur-menu-line: rgba(33,30,26,.10);
-}
+  /* =========================================================
+     UNIVERSes RAW — PREMIUM HEADER / MOBILE-FIRST OVERRIDES
+     Self-contained in header.liquid
+     ========================================================= */
 
-@media screen and (max-width: 989px) {
-  /* The custom mobile header is the only mobile toolbar. */
-  #header-component {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 66px;
-    min-height: 66px;
-    max-height: 66px;
-    margin: 0;
-    padding: 0;
-    z-index: 10000;
-    isolation: isolate;
-    overflow: visible;
-    background: transparent;
-    transition: transform .22s ease;
+  :root {
+    --ur-header-accent: #9b7a4c;
+    --ur-header-ink: #211e1a;
+    --ur-menu-bg: #f7f4ee;
+    --ur-menu-line: rgba(33, 30, 26, .09);
   }
 
-  /* Never let native desktop/tablet rows compete on mobile. */
-  #header-component > .row-group,
-  #header-component .row-group,
-  #header-component .header__row,
-  #header-component .header__row-group {
-    display: none !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
-
-  #header-component.ur-header-hidden {
-    transform: translateY(-100%);
-  }
-
-  /* Never hide the header while its menu is open. */
-  html.ur-mobile-open #header-component,
-  body.ur-mobile-open #header-component {
-    transform: translateY(0) !important;
-  }
-
-  .ur-mobile-shell {
-    position: absolute;
-    inset: 0 0 auto 0;
-    width: 100%;
-    height: 66px;
-    min-height: 66px;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    background: rgba(250,248,244,.98);
-    color: var(--ur-header-ink);
-    border-bottom: 1px solid rgba(33,30,26,.10);
-    box-shadow: 0 2px 14px rgba(31,26,21,.055);
-    backdrop-filter: blur(14px) saturate(115%);
-    -webkit-backdrop-filter: blur(14px) saturate(115%);
-    z-index: 1;
-  }
-
-  .ur-mobile-shell__bar {
-    width: 100%;
-    height: 66px;
-    padding: 0 10px;
-    box-sizing: border-box;
-    display: grid;
-    grid-template-columns: 46px minmax(0,1fr) auto;
+  /* Keep the custom mobile trigger visible only on mobile. */
+  .ur-mobile-menu {
+    display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    flex: 0 0 auto;
+    z-index: 5;
   }
 
-  .ur-mobile-shell__menu,
-  .ur-mobile-shell__icon {
+  .ur-mobile-menu__trigger {
     appearance: none;
     -webkit-appearance: none;
+    width: 42px;
+    height: 42px;
+    margin: 0;
+    padding: 0;
     border: 0;
     background: transparent;
-    color: inherit;
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0;
-    margin: 0;
+    color: currentColor;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
-  .ur-mobile-shell__menu { position: relative; z-index: 2; }
-  .ur-mobile-shell__menu-lines {
-    width: 23px;
-    height: 17px;
+  .ur-mobile-menu__hamburger {
+    width: 20px;
+    height: 14px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
-  .ur-mobile-shell__menu-lines span {
-    width: 23px;
-    height: 1.5px;
+
+  .ur-mobile-menu__hamburger span {
     display: block;
+    width: 20px;
+    height: 1.2px;
+    border-radius: 99px;
     background: currentColor;
+    transform-origin: center;
     transition: transform .2s ease, opacity .16s ease;
   }
 
-  .ur-mobile-shell__brand {
-    min-width: 0;
-    width: 100%;
-    height: 66px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    text-decoration: none;
-    position: relative;
-    z-index: 2;
-  }
-  .ur-mobile-shell__brand img,
-  .ur-mobile-shell__logo-image {
-    display: block !important;
-    width: auto;
-    height: auto;
-    max-width: min(56vw,190px);
-    max-height: 42px;
-    object-fit: contain;
-  }
-  .ur-mobile-shell__logo-svg { display:flex; align-items:center; justify-content:center; max-width:min(56vw,190px); max-height:42px; }
-  .ur-mobile-shell__logo-svg svg { display:block; max-width:100%; max-height:42px; width:auto; height:auto; }
-  .ur-mobile-shell__brand-text { display:none !important; }
+  /* =========================================================
+     MOBILE DRAWER
+     ========================================================= */
 
-  .ur-mobile-shell__actions {
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0;
-  }
-  .ur-mobile-shell__icon { position: relative; z-index: 2; }
-  .ur-mobile-shell__icon svg { width:20px; height:20px; display:block; }
-  .ur-mobile-shell__cart-count {
-    position:absolute;
-    top:4px;
-    right:2px;
-    min-width:15px;
-    height:15px;
-    padding:0 3px;
-    border-radius:999px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    box-sizing:border-box;
-    background:var(--ur-header-accent);
-    color:#fff;
-    border:2px solid var(--ur-header-bg);
-    font-size:8px;
-    line-height:1;
-    font-weight:700;
-  }
-
-  /* The drawer is portaled to <body>; never let the header stacking context contain it. */
-  .ur-mobile-shell__drawer.ur-mobile-drawer-portal {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    min-height: 100vh !important;
-    z-index: 2147483000 !important;
+  .ur-mobile-drawer {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 2147483000;
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
-    display: block !important;
     overflow: hidden;
-    transform: none !important;
-    isolation: isolate;
-    transition: opacity .18s ease, visibility .18s ease;
+    transition: opacity .16s ease, visibility .16s ease;
   }
-  .ur-mobile-shell__drawer.ur-mobile-drawer-portal.is-open {
+
+  .ur-mobile-drawer.is-open {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
   }
-  .ur-mobile-shell__backdrop {
-    position:absolute;
-    inset:0;
-    background:rgba(18,16,14,.48);
-    cursor:pointer;
-  }
-  .ur-mobile-shell__panel {
-    position:absolute;
-    inset:0 auto 0 0;
-    width:min(92vw,430px);
-    max-width:430px;
-    height:100dvh;
-    display:flex;
-    flex-direction:column;
-    box-sizing:border-box;
-    background:var(--ur-menu-bg);
-    color:var(--ur-header-ink);
-    box-shadow:24px 0 70px rgba(0,0,0,.18);
-    transform:translate3d(-102%,0,0);
-    transition:transform .28s cubic-bezier(.22,.61,.36,1);
-    will-change:transform;
-    overflow:hidden;
-  }
-  .ur-mobile-shell__drawer.is-open .ur-mobile-shell__panel { transform:translate3d(0,0,0); }
 
-  .ur-mobile-shell__drawer-head {
-    flex:0 0 82px;
-    height:82px;
-    padding:0 22px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-sizing:border-box;
-    border-bottom:1px solid var(--ur-menu-line);
+  .ur-mobile-drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 16, 14, .38);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
   }
-  .ur-mobile-shell__drawer-kicker { display:block; margin-bottom:6px; color:var(--ur-header-accent); font-size:8px; line-height:1; letter-spacing:.20em; font-weight:600; }
-  .ur-mobile-shell__drawer-title { font-size:18px; line-height:1; letter-spacing:.13em; font-weight:500; text-transform:uppercase; }
-  .ur-mobile-shell__close {
-    appearance:none; border:1px solid rgba(33,30,26,.14); border-radius:50%; background:transparent;
-    position:relative; width:42px; height:42px; flex:0 0 42px; padding:0; cursor:pointer;
+
+  .ur-mobile-drawer__panel {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: min(88vw, 410px);
+    height: 100%;
+    background: var(--ur-menu-bg);
+    color: var(--ur-header-ink);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 18px 0 55px rgba(20, 17, 14, .16);
+    transform: translate3d(-102%, 0, 0);
+    transition: transform .24s cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
   }
-  .ur-mobile-shell__close span { position:absolute; left:50%; top:50%; width:17px; height:1px; background:currentColor; }
-  .ur-mobile-shell__close span:first-child { transform:translate(-50%,-50%) rotate(45deg); }
-  .ur-mobile-shell__close span:last-child { transform:translate(-50%,-50%) rotate(-45deg); }
 
-  .ur-mobile-shell__nav { flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
-  .ur-mobile-shell__nav::-webkit-scrollbar { display:none; }
-  .ur-mobile-shell__list { list-style:none; margin:0; padding:8px 0 28px; }
-  .ur-mobile-shell__item { border-bottom:1px solid rgba(33,30,26,.08); }
-  .ur-mobile-shell__item > a,
-  .ur-mobile-shell__item > details > summary {
-    min-height:64px; padding:0 22px; display:flex; align-items:center; justify-content:space-between; gap:16px;
-    color:inherit; text-decoration:none; cursor:pointer; list-style:none; box-sizing:border-box;
+  .ur-mobile-drawer.is-open .ur-mobile-drawer__panel {
+    transform: translate3d(0, 0, 0);
   }
-  .ur-mobile-shell__item summary::-webkit-details-marker { display:none; }
-  .ur-mobile-shell__item-title { display:flex; align-items:center; gap:14px; font-size:13px; line-height:1.2; font-weight:500; letter-spacing:.08em; text-transform:uppercase; }
-  .ur-mobile-shell__num { width:22px; color:var(--ur-header-accent); font-size:8px; letter-spacing:.08em; }
-  .ur-mobile-shell__chevron { color:var(--ur-header-accent); font-size:18px; font-weight:300; }
-  .ur-mobile-shell__submenu { padding:2px 22px 20px 58px; background:rgba(155,122,76,.045); }
-  .ur-mobile-shell__all { display:block; padding:14px 0 10px; color:var(--ur-header-accent); text-decoration:none; font-size:8px; font-weight:600; letter-spacing:.13em; }
-  .ur-mobile-shell__subitem { display:block; padding:8px 0; color:#5b534a; text-decoration:none; font-size:11px; line-height:1.3; letter-spacing:.04em; }
-  .ur-mobile-shell__footer { flex:0 0 48px; min-height:48px; padding:0 22px; border-top:1px solid var(--ur-menu-line); display:flex; align-items:center; justify-content:space-between; color:#9a9084; font-size:7px; letter-spacing:.13em; text-transform:uppercase; }
 
-  html.ur-mobile-open,
-  body.ur-mobile-open { overflow:hidden !important; overscroll-behavior:none; }
+  .ur-mobile-drawer__header {
+    min-height: 76px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--ur-menu-line);
+    flex: 0 0 auto;
+  }
 
-  @media screen and (max-width:380px) {
-    .ur-mobile-shell__panel { width:96vw; }
+  .ur-mobile-drawer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .ur-mobile-drawer__eyebrow {
+    font-size: 8px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: .22em;
+    color: var(--ur-header-accent);
+  }
+
+  .ur-mobile-drawer__title {
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: .16em;
+  }
+
+  .ur-mobile-drawer__close {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(155, 122, 76, .09);
+    color: var(--ur-header-ink);
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+
+  .ur-mobile-drawer__close span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .ur-mobile-drawer__close span:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .ur-mobile-drawer__close span:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .ur-mobile-drawer__nav {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .ur-mobile-drawer__nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ur-mobile-drawer__list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0 28px;
+  }
+
+  .ur-mobile-drawer__item {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--ur-menu-line);
+  }
+
+  .ur-mobile-drawer__item > a,
+  .ur-mobile-drawer__item > details > summary {
+    min-height: 61px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    color: var(--ur-header-ink);
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .ur-mobile-drawer__item > details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .ur-mobile-drawer__link-title {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: .075em;
+    text-transform: uppercase;
+  }
+
+  .ur-mobile-drawer__index {
+    min-width: 20px;
+    color: var(--ur-header-accent);
+    font-size: 8px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: .08em;
+  }
+
+  .ur-mobile-drawer__arrow {
+    color: var(--ur-header-accent);
+    font-size: 17px;
+    line-height: 1;
+    font-weight: 300;
+    flex: 0 0 auto;
+  }
+
+  .ur-mobile-submenu {
+    padding: 0 22px 18px 56px;
+    background: rgba(155, 122, 76, .045);
+  }
+
+  .ur-mobile-submenu__all {
+    display: block;
+    padding: 16px 0 11px;
+    color: var(--ur-header-accent);
+    font-size: 8px;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-decoration: none;
+  }
+
+  .ur-mobile-submenu__link {
+    display: block;
+    padding: 9px 0;
+    color: #5b534a;
+    font-size: 11px;
+    line-height: 1.25;
+    font-weight: 400;
+    letter-spacing: .04em;
+    text-decoration: none;
+  }
+
+  .ur-mobile-submenu__grandchild {
+    display: block;
+    padding: 6px 0 6px 14px;
+    color: #81766a;
+    font-size: 10px;
+    line-height: 1.25;
+    text-decoration: none;
+  }
+
+  .ur-mobile-drawer__footer {
+    min-height: 46px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-top: 1px solid var(--ur-menu-line);
+    color: #9a9084;
+    font-size: 7px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: .13em;
+    flex: 0 0 auto;
+  }
+
+  html.ur-menu-is-open,
+  body.ur-menu-is-open {
+    overflow: hidden !important;
+    overscroll-behavior: none;
+  }
+
+  /* =========================================================
+     MOBILE HEADER — CLEAN / CENTERED / LUXURY
+     ========================================================= */
+
+  @media screen and (max-width: 989px) {
+    #header-component {
+      position: relative;
+      z-index: 1000;
+    }
+
+    #header-component .header__row--top .header__columns {
+      min-height: 62px;
+      position: relative;
+    }
+
+    #header-component .ur-mobile-menu {
+      position: relative;
+      margin-left: -4px;
+    }
+
+    #header-component .header__row--top .header__columns > .ur-mobile-menu {
+      align-self: center;
+    }
+
+    #header-component .header__row--top .header__columns {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    #header-component .header__row--top .header__columns > * {
+      min-width: 0;
+    }
+
+    #header-component .header__icon {
+      min-width: 40px;
+      min-height: 40px;
+    }
+
+    #header-component .header__icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    #header-component .header__logo {
+      max-width: 145px;
+    }
+  }
+
+  /* =========================================================
+     MOBILE SHELL — INDEPENDENT / LUXURY
+     Keeps the theme's desktop header untouched and prevents
+     the native mobile header layout from collapsing.
+     ========================================================= */
+  .ur-mobile-shell { display: none; }
+
+  @media screen and (max-width: 989px) {
+    /* Completely disable the theme's native mobile header rows.
+       This also catches sticky/re-rendered header states. */
+    #header-component .row-group,
+    #header-component .header__row,
+    .header-wrapper .row-group,
+    .header-wrapper .header__row {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    #header-component {
+      position: relative;
+      z-index: 10000;
+    }
+
+    .header-wrapper .ur-mobile-shell,
+    #header-component .ur-mobile-shell {
+      position: relative;
+      z-index: 1001;
+      display: block;
+      width: 100%;
+      background: var(--ur-mobile-bg, #f8f5ef);
+      color: var(--ur-mobile-ink, #211e1a);
+      border-bottom: 1px solid rgba(33,30,26,.10);
+      box-shadow: 0 1px 0 rgba(255,255,255,.65);
+    }
+
+    .ur-mobile-shell__bar {
+      min-height: 64px;
+      height: 64px;
+      padding: 0 12px;
+      display: grid;
+      grid-template-columns: 44px minmax(0,1fr) auto;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ur-mobile-shell__menu,
+    .ur-mobile-shell__action {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .ur-mobile-shell__actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 2px;
+    }
+
+    .ur-mobile-shell__icon {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+      text-decoration: none;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ur-mobile-shell__icon svg {
+      width: 19px !important;
+      height: 19px !important;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    .ur-mobile-shell__cart-count {
+      position: absolute;
+      top: 6px;
+      right: 4px;
+      min-width: 14px;
+      height: 14px;
+      padding: 0 3px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #9b7a4c;
+      color: #fff;
+      font-size: 8px;
+      line-height: 1;
+    }
+
+    .ur-mobile-shell__icon--cart {
+      position: relative;
+    }
+
+    .ur-mobile-shell__menu-lines {
+      width: 20px;
+      height: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .ur-mobile-shell__menu-lines span {
+      width: 20px;
+      height: 1px;
+      background: currentColor;
+      display: block;
+      transition: transform .22s ease, opacity .18s ease;
+    }
+
+    .ur-mobile-shell__brand {
+      min-width: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .ur-mobile-shell__brand > * { max-width: 150px; }
+    .ur-mobile-shell__brand img { max-height: 38px; width: auto; object-fit: contain; }
+    .ur-mobile-shell__brand svg { max-width: 150px; max-height: 38px; }
+
+    .ur-mobile-shell__actions {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 2px;
+    }
+    .ur-mobile-shell__actions .header__icon,
+    .ur-mobile-shell__actions .header__icon--icon,
+    .ur-mobile-shell__actions .button {
+      min-width: 40px;
+      min-height: 40px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+    }
+    .ur-mobile-shell__actions svg { width: 18px; height: 18px; }
+    .ur-mobile-shell__actions .header__icon__text,
+    .ur-mobile-shell__actions .header__icon-label { display: none; }
+
+    /* Only the useful action icons remain in the compact bar. */
+    .ur-mobile-shell__account .header__icon,
+    .ur-mobile-shell__cart .header__icon { display: inline-flex; }
+
+    .ur-mobile-shell__drawer {
+      position: fixed;
+      inset: 0;
+      z-index: 2147483000;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease, visibility .18s ease;
+    }
+    .ur-mobile-shell__drawer.is-open {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .ur-mobile-shell__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(19,17,15,.42);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+    .ur-mobile-shell__panel {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: min(91vw, 430px);
+      background: #f8f5ef;
+      color: #211e1a;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 20px 0 60px rgba(0,0,0,.16);
+      transform: translateX(-102%);
+      transition: transform .28s cubic-bezier(.22,.61,.36,1);
+    }
+    .ur-mobile-shell__drawer.is-open .ur-mobile-shell__panel { transform: translateX(0); }
+    .ur-mobile-shell__drawer-head {
+      height: 82px;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(33,30,26,.10);
+    }
+    .ur-mobile-shell__drawer-kicker {
+      display: block;
+      margin-bottom: 6px;
+      color: #9b7a4c;
+      font-size: 8px;
+      line-height: 1;
+      letter-spacing: .22em;
+      font-weight: 600;
+    }
+    .ur-mobile-shell__drawer-title {
+      font-size: 16px;
+      line-height: 1;
+      letter-spacing: .16em;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    .ur-mobile-shell__close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(33,30,26,.14);
+      border-radius: 50%;
+      background: transparent;
+      position: relative;
+      cursor: pointer;
+    }
+    .ur-mobile-shell__close span {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 15px; height: 1px;
+      background: currentColor;
+    }
+    .ur-mobile-shell__close span:first-child { transform: translate(-50%,-50%) rotate(45deg); }
+    .ur-mobile-shell__close span:last-child { transform: translate(-50%,-50%) rotate(-45deg); }
+
+    .ur-mobile-shell__nav {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .ur-mobile-shell__nav::-webkit-scrollbar { display: none; }
+    .ur-mobile-shell__list { list-style: none; margin: 0; padding: 10px 0 30px; }
+    .ur-mobile-shell__item { border-bottom: 1px solid rgba(33,30,26,.08); }
     .ur-mobile-shell__item > a,
-    .ur-mobile-shell__item > details > summary { min-height:62px; padding-left:20px; padding-right:20px; }
+    .ur-mobile-shell__item > details > summary {
+      min-height: 62px;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      list-style: none;
+    }
+    .ur-mobile-shell__item summary::-webkit-details-marker { display: none; }
+    .ur-mobile-shell__item-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 500;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+    .ur-mobile-shell__num { width: 20px; color: #9b7a4c; font-size: 8px; letter-spacing: .08em; }
+    .ur-mobile-shell__chevron { color: #9b7a4c; font-size: 17px; font-weight: 300; }
+    .ur-mobile-shell__submenu { padding: 2px 22px 20px 56px; background: rgba(155,122,76,.045); }
+    .ur-mobile-shell__all {
+      display: block; padding: 15px 0 10px; color: #9b7a4c; text-decoration: none;
+      font-size: 8px; font-weight: 600; letter-spacing: .14em;
+    }
+    .ur-mobile-shell__subitem { display: block; padding: 8px 0; color: #5b534a; text-decoration: none; font-size: 11px; letter-spacing: .04em; }
+    .ur-mobile-shell__footer {
+      min-height: 48px; padding: 0 22px; border-top: 1px solid rgba(33,30,26,.10);
+      display: flex; align-items: center; justify-content: space-between;
+      color: #9a9084; font-size: 7px; letter-spacing: .13em; text-transform: uppercase;
+    }
+    html.ur-mobile-open, body.ur-mobile-open { overflow: hidden !important; }
+
+    /* Sticky/re-rendered states must never reveal the original toolbar. */
+    .header-wrapper[data-sticky-type] .row-group,
+    .header-wrapper.is-sticky .row-group,
+    .header-wrapper.sticky .row-group,
+    .header-wrapper.header--sticky .row-group {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+
+    .header-wrapper[data-sticky-type] .ur-mobile-shell,
+    .header-wrapper.is-sticky .ur-mobile-shell,
+    .header-wrapper.sticky .ur-mobile-shell,
+    .header-wrapper.header--sticky .ur-mobile-shell {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
   }
-}
 
-@media screen and (min-width:990px) {
-  #header-component .header__row--top .header__columns { min-height:72px; }
-  #header-component .header__menu-item { font-size:11px; font-weight:500; letter-spacing:.085em; text-transform:uppercase; transition:color .18s ease,opacity .18s ease; }
-  #header-component .header__menu-item:hover,
-  #header-component .header__icon:hover { color:var(--ur-header-accent); }
-  #header-component .header__icon { transition:color .18s ease,opacity .18s ease; }
-}
+  /* =========================================================
+     DESKTOP — QUIET LUXURY
+     ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
-  #header-component,
-  .ur-mobile-shell__drawer,
-  .ur-mobile-shell__panel,
-  .ur-mobile-shell__menu-lines span { transition:none !important; }
+  @media screen and (min-width: 990px) {
+    .ur-mobile-menu {
+      display: none !important;
+    }
+
+    #header-component .header__row {
+      transition: background-color .2s ease, box-shadow .2s ease;
+    }
+
+    #header-component .header__row--top .header__columns {
+      min-height: 72px;
+    }
+
+    #header-component .header__menu-item {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .085em;
+      text-transform: uppercase;
+      transition: color .18s ease, opacity .18s ease;
+    }
+
+    #header-component .header__menu-item:hover {
+      color: var(--ur-header-accent);
+    }
+
+    #header-component .header__icon {
+      transition: color .18s ease, opacity .18s ease;
+    }
+
+    #header-component .header__icon:hover {
+      color: var(--ur-header-accent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ur-mobile-drawer,
+    .ur-mobile-drawer__panel,
+    .ur-mobile-drawer__item > a,
+    .ur-mobile-drawer__item > details > summary,
+    #header-component .header__menu-item,
+    #header-component .header__icon {
+      transition: none !important;
+    }
+  }
+</style>
+
+<style>
+/* =========================================================
+   UNIVERSes RAW — MOBILE HEADER V2
+   Authoritative mobile layer.
+   The theme's native mobile header is completely suppressed.
+   ========================================================= */
+
+@media screen and (max-width: 989px) {
+
+  /* Never allow the original/sticky header rows to return. */
+  html body #header-component .row-group,
+  html body #header-component .header__row,
+  html body #header-component .header__row-group,
+  html body .header-wrapper#header-component > .row-group,
+  html body .header-wrapper#header-component > .header__row {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* The custom shell is the ONLY mobile header. */
+  html body #header-component {
+    display: block !important;
+    position: relative !important;
+    min-height: 66px !important;
+    height: 66px !important;
+    z-index: 2147482000 !important;
+    transform: none !important;
+  }
+
+  html body #header-component .ur-mobile-shell {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 2147482500 !important;
+    background: rgba(250,248,244,.97) !important;
+    color: #211e1a !important;
+    border-bottom: 1px solid rgba(33,30,26,.10) !important;
+    box-shadow: 0 3px 18px rgba(31,26,21,.055) !important;
+    backdrop-filter: blur(16px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__bar {
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-columns: 46px minmax(0,1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  /* Large, easy-to-tap menu target. */
+  html body #header-component .ur-mobile-shell__menu {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #211e1a !important;
+    z-index: 3 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__menu-lines {
+    width: 23px !important;
+    height: 17px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__menu-lines span {
+    width: 23px !important;
+    height: 1.5px !important;
+    background: #211e1a !important;
+  }
+
+  /* Real logo — don't reuse the theme's desktop visibility rules. */
+  html body #header-component .ur-mobile-shell__brand {
+    width: 100% !important;
+    height: 66px !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: hidden !important;
+    text-decoration: none !important;
+  }
+
+  /* REAL SHOPIFY THEME-SETTINGS LOGO */
+  html body #header-component .ur-mobile-shell__brand {
+    position: relative !important;
+    z-index: 4 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__brand img,
+  html body #header-component .ur-mobile-shell__brand .ur-mobile-shell__logo-image {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: min(56vw, 190px) !important;
+    max-height: 42px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    flex: 0 0 auto !important;
+  }
+
+  html body #header-component .ur-mobile-shell__logo-svg {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    max-width: min(56vw, 190px) !important;
+    max-height: 42px !important;
+    color: currentColor !important;
+    line-height: 0 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__logo-svg svg {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 42px !important;
+  }
+
+  /* Never substitute the brand with plain text. */
+  html body #header-component .ur-mobile-shell__brand-text {
+    display: none !important;
+  }
+
+  /* Actions: larger targets, restrained icons. */
+  html body #header-component .ur-mobile-shell__actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0 !important;
+    min-width: 0 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__icon {
+    position: relative !important;
+    width: 42px !important;
+    height: 44px !important;
+    min-width: 42px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #211e1a !important;
+    opacity: 1 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__icon svg {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__cart-count {
+    top: 5px !important;
+    right: 3px !important;
+    min-width: 15px !important;
+    height: 15px !important;
+    padding: 0 3px !important;
+    background: #9b7a4c !important;
+    color: #fff !important;
+    border: 2px solid #faf8f4 !important;
+    font-size: 8px !important;
+    font-weight: 700 !important;
+  }
+
+  /* Premium menu: wider, larger type, comfortable Bangladesh-friendly tap areas. */
+  html body #header-component .ur-mobile-shell__drawer {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    z-index: 2147483600 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__backdrop {
+    background: rgba(18,16,14,.46) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__panel {
+    width: min(94vw, 460px) !important;
+    max-width: 460px !important;
+    height: 100dvh !important;
+    background: #fbf9f5 !important;
+    box-shadow: 24px 0 70px rgba(0,0,0,.18) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__drawer-head {
+    height: 92px !important;
+    min-height: 92px !important;
+    padding: 0 24px !important;
+    border-bottom: 1px solid rgba(33,30,26,.10) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__drawer-kicker {
+    margin-bottom: 7px !important;
+    font-size: 9px !important;
+    letter-spacing: .18em !important;
+  }
+
+  html body #header-component .ur-mobile-shell__drawer-title {
+    font-size: 20px !important;
+    letter-spacing: .12em !important;
+    font-weight: 500 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__close {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    background: rgba(155,122,76,.08) !important;
+    border: 1px solid rgba(33,30,26,.12) !important;
+  }
+
+  html body #header-component .ur-mobile-shell__close span {
+    width: 18px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__list {
+    padding: 8px 0 34px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__item > a,
+  html body #header-component .ur-mobile-shell__item > details > summary {
+    min-height: 70px !important;
+    padding: 0 24px !important;
+    gap: 18px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__item-title {
+    gap: 16px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    letter-spacing: .065em !important;
+  }
+
+  html body #header-component .ur-mobile-shell__num {
+    width: 24px !important;
+    font-size: 9px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__chevron {
+    font-size: 21px !important;
+  }
+
+  html body #header-component .ur-mobile-shell__submenu {
+    padding: 4px 24px 24px 64px !important;
+    background: #f5f1e9 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__all {
+    padding: 16px 0 13px !important;
+    font-size: 9px !important;
+    letter-spacing: .12em !important;
+  }
+
+  html body #header-component .ur-mobile-shell__subitem {
+    padding: 11px 0 !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+
+  html body #header-component .ur-mobile-shell__footer {
+    min-height: 58px !important;
+    padding: 0 24px !important;
+    font-size: 8px !important;
+    letter-spacing: .10em !important;
+  }
+
+  /* Keep the shell visible through sticky state changes. */
+  .header-wrapper[data-sticky-type],
+  .header-wrapper.is-sticky,
+  .header-wrapper.sticky,
+  .header-wrapper.header--sticky {
+    min-height: 66px !important;
+    height: 66px !important;
+  }
+
+  /* On small phones use nearly full-width menu with the same large controls. */
+  @media screen and (max-width: 380px) {
+    html body #header-component .ur-mobile-shell__panel {
+      width: 96vw !important;
+    }
+
+    html body #header-component .ur-mobile-shell__item > a,
+    html body #header-component .ur-mobile-shell__item > details > summary {
+      min-height: 66px !important;
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+
+    html body #header-component .ur-mobile-shell__item-title {
+      font-size: 13px !important;
+    }
+  }
 }
 </style>
 
@@ -773,156 +1535,248 @@
 
 
 <script>
-(() => {
-  const MOBILE_QUERY = '(max-width: 989px)';
-  const SELECTOR = '[data-ur-mobile-shell]';
-  let initialized = new WeakSet();
+  (() => {
+    const initLuxuryMobileHeader = (root) => {
+      if (!root || root.dataset.urLuxuryReady === 'true') return;
+      root.dataset.urLuxuryReady = 'true';
 
-  const isMobile = () => window.matchMedia(MOBILE_QUERY).matches;
+      const drawer = root.querySelector('[data-ur-mobile-drawer]');
+      const open = root.querySelector('[data-ur-mobile-open]');
+      const closes = root.querySelectorAll('[data-ur-mobile-close]');
+      if (!drawer || !open) return;
 
-  function init(root) {
-    if (!root || initialized.has(root)) return;
-    const drawer = root.querySelector('[data-ur-mobile-drawer]');
-    const openButton = root.querySelector('[data-ur-mobile-open]');
-    if (!drawer || !openButton) return;
-    initialized.add(root);
+      let previousFocus = null;
 
-    /* Move the drawer outside the sticky/isolated header stacking context. */
-    if (drawer.parentNode !== document.body) {
-      drawer.classList.add('ur-mobile-drawer-portal');
-      document.body.appendChild(drawer);
-    }
+      const lock = (state) => {
+        document.documentElement.classList.toggle('ur-mobile-open', state);
+        document.body.classList.toggle('ur-mobile-open', state);
+      };
 
-    const closeButtons = drawer.querySelectorAll('[data-ur-mobile-close]');
-    const rootHeader = root.closest('#header-component');
-    let previousFocus = null;
-    let scrollYBeforeOpen = 0;
+      const openMenu = () => {
+        previousFocus = document.activeElement;
+        drawer.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        open.setAttribute('aria-expanded', 'true');
+        lock(true);
+        requestAnimationFrame(() => drawer.querySelector('.ur-mobile-shell__close')?.focus({ preventScroll: true }));
+      };
 
-    const setLocked = (locked) => {
-      document.documentElement.classList.toggle('ur-mobile-open', locked);
-      document.body.classList.toggle('ur-mobile-open', locked);
-    };
+      const closeMenu = () => {
+        drawer.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        open.setAttribute('aria-expanded', 'false');
+        lock(false);
+        requestAnimationFrame(() => previousFocus?.focus?.({ preventScroll: true }));
+      };
 
-    const openMenu = () => {
-      if (!isMobile()) return;
-      previousFocus = document.activeElement;
-      scrollYBeforeOpen = window.scrollY;
-      drawer.classList.add('is-open');
-      drawer.setAttribute('aria-hidden', 'false');
-      openButton.setAttribute('aria-expanded', 'true');
-      rootHeader?.classList.remove('ur-header-hidden');
-      setLocked(true);
-      requestAnimationFrame(() => {
-        drawer.querySelector('.ur-mobile-shell__close')?.focus({ preventScroll: true });
+      open.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openMenu(); });
+      closes.forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); closeMenu(); }));
+
+      drawer.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+      drawer.querySelectorAll('details').forEach((details) => {
+        details.addEventListener('toggle', () => {
+          const icon = details.querySelector(':scope > summary .ur-mobile-shell__chevron');
+          if (icon) icon.textContent = details.open ? '−' : '+';
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (!drawer.classList.contains('is-open')) return;
+        if (e.key === 'Escape') { e.preventDefault(); closeMenu(); }
       });
     };
 
-    const closeMenu = () => {
-      drawer.classList.remove('is-open');
-      drawer.setAttribute('aria-hidden', 'true');
-      openButton.setAttribute('aria-expanded', 'false');
-      setLocked(false);
-      if (Math.abs(window.scrollY - scrollYBeforeOpen) > 2) {
-        window.scrollTo({ top: scrollYBeforeOpen, behavior: 'auto' });
-      }
-      requestAnimationFrame(() => previousFocus?.focus?.({ preventScroll: true }));
+    const boot = () => document.querySelectorAll('[data-ur-mobile-shell]').forEach(initLuxuryMobileHeader);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
+    else boot();
+    document.addEventListener('shopify:section:load', boot);
+
+    /* The theme's sticky header can toggle classes or rebuild its rows.
+       Keep the custom mobile shell authoritative at all times. */
+    const enforceMobileShell = () => {
+      if (window.innerWidth >= 990) return;
+
+      document.querySelectorAll(
+        '#header-component .row-group, #header-component .header__row, #header-component .header__row-group'
+      ).forEach((el) => {
+        el.style.setProperty('display', 'none', 'important');
+        el.style.setProperty('visibility', 'hidden', 'important');
+        el.style.setProperty('opacity', '0', 'important');
+        el.style.setProperty('pointer-events', 'none', 'important');
+        el.style.setProperty('height', '0', 'important');
+        el.style.setProperty('min-height', '0', 'important');
+        el.style.setProperty('max-height', '0', 'important');
+        el.style.setProperty('overflow', 'hidden', 'important');
+      });
+
+      document.querySelectorAll(
+        '#header-component .ur-mobile-shell'
+      ).forEach((el) => {
+        el.style.setProperty('display', 'block', 'important');
+        el.style.setProperty('visibility', 'visible', 'important');
+        el.style.setProperty('opacity', '1', 'important');
+        el.style.setProperty('position', 'absolute', 'important');
+        el.style.setProperty('top', '0', 'important');
+        el.style.setProperty('left', '0', 'important');
+        el.style.setProperty('right', '0', 'important');
+        el.style.setProperty('z-index', '2147482500', 'important');
+      });
     };
 
-    openButton.addEventListener('click', (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      if (drawer.classList.contains('is-open')) closeMenu();
-      else openMenu();
+    enforceMobileShell();
+    window.addEventListener('resize', enforceMobileShell, { passive: true });
+    new MutationObserver(enforceMobileShell).observe(document.documentElement, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['class', 'style', 'data-sticky-state']
     });
-
-    closeButtons.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        closeMenu();
-      });
-    });
-
-    drawer.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => closeMenu(), { passive: true });
-    });
-
-    drawer.querySelectorAll('details').forEach((details) => {
-      details.addEventListener('toggle', () => {
-        const icon = details.querySelector(':scope > summary .ur-mobile-shell__chevron');
-        if (icon) icon.textContent = details.open ? '−' : '+';
-      });
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (!drawer.classList.contains('is-open')) return;
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        closeMenu();
-      }
-    });
-
-    window.addEventListener('resize', () => {
-      if (!isMobile() && drawer.classList.contains('is-open')) closeMenu();
-    }, { passive: true });
-  }
-
-  function boot() {
-    document.querySelectorAll(SELECTOR).forEach(init);
-  }
-
-  let lastY = window.scrollY;
-  let ticking = false;
-
-  function updateScrollState() {
-    ticking = false;
-    if (!isMobile()) return;
-
-    document.querySelectorAll('#header-component').forEach((header) => {
-      const stickyType = header.getAttribute('data-sticky-type');
-      const drawerOpen = document.documentElement.classList.contains('ur-mobile-open');
-      if (stickyType === 'never' || drawerOpen) {
-        header.classList.remove('ur-header-hidden');
-        return;
-      }
-      if (stickyType !== 'scroll-up') {
-        header.classList.remove('ur-header-hidden');
-        return;
-      }
-
-      const currentY = window.scrollY;
-      const delta = currentY - lastY;
-      if (currentY <= 12) {
-        header.classList.remove('ur-header-hidden');
-      } else if (delta > 3) {
-        header.classList.add('ur-header-hidden');
-      } else if (delta < -3) {
-        header.classList.remove('ur-header-hidden');
-      }
-    });
-    lastY = window.scrollY;
-  }
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(updateScrollState);
-    }
-  }, { passive: true });
-
-  window.addEventListener('resize', () => {
-    lastY = window.scrollY;
-    updateScrollState();
-  }, { passive: true });
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot, { once: true });
-  } else {
-    boot();
-  }
-  document.addEventListener('shopify:section:load', boot);
-})();
+  })();
 </script>
+
+<style>
+/* =========================================================
+   UNIVERSes RAW — MOBILE HEADER FINAL STACK / HIT-TEST FIX
+   Prevents products/sections from painting or receiving taps
+   through the header after scrolling.
+   ========================================================= */
+@media screen and (max-width: 989px) {
+  /* The header itself owns the top stacking layer and remains in
+     normal document flow, so the page cannot create a click-through
+     gap underneath it. */
+  html body #header-component {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    perspective: none !important;
+    contain: none !important;
+    isolation: isolate !important;
+    z-index: 2147483640 !important;
+    pointer-events: auto !important;
+  }
+
+  /* The shell is now a layer inside the sticky header instead of a
+     fixed descendant. This avoids fixed-position stacking/transform
+     bugs that can let product cards win the hit test. */
+  html body #header-component .ur-mobile-shell {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+    transform: translateZ(0) !important;
+    z-index: 2147483641 !important;
+    pointer-events: auto !important;
+    isolation: isolate !important;
+  }
+
+  html body #header-component .ur-mobile-shell__bar {
+    position: relative !important;
+    z-index: 2 !important;
+    pointer-events: auto !important;
+  }
+
+  html body #header-component .ur-mobile-shell__menu,
+  html body #header-component .ur-mobile-shell__brand,
+  html body #header-component .ur-mobile-shell__icon {
+    position: relative !important;
+    z-index: 3 !important;
+    pointer-events: auto !important;
+  }
+
+  /* The header surface itself is a real hit-test surface. */
+  html body #header-component .ur-mobile-shell::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    pointer-events: auto !important;
+    background: transparent !important;
+  }
+
+  /* Keep controls above the transparent hit shield. */
+  html body #header-component .ur-mobile-shell__bar,
+  html body #header-component .ur-mobile-shell__bar * {
+    pointer-events: auto !important;
+  }
+
+  /* The drawer must always sit above the header and every product card. */
+  html body #header-component .ur-mobile-shell__drawer {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    z-index: 2147483647 !important;
+    pointer-events: none !important;
+  }
+
+  html body #header-component .ur-mobile-shell__drawer.is-open {
+    pointer-events: auto !important;
+  }
+
+  html body #header-component .ur-mobile-shell__backdrop,
+  html body #header-component .ur-mobile-shell__panel {
+    pointer-events: auto !important;
+  }
+
+  /* Product images/cards must never establish a competing top layer. */
+  html body .shopify-section:not(#shopify-section-header),
+  html body .product-card,
+  html body .card-wrapper,
+  html body .card,
+  html body .product-grid,
+  html body .collection-list,
+  html body .section {
+    isolation: auto;
+  }
+
+  /* Avoid browser compositor glitches caused by theme transforms on
+     the header wrapper while scrolling. */
+  html body #header-component,
+  html body #header-component * {
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+  }
+
+  /* The native header rows are disabled, but keep them completely out
+     of hit testing even if Shopify re-renders the sticky state. */
+  html body #header-component > .row-group,
+  html body #header-component .row-group,
+  html body #header-component .header__row,
+  html body #header-component .header__row-group {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+  }
+}
+</style>
 
 {% schema %}
   {
