@@ -1,27 +1,60 @@
 <side-drawer
   id="Drawer-Search"
-  class="search-drawer drawer__container search-drawer--{{ search_type }} drawer fixed top-0 left-0 w-screen h-full z-9 flex no-js-hidden"
+  class="search-drawer drawer__container drawer fixed top-0 left-0 w-screen h-full z-9 flex no-js-hidden"
   data-drawer-direction="right"
   data-mobile-drawer-direction="left"
 >
-  <div id="Drawer-Overlay-Search" class="drawer__overlay fixed inset-0 cursor-pointer"></div>
+  <!-- =========================================================
+       OVERLAY
+       ========================================================= -->
+
+  <div
+    id="Drawer-Overlay-Search"
+    class="drawer__overlay fixed inset-0 cursor-pointer"
+  ></div>
+
+
+  <!-- =========================================================
+       DRAWER CONTENT
+       ========================================================= -->
 
   <div
     id="Drawer-Search-Content"
     class="search-drawer-content{% if variant == 'mobile' %} color-{{ color_scheme }}{% endif %}"
     data-drawer-content
   >
-    <div class="drawer__header flex justify-between items-center relative" style="--p: var(--padding-xs) var(--padding-lg);">
-      <h2 class="drawer__heading break m-0 h5">{{ 'content.search' | t }}</h2>
+
+    <!-- =======================================================
+         HEADER
+         ======================================================= -->
+
+    <div
+      class="drawer__header search-drawer__header flex justify-between items-center relative"
+      style="--p: var(--padding-xs) var(--padding-lg);"
+    >
+
+      <h2 class="drawer__heading search-drawer__heading break m-0 h5">
+        {{ 'content.search' | t }}
+      </h2>
+
+
       <button
-        class="drawer__close block t-button bor-none rounded-full cursor-pointer"
+        class="drawer__close search-drawer__close block t-button bor-none rounded-full cursor-pointer"
         type="button"
         onclick="this.closest('side-drawer').close()"
         aria-label="{{ 'accessibility.close_dialog' | t }}"
       >
-      {{- 'icon-close.svg' | inline_asset_content -}}
+        <span class="search-drawer__close-icon">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
       </button>
+
     </div>
+
+
+    <!-- =======================================================
+         SEARCH AREA
+         ======================================================= -->
 
     <div
       class="search-drawer__inner drawer__inner"
@@ -30,21 +63,53 @@
       aria-label="{{ 'content.search' | t }}"
       tabindex="-1"
     >
+
       {%- if settings.predictive_search_enabled -%}
-        <predictive-search class="search-drawer__form" data-loading-text="{{ 'accessibility.loading' | t }}">
+
+        <predictive-search
+          class="search-drawer__form"
+          data-loading-text="{{ 'accessibility.loading' | t }}"
+        >
+
       {%- else -%}
+
         <search-form class="search-drawer__form">
+
       {%- endif -%}
-      <form action="{{ routes.search_url }}" method="get" role="search" class="search search-drawer__form">
+
+
+      <!-- =====================================================
+           SEARCH FORM
+           ===================================================== -->
+
+      <form
+        action="{{ routes.search_url }}"
+        method="get"
+        role="search"
+        class="search search-drawer__form"
+      >
+
         <div class="predictive-search--center">
-          <div class="field">
-            <button class="search__button field__button" aria-label="{{ 'content.search' | t }}">
+
+          <div class="field search-drawer__field">
+
+            <!-- SEARCH ICON -->
+
+            <button
+              type="submit"
+              class="search__button field__button search-drawer__search-button"
+              aria-label="{{ 'content.search' | t }}"
+            >
               <span class="svg-wrapper">
                 {{- 'icon-search.svg' | inline_asset_content -}}
               </span>
             </button>
+
+
+            <!-- INPUT -->
+
             <input
-              class="search__input field__input field__input--focus"
+              class="search__input field__input field__input--focus search-drawer__input"
               id="{{ input_id }}"
               type="search"
               name="q"
@@ -63,37 +128,868 @@
                 spellcheck="false"
               {%- endif -%}
             >
-            <label class="field__label" for="{{ input_id }}">{{ 'content.search' | t }}</label>
-            <input type="hidden" name="options[prefix]" value="last">
+
+
+            <!-- LABEL -->
+
+            <label
+              class="field__label search-drawer__label"
+              for="{{ input_id }}"
+            >
+              {{ 'content.search' | t }}
+            </label>
+
+
+            <!-- SEARCH PREFIX -->
+
+            <input
+              type="hidden"
+              name="options[prefix]"
+              value="last"
+            >
+
+
+            <!-- CLEAR BUTTON -->
+
             <button
               type="reset"
-              class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+              class="reset__button field__button search-drawer__reset{% if search.terms == blank %} hidden{% endif %}"
               aria-label="{{ 'content.clear_search_term' | t }}"
             >
               <span class="svg-wrapper">
                 {{- 'icon-close.svg' | inline_asset_content -}}
               </span>
             </button>
+
           </div>
+
         </div>
 
+
+        <!-- ===================================================
+             PREDICTIVE SEARCH
+             =================================================== -->
+
         {%- if settings.predictive_search_enabled -%}
+
           <div
-            class="predictive-search predictive-search--header predictive-search--center cus-scrollbar"
+            class="predictive-search predictive-search--header predictive-search--center cus-scrollbar search-drawer__results"
             tabindex="-1"
             data-predictive-search
           >
-            {% render 'predictive-search-empty-state', shadow_opacity: 0.1, products_test_id: products_test_id %}
+
+            {% render 'predictive-search-empty-state',
+              shadow_opacity: 0.1,
+              products_test_id: products_test_id
+            %}
+
           </div>
 
-          <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+
+          <span
+            class="predictive-search-status visually-hidden"
+            role="status"
+            aria-hidden="true"
+          ></span>
+
         {%- endif -%}
+
       </form>
+
+
       {%- if settings.predictive_search_enabled -%}
+
         </predictive-search>
+
       {%- else -%}
+
         </search-form>
+
       {%- endif -%}
+
     </div>
+
   </div>
+
 </side-drawer>
+
+
+<!-- ===========================================================
+     SEARCH DRAWER — PREMIUM MINIMAL STYLE
+     =========================================================== -->
+
+<style>
+
+  /* =========================================================
+     ROOT
+     ========================================================= */
+
+  #Drawer-Search {
+
+    --search-ink: #242321;
+    --search-muted: rgba(36, 35, 33, .55);
+    --search-line: rgba(36, 35, 33, .18);
+    --search-line-hover: rgba(36, 35, 33, .40);
+    --search-accent: #a58a62;
+
+    z-index: 99990 !important;
+
+  }
+
+
+  /* =========================================================
+     OVERLAY
+     ========================================================= */
+
+  #Drawer-Overlay-Search {
+
+    z-index: 0 !important;
+
+    cursor: pointer;
+
+  }
+
+
+  /* =========================================================
+     DRAWER
+     ========================================================= */
+
+  #Drawer-Search-Content {
+
+    position: relative !important;
+
+    z-index: 2 !important;
+
+    overflow-y: auto !important;
+
+    overflow-x: hidden !important;
+
+    box-sizing: border-box;
+
+    isolation: isolate;
+
+    overscroll-behavior: contain;
+
+    -webkit-overflow-scrolling: touch;
+
+  }
+
+
+  /* =========================================================
+     HEADER
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__header {
+
+    position: relative;
+
+    z-index: 20;
+
+    min-height: 64px;
+
+    padding:
+      16px 24px !important;
+
+    border-bottom:
+      1px solid rgba(36,35,33,.08);
+
+    box-sizing: border-box;
+
+  }
+
+
+  #Drawer-Search .search-drawer__heading {
+
+    margin: 0 !important;
+
+    color: var(--search-ink);
+
+    font-size: 12px !important;
+
+    font-weight: 500 !important;
+
+    letter-spacing: .16em !important;
+
+    line-height: 1.2 !important;
+
+    text-transform: uppercase;
+
+  }
+
+
+  /* =========================================================
+     CLOSE BUTTON
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__close {
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    width: 34px !important;
+
+    height: 34px !important;
+
+    min-width: 34px !important;
+
+    min-height: 34px !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    border: 1px solid rgba(36,35,33,.14) !important;
+
+    background: transparent !important;
+
+    color: var(--search-ink) !important;
+
+    transition:
+      background-color .25s ease,
+      color .25s ease,
+      border-color .25s ease,
+      transform .25s ease !important;
+
+  }
+
+
+  #Drawer-Search .search-drawer__close-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 13px;
+
+    height: 13px;
+
+  }
+
+
+  #Drawer-Search .search-drawer__close-icon svg {
+
+    display: block !important;
+
+    width: 13px !important;
+
+    height: 13px !important;
+
+    color: currentColor !important;
+
+    fill: none !important;
+
+    stroke: currentColor !important;
+
+  }
+
+
+  #Drawer-Search .search-drawer__close:hover {
+
+    background:
+      var(--search-ink) !important;
+
+    border-color:
+      var(--search-ink) !important;
+
+    color:
+      #fff !important;
+
+    transform:
+      rotate(3deg);
+
+  }
+
+
+  /* =========================================================
+     INNER
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__inner {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    margin: 0 auto;
+
+    padding:
+      30px 24px 40px !important;
+
+    box-sizing: border-box;
+
+  }
+
+
+  /* =========================================================
+     FORM
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__form {
+
+    position: relative;
+
+    width: 100%;
+
+    margin: 0;
+
+  }
+
+
+  /* =========================================================
+     SEARCH FIELD WRAPPER
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__field {
+
+    position: relative !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    width: 100% !important;
+
+    min-height: 54px !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    border-bottom:
+      1px solid var(--search-line) !important;
+
+    border-radius: 0 !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+    transition:
+      border-color .25s ease;
+
+  }
+
+
+  #Drawer-Search .search-drawer__field:hover {
+
+    border-bottom-color:
+      var(--search-line-hover) !important;
+
+  }
+
+
+  /* =========================================================
+     SEARCH INPUT
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__input {
+
+    position: relative !important;
+
+    flex: 1 1 auto !important;
+
+    width: 100% !important;
+
+    height: 54px !important;
+
+    min-height: 54px !important;
+
+    margin: 0 !important;
+
+    padding:
+      0 38px 0 40px !important;
+
+    border: 0 !important;
+
+    outline: none !important;
+
+    background: transparent !important;
+
+    color:
+      var(--search-ink) !important;
+
+    font-size: 17px !important;
+
+    font-weight: 400 !important;
+
+    letter-spacing: .015em !important;
+
+    line-height: 54px !important;
+
+    box-shadow: none !important;
+
+    appearance: none !important;
+
+    -webkit-appearance: none !important;
+
+  }
+
+
+  #Drawer-Search .search-drawer__input::placeholder {
+
+    color:
+      var(--search-muted) !important;
+
+    opacity: 1;
+
+  }
+
+
+  /* =========================================================
+     FLOATING LABEL
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__label {
+
+    position: absolute !important;
+
+    left: 40px !important;
+
+    top: 50% !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    color:
+      var(--search-muted) !important;
+
+    font-size: 12px !important;
+
+    font-weight: 400 !important;
+
+    letter-spacing: .08em !important;
+
+    line-height: 1 !important;
+
+    pointer-events: none;
+
+    transform:
+      translateY(-50%) !important;
+
+    transition:
+      top .2s ease,
+      left .2s ease,
+      transform .2s ease,
+      font-size .2s ease,
+      color .2s ease !important;
+
+  }
+
+
+  /* =========================================================
+     SEARCH ICON
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__search-button {
+
+    position: absolute !important;
+
+    left: 0 !important;
+
+    top: 50% !important;
+
+    z-index: 5 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    width: 30px !important;
+
+    height: 30px !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    background: transparent !important;
+
+    color: var(--search-muted) !important;
+
+    transform:
+      translateY(-50%) !important;
+
+    cursor: pointer;
+
+  }
+
+
+  #Drawer-Search .search-drawer__search-button .svg-wrapper {
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    width: 16px !important;
+
+    height: 16px !important;
+
+  }
+
+
+  #Drawer-Search .search-drawer__search-button svg {
+
+    display: block !important;
+
+    width: 16px !important;
+
+    height: 16px !important;
+
+    color: currentColor !important;
+
+    fill: none !important;
+
+    stroke: currentColor !important;
+
+  }
+
+
+  #Drawer-Search .search-drawer__search-button:hover {
+
+    color:
+      var(--search-ink) !important;
+
+  }
+
+
+  /* =========================================================
+     INPUT ACTIVE STATE
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__field:focus-within {
+
+    border-bottom-color:
+      var(--search-accent) !important;
+
+  }
+
+
+  #Drawer-Search .search-drawer__field:focus-within
+  .search-drawer__search-button {
+
+    color:
+      var(--search-ink) !important;
+
+  }
+
+
+  #Drawer-Search .search-drawer__input:not(:placeholder-shown)
+  ~ .search-drawer__label,
+
+  #Drawer-Search .search-drawer__input:focus
+  ~ .search-drawer__label {
+
+    top: 5px !important;
+
+    left: 40px !important;
+
+    transform: none !important;
+
+    font-size: 8px !important;
+
+    letter-spacing: .14em !important;
+
+    color:
+      var(--search-accent) !important;
+
+  }
+
+
+  /* =========================================================
+     RESET BUTTON
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__reset {
+
+    position: absolute !important;
+
+    right: 0 !important;
+
+    top: 50% !important;
+
+    z-index: 5 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    width: 30px !important;
+
+    height: 30px !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    background: transparent !important;
+
+    color:
+      var(--search-muted) !important;
+
+    transform:
+      translateY(-50%) !important;
+
+  }
+
+
+  #Drawer-Search .search-drawer__reset:hover {
+
+    color:
+      var(--search-ink) !important;
+
+  }
+
+
+  #Drawer-Search .search-drawer__reset svg {
+
+    width: 13px !important;
+
+    height: 13px !important;
+
+  }
+
+
+  /* =========================================================
+     PREDICTIVE SEARCH RESULTS
+     ========================================================= */
+
+  #Drawer-Search .search-drawer__results {
+
+    position: relative !important;
+
+    z-index: 10 !important;
+
+    width: 100% !important;
+
+    margin-top: 24px !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+    overflow-x: hidden !important;
+
+  }
+
+
+  #Drawer-Search .predictive-search {
+
+    z-index: 10 !important;
+
+  }
+
+
+  /* Prevent page content from visually appearing above results */
+
+  #Drawer-Search .predictive-search,
+  #Drawer-Search .predictive-search__results,
+  #Drawer-Search .predictive-search__list {
+    position: relative;
+
+    isolation: isolate;
+
+  }
+
+
+  /* =========================================================
+     SCROLLBAR
+     ========================================================= */
+
+  #Drawer-Search .cus-scrollbar {
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+      rgba(36,35,33,.20)
+      transparent;
+
+  }
+
+
+  #Drawer-Search .cus-scrollbar::-webkit-scrollbar {
+
+    width: 3px;
+
+  }
+
+
+  #Drawer-Search .cus-scrollbar::-webkit-scrollbar-track {
+
+    background: transparent;
+
+  }
+
+
+  #Drawer-Search .cus-scrollbar::-webkit-scrollbar-thumb {
+
+    background:
+      rgba(36,35,33,.20);
+
+    border-radius: 10px;
+
+  }
+
+
+  /* =========================================================
+     MOBILE
+     ========================================================= */
+
+  @media screen and (max-width: 749px) {
+
+    #Drawer-Search .search-drawer__header {
+
+      min-height: 58px;
+
+      padding:
+        14px 18px !important;
+
+    }
+
+
+    #Drawer-Search .search-drawer__inner {
+
+      padding:
+        24px 18px 30px !important;
+
+    }
+
+
+    #Drawer-Search .search-drawer__heading {
+
+      font-size: 11px !important;
+
+      letter-spacing: .14em !important;
+
+    }
+
+
+    #Drawer-Search .search-drawer__close {
+
+      width: 32px !important;
+
+      height: 32px !important;
+
+      min-width: 32px !important;
+
+      min-height: 32px !important;
+
+    }
+
+
+    #Drawer-Search .search-drawer__field {
+
+      min-height: 50px !important;
+
+    }
+
+
+    #Drawer-Search .search-drawer__input {
+
+      height: 50px !important;
+
+      min-height: 50px !important;
+
+      padding-left: 37px !important;
+
+      padding-right: 34px !important;
+
+      font-size: 16px !important;
+
+      line-height: 50px !important;
+
+    }
+
+
+    #Drawer-Search .search-drawer__label {
+
+      left: 37px !important;
+
+    }
+
+
+    #Drawer-Search .search-drawer__input:not(:placeholder-shown)
+    ~ .search-drawer__label,
+
+    #Drawer-Search .search-drawer__input:focus
+    ~ .search-drawer__label {
+
+      left: 37px !important;
+
+    }
+
+
+    #Drawer-Search .search-drawer__results {
+
+      margin-top: 20px !important;
+
+    }
+
+  }
+
+
+  /* =========================================================
+     ACCESSIBILITY
+     ========================================================= */
+
+  #Drawer-Search button:focus-visible {
+
+    outline:
+      1px solid var(--search-accent) !important;
+
+    outline-offset: 3px !important;
+
+  }
+
+
+  #Drawer-Search input:focus-visible {
+
+    outline: none !important;
+
+  }
+
+
+  /* =========================================================
+     REDUCED MOTION
+     ========================================================= */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    #Drawer-Search *,
+    #Drawer-Search *::before,
+    #Drawer-Search *::after {
+
+      transition: none !important;
+
+      animation: none !important;
+
+    }
+
+  }
+
+</style>
