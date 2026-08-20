@@ -1,12 +1,162 @@
 {% assign bl_stts = block.settings %}
 
 <div
-  class="cart-checkout spacing-style {{ bl_stts.alignment }}"
+  class="cart-checkout cart-checkout--luxury spacing-style {{ bl_stts.alignment }}"
   style="{% render 'spacing-style', settings: bl_stts %}"
   {{ block.shopify_attributes }}
 >
   {% render 'cart-checkout' %}
 </div>
+
+<style>
+  /* =========================================================
+     UNIVERSes RAW — LUXURY CART CHECKOUT
+     Minimal / Premium / High-End
+     Does not alter cart functionality.
+     ========================================================= */
+
+  .cart-checkout--luxury {
+    --ur-luxury-black: #171513;
+    --ur-luxury-border: rgba(23, 21, 19, 0.16);
+    --ur-luxury-muted: rgba(23, 21, 19, 0.62);
+  }
+
+  /* Main checkout button */
+  .cart-checkout--luxury .cart__checkout-button,
+  .cart-checkout--luxury .cart__checkout,
+  .cart-checkout--luxury button[name="checkout"],
+  .cart-checkout--luxury input[name="checkout"],
+  .cart-checkout--luxury .checkout-button {
+    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 100% !important;
+    min-height: 54px !important;
+    height: 54px !important;
+
+    padding: 0 28px !important;
+    margin: 0 !important;
+
+    border: 1px solid var(--ur-luxury-black) !important;
+    border-radius: 2px !important;
+
+    background: var(--ur-luxury-black) !important;
+    color: #fff !important;
+
+    font-family: inherit !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+
+    cursor: pointer !important;
+    overflow: hidden !important;
+
+    box-shadow: none !important;
+
+    transition:
+      background-color 220ms ease,
+      color 220ms ease,
+      border-color 220ms ease,
+      transform 220ms ease !important;
+  }
+
+  /* Subtle luxury hover */
+  .cart-checkout--luxury .cart__checkout-button:hover,
+  .cart-checkout--luxury .cart__checkout:hover,
+  .cart-checkout--luxury button[name="checkout"]:hover,
+  .cart-checkout--luxury input[name="checkout"]:hover,
+  .cart-checkout--luxury .checkout-button:hover {
+    background: transparent !important;
+    color: var(--ur-luxury-black) !important;
+    border-color: var(--ur-luxury-black) !important;
+
+    transform: translateY(-1px) !important;
+  }
+
+  /* Active */
+  .cart-checkout--luxury .cart__checkout-button:active,
+  .cart-checkout--luxury .cart__checkout:active,
+  .cart-checkout--luxury button[name="checkout"]:active,
+  .cart-checkout--luxury input[name="checkout"]:active,
+  .cart-checkout--luxury .checkout-button:active {
+    transform: translateY(0) !important;
+  }
+
+  /* Focus accessibility */
+  .cart-checkout--luxury .cart__checkout-button:focus-visible,
+  .cart-checkout--luxury .cart__checkout:focus-visible,
+  .cart-checkout--luxury button[name="checkout"]:focus-visible,
+  .cart-checkout--luxury input[name="checkout"]:focus-visible,
+  .cart-checkout--luxury .checkout-button:focus-visible {
+    outline: 1px solid var(--ur-luxury-black) !important;
+    outline-offset: 4px !important;
+  }
+
+  /* Disabled state */
+  .cart-checkout--luxury .cart__checkout-button:disabled,
+  .cart-checkout--luxury .cart__checkout:disabled,
+  .cart-checkout--luxury button[name="checkout"]:disabled,
+  .cart-checkout--luxury input[name="checkout"]:disabled,
+  .cart-checkout--luxury .checkout-button[disabled] {
+    opacity: 0.45 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+  }
+
+  /* Button text */
+  .cart-checkout--luxury .cart__checkout-button span,
+  .cart-checkout--luxury .cart__checkout span,
+  .cart-checkout--luxury button[name="checkout"] span,
+  .cart-checkout--luxury .checkout-button span {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Remove excessive theme shadows */
+  .cart-checkout--luxury .button {
+    box-shadow: none;
+  }
+
+  /* Keep express/payment buttons visually separate */
+  .cart-checkout--luxury .additional-checkout-buttons {
+    margin-top: 12px !important;
+  }
+
+  /* =========================================================
+     Mobile
+     ========================================================= */
+
+  @media screen and (max-width: 749px) {
+    .cart-checkout--luxury .cart__checkout-button,
+    .cart-checkout--luxury .cart__checkout,
+    .cart-checkout--luxury button[name="checkout"],
+    .cart-checkout--luxury input[name="checkout"],
+    .cart-checkout--luxury .checkout-button {
+      min-height: 52px !important;
+      height: 52px !important;
+      padding: 0 22px !important;
+      font-size: 10px !important;
+      letter-spacing: 0.15em !important;
+    }
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .cart-checkout--luxury .cart__checkout-button,
+    .cart-checkout--luxury .cart__checkout,
+    .cart-checkout--luxury button[name="checkout"],
+    .cart-checkout--luxury input[name="checkout"],
+    .cart-checkout--luxury .checkout-button {
+      transition: none !important;
+    }
+  }
+</style>
 
 {% schema %}
 {
