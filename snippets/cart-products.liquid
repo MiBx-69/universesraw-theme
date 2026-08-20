@@ -144,11 +144,13 @@
                         >
                           <img
                             src="{{ item.image | image_url: width: 300 }}"
+                            srcset="{{ item.image | image_url: width: 180 }} 180w, {{ item.image | image_url: width: 300 }} 300w, {{ item.image | image_url: width: 450 }} 450w"
                             class="cart-item__image"
                             alt="{{ item.image.alt | escape }}"
                             loading="lazy"
                             width="150"
                             height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
+                            decoding="async"
                           >
                         </div>
                       {% endif %}
@@ -339,7 +341,7 @@
                       headers="quantity"
                     >
                       {% liquid
-                        assign variant = item.product.selected_or_first_available_variant
+                        assign variant = item.variant
                         assign can_update_quantity = item.instructions.can_update_quantity | default: true, allow_false: true
                       %}
                       <quantity-selector-component
@@ -382,7 +384,13 @@
                           {% if variant.quantity_rule.max %}
                             max="{{ variant.quantity_rule.max }}"
                           {% endif %}
+                          min="{{ variant.quantity_rule.min | default: 0 }}"
                           step="{{ variant.quantity_rule.increment | default: 1 }}"
+                          data-quantity-min="{{ variant.quantity_rule.min | default: 0 }}"
+                          {% if variant.quantity_rule.max %}
+                            data-quantity-max="{{ variant.quantity_rule.max }}"
+                          {% endif %}
+                          data-quantity-step="{{ variant.quantity_rule.increment | default: 1 }}"
                           {% if can_update_quantity == false or variant.available == false %}
                             disabled
                           {% endif %}
@@ -522,3 +530,53 @@
     </form>
   {%- endif -%}
 </div>
+
+<script>
+(() => {
+  'use strict';
+
+  const root = document.currentScript?.previousElementSibling?.closest('.cart-items__wrapper')
+    || document.querySelector('.cart-items__wrapper');
+
+  if (!root || root.dataset.cartProductsHardening === 'true') return;
+  root.dataset.cartProductsHardening = 'true';
+
+  // Keep quantity values valid when users type directly into the number field.
+  root.addEventListener('change', (event) => {
+    const input = event.target.closest('.quantity__input');
+    if (!input || input.disabled) return;
+
+    const min = Number(input.dataset.quantityMin ?? input.min ?? 0);
+    const maxAttr = input.dataset.quantityMax ?? input.max;
+    const step = Number(input.dataset.quantityStep ?? input.step ?? 1);
+
+    let value = Number(input.value);
+    if (!Number.isFinite(value)) value = min;
+
+    value = Math.max(min, value);
+
+    if (maxAttr !== '' && maxAttr != null && Number.isFinite(Number(maxAttr))) {
+      value = Math.min(Number(maxAttr), value);
+    }
+
+    if (step > 0) {
+      const base = min;
+      value = base + Math.round((value - base) / step) * step;
+      value = Math.max(min, value);
+
+      if (maxAttr !== '' && maxAttr != null && Number.isFinite(Number(maxAttr))) {
+        value = Math.min(Number(maxAttr), value);
+      }
+    }
+
+    input.value = value;
+  });
+
+  // Prevent accidental form submission from quantity controls.
+  root.querySelectorAll('.quantity__button').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+    });
+  });
+})();
+</script>
