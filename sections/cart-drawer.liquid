@@ -1,9 +1,48 @@
 {%- if request.page_type != 'cart' and settings.cart_type == 'drawer' -%}
-  <link rel="stylesheet" href="{{ 'component-cart-drawer.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
-  <link rel="stylesheet" href="{{ 'component-cart.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
-  <link rel="stylesheet" href="{{ 'component-totals.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
-  <link rel="stylesheet" href="{{ 'quantity-popover.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
-  <link rel="stylesheet" href="{{ 'component-discounts.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
+
+  <!-- =======================================================
+       CART DRAWER ASSETS
+       ======================================================= -->
+
+  <link
+    rel="stylesheet"
+    href="{{ 'component-cart-drawer.css' | asset_url }}"
+    media="print"
+    fetchpriority="low"
+    onload="this.media='all'"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ 'component-cart.css' | asset_url }}"
+    media="print"
+    fetchpriority="low"
+    onload="this.media='all'"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ 'component-totals.css' | asset_url }}"
+    media="print"
+    fetchpriority="low"
+    onload="this.media='all'"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ 'quantity-popover.css' | asset_url }}"
+    media="print"
+    fetchpriority="low"
+    onload="this.media='all'"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ 'component-discounts.css' | asset_url }}"
+    media="print"
+    fetchpriority="low"
+    onload="this.media='all'"
+  >
 
   <noscript>
     <link rel="stylesheet" href="{{ 'component-cart-drawer.css' | asset_url }}">
@@ -13,53 +52,850 @@
     <link rel="stylesheet" href="{{ 'component-discounts.css' | asset_url }}">
   </noscript>
 
+
   {% liquid
     assign section_fetch = false
+
     if section.index == nil
       assign section_fetch = true
     endif
   %}
-  
+
+
   {% capture cart_drawer_product_block %}
-    {% content_for 'block', id: 'cart-product', type: '_cart-product' %}
+    {% content_for 'block',
+      id: 'cart-product',
+      type: '_cart-product'
+    %}
   {% endcapture %}
+
 
   {% capture cart_drawer_popular_products_block %}
-    {% content_for 'block', id: 'cart-popular-products', type: '_cart-popular-products' %}
+    {% content_for 'block',
+      id: 'cart-popular-products',
+      type: '_cart-popular-products'
+    %}
   {% endcapture %}
 
-  {%- render 'cart-drawer', cart_drawer_product_block: cart_drawer_product_block, cart_drawer_popular_products_block: cart_drawer_popular_products_block, section_fetch: section_fetch -%}
 
-  <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+  <!-- =======================================================
+       LUXURY CART DRAWER
+       ======================================================= -->
+
+  <div class="ur-cart-drawer-luxury">
+
+    {%- render 'cart-drawer',
+      cart_drawer_product_block: cart_drawer_product_block,
+      cart_drawer_popular_products_block: cart_drawer_popular_products_block,
+      section_fetch: section_fetch
+    -%}
+
+  </div>
+
+
+  <!-- =======================================================
+       LUXURY DRAWER PRESENTATION
+       ======================================================= -->
+
+  <style>
+
+    /* =====================================================
+       UNIVERSes RAW
+       QUIET LUXURY CART DRAWER
+       ===================================================== */
+
+    .ur-cart-drawer-luxury {
+
+      --ur-drawer-text: #25211d;
+      --ur-drawer-muted: rgba(37, 33, 29, 0.58);
+
+      --ur-drawer-border: rgba(37, 33, 29, 0.11);
+
+      --ur-drawer-surface: #faf8f4;
+      --ur-drawer-white: #ffffff;
+
+      --ur-drawer-accent: #a58a62;
+
+      --ur-drawer-shadow:
+        -18px 0 55px rgba(25, 21, 17, 0.10);
+
+      position: relative;
+
+      z-index: 1;
+
+    }
+
+
+    /* =====================================================
+       DRAWER PANEL
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-drawer,
+    .ur-cart-drawer-luxury .drawer {
+
+      background:
+        linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #fcfbf8 100%
+        ) !important;
+
+      color: var(--ur-drawer-text);
+
+      box-shadow:
+        var(--ur-drawer-shadow) !important;
+
+      border-left:
+        1px solid var(--ur-drawer-border);
+
+    }
+
+
+    /* =====================================================
+       DRAWER HEADER
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-drawer__header,
+    .ur-cart-drawer-luxury .drawer__header {
+
+      min-height: 68px;
+
+      padding:
+        0 22px !important;
+
+      border-bottom:
+        1px solid var(--ur-drawer-border) !important;
+
+      background:
+        rgba(255,255,255,.92) !important;
+
+      backdrop-filter:
+        blur(14px);
+
+      -webkit-backdrop-filter:
+        blur(14px);
+
+    }
+
+
+    /* =====================================================
+       CART TITLE
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-drawer__heading,
+    .ur-cart-drawer-luxury .drawer__heading,
+    .ur-cart-drawer-luxury .cart-drawer__title {
+
+      color:
+        var(--ur-drawer-text) !important;
+
+      font-family:
+        inherit !important;
+
+      font-size:
+        11px !important;
+
+      font-weight:
+        600 !important;
+
+      line-height:
+        1.2 !important;
+
+      letter-spacing:
+        .16em !important;
+
+      text-transform:
+        uppercase !important;
+
+    }
+
+
+    /* =====================================================
+       CART COUNT
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-count-bubble {
+
+      min-width:
+        19px;
+
+      min-height:
+        19px;
+
+      padding:
+        0 5px;
+
+      background:
+        var(--ur-drawer-text) !important;
+
+      color:
+        #fff !important;
+
+      border:
+        0 !important;
+
+      border-radius:
+        50% !important;
+
+      font-size:
+        8px !important;
+
+      font-weight:
+        600 !important;
+
+      line-height:
+        19px !important;
+
+      text-align:
+        center;
+
+    }
+
+
+    /* =====================================================
+       CLOSE BUTTON
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .drawer__close,
+    .ur-cart-drawer-luxury .cart-drawer__close,
+    .ur-cart-drawer-luxury button[aria-label*="Close"],
+    .ur-cart-drawer-luxury button[aria-label*="close"] {
+
+      width:
+        34px !important;
+
+      height:
+        34px !important;
+
+      padding:
+        0 !important;
+
+      background:
+        transparent !important;
+
+      color:
+        var(--ur-drawer-muted) !important;
+
+      border:
+        1px solid transparent !important;
+
+      border-radius:
+        50% !important;
+
+      transition:
+        color .25s ease,
+        background-color .25s ease,
+        border-color .25s ease,
+        transform .25s ease !important;
+
+    }
+
+
+    .ur-cart-drawer-luxury .drawer__close:hover,
+    .ur-cart-drawer-luxury .cart-drawer__close:hover,
+    .ur-cart-drawer-luxury button[aria-label*="Close"]:hover,
+    .ur-cart-drawer-luxury button[aria-label*="close"]:hover {
+
+      background:
+        rgba(37,33,29,.045) !important;
+
+      color:
+        var(--ur-drawer-text) !important;
+
+      border-color:
+        var(--ur-drawer-border) !important;
+
+      transform:
+        rotate(90deg);
+
+    }
+
+
+    /* =====================================================
+       PRODUCT AREA
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-drawer__contents,
+    .ur-cart-drawer-luxury .drawer__contents {
+
+      background:
+        transparent !important;
+
+    }
+
+
+    /* =====================================================
+       PRODUCT ROWS
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-item {
+
+      border-bottom:
+        1px solid var(--ur-drawer-border) !important;
+
+      padding-top:
+        14px !important;
+
+      padding-bottom:
+        14px !important;
+
+    }
+
+
+    /* =====================================================
+       PRODUCT IMAGE
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-item__image-container {
+
+      overflow:
+        hidden;
+
+      background:
+        #f5f2ed;
+
+      border:
+        1px solid rgba(37,33,29,.07);
+
+      border-radius:
+        3px;
+
+    }
+
+
+    .ur-cart-drawer-luxury .cart-item__image {
+
+      transition:
+        transform .45s cubic-bezier(.22,1,.36,1);
+
+    }
+
+
+    .ur-cart-drawer-luxury .cart-item:hover .cart-item__image {
+
+      transform:
+        scale(1.025);
+
+    }
+
+
+    /* =====================================================
+       PRODUCT TITLE
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-item__name {
+
+      color:
+        var(--ur-drawer-text) !important;
+
+      font-size:
+        11px !important;
+
+      font-weight:
+        500 !important;
+
+      line-height:
+        1.45 !important;
+
+      letter-spacing:
+        .015em !important;
+
+    }
+
+
+    /* =====================================================
+       PRODUCT META
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .product-option,
+    .ur-cart-drawer-luxury .caption {
+
+      color:
+        var(--ur-drawer-muted) !important;
+
+      font-size:
+        8.5px !important;
+
+      line-height:
+        1.45 !important;
+
+      letter-spacing:
+        .035em !important;
+
+    }
+
+
+    /* =====================================================
+       PRODUCT PRICE
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .price {
+
+      color:
+        var(--ur-drawer-text) !important;
+
+      font-size:
+        10px !important;
+
+      font-weight:
+        600 !important;
+
+    }
+
+
+    /* =====================================================
+       QUANTITY
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .quantity {
+
+      border:
+        1px solid var(--ur-drawer-border) !important;
+
+      border-radius:
+        2px !important;
+
+      background:
+        var(--ur-drawer-surface) !important;
+
+      box-shadow:
+        none !important;
+
+    }
+
+
+    .ur-cart-drawer-luxury .quantity__button {
+
+      color:
+        var(--ur-drawer-muted) !important;
+
+      transition:
+        color .2s ease,
+        background-color .2s ease !important;
+
+    }
+
+
+    .ur-cart-drawer-luxury .quantity__button:hover {
+
+      background:
+        rgba(165,138,98,.07) !important;
+
+      color:
+        var(--ur-drawer-text) !important;
+
+    }
+
+
+    .ur-cart-drawer-luxury .quantity__input {
+
+      color:
+        var(--ur-drawer-text) !important;
+
+      background:
+        transparent !important;
+
+      font-size:
+        9px !important;
+
+      font-weight:
+        500 !important;
+
+    }
+
+
+    /* =====================================================
+       REMOVE
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-item__remove button {
+
+      color:
+        rgba(37,33,29,.40) !important;
+
+      transition:
+        color .2s ease,
+        transform .2s ease !important;
+
+    }
+
+
+    .ur-cart-drawer-luxury .cart-item__remove button:hover {
+
+      color:
+        var(--ur-drawer-text) !important;
+
+      transform:
+        rotate(90deg);
+
+    }
+
+
+    /* =====================================================
+       DISCOUNT
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .discounts__discount {
+
+      color:
+        var(--ur-drawer-accent) !important;
+
+      font-size:
+        8px !important;
+
+      letter-spacing:
+        .035em !important;
+
+    }
+
+
+    /* =====================================================
+       SUBTOTAL / TOTAL AREA
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-drawer__footer,
+    .ur-cart-drawer-luxury .drawer__footer {
+
+      background:
+        rgba(250,248,244,.94) !important;
+
+      border-top:
+        1px solid var(--ur-drawer-border) !important;
+
+      padding:
+        18px 22px 20px !important;
+
+      backdrop-filter:
+        blur(14px);
+
+      -webkit-backdrop-filter:
+        blur(14px);
+
+    }
+
+
+    /* =====================================================
+       TOTAL
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .totals {
+
+      align-items:
+        baseline !important;
+
+    }
+
+
+    .ur-cart-drawer-luxury .totals__subtotal,
+    .ur-cart-drawer-luxury .totals__subtotal-value {
+
+      color:
+        var(--ur-drawer-text) !important;
+
+    }
+
+
+    .ur-cart-drawer-luxury .totals__subtotal {
+
+      font-size:
+        8px !important;
+
+      font-weight:
+        600 !important;
+
+      letter-spacing:
+        .15em !important;
+
+      text-transform:
+        uppercase !important;
+
+    }
+
+
+    .ur-cart-drawer-luxury .totals__subtotal-value {
+
+      font-size:
+        17px !important;
+
+      font-weight:
+        600 !important;
+
+      letter-spacing:
+        -.02em !important;
+
+    }
+
+
+    /* =====================================================
+       CHECKOUT CTA
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart__checkout-button,
+    .ur-cart-drawer-luxury button[name="checkout"] {
+
+      position:
+        relative;
+
+      min-height:
+        52px !important;
+
+      height:
+        52px !important;
+
+      margin-top:
+        12px !important;
+
+      background:
+        #292521 !important;
+
+      color:
+        #f8f5ef !important;
+
+      border:
+        1px solid rgba(165,138,98,.38) !important;
+
+      border-radius:
+        3px !important;
+
+      font-size:
+        9px !important;
+
+      font-weight:
+        600 !important;
+
+      letter-spacing:
+        .17em !important;
+
+      text-transform:
+        uppercase !important;
+
+      box-shadow:
+        0 3px 0 #15120f,
+        0 8px 18px rgba(0,0,0,.09),
+        inset 0 1px 0 rgba(255,255,255,.07) !important;
+
+      transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        background-color .25s ease !important;
+
+    }
+
+
+    .ur-cart-drawer-luxury .cart__checkout-button:hover,
+    .ur-cart-drawer-luxury button[name="checkout"]:hover {
+
+      background:
+        #342f2a !important;
+
+      transform:
+        translateY(-1px) !important;
+
+      box-shadow:
+        0 4px 0 #15120f,
+        0 11px 24px rgba(0,0,0,.13),
+        inset 0 1px 0 rgba(255,255,255,.08) !important;
+
+    }
+
+
+    .ur-cart-drawer-luxury .cart__checkout-button:active,
+    .ur-cart-drawer-luxury button[name="checkout"]:active {
+
+      transform:
+        translateY(3px) !important;
+
+      box-shadow:
+        0 1px 0 #15120f,
+        0 3px 8px rgba(0,0,0,.09) !important;
+
+    }
+
+
+    /* =====================================================
+       EMPTY CART
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart__empty-text {
+
+      color:
+        var(--ur-drawer-text) !important;
+
+      font-size:
+        13px !important;
+
+      font-weight:
+        500 !important;
+
+      letter-spacing:
+        .01em !important;
+
+    }
+
+
+    /* =====================================================
+       BACKDROP
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .drawer__overlay,
+    .ur-cart-drawer-luxury .cart-drawer__overlay {
+
+      background:
+        rgba(20,17,14,.24) !important;
+
+      backdrop-filter:
+        blur(2px);
+
+      -webkit-backdrop-filter:
+        blur(2px);
+
+    }
+
+
+    /* =====================================================
+       POPULAR PRODUCTS
+       ===================================================== */
+
+    .ur-cart-drawer-luxury .cart-drawer__recommendations {
+
+      border-top:
+        1px solid var(--ur-drawer-border) !important;
+
+      padding-top:
+        18px !important;
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+       ===================================================== */
+
+    @media screen and (max-width: 749px) {
+
+      .ur-cart-drawer-luxury .cart-drawer__header,
+      .ur-cart-drawer-luxury .drawer__header {
+
+        min-height:
+          60px;
+
+        padding:
+          0 16px !important;
+
+      }
+
+
+      .ur-cart-drawer-luxury .cart-drawer__footer,
+      .ur-cart-drawer-luxury .drawer__footer {
+
+        padding:
+          15px 16px 17px !important;
+
+      }
+
+
+      .ur-cart-drawer-luxury .cart-item {
+
+        padding-top:
+          11px !important;
+
+        padding-bottom:
+          11px !important;
+
+      }
+
+
+      .ur-cart-drawer-luxury .cart-item__name {
+
+        font-size:
+          10px !important;
+
+      }
+
+
+      .ur-cart-drawer-luxury .totals__subtotal-value {
+
+        font-size:
+          16px !important;
+
+      }
+
+
+      .ur-cart-drawer-luxury .cart__checkout-button,
+      .ur-cart-drawer-luxury button[name="checkout"] {
+
+        min-height:
+          50px !important;
+
+        height:
+          50px !important;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       REDUCED MOTION
+       ===================================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .ur-cart-drawer-luxury * {
+
+        transition:
+          none !important;
+
+      }
+
+    }
+
+  </style>
+
+
+  <!-- =======================================================
+       CART SCRIPTS
+       ======================================================= -->
+
+  <script
+    src="{{ 'cart.js' | asset_url }}"
+    defer="defer"
+  ></script>
+
+  <script
+    src="{{ 'cart-drawer.js' | asset_url }}"
+    defer="defer"
+  ></script>
+
 {%- endif -%}
 
+
 {% schema %}
-  {
-    "name": "t:names.cart_drawer",
-    "tag": "section",
-    "class": "section-cart-drawer",
-    "limit": 1,
-    "enabled_on": {
-      "groups": ["custom.popup"]
+{
+  "name": "t:names.cart_drawer",
+  "tag": "section",
+  "class": "section-cart-drawer",
+  "limit": 1,
+  "enabled_on": {
+    "groups": ["custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:info.cart_drawer_info"
     },
-    "settings": [
-      {
-        "type": "paragraph",
-        "content": "t:info.cart_drawer_info"
-      },
-      {
-        "type": "collection",
-        "id": "cart_drawer_collection",
-        "label": "t:settings.collection",
-        "info": "t:info.cart_drawer_empty_info"
-      },
-      {
-        "type": "color_scheme",
-        "id": "color_scheme",
-        "label": "t:settings.color_scheme",
-        "default": "scheme-1"
-      }
-    ]
-  }
+    {
+      "type": "collection",
+      "id": "cart_drawer_collection",
+      "label": "t:settings.collection",
+      "info": "t:info.cart_drawer_empty_info"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
 {% endschema %}
