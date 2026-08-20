@@ -90,8 +90,8 @@
     position: absolute;
     inset: 0;
     background: rgba(18, 16, 14, .38);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
   }
 
   .ur-mobile-drawer__panel {
@@ -537,8 +537,8 @@
       position: absolute;
       inset: 0;
       background: rgba(19,17,15,.42);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
     }
     .ur-mobile-shell__panel {
       position: absolute;
@@ -769,8 +769,8 @@
     color: #211e1a !important;
     border-bottom: 1px solid rgba(33,30,26,.10) !important;
     box-shadow: 0 3px 18px rgba(31,26,21,.055) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    backdrop-filter: blur(16px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
   }
 
   html body #header-component .ur-mobile-shell__bar {
@@ -1536,135 +1536,101 @@
 
 <script>
   (() => {
-    'use strict';
-
-    const MOBILE_BREAKPOINT = 989;
-    const shellSelector = '[data-ur-mobile-shell]';
-
-    const lockPage = (locked) => {
-      document.documentElement.classList.toggle('ur-mobile-open', locked);
-      document.body.classList.toggle('ur-mobile-open', locked);
-    };
-
-    const closeAllMobileMenus = () => {
-      document.querySelectorAll('[data-ur-mobile-drawer].is-open').forEach((drawer) => {
-        drawer.classList.remove('is-open');
-        drawer.setAttribute('aria-hidden', 'true');
-
-        const root = drawer.closest(shellSelector);
-        const trigger = root?.querySelector('[data-ur-mobile-open]');
-        trigger?.setAttribute('aria-expanded', 'false');
-      });
-
-      lockPage(false);
-    };
-
     const initLuxuryMobileHeader = (root) => {
       if (!root || root.dataset.urLuxuryReady === 'true') return;
+      root.dataset.urLuxuryReady = 'true';
 
       const drawer = root.querySelector('[data-ur-mobile-drawer]');
-      const openButton = root.querySelector('[data-ur-mobile-open]');
-      const closeButtons = root.querySelectorAll('[data-ur-mobile-close]');
-
-      if (!drawer || !openButton) return;
-
-      root.dataset.urLuxuryReady = 'true';
+      const open = root.querySelector('[data-ur-mobile-open]');
+      const closes = root.querySelectorAll('[data-ur-mobile-close]');
+      if (!drawer || !open) return;
 
       let previousFocus = null;
 
+      const lock = (state) => {
+        document.documentElement.classList.toggle('ur-mobile-open', state);
+        document.body.classList.toggle('ur-mobile-open', state);
+      };
+
       const openMenu = () => {
-        if (window.innerWidth > MOBILE_BREAKPOINT) return;
-
         previousFocus = document.activeElement;
-
-        // Close any other custom drawer before opening this one.
-        document.querySelectorAll('[data-ur-mobile-drawer].is-open').forEach((other) => {
-          if (other !== drawer) other.classList.remove('is-open');
-        });
-
         drawer.classList.add('is-open');
         drawer.setAttribute('aria-hidden', 'false');
-        openButton.setAttribute('aria-expanded', 'true');
-        lockPage(true);
-
-        // Focus after the drawer is painted; prevent the browser from scrolling.
-        requestAnimationFrame(() => {
-          root.querySelector('.ur-mobile-shell__close')?.focus({ preventScroll: true });
-        });
+        open.setAttribute('aria-expanded', 'true');
+        lock(true);
+        requestAnimationFrame(() => drawer.querySelector('.ur-mobile-shell__close')?.focus({ preventScroll: true }));
       };
 
       const closeMenu = () => {
         drawer.classList.remove('is-open');
         drawer.setAttribute('aria-hidden', 'true');
-        openButton.setAttribute('aria-expanded', 'false');
-        lockPage(false);
-
-        requestAnimationFrame(() => {
-          if (previousFocus && typeof previousFocus.focus === 'function') {
-            previousFocus.focus({ preventScroll: true });
-          }
-        });
+        open.setAttribute('aria-expanded', 'false');
+        lock(false);
+        requestAnimationFrame(() => previousFocus?.focus?.({ preventScroll: true }));
       };
 
-      openButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        openMenu();
-      }, { passive: false });
+      open.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openMenu(); });
+      closes.forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); closeMenu(); }));
 
-      closeButtons.forEach((button) => {
-        button.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          closeMenu();
-        }, { passive: false });
-      });
-
-      // Navigation links close the drawer before Shopify starts navigation.
-      drawer.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => {
-          closeMenu();
-        }, { passive: true });
-      });
-
-      // Lightweight submenu handling. No document-wide observers.
+      drawer.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
       drawer.querySelectorAll('details').forEach((details) => {
         details.addEventListener('toggle', () => {
           const icon = details.querySelector(':scope > summary .ur-mobile-shell__chevron');
           if (icon) icon.textContent = details.open ? '−' : '+';
-        }, { passive: true });
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (!drawer.classList.contains('is-open')) return;
+        if (e.key === 'Escape') { e.preventDefault(); closeMenu(); }
       });
     };
 
-    const boot = () => {
-      document.querySelectorAll(shellSelector).forEach(initLuxuryMobileHeader);
-
-      // If a desktop resize happens while the menu is open, cleanly close it.
-      if (window.innerWidth > MOBILE_BREAKPOINT) closeAllMobileMenus();
-    };
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', boot, { once: true });
-    } else {
-      boot();
-    }
-
+    const boot = () => document.querySelectorAll('[data-ur-mobile-shell]').forEach(initLuxuryMobileHeader);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
+    else boot();
     document.addEventListener('shopify:section:load', boot);
 
-    // One global Escape handler instead of one handler per header instance.
-    document.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape') return;
+    /* The theme's sticky header can toggle classes or rebuild its rows.
+       Keep the custom mobile shell authoritative at all times. */
+    const enforceMobileShell = () => {
+      if (window.innerWidth >= 990) return;
 
-      const openDrawer = document.querySelector('[data-ur-mobile-drawer].is-open');
-      if (!openDrawer) return;
+      document.querySelectorAll(
+        '#header-component .row-group, #header-component .header__row, #header-component .header__row-group'
+      ).forEach((el) => {
+        el.style.setProperty('display', 'none', 'important');
+        el.style.setProperty('visibility', 'hidden', 'important');
+        el.style.setProperty('opacity', '0', 'important');
+        el.style.setProperty('pointer-events', 'none', 'important');
+        el.style.setProperty('height', '0', 'important');
+        el.style.setProperty('min-height', '0', 'important');
+        el.style.setProperty('max-height', '0', 'important');
+        el.style.setProperty('overflow', 'hidden', 'important');
+      });
 
-      event.preventDefault();
-      const root = openDrawer.closest(shellSelector);
-      root?.querySelector('[data-ur-mobile-close]')?.click();
-    }, { passive: false });
+      document.querySelectorAll(
+        '#header-component .ur-mobile-shell'
+      ).forEach((el) => {
+        el.style.setProperty('display', 'block', 'important');
+        el.style.setProperty('visibility', 'visible', 'important');
+        el.style.setProperty('opacity', '1', 'important');
+        el.style.setProperty('position', 'absolute', 'important');
+        el.style.setProperty('top', '0', 'important');
+        el.style.setProperty('left', '0', 'important');
+        el.style.setProperty('right', '0', 'important');
+        el.style.setProperty('z-index', '2147482500', 'important');
+      });
+    };
 
-    // Resize is rare compared with scroll/mutation events, so this is cheap.
-    window.addEventListener('resize', boot, { passive: true });
+    enforceMobileShell();
+    window.addEventListener('resize', enforceMobileShell, { passive: true });
+    new MutationObserver(enforceMobileShell).observe(document.documentElement, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['class', 'style', 'data-sticky-state']
+    });
   })();
 </script>
 
@@ -1720,7 +1686,7 @@
     visibility: visible !important;
     opacity: 1 !important;
     overflow: visible !important;
-    transform: none !important;
+    transform: translateZ(0) !important;
     z-index: 2147483641 !important;
     pointer-events: auto !important;
     isolation: isolate !important;
@@ -1808,154 +1774,6 @@
     min-height: 0 !important;
     max-height: 0 !important;
     overflow: hidden !important;
-  }
-}
-</style>
-
-
-<style>
-/* =========================================================
-   UNIVERSes RAW — MOBILE HEADER PERFORMANCE PATCH
-   - No document-wide DOM mutation watcher
-   - No backdrop blur
-   - No transformed ancestor around fixed drawer
-   - Stable 66px sticky header
-   - GPU-friendly drawer transition only
-   ========================================================= */
-@media screen and (max-width: 989px) {
-  html body {
-    --ur-mobile-header-height: 66px;
-  }
-
-  html body #header-component {
-    position: sticky !important;
-    position: -webkit-sticky !important;
-    top: 0 !important;
-    height: var(--ur-mobile-header-height) !important;
-    min-height: var(--ur-mobile-header-height) !important;
-    max-height: var(--ur-mobile-header-height) !important;
-    transform: none !important;
-    filter: none !important;
-    perspective: none !important;
-    overflow: visible !important;
-    z-index: 2147483000 !important;
-  }
-
-  html body #header-component .ur-mobile-shell {
-    position: absolute !important;
-    inset: 0 0 auto 0 !important;
-    width: 100% !important;
-    height: var(--ur-mobile-header-height) !important;
-    min-height: var(--ur-mobile-header-height) !important;
-    max-height: var(--ur-mobile-header-height) !important;
-    transform: none !important;
-    filter: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    contain: layout paint !important;
-    isolation: isolate !important;
-    z-index: 2147483001 !important;
-  }
-
-  html body #header-component .ur-mobile-shell__bar {
-    height: var(--ur-mobile-header-height) !important;
-    min-height: var(--ur-mobile-header-height) !important;
-  }
-
-  /* The drawer itself is a viewport layer, not a child-sized layer. */
-  html body #header-component .ur-mobile-shell__drawer {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    max-width: none !important;
-    z-index: 2147483647 !important;
-    transform: none !important;
-    filter: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    will-change: opacity;
-    contain: strict;
-  }
-
-  html body #header-component .ur-mobile-shell__backdrop {
-    position: absolute !important;
-    inset: 0 !important;
-    background: rgba(18, 16, 14, .42) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  html body #header-component .ur-mobile-shell__panel {
-    position: absolute !important;
-    inset: 0 auto 0 0 !important;
-    width: min(92vw, 430px) !important;
-    max-width: 430px !important;
-    height: 100% !important;
-    max-height: 100% !important;
-    overflow: hidden !important;
-    transform: translate3d(-101%, 0, 0) !important;
-    transition: transform .22s cubic-bezier(.22, .61, .36, 1) !important;
-    will-change: transform;
-    backface-visibility: hidden !important;
-    -webkit-backface-visibility: hidden !important;
-  }
-
-  html body #header-component .ur-mobile-shell__drawer.is-open .ur-mobile-shell__panel {
-    transform: translate3d(0, 0, 0) !important;
-  }
-
-  html body #header-component .ur-mobile-shell__nav {
-    min-height: 0 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    overscroll-behavior: contain !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-
-  /* Prevent the page behind the open drawer from moving. */
-  html.ur-mobile-open,
-  html.ur-mobile-open body {
-    overflow: hidden !important;
-    overscroll-behavior: none !important;
-  }
-
-  /* Remove unnecessary compositor work from the page below the header. */
-  html body #header-component .ur-mobile-shell *,
-  html body #header-component .ur-mobile-shell *::before,
-  html body #header-component .ur-mobile-shell *::after {
-    -webkit-backface-visibility: visible;
-    backface-visibility: visible;
-  }
-
-  /* Keep the native theme rows completely inert on mobile. */
-  html body #header-component > .row-group,
-  html body #header-component .row-group,
-  html body #header-component .header__row,
-  html body #header-component .header__row-group {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    height: 0 !important;
-    min-height: 0 !important;
-    max-height: 0 !important;
-    overflow: hidden !important;
-  }
-}
-
-@media screen and (max-width: 380px) {
-  html body #header-component .ur-mobile-shell__panel {
-    width: 95vw !important;
-    max-width: 95vw !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html body #header-component .ur-mobile-shell__drawer,
-  html body #header-component .ur-mobile-shell__panel {
-    transition: none !important;
   }
 }
 </style>
