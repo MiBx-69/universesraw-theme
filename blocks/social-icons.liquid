@@ -5,7 +5,7 @@
 -%}
 
 {%- capture class_item -%}
-  list-social__item social__item--effect {% if block.settings.social_style == 'custom' %} social__item--custom{% endif %}
+  list-social__item social__item--effect {% if block.settings.social_style == 'custom' %}social__item--custom{% endif %}
 {%- endcapture -%}
 
 {%- capture class_link -%}
@@ -15,6 +15,7 @@
 {%- capture social_style -%}
   --gap-x: {{ block.settings.gap_x }}px;
   --gap-y: {{ block.settings.gap_y }}px;
+
   {% if block.settings.social_style == 'custom' %}
     --social-item-size: {{ block.settings.icon_size }}px;
     --social-item-size-mobile: {{ block.settings.icon_size_mobile }}px;
@@ -28,116 +29,607 @@
 {%- endcapture -%}
 
 {%- if social_links -%}
-  <link rel="stylesheet" href="{{ 'component-list-social.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="{{ 'component-list-social.css' | asset_url }}"></noscript>
-  <div class="flex flex-wrap justify-center flex-column h-full spacing-style" style="{% render 'spacing-style', settings: block.settings %}">
+
+  <link
+    rel="stylesheet"
+    href="{{ 'component-list-social.css' | asset_url }}"
+    media="print"
+    fetchpriority="low"
+    onload="this.media='all'"
+  >
+
+  <noscript>
+    <link rel="stylesheet" href="{{ 'component-list-social.css' | asset_url }}">
+  </noscript>
+
+  <div
+    class="ur-social-luxury flex flex-wrap justify-center flex-column h-full spacing-style"
+    style="{% render 'spacing-style', settings: block.settings %}"
+  >
+
     <ul
-      class="list-unstyled list-social list-social--{{ block.settings.social_style }} flex flex-wrap sm\:justify-center list-position-inherit{% if class %} {{ class}}{% endif %}"
+      class="list-unstyled list-social list-social--{{ block.settings.social_style }} flex flex-wrap sm\:justify-center list-position-inherit{% if class %} {{ class }}{% endif %}"
       role="list"
       style="{{ social_style }}"
     >
+
       {%- if settings.social_twitter_link != blank -%}
         <li class="{{ class_item }}">
-          <a href="{{ settings.social_twitter_link }}" class="{{ class_link }}">
+          <a
+            href="{{ settings.social_twitter_link }}"
+            class="{{ class_link }}"
+            aria-label="{{ 'content.social.twitter' | t }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="svg-wrapper">
               {{- 'icon-twitter.svg' | inline_asset_content -}}
-              {{- 'icon-twitter.svg' | inline_asset_content -}}
             </span>
-            <span class="visually-hidden">{{ 'content.social.twitter' | t }}</span>
+            <span class="visually-hidden">
+              {{ 'content.social.twitter' | t }}
+            </span>
           </a>
         </li>
       {%- endif -%}
+
+
       {%- if settings.social_facebook_link != blank -%}
         <li class="{{ class_item }}">
-          <a href="{{ settings.social_facebook_link }}" class="{{ class_link }}">
+          <a
+            href="{{ settings.social_facebook_link }}"
+            class="{{ class_link }}"
+            aria-label="{{ 'content.social.facebook' | t }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="svg-wrapper">
               {{- 'icon-facebook.svg' | inline_asset_content -}}
-              {{- 'icon-facebook.svg' | inline_asset_content -}}
             </span>
-            <span class="visually-hidden">{{ 'content.social.facebook' | t }}</span>
+            <span class="visually-hidden">
+              {{ 'content.social.facebook' | t }}
+            </span>
           </a>
         </li>
       {%- endif -%}
+
+
       {%- if settings.social_pinterest_link != blank -%}
         <li class="{{ class_item }}">
-          <a href="{{ settings.social_pinterest_link }}" class="{{ class_link }}">
+          <a
+            href="{{ settings.social_pinterest_link }}"
+            class="{{ class_link }}"
+            aria-label="{{ 'content.social.pinterest' | t }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="svg-wrapper">
               {{- 'icon-pinterest.svg' | inline_asset_content -}}
-              {{- 'icon-pinterest.svg' | inline_asset_content -}}
             </span>
-            <span class="visually-hidden">{{ 'content.social.pinterest' | t }}</span>
+            <span class="visually-hidden">
+              {{ 'content.social.pinterest' | t }}
+            </span>
           </a>
         </li>
       {%- endif -%}
+
+
       {%- if settings.social_instagram_link != blank -%}
         <li class="{{ class_item }}">
-          <a href="{{ settings.social_instagram_link }}" class="{{ class_link }}">
+          <a
+            href="{{ settings.social_instagram_link }}"
+            class="{{ class_link }}"
+            aria-label="{{ 'content.social.instagram' | t }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="svg-wrapper">
               {{- 'icon-instagram.svg' | inline_asset_content -}}
-              {{- 'icon-instagram.svg' | inline_asset_content -}}
             </span>
-            <span class="visually-hidden">{{ 'content.social.instagram' | t }}</span>
+            <span class="visually-hidden">
+              {{ 'content.social.instagram' | t }}
+            </span>
           </a>
         </li>
       {%- endif -%}
+
+
       {%- if settings.social_tiktok_link != blank -%}
         <li class="{{ class_item }}">
-          <a href="{{ settings.social_tiktok_link }}" class="{{ class_link }}">
+          <a
+            href="{{ settings.social_tiktok_link }}"
+            class="{{ class_link }}"
+            aria-label="{{ 'content.social.tiktok' | t }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="svg-wrapper">
               {{- 'icon-tiktok.svg' | inline_asset_content -}}
-              {{- 'icon-tiktok.svg' | inline_asset_content -}}
             </span>
-            <span class="visually-hidden">{{ 'content.social.tiktok' | t }}</span>
+            <span class="visually-hidden">
+              {{ 'content.social.tiktok' | t }}
+            </span>
           </a>
         </li>
       {%- endif -%}
+
+
       {%- if settings.social_tumblr_link != blank -%}
         <li class="{{ class_item }}">
-          <a href="{{ settings.social_tumblr_link }}" class="{{ class_link }}">
+          <a
+            href="{{ settings.social_tumblr_link }}"
+            class="{{ class_link }}"
+            aria-label="{{ 'content.social.tumblr' | t }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="svg-wrapper">
               {{- 'icon-tumblr.svg' | inline_asset_content -}}
-              {{- 'icon-tumblr.svg' | inline_asset_content -}}
             </span>
-            <span class="visually-hidden">{{ 'content.social.tumblr' | t }}</span>
+            <span class="visually-hidden">
+              {{ 'content.social.tumblr' | t }}
+            </span>
           </a>
         </li>
       {%- endif -%}
+
+
       {%- if settings.social_snapchat_link != blank -%}
         <li class="{{ class_item }}">
-          <a href="{{ settings.social_snapchat_link }}" class="{{ class_link }}">
+          <a
+            href="{{ settings.social_snapchat_link }}"
+            class="{{ class_link }}"
+            aria-label="{{ 'content.social.snapchat' | t }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="svg-wrapper">
               {{- 'icon-snapchat.svg' | inline_asset_content -}}
-              {{- 'icon-snapchat.svg' | inline_asset_content -}}
             </span>
-            <span class="visually-hidden">{{ 'content.social.snapchat' | t }}</span>
+            <span class="visually-hidden">
+              {{ 'content.social.snapchat' | t }}
+            </span>
           </a>
         </li>
       {%- endif -%}
+
+
       {%- if settings.social_youtube_link != blank -%}
         <li class="{{ class_item }}">
-          <a href="{{ settings.social_youtube_link }}" class="{{ class_link }}">
+          <a
+            href="{{ settings.social_youtube_link }}"
+            class="{{ class_link }}"
+            aria-label="{{ 'content.social.youtube' | t }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="svg-wrapper">
               {{- 'icon-youtube.svg' | inline_asset_content -}}
-              {{- 'icon-youtube.svg' | inline_asset_content -}}
             </span>
-            <span class="visually-hidden">{{ 'content.social.youtube' | t }}</span>
+            <span class="visually-hidden">
+              {{ 'content.social.youtube' | t }}
+            </span>
           </a>
         </li>
       {%- endif -%}
+
+
       {%- if settings.social_vimeo_link != blank -%}
         <li class="{{ class_item }}">
-          <a href="{{ settings.social_vimeo_link }}" class="{{ class_link }}">
+          <a
+            href="{{ settings.social_vimeo_link }}"
+            class="{{ class_link }}"
+            aria-label="{{ 'content.social.vimeo' | t }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="svg-wrapper">
               {{- 'icon-vimeo.svg' | inline_asset_content -}}
-              {{- 'icon-vimeo.svg' | inline_asset_content -}}
             </span>
-            <span class="visually-hidden">{{ 'content.social.vimeo' | t }}</span>
+            <span class="visually-hidden">
+              {{ 'content.social.vimeo' | t }}
+            </span>
           </a>
         </li>
       {%- endif -%}
+
     </ul>
   </div>
+
+
+  <style>
+    /* =========================================================
+       UNIVERSes RAW
+       SOCIAL ICONS — QUIET LUXURY
+       ========================================================= */
+
+    .ur-social-luxury {
+
+      --ur-social-text: #292622;
+      --ur-social-muted: rgba(41, 38, 34, .58);
+      --ur-social-border: rgba(41, 38, 34, .14);
+      --ur-social-accent: #a58a62;
+
+      position: relative;
+
+      width: 100%;
+
+      color:
+        var(--ur-social-text);
+    }
+
+
+    /* =========================================================
+       SOCIAL LIST
+       ========================================================= */
+
+    .ur-social-luxury .list-social {
+
+      display: flex !important;
+
+      align-items: center;
+
+      justify-content: flex-start;
+
+      flex-wrap: wrap;
+
+      gap:
+        8px !important;
+
+      margin: 0;
+
+      padding: 0;
+
+      list-style: none;
+    }
+
+
+    /* =========================================================
+       SOCIAL ITEM
+       ========================================================= */
+
+    .ur-social-luxury .list-social__item {
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      margin: 0 !important;
+
+      padding: 0 !important;
+    }
+
+
+    /* =========================================================
+       SOCIAL BUTTON
+       ========================================================= */
+
+    .ur-social-luxury .list-social__link {
+
+      position: relative;
+
+      display: flex !important;
+
+      align-items: center;
+      justify-content: center;
+
+      width:
+        32px !important;
+
+      height:
+        32px !important;
+
+      min-width:
+        32px !important;
+
+      padding:
+        0 !important;
+
+      color:
+        var(--ur-social-muted) !important;
+
+      background:
+        transparent !important;
+
+      border:
+        1px solid var(--ur-social-border) !important;
+
+      border-radius:
+        50% !important;
+
+      text-decoration:
+        none !important;
+
+      overflow:
+        hidden;
+
+      transform:
+        translateZ(0);
+
+      transition:
+        color .25s ease,
+        background-color .25s ease,
+        border-color .25s ease,
+        transform .25s cubic-bezier(.22,1,.36,1),
+        box-shadow .25s ease !important;
+    }
+
+
+    /* =========================================================
+       ICON
+       ========================================================= */
+
+    .ur-social-luxury .list-social__link .svg-wrapper {
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      width:
+        13px;
+
+      height:
+        13px;
+
+      color:
+        currentColor;
+
+      line-height:
+        0;
+
+      z-index:
+        2;
+    }
+
+
+    .ur-social-luxury .list-social__link svg {
+
+      display:
+        block;
+
+      width:
+        13px !important;
+
+      height:
+        13px !important;
+
+      max-width:
+        13px;
+
+      max-height:
+        13px;
+
+      fill:
+        currentColor;
+
+      color:
+        currentColor;
+
+      transition:
+        transform .25s cubic-bezier(.22,1,.36,1);
+    }
+
+
+    /* =========================================================
+       HOVER
+       ========================================================= */
+
+    .ur-social-luxury .list-social__link:hover {
+
+      color:
+        var(--ur-social-text) !important;
+
+      background:
+        rgba(165,138,98,.07) !important;
+
+      border-color:
+        rgba(165,138,98,.42) !important;
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 5px 14px rgba(37,33,29,.07);
+    }
+
+
+    .ur-social-luxury .list-social__link:hover svg {
+
+      transform:
+        scale(1.08);
+    }
+
+
+    /* =========================================================
+       MICRO HIGHLIGHT
+       ========================================================= */
+
+    .ur-social-luxury .list-social__link::before {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      inset:
+        0;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,.25),
+          transparent 50%
+        );
+
+      opacity:
+        0;
+
+      pointer-events:
+        none;
+
+      transition:
+        opacity .25s ease;
+    }
+
+
+    .ur-social-luxury .list-social__link:hover::before {
+
+      opacity:
+        1;
+    }
+
+
+    /* =========================================================
+       REMOVE THEME DEFAULT LINK EFFECT
+       ========================================================= */
+
+    .ur-social-luxury .list-social__link.link::after {
+
+      display:
+        none !important;
+    }
+
+
+    .ur-social-luxury .list-social__link::after {
+
+      display:
+        none !important;
+    }
+
+
+    /* =========================================================
+       CUSTOM STYLE MODE
+       ========================================================= */
+
+    .ur-social-luxury .list-social--custom .list-social__link {
+
+      width:
+        var(--social-item-size, 32px) !important;
+
+      height:
+        var(--social-item-size, 32px) !important;
+
+      min-width:
+        var(--social-item-size, 32px) !important;
+
+      color:
+        var(--social-item-color, var(--ur-social-muted)) !important;
+
+      background:
+        var(--social-item-bg-color, transparent) !important;
+
+      border-color:
+        var(--social-item-border-color, var(--ur-social-border)) !important;
+    }
+
+
+    .ur-social-luxury .list-social--custom .list-social__link:hover {
+
+      color:
+        var(--social-item-color-hover, var(--ur-social-text)) !important;
+
+      background:
+        var(--social-item-bg-color-hover, rgba(165,138,98,.07)) !important;
+
+      border-color:
+        var(--social-item-border-color-hover, rgba(165,138,98,.42)) !important;
+    }
+
+
+    /* =========================================================
+       FOCUS
+       ========================================================= */
+
+    .ur-social-luxury .list-social__link:focus-visible {
+
+      outline:
+        1px solid var(--ur-social-accent) !important;
+
+      outline-offset:
+        3px !important;
+    }
+
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media screen and (max-width: 749px) {
+
+      .ur-social-luxury .list-social {
+
+        gap:
+          7px !important;
+      }
+
+
+      .ur-social-luxury .list-social__link {
+
+        width:
+          30px !important;
+
+        height:
+          30px !important;
+
+        min-width:
+          30px !important;
+      }
+
+
+      .ur-social-luxury .list-social__link .svg-wrapper {
+
+        width:
+          12px;
+
+        height:
+          12px;
+      }
+
+
+      .ur-social-luxury .list-social__link svg {
+
+        width:
+          12px !important;
+
+        height:
+          12px !important;
+      }
+
+
+      .ur-social-luxury .list-social--custom .list-social__link {
+
+        width:
+          var(--social-item-size-mobile, 30px) !important;
+
+        height:
+          var(--social-item-size-mobile, 30px) !important;
+
+        min-width:
+          var(--social-item-size-mobile, 30px) !important;
+      }
+    }
+
+
+    /* =========================================================
+       REDUCED MOTION
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .ur-social-luxury .list-social__link,
+      .ur-social-luxury .list-social__link svg,
+      .ur-social-luxury .list-social__link::before {
+
+        transition:
+          none !important;
+      }
+    }
+  </style>
+
 {%- endif -%}
+
 
 {% schema %}
 {
@@ -148,8 +640,14 @@
       "id": "social_style",
       "label": "t:settings.style",
       "options": [
-        { "value": "default", "label": "t:options.default" },
-        { "value": "custom", "label": "t:options.custom" }
+        {
+          "value": "default",
+          "label": "t:options.default"
+        },
+        {
+          "value": "custom",
+          "label": "t:options.custom"
+        }
       ],
       "default": "default"
     },
