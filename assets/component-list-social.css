@@ -1,67 +1,139 @@
-.list-social__item .icon {
-  height: 2.2rem;
-  width: 2.2rem;
+/* =========================================================
+   SOCIAL ICON — FINAL POSITION FIX
+   Keeps existing design, fixes SVG sitting at bottom
+   ========================================================= */
+
+.ur-social-luxury .list-social__link {
+  position: relative !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  line-height: 0 !important;
+
+  text-align: center !important;
+
+  overflow: hidden !important;
 }
 
-@media screen and (min-width: 1025px) {
 
-  .section-footer .social__item--custom .svg-wrapper,
-  .section-footer .social__item--custom .icon,
-  .section-footer .social__item--custom .list-social__link {
-    --icon-size-md: var(--social-item-size);
-    width: 100%;
-    height: 100%;
-  }
+/* SVG wrapper */
+.ur-social-luxury .list-social__link .svg-wrapper {
+  position: absolute !important;
 
-  .section-footer .social__item--effect .icon-twitter:first-child {
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
+  top: 50% !important;
+  left: 50% !important;
+
+  width: 15px !important;
+  height: 15px !important;
+
+  min-width: 15px !important;
+  min-height: 15px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  transform: translate(-50%, -50%) !important;
+
+  line-height: 0 !important;
+
+  color: currentColor !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  z-index: 5 !important;
 }
 
-.list-social__link {
-  align-items: center;
-  display: flex;
-  color: var(--color-foreground);
+
+/* SVG itself */
+.ur-social-luxury .list-social__link .svg-wrapper svg {
+  position: absolute !important;
+
+  top: 50% !important;
+  left: 50% !important;
+
+  display: block !important;
+
+  width: 15px !important;
+  height: 15px !important;
+
+  min-width: 15px !important;
+  min-height: 15px !important;
+
+  max-width: 15px !important;
+  max-height: 15px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  transform: translate(-50%, -50%) !important;
+
+  color: currentColor !important;
+
+  fill: currentColor !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  overflow: visible !important;
 }
 
-.utility-bar .list-social__link {
-  padding: 0 0.8rem;
-  height: 3.8rem;
+
+/* SVG artwork */
+.ur-social-luxury .list-social__link .svg-wrapper svg path {
+  fill: currentColor !important;
+
+  stroke: none !important;
+
+  opacity: 1 !important;
 }
 
-.list-social--custom .list-social__item {
-  width: var(--social-item-size);
-  height: var(--social-item-size);
-  border-radius: 50%;
-  background-color: var(--social-item-bg-color);
-  color: var(--social-item-color);
-  border: 1px solid var(--social-item-border-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+
+/* Prevent theme stylesheet from moving the icon */
+.ur-social-luxury .list-social__link svg:not(:root) {
+  vertical-align: middle !important;
 }
 
-.list-social--custom .list-social__item .list-social__link {
-  transition: all 0.2s ease;
-  color: inherit;
+
+/* =========================================================
+   DEFAULT ICON COLOR
+   ========================================================= */
+
+.ur-social-luxury .list-social--default .list-social__link {
+  color: #292622 !important;
 }
 
-@media (hover: hover) {
-  .list-social--custom .list-social__item:hover {
-    background-color: var(--social-item-bg-color-hover);
-    color: var(--social-item-color-hover);
-    border-color: var(--social-item-border-color-hover);
-  }
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.ur-social-luxury .list-social__link:hover {
+  color: #ffffff !important;
+  background: #292622 !important;
+  border-color: #292622 !important;
 }
 
-@media (max-width: 749px) {
-  .list-social--custom .list-social__item {
-    width: var(--social-item-size-mobile);
-    height: var(--social-item-size-mobile);
-  }
+.ur-social-luxury .list-social__link:hover .svg-wrapper,
+.ur-social-luxury .list-social__link:hover svg {
+  color: #ffffff !important;
+}
+
+
+/* =========================================================
+   CUSTOM MODE
+   ========================================================= */
+
+.ur-social-luxury .list-social--custom .list-social__link {
+  color: var(--social-item-color) !important;
+}
+
+.ur-social-luxury .list-social--custom .list-social__link:hover {
+  color: var(--social-item-color-hover) !important;
 }
