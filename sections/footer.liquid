@@ -37,13 +37,90 @@
     </div>
   </div>
 </{% if section.settings.animation_type == 'parallax' %}footer-parallax{% else %}div{% endif %}>
+
+
+<style id="universes-raw-footer-desktop-fix">
+/* UNIVERSes RAW — desktop footer width/layout fix */
+@media screen and (min-width: 750px) {
+  .section-footer,
+  .section-footer > footer,
+  .section-footer .section,
+  .section-footer .section-content-wrapper {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .section-footer .section-content-wrapper {
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  /* Make every footer group use the available desktop width. */
+  .section-footer .section-content-wrapper > *,
+  .section-footer .section-content-wrapper > *:first-child,
+  .section-footer .section-content-wrapper > *:last-child {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Footer group itself: full-width horizontal layout. */
+  .section-footer .section-content-wrapper footer-group,
+  .section-footer .section-content-wrapper [class*="footer-group"] {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+  }
+
+  /* Footer columns must be allowed to grow instead of shrinking to content. */
+  .section-footer .section-content-wrapper footer-column,
+  .section-footer .section-content-wrapper [class*="footer-column"] {
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Any nested horizontal footer layout should actually distribute space. */
+  .section-footer .section-content-wrapper .layout-panel-flex--row {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Menu columns: equal, usable desktop widths. */
+  .section-footer .section-content-wrapper [class*="footer-column"] > .layout-panel-flex--row,
+  .section-footer .section-content-wrapper [class*="footer-column"] .layout-panel-flex--row {
+    width: 100% !important;
+  }
+
+  .section-footer .section-content-wrapper [class*="footer-column"] .layout-panel-flex--row > * {
+    min-width: 0 !important;
+    flex: 1 1 0 !important;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .section-footer .section-content-wrapper {
+    padding-inline: clamp(32px, 4vw, 72px) !important;
+  }
+}
+</style>
+
 {% schema %}
 {
   "name": "t:names.footer_group",
   "class": "section-footer",
   "tag": "footer",
   "enabled_on": {
-    "groups": ["footer"]
+    "groups": [
+      "footer"
+    ]
   },
   "blocks": [
     {
@@ -424,22 +501,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "space-between",
             "vertical_alignment": "flex-start",
             "wrap": "wrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_PrDPi9": {
@@ -922,22 +989,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "wrap": "nowrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "flex-start"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_adbGFH": {
@@ -1201,22 +1258,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "wrap": "nowrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_8QL8Xt": {
@@ -1610,22 +1657,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "wrap": "wrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_GQgWee": {
@@ -1698,22 +1735,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "wrap": "nowrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_LxzCBd": {
@@ -2014,22 +2041,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "row",
-            "content_direction_mobile": "row",
             "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "wrap": "wrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_GQgWee": {
@@ -2102,22 +2119,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "row",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "wrap": "nowrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_LxzCBd": {
@@ -2389,22 +2396,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "row",
-            "content_direction_mobile": "row",
             "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "wrap": "wrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "center",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "icon_x9CEHJ": {
@@ -2502,22 +2499,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "wrap": "wrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center",
             "gap": 0,
             "width": "fill",
             "custom_width": 100,
@@ -2830,22 +2817,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "wrap": "nowrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center",
             "gap": 30,
             "width": "fill",
             "custom_width": 100,
@@ -3163,22 +3140,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
             "wrap": "wrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_PrDPi9": {
@@ -3636,22 +3603,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "wrap": "wrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_GQgWee": {
@@ -3724,22 +3681,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "wrap": "nowrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_LxzCBd": {
@@ -3912,22 +3859,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "column",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "wrap": "nowrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "center",
-            "vertical_alignment_flex_direction_column_mobile": "center"
+            "vertical_alignment_flex_direction_column": "center"
           },
           "blocks": {
             "footer_column_ABcaa6": {
@@ -4530,22 +4467,12 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "content_direction_tablet": "row",
-            "content_direction_mobile": "column",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "wrap": "nowrap",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_tablet": "flex-start",
-            "horizontal_alignment_flex_direction_column_tablet": "flex-start",
-            "vertical_alignment_flex_direction_column_tablet": "center",
-            "vertical_alignment_tablet": "center",
-            "horizontal_alignment_mobile": "flex-start",
-            "vertical_alignment_mobile": "center",
-            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
-            "vertical_alignment_flex_direction_column_mobile": "center",
             "gap": 92,
             "width": "fill",
             "custom_width": 100,
