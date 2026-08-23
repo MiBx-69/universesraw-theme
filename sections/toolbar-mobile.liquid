@@ -182,6 +182,44 @@
           </a>
 
 
+        {%- when 'collection' -%}
+
+          <a
+            href="{{ routes.collections_url }}"
+            class="toolbar-mobile__item toolbar-mobile__item--collection"
+            aria-label="{{ block.settings.title | default: 'Collection' | escape }}"
+          >
+            <span class="toolbar-mobile__button">
+
+              <span class="toolbar-mobile__icon">
+
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon }}
+                {%- else -%}
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 5H20"></path>
+                    <path d="M4 9.5H20"></path>
+                    <path d="M4 14.5H20"></path>
+                    <path d="M4 19H20"></path>
+                    <path d="M7 3V7"></path>
+                    <path d="M17 8V12"></path>
+                    <path d="M7 13V17"></path>
+                    <path d="M17 18V22"></path>
+                  </svg>
+                {%- endif -%}
+
+              </span>
+
+              {%- if block.settings.title != blank -%}
+                <span class="toolbar-mobile__label">
+                  {{ block.settings.title | escape }}
+                </span>
+              {%- endif -%}
+
+            </span>
+          </a>
+
+
         {%- when 'cart' -%}
 
           {%- if block.settings.action_type == 'drawer' -%}
@@ -418,6 +456,29 @@
     },
 
     {
+      "type": "collection",
+      "name": "Collection",
+      "limit": 1,
+
+      "settings": [
+
+        {
+          "type": "textarea",
+          "id": "icon",
+          "label": "Custom SVG icon"
+        },
+
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Label",
+          "default": "Collection"
+        }
+
+      ]
+    },
+
+    {
       "type": "cart",
       "name": "Cart",
       "limit": 1,
@@ -466,13 +527,13 @@
 
       "blocks": [
         {
-          "type": "search"
-        },
-        {
-          "type": "account"
-        },
-        {
           "type": "home"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "search"
         },
         {
           "type": "cart"

@@ -306,14 +306,6 @@
             "title": "Home"
           }
         },
-        "account_Dr4miT": {
-          "type": "account",
-          "settings": {
-            "icon": "",
-            "title": "Account",
-            "action_type": "drawer"
-          }
-        },
         "search_ktXppy": {
           "type": "search",
           "settings": {
@@ -333,7 +325,6 @@
       },
       "block_order": [
         "home_yYBiVf",
-        "account_Dr4miT",
         "search_ktXppy",
         "cart_BKg8Fh"
       ],
