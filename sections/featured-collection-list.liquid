@@ -1515,18 +1515,54 @@
     color: var(--ur-luxury-ink) !important;
   }
 
+  /* ---------------------------------------------------------
+     CURRENT / SELECTED COLLECTION
+     Make the collection the customer is browsing unmistakable.
+     --------------------------------------------------------- */
   .premium-collection-section .premium-tabs-header .tabs-product-header__item.active,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item.is-active,
+  .premium-collection-section .premium-tabs-header .tabs-product-header__item.ur-tab-current,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item[aria-selected="true"],
   .premium-collection-section .premium-tabs-header .tabs-product-header__item[aria-current="true"] {
     color: var(--ur-luxury-ink) !important;
+    font-weight: 700 !important;
+    background: rgba(17,17,17,.055) !important;
   }
 
   .premium-collection-section .premium-tabs-header .tabs-product-header__item.active::after,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item.is-active::after,
+  .premium-collection-section .premium-tabs-header .tabs-product-header__item.ur-tab-current::after,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item[aria-selected="true"]::after,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item[aria-current="true"]::after {
     transform: scaleX(1);
+  }
+
+  .premium-collection-section .premium-tabs-header .tabs-product-header__item.ur-tab-current::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    flex: 0 0 4px;
+    margin-right: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .premium-collection-section .premium-tabs-header .tabs-product-header__item.ur-tab-current {
+    box-shadow: inset 0 -1px 0 rgba(17,17,17,.16) !important;
+  }
+
+  /* Small context label so the tab row reads as navigation,
+     not just a list of links. */
+  .premium-collection-section .tabs-product-header-wrapper::before {
+    content: "BROWSING";
+    display: block;
+    margin: 0 0 8px 2px;
+    color: rgba(17,17,17,.42);
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: .18em;
+    text-transform: uppercase;
   }
 
   /* Underlined-header mode gets the same luxury treatment. */
@@ -1665,12 +1701,23 @@
       padding-right: 4px;
     }
 
+    .premium-collection-section .tabs-product-header-wrapper::before {
+      margin-left: 4px;
+      margin-bottom: 7px;
+      font-size: 7px;
+      letter-spacing: .17em;
+    }
+
     .premium-collection-section .premium-tabs-header .tabs-product-header__item {
       min-height: 42px;
       padding-left: 12px !important;
       padding-right: 12px !important;
       font-size: 9px;
       letter-spacing: .13em;
+    }
+
+    .premium-collection-section .premium-tabs-header .tabs-product-header__item.ur-tab-current {
+      border-radius: 6px 6px 0 0 !important;
     }
 
     .premium-collection-section .premium-tabs-header .tabs-product-header__item::after {
@@ -1836,11 +1883,20 @@
       display: none;
     }
 
+    .premium-collection-section .tabs-product-header-wrapper::before {
+      margin-left: 2px;
+      margin-bottom: 7px;
+    }
+
     .premium-collection-section .premium-tabs-header .tabs-product-header__item {
       min-height: 46px;
       padding-inline: 13px !important;
       font-size: 10px;
       letter-spacing: .14em;
+    }
+
+    .premium-collection-section .premium-tabs-header .tabs-product-header__item.ur-tab-current {
+      border-radius: 6px 6px 0 0 !important;
     }
 
     .premium-collection-section .tabs-product-grid {
@@ -1886,8 +1942,127 @@
       }
     }
 
+    function initQuickAdd(root) {
+      (root || document)
+        .querySelectorAll('[data-ur-quick-add-card]')
+        .forEach(placeQuickAdd);
+    }
+
+    function getTabItems(section) {
+      if (!section) return [];
+      return Array.from(
+        section.querySelectorAll(
+          '.premium-tabs-header .tabs-product-header__item'
+        )
+      );
+    }
+
+    function setCurrentTab(section, item) {
+      if (!section || !item) return;
+
+      var items = getTabItems(section);
+      if (!items.length) return;
+
+      items.forEach(function (tab) {
+        tab.classList.remove('ur-tab-current');
+        tab.removeAttribute('aria-current');
+        tab.removeAttribute('data-ur-current-tab');
+      });
+
+      item.classList.add('ur-tab-current');
+      item.setAttribute('aria-current', 'true');
+      item.setAttribute('data-ur-current-tab', 'true');
+
+      /* Keep the active tab visible on mobile without jumping the page. */
+      if (window.matchMedia('(max-width: 749px)').matches) {
+        try {
+          item.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center'
+          });
+        } catch (e) {}
+      }
+    }
+
+    function syncCurrentTab(section) {
+      if (!section) return;
+
+      var items = getTabItems(section);
+      if (!items.length) return;
+
+      var active =
+        items.find(function (item) {
+          return (
+            item.classList.contains('active') ||
+            item.classList.contains('is-active') ||
+            item.getAttribute('aria-selected') === 'true' ||
+            item.getAttribute('aria-current') === 'true'
+          );
+        }) || items.find(function (item) {
+          return item.classList.contains('ur-tab-current');
+        });
+
+      if (!active) {
+        active = items[0];
+      }
+
+      setCurrentTab(section, active);
+    }
+
+    function initTabHighlight(section) {
+      if (!section || section.dataset.urTabsHighlightReady === 'true') return;
+
+      section.dataset.urTabsHighlightReady = 'true';
+
+      syncCurrentTab(section);
+
+      section.addEventListener(
+        'click',
+        function (event) {
+          var item = event.target.closest(
+            '.premium-tabs-header .tabs-product-header__item'
+          );
+
+          if (!item || !section.contains(item)) return;
+
+          /*
+           * Let the theme's own tab handler switch the product panel first.
+           * We only update the visual "you are here" state.
+           */
+          requestAnimationFrame(function () {
+            setCurrentTab(section, item);
+          });
+
+          setTimeout(function () {
+            syncCurrentTab(section);
+          }, 120);
+        },
+        true
+      );
+
+      /* Theme tabs may change their active class after our click. */
+      var observer = new MutationObserver(function () {
+        requestAnimationFrame(function () {
+          syncCurrentTab(section);
+        });
+      });
+
+      observer.observe(section, {
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'aria-selected', 'aria-current']
+      });
+    }
+
     function init(root) {
-      (root || document).querySelectorAll('[data-ur-quick-add-card]').forEach(placeQuickAdd);
+      var scope = root || document;
+
+      initQuickAdd(scope);
+
+      scope
+        .querySelectorAll('.premium-collection-section')
+        .forEach(initTabHighlight);
     }
 
     function boot() {
@@ -1914,6 +2089,7 @@
     }
   })();
 </script>
+
 {% schema %}
 {
   "name": "t:names.featured_collection_list",
