@@ -132,8 +132,49 @@
 
                   {% # theme-check-enable %}
 
+                  {%- comment -%}
+                    UNIVERSes RAW — QUICK ADD BAG
+                    This collection uses the Horizon "_product-card"
+                    theme block. The trigger is rendered here and then
+                    moved by JavaScript into the actual .card__inner,
+                    making bottom/right relative to the product image.
+                  {%- endcomment -%}
+                  <modal-opener
+                    class="universes-horizon-bag"
+                    data-modal="#QuickAddStandard"
+                    data-universes-bag
+                  >
+                    <button
+                      type="button"
+                      class="universes-horizon-bag__button"
+                      aria-label="Quick add {{ product.title | escape }}"
+                      data-product-url="{{ product.url }}"
+                      data-product-id="{{ product.id }}"
+                      data-product-handle="{{ product.handle }}"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="19"
+                        height="19"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                      </svg>
+                      <span class="visually-hidden">
+                        Quick add {{ product.title | escape }}
+                      </span>
+                    </button>
+                  </modal-opener>
 
-                                  </li>
+                </li>
 
               {% endfor %}
 
@@ -224,6 +265,148 @@
 
 </div>
 
+
+
+<!-- =============================================================
+     UNIVERSes RAW — QUICK ADD BAG POSITION
+     ============================================================= -->
+<style id="universes-horizon-bag-position">
+  /* Temporary position while JS moves the trigger into .card__inner */
+  .product-grid__item > .universes-horizon-bag[data-universes-bag] {
+    position: absolute !important;
+    top: auto !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    width: 42px !important;
+    height: 42px !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* Final position: bottom-right of the actual product image/card media */
+  .card__inner > .universes-horizon-bag[data-universes-bag] {
+    position: absolute !important;
+    top: auto !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    left: auto !important;
+    width: 42px !important;
+    height: 42px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 999 !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .card__inner > .universes-horizon-bag[data-universes-bag]
+  .universes-horizon-bag__button {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    box-sizing: border-box !important;
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid rgba(17,17,17,.08) !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.97) !important;
+    color: #111 !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,.14) !important;
+    cursor: pointer !important;
+    transform: none !important;
+    transition: transform .2s ease, background-color .2s ease,
+      color .2s ease, box-shadow .2s ease !important;
+  }
+
+  .card__inner > .universes-horizon-bag[data-universes-bag]
+  .universes-horizon-bag__button:hover {
+    background: #111 !important;
+    color: #fff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 7px 20px rgba(0,0,0,.20) !important;
+  }
+
+  .card__inner > .universes-horizon-bag[data-universes-bag]
+  .universes-horizon-bag__button svg {
+    display: block !important;
+    width: 19px !important;
+    height: 19px !important;
+    margin: 0 !important;
+    color: currentColor !important;
+    stroke: currentColor !important;
+    fill: none !important;
+  }
+
+  .card__inner {
+    position: relative !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    .card__inner > .universes-horizon-bag[data-universes-bag] {
+      right: 8px !important;
+      bottom: 8px !important;
+      width: 38px !important;
+      height: 38px !important;
+    }
+
+    .card__inner > .universes-horizon-bag[data-universes-bag]
+    .universes-horizon-bag__button {
+      width: 38px !important;
+      min-width: 38px !important;
+      height: 38px !important;
+      min-height: 38px !important;
+    }
+
+    .card__inner > .universes-horizon-bag[data-universes-bag]
+    .universes-horizon-bag__button svg {
+      width: 17px !important;
+      height: 17px !important;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const moveQuickAddBags = (root = document) => {
+      root.querySelectorAll(
+        '.product-grid__item > .universes-horizon-bag[data-universes-bag]'
+      ).forEach((bag) => {
+        const card = bag.closest('.product-grid__item');
+        const media = card && card.querySelector('.card__inner');
+
+        if (!media) return;
+
+        if (bag.parentElement !== media) {
+          media.appendChild(bag);
+        }
+      });
+    };
+
+    const run = () => moveQuickAddBags();
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run, { once: true });
+    } else {
+      run();
+    }
+
+    const observer = new MutationObserver(() => moveQuickAddBags());
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  })();
+</script>
 
 {% schema %}
 
