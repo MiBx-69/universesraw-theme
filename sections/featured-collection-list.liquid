@@ -1452,7 +1452,22 @@
   /* ---------- Tabs / collection navigation ---------- */
   .premium-collection-section .tabs-product-header-wrapper {
     width: 100%;
-    margin: 0 auto;
+    margin: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    --pt: 0px !important;
+    --pb: 0px !important;
+  }
+
+  /* Remove inherited header spacing above the collection tabs.
+     This keeps the tabs visually attached to the section content. */
+  .premium-collection-section .section-global__header {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .premium-collection-section .tabs-product-header-wrapper::before {
+    margin-top: 0 !important;
   }
 
   .premium-collection-section .premium-tabs-header {
@@ -1556,7 +1571,7 @@
   .premium-collection-section .tabs-product-header-wrapper::before {
     content: "BROWSING";
     display: block;
-    margin: 0 0 8px 2px;
+    margin: 0 0 5px 2px !important;
     color: rgba(17,17,17,.42);
     font-size: 8px;
     font-weight: 700;
@@ -1703,7 +1718,8 @@
 
     .premium-collection-section .tabs-product-header-wrapper::before {
       margin-left: 4px;
-      margin-bottom: 7px;
+      margin-top: 0 !important;
+      margin-bottom: 4px !important;
       font-size: 7px;
       letter-spacing: .17em;
     }
@@ -1726,7 +1742,7 @@
     }
 
     .premium-collection-section .tabs-product-grid {
-      padding-top: 14px;
+      padding-top: 8px !important;
     }
 
     .premium-collection-section .tabs-product-grid .grid {
@@ -1885,7 +1901,8 @@
 
     .premium-collection-section .tabs-product-header-wrapper::before {
       margin-left: 2px;
-      margin-bottom: 7px;
+      margin-top: 0 !important;
+      margin-bottom: 4px !important;
     }
 
     .premium-collection-section .premium-tabs-header .tabs-product-header__item {
@@ -1900,7 +1917,7 @@
     }
 
     .premium-collection-section .tabs-product-grid {
-      padding-top: 14px;
+      padding-top: 8px !important;
     }
 
     .premium-collection-section .tabs-product-grid .grid {
