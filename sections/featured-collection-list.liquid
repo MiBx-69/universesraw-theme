@@ -1529,6 +1529,7 @@
      CURRENT / SELECTED COLLECTION
      Make the collection the customer is browsing unmistakable.
      --------------------------------------------------------- */
+  .premium-collection-section .premium-tabs-header .tabs-product-header__item.--active,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item.active,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item.is-active,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item.ur-tab-current,
@@ -1539,6 +1540,7 @@
     background: rgba(17,17,17,.055) !important;
   }
 
+  .premium-collection-section .premium-tabs-header .tabs-product-header__item.--active::after,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item.active::after,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item.is-active::after,
   .premium-collection-section .premium-tabs-header .tabs-product-header__item.ur-tab-current::after,
@@ -2007,6 +2009,19 @@
 
 <script>
   (function () {
+    /*
+     * UNIVERSes RAW
+     * Quick Add + stable collection tabs.
+     *
+     * Important:
+     * The theme's native TabsComponent uses:
+     *   .tabs-component-panel-trigger -> href="#tabs-SECTION-INDEX"
+     *   .tabs-component-content       -> matching panel
+     *
+     * We use that same contract here instead of trying to infer
+     * the active collection from arbitrary CSS classes.
+     */
+
     function placeQuickAdd(card) {
       if (!card) return;
 
@@ -2034,17 +2049,6 @@
       return section
         ? section.querySelector('.premium-tabs-header')
         : null;
-    }
-
-    function getItems(section) {
-      var scroller = getScroller(section);
-      return scroller
-        ? Array.from(
-            scroller.querySelectorAll(
-              '.tabs-product-header__item'
-            )
-          )
-        : [];
     }
 
     function updateSlideIndicator(section) {
@@ -2075,96 +2079,366 @@
       );
     }
 
-    function markActiveTab(section, item, center) {
-      if (!item) return;
+    function getTabButtons(tabsComponent) {
+      return tabsComponent
+        ? Array.from(
+            tabsComponent.querySelectorAll(
+              '.tabs-component-panel-trigger'
+            )
+          )
+        : [];
+    }
 
-      var items = getItems(section);
+    function getTabPanels(tabsComponent) {
+      return tabsComponent
+        ? Array.from(
+            tabsComponent.querySelectorAll(
+              ':scope > .tabs-component-content'
+            )
+          )
+        : [];
+    }
 
-      items.forEach(function (tab) {
-        tab.classList.remove('ur-tab-current');
-        tab.removeAttribute('data-ur-current-tab');
-      });
+    function renderPanel(panel) {
+      if (!panel) return;
 
-      item.classList.add('ur-tab-current');
-      item.setAttribute(
-        'data-ur-current-tab',
-        'true'
-      );
-
-      if (center && !window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-      ).matches) {
-        item.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'nearest'
-        });
+      if (panel.hasAttribute('data-rendered')) {
+        return;
       }
 
-      updateSlideIndicator(section);
-    }
-
-    function findActiveTab(section) {
-      var items = getItems(section);
-
-      return (
-        items.find(function (item) {
-          return (
-            item.classList.contains('active') ||
-            item.classList.contains('is-active') ||
-            item.getAttribute('aria-selected') === 'true' ||
-            item.getAttribute('aria-current') === 'true'
-          );
-        }) ||
-        items.find(function (item) {
-          return item.classList.contains(
-            'ur-tab-current'
-          );
-        }) ||
-        items[0]
+      var template = panel.querySelector(
+        'template.tabs-component-template'
       );
+
+      if (!template) {
+        panel.setAttribute(
+          'data-rendered',
+          'true'
+        );
+        return;
+      }
+
+      var content =
+        template.content.cloneNode(true);
+
+      panel.appendChild(content);
+      panel.setAttribute(
+        'data-rendered',
+        'true'
+      );
+
+      /*
+       * Give newly inserted Quick Add elements a chance
+       * to be positioned over their product image.
+       */
+      requestAnimationFrame(function () {
+        initQuickAdd(panel);
+      });
     }
 
-    function initTabScroller(section) {
+    function activateTab(tabsComponent, button) {
+      if (!tabsComponent || !button) return;
+
+      var href = button.getAttribute('href');
+
+      if (!href || href.charAt(0) !== '#') {
+        return;
+      }
+
+      var targetId = href.substring(1);
+
+      var buttons =
+        getTabButtons(tabsComponent);
+
+      var panels =
+        getTabPanels(tabsComponent);
+
+      var targetPanel =
+        tabsComponent.querySelector(
+          '#' + CSS.escape(targetId)
+        );
+
+      if (!targetPanel) {
+        /*
+         * Fallback for older browsers without CSS.escape.
+         */
+        targetPanel = document.getElementById(
+          targetId
+        );
+      }
+
+      if (!targetPanel) {
+        console.warn(
+          'Universes RAW Tabs: collection panel not found:',
+          targetId
+        );
+        return;
+      }
+
+      /*
+       * Exactly match the theme's TabsComponent behavior:
+       * one active trigger + one active collection panel.
+       */
+      buttons.forEach(function (tab) {
+        var isCurrent =
+          tab.getAttribute('href') === href;
+
+        tab.classList.toggle(
+          '--active',
+          isCurrent
+        );
+
+        tab.classList.toggle(
+          'is-active',
+          isCurrent
+        );
+
+        tab.classList.toggle(
+          'ur-tab-current',
+          isCurrent
+        );
+
+        if (isCurrent) {
+          tab.setAttribute(
+            'aria-selected',
+            'true'
+          );
+          tab.setAttribute(
+            'aria-current',
+            'true'
+          );
+          tab.setAttribute(
+            'data-ur-current-tab',
+            'true'
+          );
+        } else {
+          tab.removeAttribute(
+            'aria-selected'
+          );
+          tab.removeAttribute(
+            'aria-current'
+          );
+          tab.removeAttribute(
+            'data-ur-current-tab'
+          );
+        }
+      });
+
+      panels.forEach(function (panel) {
+        var isCurrent =
+          panel.id === targetId;
+
+        panel.classList.toggle(
+          '--active',
+          isCurrent
+        );
+
+        panel.classList.toggle(
+          'is-active',
+          isCurrent
+        );
+
+        if (isCurrent) {
+          renderPanel(panel);
+        }
+      });
+
+      /*
+       * If the collection panel was rendered from a template,
+       * initialize any custom elements after it becomes visible.
+       */
+      requestAnimationFrame(function () {
+        initQuickAdd(targetPanel);
+
+        var scroller =
+          getScroller(
+            tabsComponent.closest(
+              '.premium-collection-section'
+            )
+          );
+
+        if (scroller) {
+          /*
+           * Keep the selected tab visible, but don't force
+           * a large jump across the tab row.
+           */
+          var buttonRect =
+            button.getBoundingClientRect();
+
+          var scrollerRect =
+            scroller.getBoundingClientRect();
+
+          if (
+            buttonRect.left < scrollerRect.left
+          ) {
+            scroller.scrollBy({
+              left:
+                buttonRect.left -
+                scrollerRect.left -
+                12,
+              behavior: 'smooth'
+            });
+          } else if (
+            buttonRect.right >
+            scrollerRect.right
+          ) {
+            scroller.scrollBy({
+              left:
+                buttonRect.right -
+                scrollerRect.right +
+                12,
+              behavior: 'smooth'
+            });
+          }
+
+          updateSlideIndicator(
+            tabsComponent.closest(
+              '.premium-collection-section'
+            )
+          );
+        }
+      });
+    }
+
+    function initTabSelection(section) {
       if (!section) return;
 
-      var scroller = getScroller(section);
-      if (!scroller) return;
+      var tabsComponent =
+        section.querySelector(
+          'tabs-component'
+        );
+
+      if (!tabsComponent) return;
 
       if (
-        scroller.dataset.urStableScrollReady ===
-        'true'
+        tabsComponent.dataset
+          .urTabSelectionReady === 'true'
       ) {
         updateSlideIndicator(section);
         return;
       }
 
-      scroller.dataset.urStableScrollReady =
-        'true';
+      tabsComponent.dataset
+        .urTabSelectionReady = 'true';
 
       /*
-       * IMPORTANT:
-       * Do not modify scrollLeft during a native touch swipe.
-       * The browser handles mobile momentum scrolling much
-       * better than JavaScript.
+       * Capture-phase delegation guarantees that clicking
+       * the visible tab header reaches our collection switcher.
+       *
+       * We do NOT stop propagation, so the theme's own
+       * TabsComponent can continue running as well.
+       */
+      tabsComponent.addEventListener(
+        'click',
+        function (event) {
+          var button =
+            event.target.closest(
+              '.tabs-component-panel-trigger'
+            );
+
+          if (
+            !button ||
+            !tabsComponent.contains(button)
+          ) {
+            return;
+          }
+
+          var href =
+            button.getAttribute('href');
+
+          if (
+            !href ||
+            href.charAt(0) !== '#'
+          ) {
+            return;
+          }
+
+          /*
+           * Let the browser/theme event finish normally,
+           * then guarantee the correct panel state.
+           */
+          requestAnimationFrame(function () {
+            activateTab(
+              tabsComponent,
+              button
+            );
+          });
+        },
+        true
+      );
+
+      /*
+       * If the theme changes the active tab itself,
+       * this lightweight observer only watches the trigger
+       * class. It does not touch scrollLeft.
+       */
+      var buttons =
+        getTabButtons(tabsComponent);
+
+      var initialButton =
+        buttons.find(function (button) {
+          return (
+            button.classList.contains(
+              '--active'
+            ) ||
+            button.classList.contains(
+              'is-active'
+            )
+          );
+        }) || buttons[0];
+
+      if (initialButton) {
+        activateTab(
+          tabsComponent,
+          initialButton
+        );
+      }
+
+      updateSlideIndicator(section);
+    }
+
+    function initTabScrolling(section) {
+      if (!section) return;
+
+      var scroller =
+        getScroller(section);
+
+      if (!scroller) return;
+
+      if (
+        scroller.dataset
+          .urStableScrollReady === 'true'
+      ) {
+        updateSlideIndicator(section);
+        return;
+      }
+
+      scroller.dataset
+        .urStableScrollReady = 'true';
+
+      /*
+       * Native touch scrolling is intentionally untouched.
        */
       scroller.addEventListener(
         'scroll',
         function () {
-          updateSlideIndicator(section);
+          updateSlideIndicator(
+            section
+          );
         },
         { passive: true }
       );
 
       /*
-       * Mouse wheel -> horizontal scroll.
-       * Use an immediate scroll instead of repeatedly starting
-       * smooth animations, which can cause the "shaking" effect.
+       * Mouse wheel -> horizontal scrolling.
        */
       scroller.addEventListener(
         'wheel',
         function (event) {
-          if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+          if (
+            Math.abs(event.deltaY) <=
+            Math.abs(event.deltaX)
+          ) {
             return;
           }
 
@@ -2174,18 +2448,22 @@
 
           if (maxScroll <= 2) return;
 
-          var before = scroller.scrollLeft;
-          var amount = event.deltaY;
+          var before =
+            scroller.scrollLeft;
 
-          scroller.scrollLeft = Math.max(
-            0,
-            Math.min(
-              maxScroll,
-              before + amount
-            )
-          );
+          scroller.scrollLeft =
+            Math.max(
+              0,
+              Math.min(
+                maxScroll,
+                before + event.deltaY
+              )
+            );
 
-          if (scroller.scrollLeft !== before) {
+          if (
+            scroller.scrollLeft !==
+            before
+          ) {
             event.preventDefault();
           }
         },
@@ -2193,9 +2471,8 @@
       );
 
       /*
-       * Desktop mouse dragging only.
-       * Touch is intentionally excluded so mobile native
-       * swipe remains completely smooth.
+       * Desktop mouse-drag only.
+       * Touch swipe remains completely native.
        */
       var dragging = false;
       var moved = false;
@@ -2210,7 +2487,8 @@
           dragging = true;
           moved = false;
           startX = event.clientX;
-          startScroll = scroller.scrollLeft;
+          startScroll =
+            scroller.scrollLeft;
 
           scroller.classList.add(
             'ur-tab-dragging'
@@ -2232,7 +2510,9 @@
             scroller.scrollLeft =
               startScroll - distance;
 
-            updateSlideIndicator(section);
+            updateSlideIndicator(
+              section
+            );
           }
         }
       );
@@ -2244,10 +2524,6 @@
           'ur-tab-dragging'
         );
 
-        /*
-         * Clear after the browser finishes the click
-         * sequence so a drag never activates a tab.
-         */
         setTimeout(function () {
           moved = false;
         }, 0);
@@ -2263,6 +2539,9 @@
         stopDragging
       );
 
+      /*
+       * A drag should never activate a collection.
+       */
       scroller.addEventListener(
         'click',
         function (event) {
@@ -2274,69 +2553,30 @@
         true
       );
 
-      /*
-       * Only listen for the tab click itself.
-       * We intentionally do NOT use a MutationObserver here.
-       * That was the source of scroll-position fighting in
-       * dynamic theme tabs.
-       */
-      section.addEventListener(
-        'click',
-        function (event) {
-          var item = event.target.closest(
-            '.premium-tabs-header .tabs-product-header__item'
-          );
-
-          if (!item || !section.contains(item)) {
-            return;
-          }
-
-          /*
-           * Let the theme switch the actual panel first.
-           * Then update our visual selected state once.
-           */
-          setTimeout(function () {
-            markActiveTab(
-              section,
-              findActiveTab(section) || item,
-              true
-            );
-          }, 80);
-        },
-        false
-      );
-
-      /*
-       * Initial state only.
-       */
-      var active = findActiveTab(section);
-
-      if (active) {
-        markActiveTab(
-          section,
-          active,
-          false
-        );
-      }
-
       updateSlideIndicator(section);
 
-      /*
-       * Recalculate only when the element size changes.
-       * This never changes scrollLeft, so it cannot fight a swipe.
-       */
-      if ('ResizeObserver' in window) {
+      if (
+        'ResizeObserver' in window
+      ) {
         var resizeObserver =
-          new ResizeObserver(function () {
-            updateSlideIndicator(section);
-          });
+          new ResizeObserver(
+            function () {
+              updateSlideIndicator(
+                section
+              );
+            }
+          );
 
-        resizeObserver.observe(scroller);
+        resizeObserver.observe(
+          scroller
+        );
       } else {
         window.addEventListener(
           'resize',
           function () {
-            updateSlideIndicator(section);
+            updateSlideIndicator(
+              section
+            );
           },
           { passive: true }
         );
@@ -2344,7 +2584,8 @@
     }
 
     function init(root) {
-      var scope = root || document;
+      var scope =
+        root || document;
 
       initQuickAdd(scope);
 
@@ -2352,7 +2593,10 @@
         .querySelectorAll(
           '.premium-collection-section'
         )
-        .forEach(initTabScroller);
+        .forEach(function (section) {
+          initTabSelection(section);
+          initTabScrolling(section);
+        });
     }
 
     function boot() {
@@ -2361,35 +2605,43 @@
       if (!document.body) return;
 
       /*
-       * Only react to newly inserted sections/cards.
-       * Do not observe attributes/classes because that can
-       * cause a feedback loop with the tab component.
+       * Only watch newly inserted DOM.
+       * We never observe class/attribute changes,
+       * so the tab switch cannot create a feedback loop.
        */
-      var observer = new MutationObserver(
-        function (mutations) {
-          var added = false;
+      var observer =
+        new MutationObserver(
+          function (mutations) {
+            var added = false;
 
-          mutations.forEach(function (mutation) {
-            if (
-              mutation.addedNodes &&
-              mutation.addedNodes.length
-            ) {
-              added = true;
+            mutations.forEach(
+              function (mutation) {
+                if (
+                  mutation.addedNodes &&
+                  mutation.addedNodes.length
+                ) {
+                  added = true;
+                }
+              }
+            );
+
+            if (added) {
+              requestAnimationFrame(
+                function () {
+                  init(document);
+                }
+              );
             }
-          });
-
-          if (added) {
-            requestAnimationFrame(function () {
-              init(document);
-            });
           }
+        );
+
+      observer.observe(
+        document.body,
+        {
+          childList: true,
+          subtree: true
         }
       );
-
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
     }
 
     if (
