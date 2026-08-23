@@ -19892,3 +19892,87 @@ ul.items-same-height > li {
 .shopify-app-block {
   width: 100%;
 }
+
+/* =========================================================
+   UNIVERSes RAW — FOOTER DESKTOP WIDTH FIX
+   Fixes footer content being compressed into the left side.
+   Desktop only; mobile/tablet behavior remains untouched.
+   ========================================================= */
+
+@media screen and (min-width: 1025px) {
+  /* Footer section and its main content wrapper */
+  .shopify-section-group-footer-group,
+  .shopify-section-group-footer-group .section,
+  .shopify-section-group-footer-group .section-content-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .shopify-section-group-footer-group .section-content-wrapper {
+    margin-inline: 0 !important;
+  }
+
+  /* Footer layout rows must actually occupy the available width */
+  .shopify-section-group-footer-group .layout-panel-flex,
+  .shopify-section-group-footer-group .layout-panel-flex--row,
+  .shopify-section-group-footer-group .layout-panel-flex--column {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Main horizontal footer groups */
+  .shopify-section-group-footer-group .layout-panel-flex--row {
+    flex: 1 1 100% !important;
+  }
+
+  /* Footer group blocks should stretch rather than shrink to content */
+  .shopify-section-group-footer-group .group-block {
+    max-width: none !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .shopify-section-group-footer-group .group-block-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Footer columns distribute across the full desktop width */
+  .shopify-section-group-footer-group .layout-panel-flex--row > .group-block,
+  .shopify-section-group-footer-group .layout-panel-flex--row > .group-block-content,
+  .shopify-section-group-footer-group .layout-panel-flex--row > .footer-column,
+  .shopify-section-group-footer-group .layout-panel-flex--row > ._footer-column {
+    min-width: 0 !important;
+  }
+
+  /* Prevent a content-sized first column from consuming only part of the row */
+  .shopify-section-group-footer-group .layout-panel-flex--row > * {
+    flex-shrink: 1 !important;
+  }
+
+  /* Footer menus stay visible and use their available column width */
+  .shopify-section-group-footer-group .menu-block,
+  .shopify-section-group-footer-group .menu,
+  .shopify-section-group-footer-group .menu-block-content {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Footer utilities span the footer instead of becoming a tiny content-width row */
+  .shopify-section-group-footer-group .group-block-content > .footer-utilities {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Large desktop: give the footer comfortable edge spacing without constraining it. */
+@media screen and (min-width: 1400px) {
+  .shopify-section-group-footer-group .section-content-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
