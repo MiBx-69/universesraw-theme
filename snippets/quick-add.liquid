@@ -1,56 +1,394 @@
+{% comment %}
+  ============================================================
+  UNIVERSes RAW — QUICK ADD MODAL
+  Ella 7 compatible
+  Horizon-inspired premium Quick Add experience
+
+  Standard flow:
+  Product Card
+      ↓
+  Floating Bag Button
+      ↓
+  #QuickAddStandard
+      ↓
+  quick-add.js
+      ↓
+  ?view=quick_add
+      ↓
+  Product / Variant Selector
+      ↓
+  Add to Cart
+
+  Bulk Quick Add is preserved separately.
+  ============================================================
+{% endcomment %}
+
 <quick-add-modal
   class="quick-add-modal modal--popup fixed top-0 left-0 z-9 w-screen h-full flex justify-center no-js-hidden"
   element-s-popup
   id="QuickAddStandard"
 >
-  <div id="Modal-Overlay" class="drawer__overlay fixed inset-0 cursor-pointer"></div>
+  <!-- Modal backdrop -->
   <div
-    class="popup__inner quick-add-modal__content w-auto h-full absolute-c-c flex flex-column global-settings-popup"
+    id="QuickAddModalOverlay"
+    class="drawer__overlay quick-add-modal__overlay fixed inset-0 cursor-pointer"
+    onclick="this.closest('quick-add-modal').hide()"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Modal container -->
+  <div
+    class="popup__inner quick-add-modal__content quick-add-modal__content--standard w-auto h-full absolute-c-c flex flex-column global-settings-popup"
     role="dialog"
     aria-modal="true"
-    aria-label="{{ 'products.product.choose_product_options' | t: product_name: product.title | escape }}"
+    aria-label="{{ 'products.product.choose_product_options' | t }}"
     tabindex="-1"
-    style="--modal-max-height: 85dvh;"
+    style="
+      --modal-max-height: 85dvh;
+      --quick-add-radius: 18px;
+    "
   >
+
+    <!-- Close button -->
     <button
-      class="quick-add-modal__toggle drawer__close block t-button bor-none rounded-full cursor-pointer"
+      class="quick-add-modal__toggle quick-add-modal__close drawer__close block t-button bor-none rounded-full cursor-pointer"
       type="button"
       onclick="this.closest('quick-add-modal').hide()"
       aria-label="{{ 'accessibility.close_dialog' | t }}"
-      style="--top: 0.3rem; --right: 0.3rem;"
+      title="{{ 'accessibility.close_dialog' | t }}"
+      style="
+        --top: 0.75rem;
+        --right: 0.75rem;
+      "
     >
       {{- 'icon-close.svg' | inline_asset_content -}}
     </button>
-    <div id="QuickStandardModal" class="quick-add-modal__content-info cus-scrollbar"></div>
+
+    <!-- Dynamic product content -->
+    <div
+      id="QuickStandardModal"
+      class="quick-add-modal__content-info quick-add-modal__content-info--standard cus-scrollbar"
+      data-quick-add-content
+    ></div>
+
   </div>
 </quick-add-modal>
+
+
+{% comment %}
+  ============================================================
+  BULK QUICK ADD
+  Existing Ella functionality preserved
+  ============================================================
+{% endcomment %}
 
 <bulk-modal
   class="quick-add-modal quick-add-modal--bulk modal--popup fixed top-0 left-0 z-9 w-screen h-full flex justify-center no-js-hidden"
   element-s-popup
   id="QuickAddBulk"
 >
-  <div id="Modal-Overlay" class="drawer__overlay fixed inset-0 cursor-pointer"></div>
+  <!-- Bulk backdrop -->
+  <div
+    id="QuickBulkModalOverlay"
+    class="drawer__overlay quick-add-modal__overlay fixed inset-0 cursor-pointer"
+    onclick="this.closest('bulk-modal').hide()"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Bulk modal -->
   <div
     class="popup__inner quick-add-modal__content quick-add-modal__content--bulk w-auto h-full md:h-auto absolute-c-c flex flex-column global-settings-popup"
     role="dialog"
     aria-modal="true"
-    aria-label="{{ 'products.product.choose_product_options' | t: product_name: product.title | escape }}"
+    aria-label="{{ 'products.product.choose_product_options' | t }}"
     tabindex="-1"
-    style="--modal-max-height: 85dvh;--popup-max-width: var(--normal-page-width);"
+    style="
+      --modal-max-height: 85dvh;
+      --popup-max-width: var(--normal-page-width);
+      --quick-add-radius: 18px;
+    "
   >
+
+    <!-- Close button -->
     <button
-      class="quick-add-modal__toggle drawer__close block t-button bor-none rounded-full cursor-pointer"
+      class="quick-add-modal__toggle quick-add-modal__close drawer__close block t-button bor-none rounded-full cursor-pointer"
       type="button"
       onclick="this.closest('bulk-modal').hide()"
       aria-label="{{ 'accessibility.close_dialog' | t }}"
-      style="--top: 0.3rem; --right: 0.3rem;"
+      title="{{ 'accessibility.close_dialog' | t }}"
+      style="
+        --top: 0.75rem;
+        --right: 0.75rem;
+      "
     >
       {{- 'icon-close.svg' | inline_asset_content -}}
     </button>
+
+    <!-- Dynamic bulk product content -->
     <div
       id="QuickBulkModal"
       class="quick-add-modal__content-info quick-add-modal__content-info--bulk cus-scrollbar"
+      data-quick-add-content
     ></div>
+
   </div>
 </bulk-modal>
+
+
+{% comment %}
+  ============================================================
+  QUICK ADD MODAL BASE STYLING
+  This is intentionally lightweight.
+  Main product/variant styling will be handled separately.
+  ============================================================
+{% endcomment %}
+
+<style>
+  /* ==========================================================
+     STANDARD QUICK ADD MODAL
+     ========================================================== */
+
+  #QuickAddStandard {
+    --quick-add-bg: #ffffff;
+    --quick-add-radius: 18px;
+    --quick-add-shadow:
+      0 24px 80px rgba(0, 0, 0, 0.20);
+  }
+
+  #QuickAddStandard .quick-add-modal__content--standard {
+    width: min(
+      940px,
+      calc(100vw - 40px)
+    ) !important;
+
+    max-width: 940px !important;
+
+    max-height: 85dvh !important;
+
+    overflow: hidden !important;
+
+    background: var(--quick-add-bg) !important;
+
+    border-radius: var(--quick-add-radius) !important;
+
+    box-shadow: var(--quick-add-shadow) !important;
+  }
+
+  /*
+   * Dynamic product content
+   */
+
+  #QuickStandardModal {
+    width: 100%;
+    height: 100%;
+
+    max-height: 85dvh;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scrollbar-width: thin;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /*
+   * Close button
+   */
+
+  #QuickAddStandard .quick-add-modal__close {
+    position: absolute !important;
+
+    top: 12px !important;
+    right: 12px !important;
+
+    z-index: 50 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 38px !important;
+    height: 38px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    border: 1px solid rgba(17, 17, 17, 0.08) !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255, 255, 255, 0.94) !important;
+
+    color: #111111 !important;
+
+    box-shadow:
+      0 5px 18px rgba(0, 0, 0, 0.12) !important;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    cursor: pointer;
+
+    transition:
+      background-color 180ms ease,
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  #QuickAddStandard .quick-add-modal__close svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  #QuickAddStandard .quick-add-modal__close:hover {
+    background: #111111 !important;
+    color: #ffffff !important;
+
+    transform: rotate(90deg);
+  }
+
+
+  /* ==========================================================
+     BULK QUICK ADD
+     ========================================================== */
+
+  #QuickAddBulk {
+    --quick-add-bg: #ffffff;
+  }
+
+  #QuickAddBulk .quick-add-modal__content--bulk {
+    width: min(
+      var(--normal-page-width),
+      calc(100vw - 32px)
+    ) !important;
+
+    max-height: 85dvh !important;
+
+    overflow: hidden !important;
+
+    background: var(--quick-add-bg) !important;
+
+    border-radius: var(--quick-add-radius) !important;
+
+    box-shadow:
+      0 24px 80px rgba(0, 0, 0, 0.20) !important;
+  }
+
+  #QuickBulkModal {
+    width: 100%;
+    max-height: 85dvh;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+
+  /* ==========================================================
+     ERROR STATE
+     Used by updated quick-add.js if product loading fails.
+     ========================================================== */
+
+  .quick-add-error {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 260px;
+
+    padding: 40px;
+
+    text-align: center;
+  }
+
+  .quick-add-error p {
+    margin: 0 0 20px;
+
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .quick-add-error .button {
+    min-width: 180px;
+  }
+
+
+  /* ==========================================================
+     MOBILE
+     ========================================================== */
+
+  @media screen and (max-width: 749px) {
+
+    #QuickAddStandard {
+      align-items: flex-end !important;
+    }
+
+    #QuickAddStandard .quick-add-modal__content--standard {
+      position: absolute !important;
+
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+
+      width: 100% !important;
+      max-width: 100% !important;
+
+      height: auto !important;
+      max-height: 92dvh !important;
+
+      border-radius:
+        20px 20px 0 0 !important;
+
+      transform: none !important;
+
+      box-shadow:
+        0 -12px 50px rgba(0, 0, 0, 0.18) !important;
+    }
+
+    #QuickStandardModal {
+      max-height: 92dvh;
+    }
+
+    #QuickAddStandard .quick-add-modal__close {
+      top: 10px !important;
+      right: 10px !important;
+
+      width: 36px !important;
+      height: 36px !important;
+    }
+
+    #QuickAddBulk .quick-add-modal__content--bulk {
+      width: 100% !important;
+      max-width: 100% !important;
+
+      max-height: 92dvh !important;
+
+      border-radius:
+        20px 20px 0 0 !important;
+    }
+
+    #QuickBulkModal {
+      max-height: 92dvh;
+    }
+  }
+
+
+  /* ==========================================================
+     REDUCED MOTION
+     ========================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    #QuickAddStandard .quick-add-modal__close,
+    #QuickAddBulk .quick-add-modal__close {
+      transition: none !important;
+    }
+
+  }
+</style>
