@@ -112,7 +112,7 @@
     "arrows_width": 60,
     "arrows_height": 60,
     "arrows_icon_size": 24,
-    "badge_position": "bottom left",
+    "badge_position": "top left",
     "badge_top": 8,
     "badge_left": 10,
     "badge_right": 20,
