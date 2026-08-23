@@ -26,16 +26,18 @@
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<div class="section">
+
+<div class="section universes-quick-add-section">
   <product-info
     id="MainProduct-quick-add-{{ section.id }}"
-    class="product-information section--{{ page_width }} spacing-style color-{{ section.settings.color_scheme }} relative"
+    class="product-information universes-quick-add-product section--{{ page_width }} spacing-style color-{{ section.settings.color_scheme }} relative"
     data-section="{{ section.id }}"
     data-product-id="{{ closest.product.id }}"
-    data-update-url="true"
+    data-update-url="false"
     data-url="{{ closest.product.url }}"
     style="{% render 'spacing-style', settings: section.settings %}"
   >
+
     {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
     {{ 'component-rating.css' | asset_url | stylesheet_tag }}
 
@@ -44,20 +46,23 @@
     {%- endif -%}
 
     {% render 'schema',
-        product: closest.product
+      product: closest.product
     %}
 
     <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
     {%- if closest.product.quantity_price_breaks_configured? -%}
       <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
       <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
     {%- if request.design_mode -%}
       <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
     {%- assign first_3d_model = closest.product.media | where: 'media_type', 'model' | first -%}
+
     {%- if first_3d_model -%}
       <link
         id="ModelViewerStyle"
@@ -66,6 +71,7 @@
         media="print"
         onload="this.media='all'"
       >
+
       <link
         id="ModelViewerOverride"
         rel="stylesheet"
@@ -77,53 +83,715 @@
 
     {% if product_has_media %}
       {% assign product_href = '#ProductInformation-' | append: section.id %}
-      {% render 'skip-to-content-link', href: product_href, text: 'accessibility.skip_to_product_info' %}
+
+      {% render 'skip-to-content-link',
+        href: product_href,
+        text: 'accessibility.skip_to_product_info'
+      %}
     {% endif %}
+
     <div
-      class="{{ product_grid_class }}"
+      class="{{ product_grid_class }} universes-quick-add-grid"
       data-product-grid-content
       style="--gap: {{ section.settings.gap }}px;"
     >
+
       {% assign render_order_array = render_order | split: ',' %}
+
       {% capture media %}
+
         <div
-          class="product-information__media"
+          class="product-information__media universes-quick-add-media-column"
           data-testid="product-information-media"
         >
-          <div class="product-quick-add__media product-information__media--{{ section.settings.desktop_media_position }}">
+
+          <div
+            class="product-quick-add__media product-information__media--{{ section.settings.desktop_media_position }} universes-quick-add-media"
+          >
+
             {%- content_for 'block',
               type: '_quick-add-product-media-gallery',
               id: 'media-gallery',
               closest.product: closest.product
             -%}
+
           </div>
+
         </div>
+
       {% endcapture %}
+
 
       {% capture details %}
-        {%- content_for 'block',
-          type: '_product-details',
-          id: 'product-details',
-          closest.product: closest.product
-        -%}
+
+        <div class="universes-quick-add-details-column">
+
+          <div class="universes-quick-add-details-inner">
+
+            {%- content_for 'block',
+              type: '_product-details',
+              id: 'product-details',
+              closest.product: closest.product
+            -%}
+
+          </div>
+
+        </div>
+
       {% endcapture %}
 
+
       {% for block in render_order_array %}
+
         {% if block == 'media' and product_has_media %}
+
           {{ media }}
+
         {% elsif block == 'product-details' %}
+
           {{ details }}
+
         {% endif %}
+
       {% endfor %}
+
     </div>
 
+
     {%- if closest.product.media.size > 0 -%}
-      <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
+      <script
+        src="{{ 'media-gallery.js' | asset_url }}"
+        defer="defer"
+      ></script>
     {%- endif -%}
 
+
     {%- content_for 'blocks' -%}
+
   </product-info>
 </div>
+
+
+<style>
+
+/* ============================================================
+   UNIVERSes RAW
+   QUICK ADD PRODUCT EXPERIENCE
+   ============================================================ */
+
+.universes-quick-add-section {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.universes-quick-add-product {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   DESKTOP QUICK ADD LAYOUT
+   ============================================================ */
+
+.universes-quick-add-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.05fr)
+    minmax(360px, 0.95fr);
+
+  width: 100%;
+
+  gap: 0 !important;
+
+  align-items: stretch;
+}
+
+
+/* ============================================================
+   MEDIA SIDE
+   ============================================================ */
+
+.universes-quick-add-media-column {
+  position: relative;
+
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+}
+
+.universes-quick-add-media {
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/*
+ * Keep Ella's existing gallery functional.
+ */
+
+.universes-quick-add-media
+  .product-information__media {
+  width: 100%;
+}
+
+.universes-quick-add-media
+  .product__media-list,
+.universes-quick-add-media
+  .thumbnail-list {
+  margin: 0;
+}
+
+
+/* ============================================================
+   DETAILS SIDE
+   ============================================================ */
+
+.universes-quick-add-details-column {
+  position: relative;
+
+  min-width: 0;
+
+  height: 100%;
+
+  background: #ffffff;
+}
+
+.universes-quick-add-details-inner {
+  width: 100%;
+  height: 100%;
+
+  padding:
+    44px
+    42px
+    40px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* ============================================================
+   PRODUCT DETAILS TYPOGRAPHY
+   ============================================================ */
+
+.universes-quick-add-details-inner
+  .product__title,
+.universes-quick-add-details-inner
+  .product-information__title {
+  margin-top: 0 !important;
+}
+
+.universes-quick-add-details-inner
+  .product__title h1,
+.universes-quick-add-details-inner
+  .product__title h2,
+.universes-quick-add-details-inner
+  .product-information__title {
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+
+/* ============================================================
+   PRICE
+   ============================================================ */
+
+.universes-quick-add-details-inner
+  .price {
+  margin-top: 8px;
+
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+.universes-quick-add-details-inner
+  .price-item {
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   VARIANT AREA
+   ============================================================ */
+
+.universes-quick-add-details-inner
+  .product-form__input {
+  margin-top: 24px;
+  margin-bottom: 0;
+}
+
+
+/*
+ * Variant label
+ */
+
+.universes-quick-add-details-inner
+  .form__label,
+.universes-quick-add-details-inner
+  .product-form__input__label,
+.universes-quick-add-details-inner
+  legend {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  margin-bottom: 10px;
+
+  color: #111111;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: .10em;
+
+  line-height: 1.4;
+
+  text-transform: uppercase;
+}
+
+
+/* ============================================================
+   VARIANT BUTTONS
+   ============================================================ */
+
+.universes-quick-add-details-inner
+  .product-form__input
+  input[type="radio"]
+  + label {
+
+  min-width: 48px;
+
+  min-height: 42px;
+
+  margin:
+    0
+    6px
+    6px
+    0;
+
+  padding:
+    10px
+    14px;
+
+  border:
+    1px solid
+    rgba(17, 17, 17, .16);
+
+  border-radius: 3px;
+
+  background: #ffffff;
+
+  color: #111111;
+
+  font-size: 12px;
+
+  line-height: 1;
+
+  text-align: center;
+
+  transition:
+    background-color .18s ease,
+    color .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
+
+  cursor: pointer;
+}
+
+
+/*
+ * Selected variant
+ */
+
+.universes-quick-add-details-inner
+  .product-form__input
+  input[type="radio"]:checked
+  + label {
+
+  background: #111111;
+
+  border-color: #111111;
+
+  color: #ffffff;
+
+  box-shadow:
+    inset 0 0 0 1px #111111;
+}
+
+
+/*
+ * Hover
+ */
+
+@media (hover: hover) {
+
+  .universes-quick-add-details-inner
+    .product-form__input
+    input[type="radio"]
+    + label:hover {
+
+    border-color: #111111;
+
+  }
+
+}
+
+
+/*
+ * Disabled variant
+ */
+
+.universes-quick-add-details-inner
+  .product-form__input
+  input[type="radio"]:disabled
+  + label {
+
+  opacity: .35;
+
+  cursor: not-allowed;
+
+  text-decoration: line-through;
+}
+
+
+/* ============================================================
+   COLOR SWATCHES
+   ============================================================ */
+
+.universes-quick-add-details-inner
+  .swatch-input__label {
+
+  margin-right: 7px;
+  margin-bottom: 7px;
+
+  border-radius: 50%;
+}
+
+
+/* ============================================================
+   QUANTITY
+   ============================================================ */
+
+.universes-quick-add-details-inner
+  quantity-input {
+
+  display: flex;
+
+  width: 120px;
+
+  height: 44px;
+
+  margin-top: 12px;
+
+  border:
+    1px solid
+    rgba(17, 17, 17, .16);
+
+  border-radius: 3px;
+
+  background: #ffffff;
+}
+
+.universes-quick-add-details-inner
+  quantity-input
+  button {
+
+  width: 38px;
+
+  border: 0;
+
+  background: transparent;
+
+  color: #111111;
+
+  cursor: pointer;
+}
+
+.universes-quick-add-details-inner
+  quantity-input
+  input {
+
+  flex: 1;
+
+  width: 44px;
+
+  min-width: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: #111111;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   ADD TO CART
+   ============================================================ */
+
+.universes-quick-add-details-inner
+  .product-form__submit,
+.universes-quick-add-details-inner
+  .product-form__cart-submit,
+.universes-quick-add-details-inner
+  button[name="add"] {
+
+  width: 100%;
+
+  min-height: 52px;
+
+  margin-top: 22px;
+
+  border:
+    1px solid
+    #111111;
+
+  border-radius: 3px;
+
+  background: #111111;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  letter-spacing: .12em;
+
+  text-transform: uppercase;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease,
+    transform .2s ease;
+}
+
+@media (hover: hover) {
+
+  .universes-quick-add-details-inner
+    .product-form__submit:hover,
+  .universes-quick-add-details-inner
+    .product-form__cart-submit:hover,
+  .universes-quick-add-details-inner
+    button[name="add"]:hover {
+
+    background: #ffffff;
+
+    color: #111111;
+
+  }
+
+}
+
+
+/* ============================================================
+   MOBILE — BOTTOM SHEET
+   ============================================================ */
+
+@media screen and (max-width: 749px) {
+
+  .universes-quick-add-grid {
+
+    display: flex;
+
+    flex-direction: column;
+
+    width: 100%;
+
+    gap: 0 !important;
+
+  }
+
+
+  /*
+   * Mobile media
+   */
+
+  .universes-quick-add-media-column {
+
+    width: 100%;
+
+    max-height: 46dvh;
+
+    overflow: hidden;
+  }
+
+  .universes-quick-add-media {
+
+    width: 100%;
+
+    height: auto;
+
+    max-height: 46dvh;
+
+  }
+
+
+  /*
+   * Details
+   */
+
+  .universes-quick-add-details-column {
+
+    width: 100%;
+
+    background: #ffffff;
+
+  }
+
+  .universes-quick-add-details-inner {
+
+    height: auto;
+
+    max-height: 46dvh;
+
+    padding:
+      26px
+      22px
+      30px;
+
+    overflow-y: auto;
+
+  }
+
+
+  /*
+   * Product title
+   */
+
+  .universes-quick-add-details-inner
+    .product__title h1,
+  .universes-quick-add-details-inner
+    .product__title h2,
+  .universes-quick-add-details-inner
+    .product-information__title {
+
+    font-size: 20px;
+
+  }
+
+
+  /*
+   * Variants
+   */
+
+  .universes-quick-add-details-inner
+    .product-form__input {
+
+    margin-top: 20px;
+
+  }
+
+
+  /*
+   * Variant buttons
+   */
+
+  .universes-quick-add-details-inner
+    .product-form__input
+    input[type="radio"]
+    + label {
+
+    min-width: 44px;
+
+    min-height: 40px;
+
+    padding:
+      9px
+      12px;
+
+    font-size: 11px;
+
+  }
+
+
+  /*
+   * Add to cart
+   */
+
+  .universes-quick-add-details-inner
+    .product-form__submit,
+  .universes-quick-add-details-inner
+    .product-form__cart-submit,
+  .universes-quick-add-details-inner
+    button[name="add"] {
+
+    min-height: 50px;
+
+    margin-top: 18px;
+
+  }
+
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media screen and (min-width: 750px) and (max-width: 1024px) {
+
+  .universes-quick-add-grid {
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(320px, .9fr);
+
+  }
+
+  .universes-quick-add-details-inner {
+
+    padding:
+      32px
+      28px;
+
+  }
+
+}
+
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .universes-quick-add-details-inner
+    *,
+  .universes-quick-add-details-inner
+    *::before,
+  .universes-quick-add-details-inner
+    *::after {
+
+    transition-duration: .01ms !important;
+
+  }
+
+}
+
+</style>
+
 
 {% schema %}
 {
