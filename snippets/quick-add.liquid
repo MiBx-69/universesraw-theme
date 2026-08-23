@@ -7,6 +7,7 @@
 #QuickAddStandard {
   position: fixed !important;
   inset: 0 !important;
+
   width: 100vw !important;
   height: 100dvh !important;
 
@@ -17,7 +18,8 @@
   padding: 16px !important;
   box-sizing: border-box !important;
 
-  z-index: 999999 !important;
+  z-index: 2147483000 !important;
+
   pointer-events: none !important;
 }
 
@@ -37,16 +39,19 @@
   width: 100vw !important;
   height: 100dvh !important;
 
-  background: rgba(0,0,0,.48) !important;
+  background: rgba(12,12,12,.55) !important;
 
-  backdrop-filter: blur(3px) !important;
-  -webkit-backdrop-filter: blur(3px) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
 
-  opacity: 0;
-  animation: universesOverlayIn .22s ease forwards;
+  animation: urqaBackdrop .25s ease both;
 }
 
-@keyframes universesOverlayIn {
+@keyframes urqaBackdrop {
+  from {
+    opacity: 0;
+  }
+
   to {
     opacity: 1;
   }
@@ -54,7 +59,7 @@
 
 
 /* ==========================================================
-   POPUP
+   POPUP — IMPORTANT HEIGHT FIX
    ========================================================== */
 
 #QuickAddStandard .popup__inner {
@@ -62,6 +67,7 @@
   position: relative !important;
 
   inset: auto !important;
+
   top: auto !important;
   left: auto !important;
   right: auto !important;
@@ -69,66 +75,113 @@
 
   transform: none !important;
 
-  width: 520px !important;
+  width: 440px !important;
+
   max-width: calc(100vw - 28px) !important;
 
-  height: auto !important;
-  max-height: none !important;
+  height: 230px !important;
+
+  min-height: 230px !important;
+
+  max-height: 230px !important;
 
   margin: auto !important;
+
   padding: 0 !important;
 
   overflow: hidden !important;
 
   background: #fff !important;
 
-  border: 1px solid rgba(0,0,0,.07) !important;
+  border: 1px solid rgba(0,0,0,.08) !important;
 
-  border-radius: 18px !important;
+  border-radius: 16px !important;
 
   box-shadow:
-    0 30px 90px rgba(0,0,0,.25),
-    0 8px 30px rgba(0,0,0,.08) !important;
+    0 30px 90px rgba(0,0,0,.30),
+    0 8px 25px rgba(0,0,0,.10) !important;
 
-  z-index: 2 !important;
+  z-index: 2147483001 !important;
 
   animation:
-    universesQuickAddIn
-    .28s cubic-bezier(.2,.8,.2,1)
-    both;
+    urqaPopupIn
+    .32s cubic-bezier(.2,.8,.2,1)
+    both !important;
 }
 
-@keyframes universesQuickAddIn {
+@keyframes urqaPopupIn {
 
   from {
     opacity: 0;
-    transform: translateY(16px) scale(.97) !important;
+
+    transform:
+      translateY(14px)
+      scale(.96) !important;
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1) !important;
+
+    transform:
+      translateY(0)
+      scale(1) !important;
   }
 
 }
 
 
 /* ==========================================================
-   CONTENT
+   REMOVE ALL INHERITED HEIGHTS
    ========================================================== */
 
 #QuickStandardModal {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  height: 230px !important;
+
+  min-height: 230px !important;
+
+  max-height: 230px !important;
+
+  overflow: hidden !important;
+
+  padding: 0 !important;
+
+  margin: 0 !important;
+}
+
+#QuickStandardModal .section,
+#QuickStandardModal .section-background {
 
   width: 100% !important;
 
   height: auto !important;
 
+  min-height: 0 !important;
+
   max-height: none !important;
 
-  overflow: visible !important;
+  padding: 0 !important;
+
+  margin: 0 !important;
+}
+
+#QuickStandardModal product-info {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  min-height: 0 !important;
+
+  margin: 0 !important;
 
   padding: 0 !important;
-  margin: 0 !important;
 }
 
 
@@ -140,39 +193,45 @@
 
   position: absolute !important;
 
-  top: 12px !important;
-  right: 12px !important;
+  top: 10px !important;
 
-  z-index: 50 !important;
+  right: 10px !important;
 
-  width: 34px !important;
-  height: 34px !important;
+  z-index: 100 !important;
 
-  min-width: 34px !important;
-  min-height: 34px !important;
+  width: 32px !important;
+
+  height: 32px !important;
+
+  min-width: 32px !important;
+
+  min-height: 32px !important;
 
   padding: 0 !important;
+
   margin: 0 !important;
 
   display: flex !important;
 
   align-items: center !important;
+
   justify-content: center !important;
 
   background: rgba(255,255,255,.94) !important;
 
   color: #111 !important;
 
-  border: 1px solid rgba(0,0,0,.06) !important;
+  border: 1px solid rgba(0,0,0,.07) !important;
 
   border-radius: 50% !important;
 
   box-shadow:
-    0 5px 20px rgba(0,0,0,.12) !important;
+    0 5px 18px rgba(0,0,0,.13) !important;
 
   transition:
-    transform .2s ease,
-    background .2s ease !important;
+    transform .25s ease,
+    background .2s ease,
+    color .2s ease !important;
 }
 
 #QuickAddStandard .quick-add-modal__toggle:hover {
@@ -186,42 +245,30 @@
 
 #QuickAddStandard .quick-add-modal__toggle svg {
 
-  width: 16px !important;
-  height: 16px !important;
+  width: 15px !important;
+
+  height: 15px !important;
 }
 
 
 /* ==========================================================
-   REMOVE ELLA DEFAULT QUICK ADD SPACING
+   MAIN QUICK ADD
    ========================================================== */
 
-#QuickStandardModal .section,
-#QuickStandardModal .section-background {
-
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-#QuickStandardModal product-info {
+#QuickStandardModal .universes-quick-add {
 
   display: block !important;
 
   width: 100% !important;
 
-  margin: 0 !important;
-  padding: 0 !important;
-}
+  height: 230px !important;
 
+  min-height: 230px !important;
 
-/* ==========================================================
-   QUICK ADD PRODUCT
-   ========================================================== */
-
-#QuickStandardModal .universes-quick-add {
-
-  width: 100% !important;
+  max-height: 230px !important;
 
   margin: 0 !important;
+
   padding: 0 !important;
 
   background: #fff !important;
@@ -229,7 +276,7 @@
 
 
 /* ==========================================================
-   COMPACT LAYOUT
+   MAIN GRID
    ========================================================== */
 
 #QuickStandardModal
@@ -238,34 +285,37 @@
   display: grid !important;
 
   grid-template-columns:
-    190px
+    180px
     minmax(0,1fr) !important;
 
   width: 100% !important;
 
-  height: 260px !important;
+  height: 230px !important;
 
-  min-height: 260px !important;
-  max-height: 260px !important;
+  min-height: 230px !important;
+
+  max-height: 230px !important;
 
   margin: 0 !important;
+
   padding: 0 !important;
 }
 
 
 /* ==========================================================
-   IMAGE
+   PRODUCT IMAGE
    ========================================================== */
 
 #QuickStandardModal
 .universes-quick-add__image {
 
-  width: 190px !important;
+  width: 180px !important;
 
-  height: 260px !important;
+  height: 230px !important;
 
-  min-height: 260px !important;
-  max-height: 260px !important;
+  min-height: 230px !important;
+
+  max-height: 230px !important;
 
   overflow: hidden !important;
 
@@ -281,25 +331,28 @@
 
   height: 100% !important;
 
-  min-height: 260px !important;
-  max-height: 260px !important;
+  min-height: 230px !important;
+
+  max-height: 230px !important;
 
   object-fit: cover !important;
 
   object-position: center !important;
 
-  transition: transform .5s cubic-bezier(.2,.8,.2,1) !important;
+  transition:
+    transform .6s cubic-bezier(.2,.8,.2,1) !important;
 }
 
-#QuickStandardModal:hover
+#QuickStandardModal
+.universes-quick-add__image:hover
 .universes-quick-add__image-img {
 
-  transform: scale(1.025) !important;
+  transform: scale(1.035) !important;
 }
 
 
 /* ==========================================================
-   OPTIONS
+   RIGHT SIDE
    ========================================================== */
 
 #QuickStandardModal
@@ -313,15 +366,14 @@
 
   width: 100% !important;
 
-  height: 260px !important;
+  height: 230px !important;
 
   min-width: 0 !important;
 
-  padding: 24px !important;
+  padding: 22px 22px 20px !important;
 
   box-sizing: border-box !important;
 }
-
 
 #QuickStandardModal
 .universes-quick-add__product-form-wrapper {
@@ -330,13 +382,37 @@
 
   width: 100% !important;
 
-  max-width: 260px !important;
+  max-width: 220px !important;
+}
+
+#QuickStandardModal
+.universes-quick-add__form {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  margin: 0 !important;
+
+  padding: 0 !important;
 }
 
 
 /* ==========================================================
-   REMOVE FIELDSET BORDER
+   VARIANT AREA
    ========================================================== */
+
+#QuickStandardModal
+.universes-quick-add__variants {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  margin: 0 !important;
+
+  padding: 0 !important;
+}
 
 #QuickStandardModal
 .universes-quick-add__option {
@@ -345,19 +421,13 @@
 
   width: 100% !important;
 
-  margin: 0 0 20px !important;
+  margin: 0 !important;
 
   padding: 0 !important;
 
   border: 0 !important;
 
   outline: 0 !important;
-}
-
-#QuickStandardModal
-.universes-quick-add__option:last-child {
-
-  margin-bottom: 0 !important;
 }
 
 
@@ -370,28 +440,30 @@
 
   display: block !important;
 
-  margin: 0 0 10px !important;
+  width: 100% !important;
+
+  margin: 0 0 9px !important;
 
   padding: 0 !important;
 
   border: 0 !important;
 
-  font-size: 9px !important;
+  font-size: 8px !important;
 
   line-height: 1 !important;
 
-  font-weight: 600 !important;
+  font-weight: 700 !important;
 
-  letter-spacing: .18em !important;
+  letter-spacing: .20em !important;
 
   text-transform: uppercase !important;
 
-  color: #111 !important;
+  color: #161616 !important;
 }
 
 
 /* ==========================================================
-   SIZE OPTIONS
+   SIZE BUTTONS
    ========================================================== */
 
 #QuickStandardModal
@@ -403,13 +475,10 @@
 
   flex-wrap: wrap !important;
 
-  gap: 7px !important;
+  gap: 6px !important;
 
   width: 100% !important;
 }
-
-
-/* HIDE RADIO */
 
 #QuickStandardModal
 .universes-quick-add__radio {
@@ -417,15 +486,13 @@
   position: absolute !important;
 
   width: 1px !important;
+
   height: 1px !important;
 
   opacity: 0 !important;
 
   pointer-events: none !important;
 }
-
-
-/* SIZE BUTTON */
 
 #QuickStandardModal
 .universes-quick-add__value {
@@ -435,15 +502,18 @@
   display: inline-flex !important;
 
   align-items: center !important;
+
   justify-content: center !important;
 
-  min-width: 42px !important;
+  min-width: 37px !important;
 
-  height: 36px !important;
+  height: 34px !important;
 
-  padding: 0 12px !important;
+  padding: 0 9px !important;
 
   margin: 0 !important;
+
+  box-sizing: border-box !important;
 
   border: 1px solid #dededc !important;
 
@@ -451,11 +521,9 @@
 
   background: #fff !important;
 
-  color: #111 !important;
+  color: #222 !important;
 
-  font-size: 10px !important;
-
-  line-height: 1 !important;
+  font-size: 9px !important;
 
   font-weight: 500 !important;
 
@@ -464,15 +532,8 @@
   cursor: pointer !important;
 
   transition:
-    color .18s ease,
-    background .18s ease,
-    border-color .18s ease,
-    transform .18s ease,
-    box-shadow .18s ease !important;
+    all .18s cubic-bezier(.2,.8,.2,1) !important;
 }
-
-
-/* HOVER */
 
 #QuickStandardModal
 .universes-quick-add__value:hover {
@@ -480,11 +541,7 @@
   border-color: #111 !important;
 
   transform: translateY(-1px) !important;
-
 }
-
-
-/* SELECTED */
 
 #QuickStandardModal
 .universes-quick-add__radio:checked
@@ -497,22 +554,22 @@
   border-color: #111 !important;
 
   box-shadow:
-    0 5px 14px rgba(0,0,0,.16) !important;
+    0 5px 14px rgba(0,0,0,.18) !important;
 
   animation:
-    universesSizeSelect
-    .2s ease both;
+    urqaSizePop
+    .22s cubic-bezier(.2,.8,.2,1)
+    both;
 }
 
-
-@keyframes universesSizeSelect {
+@keyframes urqaSizePop {
 
   0% {
-    transform: scale(.94);
+    transform: scale(.90);
   }
 
-  70% {
-    transform: scale(1.04);
+  65% {
+    transform: scale(1.07);
   }
 
   100% {
@@ -521,24 +578,23 @@
 
 }
 
-
-/* DISABLED */
-
 #QuickStandardModal
 .universes-quick-add__value.is-disabled {
 
-  opacity: .28 !important;
+  opacity: .30 !important;
+
+  background: #f7f7f7 !important;
 
   text-decoration: line-through !important;
 
   cursor: not-allowed !important;
 
-  background: #f7f7f7 !important;
+  transform: none !important;
 }
 
 
 /* ==========================================================
-   ADD TO CART
+   CTA
    ========================================================== */
 
 #QuickStandardModal
@@ -554,13 +610,15 @@
 
   width: 100% !important;
 
-  height: 45px !important;
+  height: 43px !important;
 
-  min-height: 45px !important;
+  min-height: 43px !important;
 
-  margin: 20px 0 0 !important;
+  margin: 18px 0 0 !important;
 
-  padding: 0 18px !important;
+  padding: 0 15px !important;
+
+  overflow: hidden !important;
 
   border: 0 !important;
 
@@ -570,29 +628,29 @@
 
   color: #fff !important;
 
-  font-size: 9px !important;
+  font-size: 8px !important;
 
   line-height: 1 !important;
 
-  font-weight: 600 !important;
+  font-weight: 700 !important;
 
-  letter-spacing: .18em !important;
+  letter-spacing: .19em !important;
 
   text-transform: uppercase !important;
 
   cursor: pointer !important;
 
-  overflow: hidden !important;
-
   box-shadow:
-    0 8px 20px rgba(0,0,0,.16) !important;
+    0 8px 18px rgba(0,0,0,.17) !important;
 
   transition:
     transform .2s ease,
-    background .2s ease,
-    box-shadow .2s ease !important;
+    box-shadow .2s ease,
+    background .2s ease !important;
 }
 
+
+/* SHINE */
 
 #QuickStandardModal
 .universes-quick-add__submit::before {
@@ -602,16 +660,18 @@
   position: absolute;
 
   top: 0;
+
   left: -120%;
 
-  width: 70%;
+  width: 65%;
+
   height: 100%;
 
   background:
     linear-gradient(
       100deg,
       transparent,
-      rgba(255,255,255,.22),
+      rgba(255,255,255,.20),
       transparent
     );
 
@@ -620,18 +680,16 @@
   transition: left .55s ease;
 }
 
-
 #QuickStandardModal
 .universes-quick-add__submit:hover {
 
-  background: #1d1d1d !important;
+  background: #1b1b1b !important;
 
   transform: translateY(-2px) !important;
 
   box-shadow:
-    0 12px 26px rgba(0,0,0,.2) !important;
+    0 12px 25px rgba(0,0,0,.22) !important;
 }
-
 
 #QuickStandardModal
 .universes-quick-add__submit:hover::before {
@@ -639,18 +697,16 @@
   left: 150%;
 }
 
-
 #QuickStandardModal
 .universes-quick-add__submit:active {
 
-  transform: translateY(0) scale(.98) !important;
+  transform: scale(.98) !important;
 }
-
 
 #QuickStandardModal
 .universes-quick-add__submit:disabled {
 
-  opacity: .4 !important;
+  opacity: .40 !important;
 
   cursor: not-allowed !important;
 
@@ -666,172 +722,177 @@
 
   #QuickAddStandard {
 
-    padding: 12px !important;
-
+    padding: 10px !important;
   }
-
 
   #QuickAddStandard .popup__inner {
 
-    width: 380px !important;
+    width: 360px !important;
 
-    max-width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 20px) !important;
 
-    border-radius: 15px !important;
+    height: 210px !important;
 
+    min-height: 210px !important;
+
+    max-height: 210px !important;
+
+    border-radius: 14px !important;
   }
 
+  #QuickStandardModal {
+
+    height: 210px !important;
+
+    min-height: 210px !important;
+
+    max-height: 210px !important;
+  }
+
+  #QuickStandardModal
+  .universes-quick-add {
+
+    height: 210px !important;
+
+    min-height: 210px !important;
+
+    max-height: 210px !important;
+  }
 
   #QuickStandardModal
   .universes-quick-add__inner {
 
     grid-template-columns:
-      145px
+      135px
       minmax(0,1fr) !important;
 
-    height: 220px !important;
+    height: 210px !important;
 
-    min-height: 220px !important;
+    min-height: 210px !important;
 
-    max-height: 220px !important;
-
+    max-height: 210px !important;
   }
-
 
   #QuickStandardModal
   .universes-quick-add__image {
 
-    width: 145px !important;
+    width: 135px !important;
 
-    height: 220px !important;
+    height: 210px !important;
 
-    min-height: 220px !important;
+    min-height: 210px !important;
 
-    max-height: 220px !important;
-
+    max-height: 210px !important;
   }
-
 
   #QuickStandardModal
   .universes-quick-add__image-img {
 
-    height: 220px !important;
+    height: 210px !important;
 
-    min-height: 220px !important;
+    min-height: 210px !important;
 
-    max-height: 220px !important;
-
+    max-height: 210px !important;
   }
-
 
   #QuickStandardModal
   .universes-quick-add__options {
 
-    height: 220px !important;
+    height: 210px !important;
 
-    padding: 18px 14px !important;
-
+    padding: 18px 13px !important;
   }
-
 
   #QuickStandardModal
   .universes-quick-add__product-form-wrapper {
 
     max-width: none !important;
-
   }
-
-
-  #QuickStandardModal
-  .universes-quick-add__option {
-
-    margin-bottom: 12px !important;
-
-  }
-
 
   #QuickStandardModal
   .universes-quick-add__label {
 
     margin-bottom: 8px !important;
 
-    font-size: 8px !important;
-
+    font-size: 7px !important;
   }
-
 
   #QuickStandardModal
   .universes-quick-add__values {
 
-    gap: 5px !important;
-
+    gap: 4px !important;
   }
-
 
   #QuickStandardModal
   .universes-quick-add__value {
 
-    min-width: 34px !important;
+    min-width: 32px !important;
 
-    height: 31px !important;
+    height: 30px !important;
 
-    padding: 0 8px !important;
+    padding: 0 7px !important;
 
-    font-size: 9px !important;
-
-    border-radius: 4px !important;
-
+    font-size: 8px !important;
   }
-
 
   #QuickStandardModal
   .universes-quick-add__submit {
 
-    height: 40px !important;
+    height: 39px !important;
 
-    min-height: 40px !important;
+    min-height: 39px !important;
 
-    margin-top: 13px !important;
+    margin-top: 14px !important;
 
-    font-size: 8px !important;
+    font-size: 7px !important;
 
-    letter-spacing: .15em !important;
-
+    letter-spacing: .16em !important;
   }
-
 
   #QuickAddStandard
   .quick-add-modal__toggle {
 
-    top: 9px !important;
+    top: 8px !important;
 
-    right: 9px !important;
+    right: 8px !important;
 
-    width: 32px !important;
+    width: 30px !important;
 
-    height: 32px !important;
+    height: 30px !important;
 
-    min-width: 32px !important;
+    min-width: 30px !important;
 
-    min-height: 32px !important;
-
+    min-height: 30px !important;
   }
-
 }
 
 
 /* ==========================================================
-   SMALL PHONES
+   VERY SMALL PHONE
    ========================================================== */
 
 @media screen and (max-width: 380px) {
 
   #QuickAddStandard .popup__inner {
 
-    max-width: calc(100vw - 18px) !important;
+    max-width: calc(100vw - 14px) !important;
 
+    height: 195px !important;
+
+    min-height: 195px !important;
+
+    max-height: 195px !important;
   }
 
+  #QuickStandardModal,
+  #QuickStandardModal .universes-quick-add {
+
+    height: 195px !important;
+
+    min-height: 195px !important;
+
+    max-height: 195px !important;
+  }
 
   #QuickStandardModal
   .universes-quick-add__inner {
@@ -845,9 +906,7 @@
     min-height: 195px !important;
 
     max-height: 195px !important;
-
   }
-
 
   #QuickStandardModal
   .universes-quick-add__image {
@@ -859,9 +918,7 @@
     min-height: 195px !important;
 
     max-height: 195px !important;
-
   }
-
 
   #QuickStandardModal
   .universes-quick-add__image-img {
@@ -871,17 +928,6 @@
     min-height: 195px !important;
 
     max-height: 195px !important;
-
-  }
-
-
-  #QuickStandardModal
-  .universes-quick-add__options {
-
-    height: 195px !important;
-
-    padding: 15px 11px !important;
-
   }
 
 }
