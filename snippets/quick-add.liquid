@@ -1,936 +1,893 @@
-{% comment %}
-  ============================================================
-  UNIVERSes RAW — QUICK ADD MODAL
-  Compact / Minimal / Centered
-  ============================================================
-{% endcomment %}
-
 <style>
-  /* ==========================================================
-     QUICK ADD MODAL — BASE
-     ========================================================== */
+
+/* ==========================================================
+   UNIVERSes RAW — PREMIUM QUICK ADD
+   ========================================================== */
+
+#QuickAddStandard {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  padding: 16px !important;
+  box-sizing: border-box !important;
+
+  z-index: 999999 !important;
+  pointer-events: none !important;
+}
+
+#QuickAddStandard[open] {
+  pointer-events: auto !important;
+}
+
+
+/* ==========================================================
+   BACKDROP
+   ========================================================== */
+
+#QuickAddStandard #Modal-Overlay {
+  position: fixed !important;
+  inset: 0 !important;
+
+  width: 100vw !important;
+  height: 100dvh !important;
+
+  background: rgba(0,0,0,.48) !important;
+
+  backdrop-filter: blur(3px) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
+
+  opacity: 0;
+  animation: universesOverlayIn .22s ease forwards;
+}
+
+@keyframes universesOverlayIn {
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* ==========================================================
+   POPUP
+   ========================================================== */
+
+#QuickAddStandard .popup__inner {
+
+  position: relative !important;
+
+  inset: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+
+  transform: none !important;
+
+  width: 520px !important;
+  max-width: calc(100vw - 28px) !important;
+
+  height: auto !important;
+  max-height: none !important;
+
+  margin: auto !important;
+  padding: 0 !important;
+
+  overflow: hidden !important;
+
+  background: #fff !important;
+
+  border: 1px solid rgba(0,0,0,.07) !important;
+
+  border-radius: 18px !important;
+
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.25),
+    0 8px 30px rgba(0,0,0,.08) !important;
+
+  z-index: 2 !important;
+
+  animation:
+    universesQuickAddIn
+    .28s cubic-bezier(.2,.8,.2,1)
+    both;
+}
+
+@keyframes universesQuickAddIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(.97) !important;
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) !important;
+  }
+
+}
+
+
+/* ==========================================================
+   CONTENT
+   ========================================================== */
+
+#QuickStandardModal {
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  max-height: none !important;
+
+  overflow: visible !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+
+/* ==========================================================
+   CLOSE BUTTON
+   ========================================================== */
+
+#QuickAddStandard .quick-add-modal__toggle {
+
+  position: absolute !important;
+
+  top: 12px !important;
+  right: 12px !important;
+
+  z-index: 50 !important;
+
+  width: 34px !important;
+  height: 34px !important;
+
+  min-width: 34px !important;
+  min-height: 34px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  background: rgba(255,255,255,.94) !important;
+
+  color: #111 !important;
+
+  border: 1px solid rgba(0,0,0,.06) !important;
+
+  border-radius: 50% !important;
+
+  box-shadow:
+    0 5px 20px rgba(0,0,0,.12) !important;
+
+  transition:
+    transform .2s ease,
+    background .2s ease !important;
+}
+
+#QuickAddStandard .quick-add-modal__toggle:hover {
+
+  transform: rotate(90deg) !important;
+
+  background: #111 !important;
+
+  color: #fff !important;
+}
+
+#QuickAddStandard .quick-add-modal__toggle svg {
+
+  width: 16px !important;
+  height: 16px !important;
+}
+
+
+/* ==========================================================
+   REMOVE ELLA DEFAULT QUICK ADD SPACING
+   ========================================================== */
+
+#QuickStandardModal .section,
+#QuickStandardModal .section-background {
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#QuickStandardModal product-info {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* ==========================================================
+   QUICK ADD PRODUCT
+   ========================================================== */
+
+#QuickStandardModal .universes-quick-add {
+
+  width: 100% !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  background: #fff !important;
+}
+
+
+/* ==========================================================
+   COMPACT LAYOUT
+   ========================================================== */
+
+#QuickStandardModal
+.universes-quick-add__inner {
+
+  display: grid !important;
+
+  grid-template-columns:
+    190px
+    minmax(0,1fr) !important;
+
+  width: 100% !important;
+
+  height: 260px !important;
+
+  min-height: 260px !important;
+  max-height: 260px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* ==========================================================
+   IMAGE
+   ========================================================== */
+
+#QuickStandardModal
+.universes-quick-add__image {
+
+  width: 190px !important;
+
+  height: 260px !important;
+
+  min-height: 260px !important;
+  max-height: 260px !important;
+
+  overflow: hidden !important;
+
+  background: #f3f3f1 !important;
+}
+
+#QuickStandardModal
+.universes-quick-add__image-img {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  height: 100% !important;
+
+  min-height: 260px !important;
+  max-height: 260px !important;
+
+  object-fit: cover !important;
+
+  object-position: center !important;
+
+  transition: transform .5s cubic-bezier(.2,.8,.2,1) !important;
+}
+
+#QuickStandardModal:hover
+.universes-quick-add__image-img {
+
+  transform: scale(1.025) !important;
+}
+
+
+/* ==========================================================
+   OPTIONS
+   ========================================================== */
+
+#QuickStandardModal
+.universes-quick-add__options {
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+
+  width: 100% !important;
+
+  height: 260px !important;
+
+  min-width: 0 !important;
+
+  padding: 24px !important;
+
+  box-sizing: border-box !important;
+}
+
+
+#QuickStandardModal
+.universes-quick-add__product-form-wrapper {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  max-width: 260px !important;
+}
+
+
+/* ==========================================================
+   REMOVE FIELDSET BORDER
+   ========================================================== */
+
+#QuickStandardModal
+.universes-quick-add__option {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  margin: 0 0 20px !important;
+
+  padding: 0 !important;
+
+  border: 0 !important;
+
+  outline: 0 !important;
+}
+
+#QuickStandardModal
+.universes-quick-add__option:last-child {
+
+  margin-bottom: 0 !important;
+}
+
+
+/* ==========================================================
+   SIZE LABEL
+   ========================================================== */
+
+#QuickStandardModal
+.universes-quick-add__label {
+
+  display: block !important;
+
+  margin: 0 0 10px !important;
+
+  padding: 0 !important;
+
+  border: 0 !important;
+
+  font-size: 9px !important;
+
+  line-height: 1 !important;
+
+  font-weight: 600 !important;
+
+  letter-spacing: .18em !important;
+
+  text-transform: uppercase !important;
+
+  color: #111 !important;
+}
+
+
+/* ==========================================================
+   SIZE OPTIONS
+   ========================================================== */
+
+#QuickStandardModal
+.universes-quick-add__values {
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  flex-wrap: wrap !important;
+
+  gap: 7px !important;
+
+  width: 100% !important;
+}
+
+
+/* HIDE RADIO */
+
+#QuickStandardModal
+.universes-quick-add__radio {
+
+  position: absolute !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  opacity: 0 !important;
+
+  pointer-events: none !important;
+}
+
+
+/* SIZE BUTTON */
+
+#QuickStandardModal
+.universes-quick-add__value {
+
+  position: relative !important;
+
+  display: inline-flex !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  min-width: 42px !important;
+
+  height: 36px !important;
+
+  padding: 0 12px !important;
+
+  margin: 0 !important;
+
+  border: 1px solid #dededc !important;
+
+  border-radius: 5px !important;
+
+  background: #fff !important;
+
+  color: #111 !important;
+
+  font-size: 10px !important;
+
+  line-height: 1 !important;
+
+  font-weight: 500 !important;
+
+  letter-spacing: .03em !important;
+
+  cursor: pointer !important;
+
+  transition:
+    color .18s ease,
+    background .18s ease,
+    border-color .18s ease,
+    transform .18s ease,
+    box-shadow .18s ease !important;
+}
+
+
+/* HOVER */
+
+#QuickStandardModal
+.universes-quick-add__value:hover {
+
+  border-color: #111 !important;
+
+  transform: translateY(-1px) !important;
+
+}
+
+
+/* SELECTED */
+
+#QuickStandardModal
+.universes-quick-add__radio:checked
++ .universes-quick-add__value {
+
+  background: #111 !important;
+
+  color: #fff !important;
+
+  border-color: #111 !important;
+
+  box-shadow:
+    0 5px 14px rgba(0,0,0,.16) !important;
+
+  animation:
+    universesSizeSelect
+    .2s ease both;
+}
+
+
+@keyframes universesSizeSelect {
+
+  0% {
+    transform: scale(.94);
+  }
+
+  70% {
+    transform: scale(1.04);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+
+}
+
+
+/* DISABLED */
+
+#QuickStandardModal
+.universes-quick-add__value.is-disabled {
+
+  opacity: .28 !important;
+
+  text-decoration: line-through !important;
+
+  cursor: not-allowed !important;
+
+  background: #f7f7f7 !important;
+}
+
+
+/* ==========================================================
+   ADD TO CART
+   ========================================================== */
+
+#QuickStandardModal
+.universes-quick-add__submit {
+
+  position: relative !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+
+  width: 100% !important;
+
+  height: 45px !important;
+
+  min-height: 45px !important;
+
+  margin: 20px 0 0 !important;
+
+  padding: 0 18px !important;
+
+  border: 0 !important;
+
+  border-radius: 5px !important;
+
+  background: #111 !important;
+
+  color: #fff !important;
+
+  font-size: 9px !important;
+
+  line-height: 1 !important;
+
+  font-weight: 600 !important;
+
+  letter-spacing: .18em !important;
+
+  text-transform: uppercase !important;
+
+  cursor: pointer !important;
+
+  overflow: hidden !important;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.16) !important;
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease !important;
+}
+
+
+#QuickStandardModal
+.universes-quick-add__submit::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 70%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      100deg,
+      transparent,
+      rgba(255,255,255,.22),
+      transparent
+    );
+
+  transform: skewX(-20deg);
+
+  transition: left .55s ease;
+}
+
+
+#QuickStandardModal
+.universes-quick-add__submit:hover {
+
+  background: #1d1d1d !important;
+
+  transform: translateY(-2px) !important;
+
+  box-shadow:
+    0 12px 26px rgba(0,0,0,.2) !important;
+}
+
+
+#QuickStandardModal
+.universes-quick-add__submit:hover::before {
+
+  left: 150%;
+}
+
+
+#QuickStandardModal
+.universes-quick-add__submit:active {
+
+  transform: translateY(0) scale(.98) !important;
+}
+
+
+#QuickStandardModal
+.universes-quick-add__submit:disabled {
+
+  opacity: .4 !important;
+
+  cursor: not-allowed !important;
+
+  transform: none !important;
+}
+
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media screen and (max-width: 749px) {
 
   #QuickAddStandard {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    z-index: 999999 !important;
-    pointer-events: none !important;
+
+    padding: 12px !important;
+
   }
 
-  #QuickAddStandard[open] {
-    pointer-events: auto !important;
-  }
-
-  #QuickAddStandard #Modal-Overlay {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    background: rgba(0, 0, 0, 0.48) !important;
-    z-index: 0 !important;
-  }
-
-
-  /* ==========================================================
-     POPUP
-     ========================================================== */
 
   #QuickAddStandard .popup__inner {
-    position: relative !important;
-    inset: auto !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    transform: none !important;
 
-    width: 680px !important;
-    max-width: calc(100vw - 32px) !important;
+    width: 380px !important;
 
-    height: auto !important;
-    max-height: 520px !important;
+    max-width: calc(100vw - 24px) !important;
 
-    margin: auto !important;
+    border-radius: 15px !important;
 
-    display: block !important;
-
-    overflow: hidden !important;
-
-    background: #ffffff !important;
-
-    border-radius: 14px !important;
-
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-
-    box-shadow:
-      0 25px 80px rgba(0, 0, 0, 0.28) !important;
-
-    z-index: 2 !important;
-  }
-
-
-  /* ==========================================================
-     CONTENT
-     ========================================================== */
-
-  #QuickStandardModal {
-    width: 100% !important;
-
-    height: auto !important;
-
-    max-height: 520px !important;
-
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-
-    padding: 0 !important;
-    margin: 0 !important;
-
-    scrollbar-width: thin !important;
-  }
-
-
-  #QuickStandardModal::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  #QuickStandardModal::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  #QuickStandardModal::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,.18);
-    border-radius: 20px;
-  }
-
-
-  /* ==========================================================
-     SECTION RESET
-     ========================================================== */
-
-  #QuickStandardModal .section,
-  #QuickStandardModal .section-background {
-    margin: 0 !important;
-  }
-
-  #QuickStandardModal .section {
-    padding: 0 !important;
-  }
-
-  #QuickStandardModal .section-background {
-    display: none !important;
-  }
-
-
-  /* ==========================================================
-     PRODUCT INFORMATION
-     ========================================================== */
-
-  #QuickStandardModal product-info {
-    display: block !important;
-
-    width: 100% !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-
-    min-height: 0 !important;
-  }
-
-
-  /* ==========================================================
-     MAIN GRID
-     ========================================================== */
-
-  #QuickStandardModal
-  .product-quick-add__grid,
-  #QuickStandardModal
-  .product-information__grid {
-
-    display: grid !important;
-
-    grid-template-columns: 46% 54% !important;
-
-    align-items: stretch !important;
-
-    gap: 0 !important;
-
-    width: 100% !important;
-
-    margin: 0 !important;
-
-    padding: 0 !important;
-  }
-
-
-  /* ==========================================================
-     MEDIA COLUMN
-     ========================================================== */
-
-  #QuickStandardModal
-  .product-information__media {
-
-    width: 100% !important;
-
-    min-width: 0 !important;
-
-    margin: 0 !important;
-
-    padding: 0 !important;
-
-    display: flex !important;
-
-    align-items: stretch !important;
-
-    overflow: hidden !important;
   }
 
 
   #QuickStandardModal
-  .product-quick-add__media {
+  .universes-quick-add__inner {
 
-    width: 100% !important;
+    grid-template-columns:
+      145px
+      minmax(0,1fr) !important;
 
-    height: 100% !important;
+    height: 220px !important;
 
-    margin: 0 !important;
+    min-height: 220px !important;
 
-    padding: 0 !important;
+    max-height: 220px !important;
 
-    overflow: hidden !important;
-  }
-
-
-  /* ==========================================================
-     IMAGE / GALLERY
-     ========================================================== */
-
-  #QuickStandardModal
-  .product-information__media
-  media-gallery {
-
-    display: block !important;
-
-    width: 100% !important;
-
-    height: 100% !important;
-
-    margin: 0 !important;
-
-    padding: 0 !important;
   }
 
 
   #QuickStandardModal
-  .product-information__media
-  .product__media-list {
+  .universes-quick-add__image {
 
-    width: 100% !important;
+    width: 145px !important;
 
-    height: 100% !important;
+    height: 220px !important;
 
-    margin: 0 !important;
+    min-height: 220px !important;
 
-    padding: 0 !important;
+    max-height: 220px !important;
+
   }
 
 
   #QuickStandardModal
-  .product-information__media
-  .product__media-item {
+  .universes-quick-add__image-img {
 
-    width: 100% !important;
+    height: 220px !important;
 
-    margin: 0 !important;
+    min-height: 220px !important;
 
-    padding: 0 !important;
+    max-height: 220px !important;
+
   }
 
 
   #QuickStandardModal
-  .product-information__media
-  img {
+  .universes-quick-add__options {
 
-    display: block !important;
+    height: 220px !important;
 
-    width: 100% !important;
+    padding: 18px 14px !important;
 
-    height: 100% !important;
-
-    min-height: 380px !important;
-
-    max-height: 500px !important;
-
-    object-fit: cover !important;
-
-    object-position: center !important;
-
-    margin: 0 !important;
   }
 
 
   #QuickStandardModal
-  .product-information__media
-  .product-media-container {
+  .universes-quick-add__product-form-wrapper {
 
-    width: 100% !important;
+    max-width: none !important;
 
-    height: 100% !important;
-
-    margin: 0 !important;
-
-    padding: 0 !important;
-  }
-
-
-  /* ==========================================================
-     DETAILS COLUMN
-     ========================================================== */
-
-  #QuickStandardModal
-  .product-information__grid
-  > .product-information__media
-  + * {
-
-    min-width: 0 !important;
   }
 
 
   #QuickStandardModal
-  .product-information__grid
-  .product-details {
+  .universes-quick-add__option {
 
-    width: 100% !important;
+    margin-bottom: 12px !important;
 
-    min-width: 0 !important;
-
-    margin: 0 !important;
-
-    padding: 30px 28px !important;
-
-    display: flex !important;
-
-    flex-direction: column !important;
-
-    justify-content: center !important;
-
-    box-sizing: border-box !important;
-  }
-
-
-  /* ==========================================================
-     PRODUCT TEXT
-     ========================================================== */
-
-  #QuickStandardModal
-  .product-details
-  .product-title,
-  #QuickStandardModal
-  .product-details h1,
-  #QuickStandardModal
-  .product-details h2 {
-
-    margin-top: 0 !important;
-
-    margin-bottom: 10px !important;
-
-    line-height: 1.2 !important;
   }
 
 
   #QuickStandardModal
-  .product-details h1,
-  #QuickStandardModal
-  .product-details h2 {
-
-    font-size: 20px !important;
-
-    font-weight: 500 !important;
-
-    letter-spacing: -0.02em !important;
-  }
-
-
-  /* ==========================================================
-     VENDOR
-     ========================================================== */
-
-  #QuickStandardModal
-  .product-details
-  > p:first-child {
-
-    margin-top: 0 !important;
+  .universes-quick-add__label {
 
     margin-bottom: 8px !important;
 
-    font-size: 9px !important;
+    font-size: 8px !important;
 
-    line-height: 1 !important;
-
-    letter-spacing: .16em !important;
-
-    text-transform: uppercase !important;
-
-    color: rgba(0,0,0,.5) !important;
-  }
-
-
-  /* ==========================================================
-     PRICE
-     ========================================================== */
-
-  #QuickStandardModal
-  .price {
-
-    display: flex !important;
-
-    align-items: center !important;
-
-    gap: 8px !important;
-
-    margin: 0 0 18px !important;
   }
 
 
   #QuickStandardModal
-  .price-item {
+  .universes-quick-add__values {
 
-    font-size: 17px !important;
+    gap: 5px !important;
 
-    line-height: 1.2 !important;
   }
 
 
   #QuickStandardModal
-  .price-item--regular {
+  .universes-quick-add__value {
 
-    font-weight: 600 !important;
-  }
+    min-width: 34px !important;
 
+    height: 31px !important;
 
-  /* ==========================================================
-     VARIANT PICKER
-     ========================================================== */
-
-  #QuickStandardModal
-  variant-picker {
-
-    display: block !important;
-
-    width: 100% !important;
-
-    margin: 0 0 14px !important;
-
-    padding: 0 !important;
-  }
-
-
-  #QuickStandardModal
-  variant-picker fieldset {
-
-    margin: 0 0 12px !important;
-
-    padding: 0 !important;
-
-    border: 0 !important;
-  }
-
-
-  #QuickStandardModal
-  variant-picker legend {
-
-    margin: 0 0 7px !important;
-
-    padding: 0 !important;
+    padding: 0 8px !important;
 
     font-size: 9px !important;
-
-    font-weight: 600 !important;
-
-    line-height: 1 !important;
-
-    letter-spacing: .12em !important;
-
-    text-transform: uppercase !important;
-  }
-
-
-  /* ==========================================================
-     SIZE / VARIANT BUTTONS
-     ========================================================== */
-
-  #QuickStandardModal
-  variant-picker
-  input[type="radio"] + label {
-
-    display: inline-flex !important;
-
-    align-items: center !important;
-
-    justify-content: center !important;
-
-    min-width: 40px !important;
-
-    height: 34px !important;
-
-    margin: 0 5px 5px 0 !important;
-
-    padding: 0 11px !important;
 
     border-radius: 4px !important;
 
-    font-size: 11px !important;
-
-    line-height: 1 !important;
-
-    cursor: pointer !important;
-
-    box-sizing: border-box !important;
   }
 
 
   #QuickStandardModal
-  variant-picker
-  input[type="radio"]:checked + label {
+  .universes-quick-add__submit {
 
-    background: #111111 !important;
+    height: 40px !important;
 
-    color: #ffffff !important;
+    min-height: 40px !important;
 
-    border-color: #111111 !important;
+    margin-top: 13px !important;
+
+    font-size: 8px !important;
+
+    letter-spacing: .15em !important;
+
   }
 
-
-  /* ==========================================================
-     QUANTITY
-     ========================================================== */
-
-  #QuickStandardModal
-  quantity-input,
-  #QuickStandardModal
-  quantity-selector {
-
-    display: inline-flex !important;
-
-    align-items: center !important;
-
-    width: fit-content !important;
-
-    margin: 2px 0 16px !important;
-  }
-
-
-  #QuickStandardModal
-  quantity-input input,
-  #QuickStandardModal
-  quantity-selector input {
-
-    width: 44px !important;
-
-    min-width: 44px !important;
-
-    height: 38px !important;
-
-    text-align: center !important;
-
-    padding: 0 !important;
-
-    border: 0 !important;
-  }
-
-
-  #QuickStandardModal
-  quantity-input button,
-  #QuickStandardModal
-  quantity-selector button {
-
-    width: 38px !important;
-
-    height: 38px !important;
-
-    min-width: 38px !important;
-
-    padding: 0 !important;
-  }
-
-
-  /* ==========================================================
-     BUY BUTTONS
-     ========================================================== */
-
-  #QuickStandardModal
-  buy-buttons {
-
-    display: block !important;
-
-    width: 100% !important;
-
-    margin: 0 !important;
-
-    padding: 0 !important;
-  }
-
-
-  #QuickStandardModal
-  buy-buttons
-  button[name="add"],
-  #QuickStandardModal
-  button[type="submit"][name="add"] {
-
-    width: 100% !important;
-
-    min-height: 44px !important;
-
-    height: 44px !important;
-
-    margin: 0 !important;
-
-    padding: 0 16px !important;
-
-    border: 0 !important;
-
-    border-radius: 5px !important;
-
-    background: #111111 !important;
-
-    color: #ffffff !important;
-
-    font-size: 10px !important;
-
-    font-weight: 600 !important;
-
-    letter-spacing: .14em !important;
-
-    text-transform: uppercase !important;
-  }
-
-
-  #QuickStandardModal
-  buy-buttons
-  button[name="add"]:hover {
-
-    background: #c3192e !important;
-  }
-
-
-  /* ==========================================================
-     REMOVE UNNECESSARY INFORMATION
-     ========================================================== */
-
-  #QuickStandardModal
-  pickup-availability,
-
-  #QuickStandardModal
-  share-button,
-
-  #QuickStandardModal
-  product-modal,
-
-  #QuickStandardModal
-  product-popup-modal,
-
-  #QuickStandardModal
-  product__description,
-
-  #QuickStandardModal
-  .product__description,
-
-  #QuickStandardModal
-  .product-description,
-
-  #QuickStandardModal
-  .product__sku,
-
-  #QuickStandardModal
-  .product__inventory {
-
-    display: none !important;
-  }
-
-
-  /* ==========================================================
-     CLOSE BUTTON
-     ========================================================== */
 
   #QuickAddStandard
   .quick-add-modal__toggle {
 
-    position: absolute !important;
+    top: 9px !important;
 
-    top: 10px !important;
+    right: 9px !important;
 
-    right: 10px !important;
+    width: 32px !important;
 
-    z-index: 100 !important;
+    height: 32px !important;
 
-    width: 36px !important;
+    min-width: 32px !important;
 
-    height: 36px !important;
+    min-height: 32px !important;
 
-    min-width: 36px !important;
+  }
 
-    min-height: 36px !important;
+}
 
-    padding: 0 !important;
 
-    margin: 0 !important;
+/* ==========================================================
+   SMALL PHONES
+   ========================================================== */
 
-    display: flex !important;
+@media screen and (max-width: 380px) {
 
-    align-items: center !important;
+  #QuickAddStandard .popup__inner {
 
-    justify-content: center !important;
+    max-width: calc(100vw - 18px) !important;
 
-    background: rgba(255,255,255,.96) !important;
-
-    color: #111111 !important;
-
-    border: 0 !important;
-
-    border-radius: 50% !important;
-
-    box-shadow: 0 4px 18px rgba(0,0,0,.12) !important;
   }
 
 
-  #QuickAddStandard
-  .quick-add-modal__toggle svg {
+  #QuickStandardModal
+  .universes-quick-add__inner {
 
-    width: 18px !important;
+    grid-template-columns:
+      120px
+      minmax(0,1fr) !important;
 
-    height: 18px !important;
+    height: 195px !important;
+
+    min-height: 195px !important;
+
+    max-height: 195px !important;
+
   }
 
 
-  /* ==========================================================
-     WHATSAPP MUST STAY BEHIND QUICK ADD
-     ========================================================== */
+  #QuickStandardModal
+  .universes-quick-add__image {
 
-  #QuickAddStandard,
-  #QuickAddBulk {
+    width: 120px !important;
 
-    z-index: 999999 !important;
+    height: 195px !important;
+
+    min-height: 195px !important;
+
+    max-height: 195px !important;
+
   }
 
 
-  .whatsapp-float,
-  .whatsapp-button,
-  .whatsapp-widget,
-  .whatsapp-chat,
-  [class*="whatsapp"] {
+  #QuickStandardModal
+  .universes-quick-add__image-img {
 
-    z-index: 999 !important;
+    height: 195px !important;
+
+    min-height: 195px !important;
+
+    max-height: 195px !important;
+
   }
 
 
-  /* ==========================================================
-     BULK MODAL
-     ========================================================== */
+  #QuickStandardModal
+  .universes-quick-add__options {
 
-  #QuickAddBulk {
+    height: 195px !important;
 
-    z-index: 999999 !important;
+    padding: 15px 11px !important;
+
   }
 
+}
 
-  #QuickAddBulk .popup__inner {
-
-    max-width: 900px !important;
-
-    max-height: 80dvh !important;
-
-    border-radius: 14px !important;
-
-    overflow: hidden !important;
-  }
-
-
-  #QuickBulkModal {
-
-    max-height: 80dvh !important;
-
-    overflow-y: auto !important;
-
-    overflow-x: hidden !important;
-  }
-
-
-  /* ==========================================================
-     MOBILE
-     ========================================================== */
-
-  @media screen and (max-width: 749px) {
-
-    #QuickAddStandard {
-
-      align-items: center !important;
-
-      justify-content: center !important;
-    }
-
-
-    #QuickAddStandard
-    .popup__inner {
-
-      width: calc(100vw - 24px) !important;
-
-      max-width: calc(100vw - 24px) !important;
-
-      max-height: 82dvh !important;
-
-      border-radius: 12px !important;
-    }
-
-
-    #QuickStandardModal {
-
-      max-height: 82dvh !important;
-    }
-
-
-    #QuickStandardModal
-    .product-quick-add__grid,
-    #QuickStandardModal
-    .product-information__grid {
-
-      display: flex !important;
-
-      flex-direction: column !important;
-
-      width: 100% !important;
-    }
-
-
-    /* Mobile image */
-
-    #QuickStandardModal
-    .product-information__media {
-
-      width: 100% !important;
-
-      height: 240px !important;
-
-      min-height: 240px !important;
-
-      max-height: 240px !important;
-    }
-
-
-    #QuickStandardModal
-    .product-information__media img {
-
-      width: 100% !important;
-
-      height: 240px !important;
-
-      min-height: 240px !important;
-
-      max-height: 240px !important;
-
-      object-fit: cover !important;
-    }
-
-
-    /* Mobile details */
-
-    #QuickStandardModal
-    .product-details {
-
-      padding: 20px !important;
-
-      display: block !important;
-    }
-
-
-    #QuickStandardModal
-    .product-details h1,
-    #QuickStandardModal
-    .product-details h2 {
-
-      font-size: 18px !important;
-
-      margin-bottom: 8px !important;
-    }
-
-
-    #QuickAddStandard
-    .quick-add-modal__toggle {
-
-      top: 8px !important;
-
-      right: 8px !important;
-
-      width: 34px !important;
-
-      height: 34px !important;
-
-      min-width: 34px !important;
-
-      min-height: 34px !important;
-    }
-
-
-    #QuickStandardModal
-    variant-picker
-    input[type="radio"] + label {
-
-      min-width: 42px !important;
-
-      height: 36px !important;
-    }
-  }
-
-
-  /* ==========================================================
-     VERY SMALL PHONES
-     ========================================================== */
-
-  @media screen and (max-width: 380px) {
-
-    #QuickAddStandard
-    .popup__inner {
-
-      width: calc(100vw - 16px) !important;
-
-      max-width: calc(100vw - 16px) !important;
-    }
-
-
-    #QuickStandardModal
-    .product-information__media {
-
-      height: 210px !important;
-
-      min-height: 210px !important;
-    }
-
-
-    #QuickStandardModal
-    .product-information__media img {
-
-      height: 210px !important;
-
-      min-height: 210px !important;
-    }
-
-
-    #QuickStandardModal
-    .product-details {
-
-      padding: 16px !important;
-    }
-  }
 </style>
 
-
-<!-- ==========================================================
-     STANDARD QUICK ADD
-     ========================================================== -->
 
 <quick-add-modal
   class="quick-add-modal modal--popup fixed top-0 left-0 z-9 w-screen h-full flex justify-center no-js-hidden"
@@ -942,7 +899,6 @@
     id="Modal-Overlay"
     class="drawer__overlay fixed inset-0 cursor-pointer"
   ></div>
-
 
   <div
     class="popup__inner quick-add-modal__content global-settings-popup"
@@ -961,7 +917,6 @@
       {{- 'icon-close.svg' | inline_asset_content -}}
     </button>
 
-
     <div
       id="QuickStandardModal"
       class="quick-add-modal__content-info cus-scrollbar"
@@ -971,10 +926,6 @@
 
 </quick-add-modal>
 
-
-<!-- ==========================================================
-     BULK QUICK ADD
-     ========================================================== -->
 
 <bulk-modal
   class="quick-add-modal quick-add-modal--bulk modal--popup fixed top-0 left-0 z-9 w-screen h-full flex justify-center no-js-hidden"
@@ -986,7 +937,6 @@
     id="Modal-Overlay-Bulk"
     class="drawer__overlay fixed inset-0 cursor-pointer"
   ></div>
-
 
   <div
     class="popup__inner quick-add-modal__content quick-add-modal__content--bulk global-settings-popup"
@@ -1004,7 +954,6 @@
     >
       {{- 'icon-close.svg' | inline_asset_content -}}
     </button>
-
 
     <div
       id="QuickBulkModal"
