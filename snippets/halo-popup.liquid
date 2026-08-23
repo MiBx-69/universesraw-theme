@@ -3,177 +3,991 @@
 </template>
 
 {%- if settings.enable_quick_view -%}
-    <link rel="stylesheet" href="{{ 'quick-view.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="{{ 'quick-view.css' | asset_url }}"></noscript>
-    {%- render 'quick-view' -%}
-    <script src="{{ 'quick-view.js' | asset_url }}" defer="defer"></script>
+  <link
+    rel="stylesheet"
+    href="{{ 'quick-view.css' | asset_url }}"
+    media="print"
+    fetchpriority="low"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="{{ 'quick-view.css' | asset_url }}"
+    >
+  </noscript>
+
+  {%- render 'quick-view' -%}
+
+  <script
+    src="{{ 'quick-view.js' | asset_url }}"
+    defer="defer"
+  ></script>
 {%- endif -%}
+
 
 {%- if settings.enable_compare -%}
-    {% render 'compare-popup' %}
-    <script src="{{ 'product-compare.js' | asset_url }}" defer="defer"></script>
+
+  {% render 'compare-popup' %}
+
+  <script
+    src="{{ 'product-compare.js' | asset_url }}"
+    defer="defer"
+  ></script>
+
 {%- endif -%}
+
 
 {%- if settings.show_quick_edit_cart -%}
+
   {% render 'edit-cart-popup' %}
+
 {%- endif -%}
 
+
 <script>
-  (function () {
-    const urls = {
-      quickAddModalCss: "{{ 'quick-add-modal.css' | asset_url }}",
-      quantityPopoverCss: "{{ 'quantity-popover.css' | asset_url }}",
-      quickOrderListCss: "{{ 'quick-order-list.css' | asset_url }}",
-      productForm: "{{ 'product-form.js' | asset_url }}",
-      quickAdd: "{{ 'quick-add.js' | asset_url }}",
-      quickAddBulk: "{{ 'quick-add-bulk.js' | asset_url }}",
-      quantityPopover: "{{ 'quantity-popover.js' | asset_url }}",
-      pricePerItem: "{{ 'price-per-item.js' | asset_url }}",
-      quickOrderList: "{{ 'quick-order-list.js' | asset_url }}",
-      editCartPopup: "{{ 'edit-cart.js' | asset_url }}",
-    };
+(function () {
 
-    window.__haloLoadedScripts = window.__haloLoadedScripts || {};
-    window.__haloLoadedStyles = window.__haloLoadedStyles || {};
+  'use strict';
 
-    const hasQuickOrderListSection = Boolean(
-      document.querySelector('quick-order-list')
+
+  /* ==========================================================
+     UNIVERSES RAW
+     ULTRA FAST QUICK ADD
+     ========================================================== */
+
+
+  const urls = {
+
+    quickAddModalCss:
+      "{{ 'quick-add-modal.css' | asset_url }}",
+
+    quantityPopoverCss:
+      "{{ 'quantity-popover.css' | asset_url }}",
+
+    quickOrderListCss:
+      "{{ 'quick-order-list.css' | asset_url }}",
+
+    productForm:
+      "{{ 'product-form.js' | asset_url }}",
+
+    quickAdd:
+      "{{ 'quick-add.js' | asset_url }}",
+
+    quickAddBulk:
+      "{{ 'quick-add-bulk.js' | asset_url }}",
+
+    quantityPopover:
+      "{{ 'quantity-popover.js' | asset_url }}",
+
+    pricePerItem:
+      "{{ 'price-per-item.js' | asset_url }}",
+
+    quickOrderList:
+      "{{ 'quick-order-list.js' | asset_url }}",
+
+    editCartPopup:
+      "{{ 'edit-cart.js' | asset_url }}"
+
+  };
+
+
+  /* ==========================================================
+     GLOBAL CACHE
+     ========================================================== */
+
+  window.__haloLoadedScripts =
+    window.__haloLoadedScripts || {};
+
+  window.__haloLoadedStyles =
+    window.__haloLoadedStyles || {};
+
+  window.__haloQuickAddReady =
+    window.__haloQuickAddReady || {};
+
+  window.__haloQuickAddPreloading =
+    window.__haloQuickAddPreloading || {};
+
+
+  /* ==========================================================
+     CUSTOM ELEMENT CHECK
+     ========================================================== */
+
+  function isDefined(name) {
+
+    return (
+      typeof customElements !== 'undefined' &&
+      customElements.get(name)
     );
-    const hasEditCartPopup = Boolean(
-      document.querySelector('[data-edit-cart-popup]')
-    );
 
-    if (hasEditCartPopup) {
-      if (!isDefined('edit-cart-popup')) loadScriptOnce(urls.editCartPopup);
+  }
+
+
+  /* ==========================================================
+     LOAD SCRIPT ONCE
+     ========================================================== */
+
+  function loadScriptOnce(src) {
+
+    if (!src) {
+      return Promise.resolve();
     }
 
-    if (hasQuickOrderListSection) {
-      if (!isDefined('quick-order-list')) loadScriptOnce(urls.quickOrderList);
+
+    /*
+     * Already loaded / loading.
+     */
+    if (window.__haloLoadedScripts[src]) {
+
+      return window.__haloLoadedScripts[src];
+
     }
 
-    function isDefined(name) {
-      return typeof customElements !== 'undefined' && customElements.get(name);
-    }
 
-    function loadScriptOnce(src) {
-      if (!src || window.__haloLoadedScripts[src]) return Promise.resolve();
-      window.__haloLoadedScripts[src] = true;
+    /*
+     * Load asynchronously and cache the Promise.
+     */
+    window.__haloLoadedScripts[src] = new Promise(
+      function (resolve, reject) {
 
-      return new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = src;
-        s.defer = true;
-        s.onload = resolve;
-        s.onerror = reject;
-        document.head.appendChild(s);
-      });
-    }
+        const script =
+          document.createElement('script');
 
-    function loadStyleOnce(href) {
-      if (!href || window.__haloLoadedStyles[href]) return;
-      window.__haloLoadedStyles[href] = true;
-      const l = document.createElement('link');
-      l.rel = 'stylesheet';
-      l.href = href;
-      document.head.appendChild(l);
-    }
+        script.src = src;
 
-    function ensureQuickAddMarkup() {
-      if (document.getElementById('QuickAddStandard') || document.getElementById('QuickAddBulk')) return;
-      const tpl = document.getElementById('HaloQuickAddTemplate');
-      if (!tpl || !('content' in tpl)) return;
-      document.body.appendChild(tpl.content.cloneNode(true));
-    }
+        /*
+         * Async prevents one script from blocking
+         * the loading of another.
+         */
+        script.async = true;
 
-    function buildQueueForQuickAdd(type) {
-      // Modal base class is defined by details-disclosure.js (already included in theme.liquid with defer)
-      const queue = [];
+        script.onload = function () {
 
-      // Shared styles used inside quick add / bulk quick order list
-      loadStyleOnce(urls.quickAddModalCss);
-      loadStyleOnce(urls.quantityPopoverCss);
-      if (type === 'bulk') loadStyleOnce(urls.quickOrderListCss);
+          resolve();
 
-      if (!isDefined('product-form-component')) queue.push(urls.productForm);
-      if (!isDefined('quantity-popover')) queue.push(urls.quantityPopover);
-      if (!isDefined('price-per-item')) queue.push(urls.pricePerItem);
+        };
 
-      if (type === 'standard' && !isDefined('quick-add-modal')) queue.push(urls.quickAdd);
+        script.onerror = function () {
 
-      // Bulk modal element is defined in quick-order-list.js
-      if (type === 'bulk') {
-        if (!isDefined('quick-add-bulk')) queue.push(urls.quickAddBulk);
-        if (!isDefined('quick-order-list')) queue.push(urls.quickOrderList);
+          reject(
+            new Error(
+              'Failed to load: ' + src
+            )
+          );
+
+        };
+
+        document.head.appendChild(script);
+
       }
-
-      return queue;
-    }
-
-    async function ensureQuickAddReady(type) {
-      try {
-        if (typeof customElements !== 'undefined' && customElements.whenDefined) {
-          // Ensure ModalDialog is available before loading quick add elements
-          await customElements.whenDefined('modal-dialog');
-        }
-      } catch (e) {}
-
-      const queue = buildQueueForQuickAdd(type);
-      if (queue.length) {
-        await queue.reduce((p, src) => p.then(() => loadScriptOnce(src)), Promise.resolve());
-      }
-      ensureQuickAddMarkup();
-    }
-
-    function prefetchQuickAddAssets(type) {
-      const queue = buildQueueForQuickAdd(type);
-      if (!queue.length) return;
-      queue.reduce((p, src) => p.then(() => loadScriptOnce(src)), Promise.resolve()).catch(() => {});
-    }
-
-    const hasQuickAddStandardOpener = Boolean(
-      document.querySelector('modal-opener[data-modal="#QuickAddStandard"]')
-    );
-    const hasQuickAddBulkOpener = Boolean(
-      document.querySelector('modal-opener[data-modal="#QuickAddBulk"]')
     );
 
-    if (hasQuickAddStandardOpener || hasQuickAddBulkOpener) {
-      const runIdle = (cb) => {
-        if ('requestIdleCallback' in window) return requestIdleCallback(cb, { timeout: 2000 });
-        return setTimeout(cb, 250);
-      };
 
-      if (hasQuickAddStandardOpener) runIdle(() => prefetchQuickAddAssets('standard'));
-      if (hasQuickAddBulkOpener) runIdle(() => prefetchQuickAddAssets('bulk'));
+    return window.__haloLoadedScripts[src];
+
+  }
+
+
+  /* ==========================================================
+     LOAD CSS ONCE
+     ========================================================== */
+
+  function loadStyleOnce(href) {
+
+    if (!href) {
+      return;
     }
 
-    document.addEventListener(
-      'click',
-      (event) => {
-        const btn = event.target.closest(
-          'modal-opener[data-modal="#QuickAddStandard"] button, modal-opener[data-modal="#QuickAddBulk"] button'
+
+    if (
+      window.__haloLoadedStyles[href]
+    ) {
+
+      return;
+
+    }
+
+
+    window.__haloLoadedStyles[href] = true;
+
+
+    /*
+     * Check whether stylesheet already exists.
+     */
+    const existing =
+      document.querySelector(
+        'link[href="' + href + '"]'
+      );
+
+
+    if (existing) {
+
+      return;
+
+    }
+
+
+    const link =
+      document.createElement('link');
+
+    link.rel = 'stylesheet';
+
+    link.href = href;
+
+    document.head.appendChild(link);
+
+  }
+
+
+  /* ==========================================================
+     MOUNT QUICK ADD TEMPLATE IMMEDIATELY
+     ========================================================== */
+
+  function mountQuickAddMarkup() {
+
+    /*
+     * Already mounted.
+     */
+    if (
+      document.getElementById(
+        'QuickAddStandard'
+      ) ||
+      document.getElementById(
+        'QuickAddBulk'
+      )
+    ) {
+
+      return true;
+
+    }
+
+
+    const template =
+      document.getElementById(
+        'HaloQuickAddTemplate'
+      );
+
+
+    if (
+      !template ||
+      !template.content
+    ) {
+
+      return false;
+
+    }
+
+
+    /*
+     * Clone the Quick Add modal into body
+     * immediately during page initialization.
+     */
+    document.body.appendChild(
+      template.content.cloneNode(true)
+    );
+
+
+    return true;
+
+  }
+
+
+  /* ==========================================================
+     QUICK ADD STYLES
+     ========================================================== */
+
+  function preloadQuickAddStyles(type) {
+
+    /*
+     * Standard Quick Add
+     */
+    loadStyleOnce(
+      urls.quickAddModalCss
+    );
+
+    loadStyleOnce(
+      urls.quantityPopoverCss
+    );
+
+
+    /*
+     * Bulk Quick Add
+     */
+    if (type === 'bulk') {
+
+      loadStyleOnce(
+        urls.quickOrderListCss
+      );
+
+    }
+
+  }
+
+
+  /* ==========================================================
+     BUILD STANDARD QUICK ADD SCRIPT QUEUE
+     ========================================================== */
+
+  function getStandardQuickAddScripts() {
+
+    const scripts = [];
+
+
+    /*
+     * Product form.
+     */
+    if (
+      !isDefined(
+        'product-form-component'
+      )
+    ) {
+
+      scripts.push(
+        urls.productForm
+      );
+
+    }
+
+
+    /*
+     * Quantity popover.
+     */
+    if (
+      !isDefined(
+        'quantity-popover'
+      )
+    ) {
+
+      scripts.push(
+        urls.quantityPopover
+      );
+
+    }
+
+
+    /*
+     * Price per item.
+     */
+    if (
+      !isDefined(
+        'price-per-item'
+      )
+    ) {
+
+      scripts.push(
+        urls.pricePerItem
+      );
+
+    }
+
+
+    /*
+     * Main Quick Add modal.
+     */
+    if (
+      !isDefined(
+        'quick-add-modal'
+      )
+    ) {
+
+      scripts.push(
+        urls.quickAdd
+      );
+
+    }
+
+
+    return scripts;
+
+  }
+
+
+  /* ==========================================================
+     BUILD BULK QUICK ADD SCRIPT QUEUE
+     ========================================================== */
+
+  function getBulkQuickAddScripts() {
+
+    const scripts = [];
+
+
+    if (
+      !isDefined(
+        'product-form-component'
+      )
+    ) {
+
+      scripts.push(
+        urls.productForm
+      );
+
+    }
+
+
+    if (
+      !isDefined(
+        'quantity-popover'
+      )
+    ) {
+
+      scripts.push(
+        urls.quantityPopover
+      );
+
+    }
+
+
+    if (
+      !isDefined(
+        'price-per-item'
+      )
+    ) {
+
+      scripts.push(
+        urls.pricePerItem
+      );
+
+    }
+
+
+    if (
+      !isDefined(
+        'quick-add-bulk'
+      )
+    ) {
+
+      scripts.push(
+        urls.quickAddBulk
+      );
+
+    }
+
+
+    if (
+      !isDefined(
+        'quick-order-list'
+      )
+    ) {
+
+      scripts.push(
+        urls.quickOrderList
+      );
+
+    }
+
+
+    return scripts;
+
+  }
+
+
+  /* ==========================================================
+     PRELOAD STANDARD QUICK ADD
+     ========================================================== */
+
+  function preloadStandardQuickAdd() {
+
+    /*
+     * Prevent duplicate preload operations.
+     */
+    if (
+      window.__haloQuickAddPreloading.standard
+    ) {
+
+      return (
+        window.__haloQuickAddPreloading
+          .standard
+      );
+
+    }
+
+
+    window.__haloQuickAddPreloading
+      .standard = (async function () {
+
+        /*
+         * Load CSS immediately.
+         */
+        preloadQuickAddStyles(
+          'standard'
         );
-        if (!btn) return;
 
-        const openerEl = btn.closest('modal-opener');
-        const modalSelector = openerEl?.getAttribute('data-modal');
-        const type = modalSelector === '#QuickAddBulk' ? 'bulk' : 'standard';
 
-        // If the modal is already in the DOM, let the normal handler run.
-        if (modalSelector && document.querySelector(modalSelector)) return;
+        /*
+         * ModalDialog must exist before
+         * quick-add-modal is registered.
+         *
+         * If it is already available,
+         * continue immediately.
+         */
+        try {
 
-        // Intercept click, lazy-mount + lazy-load assets, then open.
-        event.preventDefault();
-        event.stopImmediatePropagation();
+          if (
+            typeof customElements !==
+            'undefined' &&
+            customElements.whenDefined
+          ) {
 
-        ensureQuickAddReady(type)
-          .then(() => {
-            const modal = modalSelector ? document.querySelector(modalSelector) : null;
-            if (modal && typeof modal.show === 'function') modal.show(btn);
-          })
-          .catch(() => {});
-      },
-      true
+            await customElements
+              .whenDefined(
+                'modal-dialog'
+              );
+
+          }
+
+        } catch (error) {
+
+          /*
+           * Continue even if the browser
+           * doesn't support whenDefined.
+           */
+
+        }
+
+
+        /*
+         * Get every required script.
+         */
+        const scripts =
+          getStandardQuickAddScripts();
+
+
+        /*
+         * IMPORTANT:
+         *
+         * Load ALL scripts in parallel.
+         *
+         * The old code loaded them one
+         * after another.
+         */
+        await Promise.all(
+          scripts.map(
+            function (src) {
+
+              return loadScriptOnce(
+                src
+              );
+
+            }
+          )
+        );
+
+
+        /*
+         * Make sure modal markup exists.
+         */
+        mountQuickAddMarkup();
+
+
+        window.__haloQuickAddReady
+          .standard = true;
+
+
+      })().catch(
+        function (error) {
+
+          console.warn(
+            '[Universes RAW] Quick Add preload failed:',
+            error
+          );
+
+        }
+      );
+
+
+    return (
+      window.__haloQuickAddPreloading
+        .standard
     );
-  })();
+
+  }
+
+
+  /* ==========================================================
+     PRELOAD BULK QUICK ADD
+     ========================================================== */
+
+  function preloadBulkQuickAdd() {
+
+    if (
+      window.__haloQuickAddPreloading.bulk
+    ) {
+
+      return (
+        window.__haloQuickAddPreloading
+          .bulk
+      );
+
+    }
+
+
+    window.__haloQuickAddPreloading
+      .bulk = (async function () {
+
+        preloadQuickAddStyles(
+          'bulk'
+        );
+
+
+        try {
+
+          if (
+            typeof customElements !==
+            'undefined' &&
+            customElements.whenDefined
+          ) {
+
+            await customElements
+              .whenDefined(
+                'modal-dialog'
+              );
+
+          }
+
+        } catch (error) {}
+
+
+        const scripts =
+          getBulkQuickAddScripts();
+
+
+        /*
+         * Parallel loading.
+         */
+        await Promise.all(
+          scripts.map(
+            function (src) {
+
+              return loadScriptOnce(
+                src
+              );
+
+            }
+          )
+        );
+
+
+        mountQuickAddMarkup();
+
+
+        window.__haloQuickAddReady
+          .bulk = true;
+
+
+      })().catch(
+        function (error) {
+
+          console.warn(
+            '[Universes RAW] Bulk Quick Add preload failed:',
+            error
+          );
+
+        }
+      );
+
+
+    return (
+      window.__haloQuickAddPreloading
+        .bulk
+    );
+
+  }
+
+
+  /* ==========================================================
+     CHECK FOR QUICK ADD OPENERS
+     ========================================================== */
+
+  function hasStandardQuickAddOpeners() {
+
+    return Boolean(
+      document.querySelector(
+        'modal-opener[data-modal="#QuickAddStandard"]'
+      )
+    );
+
+  }
+
+
+  function hasBulkQuickAddOpeners() {
+
+    return Boolean(
+      document.querySelector(
+        'modal-opener[data-modal="#QuickAddBulk"]'
+      )
+    );
+
+  }
+
+
+  /* ==========================================================
+     INITIALIZE QUICK ADD IMMEDIATELY
+     ========================================================== */
+
+  function initializeQuickAdd() {
+
+    /*
+     * Mount modal BEFORE the customer clicks.
+     */
+    mountQuickAddMarkup();
+
+
+    /*
+     * If standard Quick Add exists,
+     * start preloading immediately.
+     */
+    if (
+      hasStandardQuickAddOpeners()
+    ) {
+
+      preloadStandardQuickAdd();
+
+    }
+
+
+    /*
+     * Bulk Quick Add.
+     */
+    if (
+      hasBulkQuickAddOpeners()
+    ) {
+
+      preloadBulkQuickAdd();
+
+    }
+
+  }
+
+
+  /* ==========================================================
+     FAST INITIALIZATION
+     ========================================================== */
+
+  /*
+   * Don't wait for requestIdleCallback.
+   *
+   * Start immediately.
+   */
+  initializeQuickAdd();
+
+
+  /* ==========================================================
+     SHOPIFY DYNAMIC SECTION SUPPORT
+     * ========================================================== */
+
+  document.addEventListener(
+    'shopify:section:load',
+    function () {
+
+      /*
+       * Newly loaded collection/product
+       * sections may contain Quick Add.
+       */
+      initializeQuickAdd();
+
+    }
+  );
+
+
+  document.addEventListener(
+    'shopify:section:reorder',
+    function () {
+
+      initializeQuickAdd();
+
+    }
+  );
+
+
+  document.addEventListener(
+    'shopify:section:select',
+    function () {
+
+      initializeQuickAdd();
+
+    }
+  );
+
+
+  /* ==========================================================
+     ULTRA FAST CLICK FALLBACK
+     ========================================================== */
+
+  document.addEventListener(
+    'click',
+    function (event) {
+
+      const button =
+        event.target.closest(
+          'modal-opener[data-modal="#QuickAddStandard"] button, ' +
+          'modal-opener[data-modal="#QuickAddBulk"] button'
+        );
+
+
+      if (!button) {
+
+        return;
+
+      }
+
+
+      const opener =
+        button.closest(
+          'modal-opener'
+        );
+
+
+      if (!opener) {
+
+        return;
+
+      }
+
+
+      const modalSelector =
+        opener.getAttribute(
+          'data-modal'
+        );
+
+
+      if (!modalSelector) {
+
+        return;
+
+      }
+
+
+      const type =
+        modalSelector ===
+        '#QuickAddBulk'
+          ? 'bulk'
+          : 'standard';
+
+
+      /*
+       * Modal should already exist because
+       * we mounted it during initialization.
+       */
+      const modal =
+        document.querySelector(
+          modalSelector
+        );
+
+
+      /*
+       * If everything is already ready,
+       * DO NOTHING.
+       *
+       * Shopify's native modal-opener
+       * will handle the click instantly.
+       */
+      if (
+        modal &&
+        (
+          type === 'standard'
+            ? isDefined('quick-add-modal')
+            : isDefined('quick-add-bulk')
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      /*
+       * Extremely fast first-click fallback.
+       *
+       * If the user clicked before the
+       * component finished loading, wait
+       * only for the component and open it.
+       */
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+
+      const readyPromise =
+        type === 'standard'
+          ? preloadStandardQuickAdd()
+          : preloadBulkQuickAdd();
+
+
+      readyPromise.then(
+        function () {
+
+          const readyModal =
+            document.querySelector(
+              modalSelector
+            );
+
+
+          if (
+            !readyModal
+          ) {
+
+            return;
+
+          }
+
+
+          /*
+           * Wait for custom element upgrade.
+           */
+          const elementName =
+            type === 'standard'
+              ? 'quick-add-modal'
+              : 'quick-add-bulk';
+
+
+          if (
+            typeof customElements !==
+            'undefined' &&
+            customElements.whenDefined
+          ) {
+
+            customElements
+              .whenDefined(
+                elementName
+              )
+              .then(
+                function () {
+
+                  if (
+                    typeof readyModal.show ===
+                    'function'
+                  ) {
+
+                    readyModal.show(
+                      button
+                    );
+
+                  }
+
+                }
+              );
+
+          } else {
+
+            if (
+              typeof readyModal.show ===
+              'function'
+            ) {
+
+              readyModal.show(
+                button
+              );
+
+            }
+
+          }
+
+        }
+      );
+
+    },
+    true
+  );
+
+
+})();
 </script>
