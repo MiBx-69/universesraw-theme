@@ -1877,8 +1877,8 @@
       overflow-y: hidden !important;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
-      scroll-behavior: smooth;
-      scroll-snap-type: x proximity;
+      scroll-behavior: auto;
+      scroll-snap-type: none;
       touch-action: pan-x;
       overscroll-behavior-x: contain;
       padding-inline: 2px 34px !important;
@@ -1902,7 +1902,7 @@
 
     .premium-collection-section .premium-tabs-header .tabs-product-header__item {
       flex: 0 0 auto !important;
-      scroll-snap-align: center;
+      scroll-snap-align: none;
     }
 
     /* Subtle right-edge cue: tells customers more tabs are available. */
@@ -1921,8 +1921,8 @@
       pointer-events: none;
       color: rgba(17,17,17,.72);
       font-family: Arial, sans-serif;
-      font-size: 24px;
-      font-weight: 300;
+      font-size: 22px;
+      font-weight: 400;
       line-height: 1;
       background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.96) 38%);
       opacity: 0;
@@ -1978,8 +1978,8 @@
       overflow-y: hidden;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
-      scroll-behavior: smooth;
-      scroll-snap-type: x proximity;
+      scroll-behavior: auto;
+      scroll-snap-type: none;
       padding-inline: 2px 34px;
       touch-action: pan-x;
       overscroll-behavior-x: contain;
@@ -1991,7 +1991,7 @@
 
     .premium-collection-section .premium-tabs-header .tabs-product-header__item {
       flex: 0 0 auto;
-      scroll-snap-align: center;
+      scroll-snap-align: none;
     }
 
     .premium-collection-section .tabs-product-grid {
@@ -2019,9 +2019,7 @@
         card.querySelector('.card-product__media') ||
         card.querySelector('.card__media');
 
-      if (!image) return;
-
-      if (opener.parentElement !== image) {
+      if (image && opener.parentElement !== image) {
         image.appendChild(opener);
       }
     }
@@ -2032,102 +2030,84 @@
         .forEach(placeQuickAdd);
     }
 
-    function getTabItems(section) {
-      if (!section) return [];
+    function getScroller(section) {
+      return section
+        ? section.querySelector('.premium-tabs-header')
+        : null;
+    }
 
-      return Array.from(
-        section.querySelectorAll(
-          '.premium-tabs-header .tabs-product-header__item'
-        )
+    function getItems(section) {
+      var scroller = getScroller(section);
+      return scroller
+        ? Array.from(
+            scroller.querySelectorAll(
+              '.tabs-product-header__item'
+            )
+          )
+        : [];
+    }
+
+    function updateSlideIndicator(section) {
+      var scroller = getScroller(section);
+      if (!scroller) return;
+
+      var wrapper =
+        scroller.closest('.tabs-product-header-wrapper');
+
+      if (!wrapper) return;
+
+      var maxScroll =
+        scroller.scrollWidth - scroller.clientWidth;
+
+      var hasOverflow = maxScroll > 2;
+      var atEnd =
+        !hasOverflow ||
+        scroller.scrollLeft >= maxScroll - 3;
+
+      wrapper.classList.toggle(
+        'ur-tabs-can-slide',
+        hasOverflow
+      );
+
+      wrapper.classList.toggle(
+        'ur-tabs-at-end',
+        atEnd
       );
     }
 
-    function getTabScroller(section) {
-      if (!section) return null;
+    function markActiveTab(section, item, center) {
+      if (!item) return;
 
-      return section.querySelector(
-        '.premium-tabs-header'
-      );
-    }
-
-    function updateSlideCue(section) {
-      var scroller = getTabScroller(section);
-      var wrapper = scroller ? scroller.closest('.tabs-product-header-wrapper') : null;
-
-      if (!scroller || !wrapper) return;
-
-      var maxScroll = Math.max(
-        0,
-        scroller.scrollWidth - scroller.clientWidth
-      );
-
-      var currentScroll = Math.max(0, scroller.scrollLeft);
-      var canSlide = maxScroll > 4;
-      var atEnd = !canSlide || currentScroll >= maxScroll - 4;
-
-      wrapper.classList.toggle('ur-tabs-can-slide', canSlide);
-      wrapper.classList.toggle('ur-tabs-at-end', atEnd);
-
-      scroller.setAttribute(
-        'data-ur-tabs-scrollable',
-        canSlide ? 'true' : 'false'
-      );
-    }
-
-    function centerTabIfNeeded(scroller, item) {
-      if (!scroller || !item) return;
-
-      var scrollerRect = scroller.getBoundingClientRect();
-      var itemRect = item.getBoundingClientRect();
-
-      var leftOverflow = itemRect.left - scrollerRect.left;
-      var rightOverflow = itemRect.right - scrollerRect.right;
-
-      if (leftOverflow < 0) {
-        scroller.scrollBy({
-          left: leftOverflow - 12,
-          behavior: 'smooth'
-        });
-      } else if (rightOverflow > 0) {
-        scroller.scrollBy({
-          left: rightOverflow + 12,
-          behavior: 'smooth'
-        });
-      }
-    }
-
-    function setCurrentTab(section, item) {
-      if (!section || !item) return;
-
-      var items = getTabItems(section);
-      if (!items.length) return;
+      var items = getItems(section);
 
       items.forEach(function (tab) {
         tab.classList.remove('ur-tab-current');
-        tab.removeAttribute('aria-current');
         tab.removeAttribute('data-ur-current-tab');
       });
 
       item.classList.add('ur-tab-current');
-      item.setAttribute('aria-current', 'true');
-      item.setAttribute('data-ur-current-tab', 'true');
+      item.setAttribute(
+        'data-ur-current-tab',
+        'true'
+      );
 
-      var scroller = getTabScroller(section);
-
-      if (scroller) {
-        centerTabIfNeeded(scroller, item);
+      if (center && !window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches) {
+        item.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'nearest'
+        });
       }
 
-      updateSlideCue(section);
+      updateSlideIndicator(section);
     }
 
-    function syncCurrentTab(section) {
-      if (!section) return;
+    function findActiveTab(section) {
+      var items = getItems(section);
 
-      var items = getTabItems(section);
-      if (!items.length) return;
-
-      var active =
+      return (
         items.find(function (item) {
           return (
             item.classList.contains('active') ||
@@ -2137,148 +2117,169 @@
           );
         }) ||
         items.find(function (item) {
-          return item.classList.contains('ur-tab-current');
+          return item.classList.contains(
+            'ur-tab-current'
+          );
         }) ||
-        items[0];
-
-      setCurrentTab(section, active);
-      updateSlideCue(section);
+        items[0]
+      );
     }
 
-    function initTabScrolling(section) {
+    function initTabScroller(section) {
       if (!section) return;
 
-      var scroller = getTabScroller(section);
+      var scroller = getScroller(section);
       if (!scroller) return;
 
-      if (scroller.dataset.urTabScrollReady !== 'true') {
-        scroller.dataset.urTabScrollReady = 'true';
+      if (
+        scroller.dataset.urStableScrollReady ===
+        'true'
+      ) {
+        updateSlideIndicator(section);
+        return;
+      }
 
-        /* Keep native touch scrolling, but make mouse-wheel scrolling feel natural. */
-        scroller.addEventListener(
-          'wheel',
-          function (event) {
-            if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      scroller.dataset.urStableScrollReady =
+        'true';
 
-            var maxScroll = scroller.scrollWidth - scroller.clientWidth;
-            if (maxScroll <= 2) return;
+      /*
+       * IMPORTANT:
+       * Do not modify scrollLeft during a native touch swipe.
+       * The browser handles mobile momentum scrolling much
+       * better than JavaScript.
+       */
+      scroller.addEventListener(
+        'scroll',
+        function () {
+          updateSlideIndicator(section);
+        },
+        { passive: true }
+      );
 
-            var canMoveLeft = scroller.scrollLeft > 0;
-            var canMoveRight =
-              scroller.scrollLeft < maxScroll - 1;
+      /*
+       * Mouse wheel -> horizontal scroll.
+       * Use an immediate scroll instead of repeatedly starting
+       * smooth animations, which can cause the "shaking" effect.
+       */
+      scroller.addEventListener(
+        'wheel',
+        function (event) {
+          if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+            return;
+          }
 
-            if (
-              (event.deltaY < 0 && !canMoveLeft) ||
-              (event.deltaY > 0 && !canMoveRight)
-            ) {
-              return;
-            }
+          var maxScroll =
+            scroller.scrollWidth -
+            scroller.clientWidth;
 
+          if (maxScroll <= 2) return;
+
+          var before = scroller.scrollLeft;
+          var amount = event.deltaY;
+
+          scroller.scrollLeft = Math.max(
+            0,
+            Math.min(
+              maxScroll,
+              before + amount
+            )
+          );
+
+          if (scroller.scrollLeft !== before) {
             event.preventDefault();
+          }
+        },
+        { passive: false }
+      );
 
-            scroller.scrollBy({
-              left: event.deltaY,
-              behavior: 'smooth'
-            });
-          },
-          { passive: false }
-        );
+      /*
+       * Desktop mouse dragging only.
+       * Touch is intentionally excluded so mobile native
+       * swipe remains completely smooth.
+       */
+      var dragging = false;
+      var moved = false;
+      var startX = 0;
+      var startScroll = 0;
 
-        /* Desktop click-drag scrolling. */
-        var dragging = false;
-        var moved = false;
-        var startX = 0;
-        var startScrollLeft = 0;
-
-        scroller.addEventListener('pointerdown', function (event) {
-          if (event.pointerType === 'touch') return;
+      scroller.addEventListener(
+        'mousedown',
+        function (event) {
           if (event.button !== 0) return;
 
           dragging = true;
           moved = false;
           startX = event.clientX;
-          startScrollLeft = scroller.scrollLeft;
-        });
+          startScroll = scroller.scrollLeft;
 
-        scroller.addEventListener('pointermove', function (event) {
+          scroller.classList.add(
+            'ur-tab-dragging'
+          );
+        }
+      );
+
+      scroller.addEventListener(
+        'mousemove',
+        function (event) {
           if (!dragging) return;
 
-          var distance = event.clientX - startX;
+          var distance =
+            event.clientX - startX;
 
-          if (Math.abs(distance) > 5) {
+          if (Math.abs(distance) > 4) {
             moved = true;
-            scroller.classList.add('ur-tab-dragging');
-            scroller.scrollLeft = startScrollLeft - distance;
-            updateSlideCue(section);
+
+            scroller.scrollLeft =
+              startScroll - distance;
+
+            updateSlideIndicator(section);
           }
-        });
-
-        function stopDrag() {
-          dragging = false;
-          scroller.classList.remove('ur-tab-dragging');
         }
+      );
 
-        scroller.addEventListener('pointerup', stopDrag);
-        scroller.addEventListener('pointercancel', stopDrag);
-        scroller.addEventListener('pointerleave', function () {
-          if (dragging) stopDrag();
-        });
+      function stopDragging() {
+        dragging = false;
 
-        /* Prevent accidental tab activation after a drag. */
-        scroller.addEventListener(
-          'click',
-          function (event) {
-            if (!moved) return;
-
-            event.preventDefault();
-            event.stopPropagation();
-            moved = false;
-          },
-          true
+        scroller.classList.remove(
+          'ur-tab-dragging'
         );
 
-        scroller.addEventListener(
-          'scroll',
-          function () {
-            updateSlideCue(section);
-          },
-          { passive: true }
-        );
-
-        if ('ResizeObserver' in window) {
-          var resizeObserver = new ResizeObserver(function () {
-            updateSlideCue(section);
-          });
-
-          resizeObserver.observe(scroller);
-        } else {
-          window.addEventListener('resize', function () {
-            updateSlideCue(section);
-          });
-        }
-
-        window.addEventListener('resize', function () {
-          updateSlideCue(section);
-        });
+        /*
+         * Clear after the browser finishes the click
+         * sequence so a drag never activates a tab.
+         */
+        setTimeout(function () {
+          moved = false;
+        }, 0);
       }
 
-      updateSlideCue(section);
-    }
+      scroller.addEventListener(
+        'mouseup',
+        stopDragging
+      );
 
-    function initTabHighlight(section) {
-      if (!section) return;
+      scroller.addEventListener(
+        'mouseleave',
+        stopDragging
+      );
 
-      initTabScrolling(section);
+      scroller.addEventListener(
+        'click',
+        function (event) {
+          if (!moved) return;
 
-      if (section.dataset.urTabsHighlightReady === 'true') {
-        syncCurrentTab(section);
-        return;
-      }
+          event.preventDefault();
+          event.stopPropagation();
+        },
+        true
+      );
 
-      section.dataset.urTabsHighlightReady = 'true';
-
-      syncCurrentTab(section);
-
+      /*
+       * Only listen for the tab click itself.
+       * We intentionally do NOT use a MutationObserver here.
+       * That was the source of scroll-position fighting in
+       * dynamic theme tabs.
+       */
       section.addEventListener(
         'click',
         function (event) {
@@ -2286,39 +2287,60 @@
             '.premium-tabs-header .tabs-product-header__item'
           );
 
-          if (!item || !section.contains(item)) return;
+          if (!item || !section.contains(item)) {
+            return;
+          }
 
           /*
-           * Let the theme's own tab handler switch the product panel first.
-           * We only update the visual selected state and scrolling.
+           * Let the theme switch the actual panel first.
+           * Then update our visual selected state once.
            */
-          requestAnimationFrame(function () {
-            setCurrentTab(section, item);
-          });
-
           setTimeout(function () {
-            syncCurrentTab(section);
-          }, 120);
+            markActiveTab(
+              section,
+              findActiveTab(section) || item,
+              true
+            );
+          }, 80);
         },
-        true
+        false
       );
 
-      /* Theme tabs may change their active state after the click. */
-      var observer = new MutationObserver(function () {
-        requestAnimationFrame(function () {
-          syncCurrentTab(section);
-        });
-      });
+      /*
+       * Initial state only.
+       */
+      var active = findActiveTab(section);
 
-      observer.observe(section, {
-        subtree: true,
-        attributes: true,
-        attributeFilter: [
-          'class',
-          'aria-selected',
-          'aria-current'
-        ]
-      });
+      if (active) {
+        markActiveTab(
+          section,
+          active,
+          false
+        );
+      }
+
+      updateSlideIndicator(section);
+
+      /*
+       * Recalculate only when the element size changes.
+       * This never changes scrollLeft, so it cannot fight a swipe.
+       */
+      if ('ResizeObserver' in window) {
+        var resizeObserver =
+          new ResizeObserver(function () {
+            updateSlideIndicator(section);
+          });
+
+        resizeObserver.observe(scroller);
+      } else {
+        window.addEventListener(
+          'resize',
+          function () {
+            updateSlideIndicator(section);
+          },
+          { passive: true }
+        );
+      }
     }
 
     function init(root) {
@@ -2327,8 +2349,10 @@
       initQuickAdd(scope);
 
       scope
-        .querySelectorAll('.premium-collection-section')
-        .forEach(initTabHighlight);
+        .querySelectorAll(
+          '.premium-collection-section'
+        )
+        .forEach(initTabScroller);
     }
 
     function boot() {
@@ -2336,11 +2360,31 @@
 
       if (!document.body) return;
 
-      var observer = new MutationObserver(function () {
-        requestAnimationFrame(function () {
-          init(document);
-        });
-      });
+      /*
+       * Only react to newly inserted sections/cards.
+       * Do not observe attributes/classes because that can
+       * cause a feedback loop with the tab component.
+       */
+      var observer = new MutationObserver(
+        function (mutations) {
+          var added = false;
+
+          mutations.forEach(function (mutation) {
+            if (
+              mutation.addedNodes &&
+              mutation.addedNodes.length
+            ) {
+              added = true;
+            }
+          });
+
+          if (added) {
+            requestAnimationFrame(function () {
+              init(document);
+            });
+          }
+        }
+      );
 
       observer.observe(document.body, {
         childList: true,
@@ -2348,7 +2392,10 @@
       });
     }
 
-    if (document.readyState === 'loading') {
+    if (
+      document.readyState ===
+      'loading'
+    ) {
       document.addEventListener(
         'DOMContentLoaded',
         boot,
