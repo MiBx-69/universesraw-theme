@@ -132,26 +132,29 @@
 
                   {% # theme-check-enable %}
 
-                  {%- comment -%}
-                    UNIVERSes RAW — QUICK ADD BAG
-                    This collection uses the Horizon "_product-card"
-                    theme block. The trigger is rendered here and then
-                    moved by JavaScript into the actual .card__inner,
-                    making bottom/right relative to the product image.
-                  {%- endcomment -%}
+
+                  <!-- =====================================================
+                       UNIVERSes RAW — FLOATING SHOPPING BAG
+                       ===================================================== -->
+
                   <modal-opener
                     class="universes-horizon-bag"
                     data-modal="#QuickAddStandard"
-                    data-universes-bag
                   >
+
                     <button
                       type="button"
                       class="universes-horizon-bag__button"
-                      aria-label="Quick add {{ product.title | escape }}"
+
+                      aria-label="
+                        Quick add {{ product.title | escape }}
+                      "
+
                       data-product-url="{{ product.url }}"
                       data-product-id="{{ product.id }}"
                       data-product-handle="{{ product.handle }}"
                     >
+
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -164,14 +167,30 @@
                         stroke-linejoin="round"
                         aria-hidden="true"
                       >
-                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                        <line x1="3" y1="6" x2="21" y2="6"/>
-                        <path d="M16 10a4 4 0 0 1-8 0"/>
+
+                        <path
+                          d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"
+                        />
+
+                        <line
+                          x1="3"
+                          y1="6"
+                          x2="21"
+                          y2="6"
+                        />
+
+                        <path
+                          d="M16 10a4 4 0 0 1-8 0"
+                        />
+
                       </svg>
+
                       <span class="visually-hidden">
                         Quick add {{ product.title | escape }}
                       </span>
+
                     </button>
+
                   </modal-opener>
 
                 </li>
@@ -266,191 +285,165 @@
 </div>
 
 
-
 <!-- =============================================================
-     UNIVERSes RAW — QUICK ADD BAG POSITION
+     UNIVERSes RAW — HORIZON FLOATING BAG CSS
      ============================================================= -->
-<style id="universes-horizon-bag-position">
-  /*
-   * UNIVERSes RAW
-   * The custom trigger is a child of .product-grid__item.
-   * Keep it visible as a fallback, but position it over the
-   * product-card media whenever that media wrapper exists.
-   */
 
-  .product-grid__item {
-    position: relative !important;
+<style>
+
+.product-grid__item {
+  position: relative !important;
+}
+
+
+/* Floating bag container */
+
+.product-grid__item .universes-horizon-bag {
+
+  position: absolute !important;
+
+  z-index: 50 !important;
+
+  top: 12px !important;
+  right: 12px !important;
+
+  width: 42px !important;
+  height: 42px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  display: block !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  pointer-events: auto !important;
+}
+
+
+/* Shopping bag button */
+
+.product-grid__item
+.universes-horizon-bag__button {
+
+  appearance: none !important;
+  -webkit-appearance: none !important;
+
+  box-sizing: border-box !important;
+
+  width: 42px !important;
+  min-width: 42px !important;
+
+  height: 42px !important;
+  min-height: 42px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  border: 1px solid rgba(17,17,17,.08) !important;
+
+  border-radius: 50% !important;
+
+  background: rgba(255,255,255,.96) !important;
+
+  color: #111111 !important;
+
+  box-shadow:
+    0 4px 16px rgba(0,0,0,.14) !important;
+
+  cursor: pointer !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  transform: none !important;
+
+  transition:
+    transform .2s ease,
+    background-color .2s ease,
+    box-shadow .2s ease !important;
+}
+
+
+/* Bag icon */
+
+.product-grid__item
+.universes-horizon-bag__button svg {
+
+  display: block !important;
+
+  width: 19px !important;
+  height: 19px !important;
+
+  margin: 0 !important;
+
+  color: currentColor !important;
+
+  stroke: currentColor !important;
+
+  fill: none !important;
+}
+
+
+/* Hover */
+
+.product-grid__item
+.universes-horizon-bag__button:hover {
+
+  transform: translateY(-2px) !important;
+
+  background: #111111 !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    0 7px 20px rgba(0,0,0,.20) !important;
+}
+
+
+/* Mobile */
+
+@media screen and (max-width: 749px) {
+
+  .product-grid__item
+  .universes-horizon-bag {
+
+    top: 8px !important;
+    right: 8px !important;
+
+    width: 38px !important;
+    height: 38px !important;
   }
 
-  .product-grid__item > .universes-horizon-bag[data-universes-bag] {
-    position: absolute !important;
-    right: 12px !important;
-    top: 12px !important;
-    left: auto !important;
-    bottom: auto !important;
-    width: 42px !important;
-    height: 42px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    z-index: 9999 !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
 
-  /*
-   * When JavaScript successfully finds the media, it adds the
-   * wrapper directly inside .card__inner. This is the definitive
-   * positioning rule.
-   */
-  .card__inner > .universes-horizon-bag[data-universes-bag] {
-    position: absolute !important;
-    right: 10px !important;
-    bottom: 10px !important;
-    top: auto !important;
-    left: auto !important;
-    width: 42px !important;
-    height: 42px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    z-index: 9999 !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-
+  .product-grid__item
   .universes-horizon-bag__button {
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    box-sizing: border-box !important;
-    width: 42px !important;
-    min-width: 42px !important;
-    height: 42px !important;
-    min-height: 42px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 1px solid rgba(20,20,20,.10) !important;
-    border-radius: 50% !important;
-    background: #fff !important;
-    color: #111 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-shadow: 0 4px 14px rgba(0,0,0,.16) !important;
-    cursor: pointer !important;
-    transition:
-      transform .2s ease,
-      box-shadow .2s ease,
-      background-color .2s ease,
-      color .2s ease !important;
+
+    width: 38px !important;
+    min-width: 38px !important;
+
+    height: 38px !important;
+    min-height: 38px !important;
   }
 
-  .universes-horizon-bag__button:hover {
-    transform: translateY(-2px) !important;
-    background: #111 !important;
-    color: #fff !important;
-    box-shadow: 0 7px 20px rgba(0,0,0,.22) !important;
-  }
 
-  .universes-horizon-bag__button:active {
-    transform: scale(.94) !important;
-  }
-
+  .product-grid__item
   .universes-horizon-bag__button svg {
-    display: block !important;
-    width: 19px !important;
-    height: 19px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    color: currentColor !important;
-    stroke: currentColor !important;
-    fill: none !important;
-    pointer-events: none !important;
+
+    width: 17px !important;
+    height: 17px !important;
   }
 
-  /*
-   * Reposition continuously. This is intentionally not dependent
-   * on a single DOMContentLoaded event because Shopify's collection
-   * filters/theme editor can replace the product grid dynamically.
-   */
+}
+
 </style>
 
-<script>
-(() => {
-  const BAG_SELECTOR =
-    '.product-grid__item > .universes-horizon-bag[data-universes-bag]';
-
-  function placeBags(root = document) {
-    const bags = root.querySelectorAll(BAG_SELECTOR);
-
-    bags.forEach((bag) => {
-      const item = bag.closest('.product-grid__item');
-      if (!item) return;
-
-      /*
-       * Horizon's product card can use several media wrappers.
-       * Prefer the actual card inner/media element.
-       */
-      const media =
-        item.querySelector('.card__inner') ||
-        item.querySelector('.card__media') ||
-        item.querySelector('.card-product__media') ||
-        item.querySelector('[class*="card__inner"]');
-
-      if (!media) return;
-
-      if (bag.parentElement !== media) {
-        media.style.position = 'relative';
-        media.appendChild(bag);
-      }
-    });
-  }
-
-  function boot() {
-    placeBags();
-
-    let count = 0;
-
-    /*
-     * Shopify Theme Editor / filtering can rebuild the grid after
-     * initial load. Retry for a short period so the trigger is moved
-     * even when the card appears asynchronously.
-     */
-    const timer = setInterval(() => {
-      placeBags();
-      count++;
-
-      if (count >= 30) {
-        clearInterval(timer);
-      }
-    }, 250);
-
-    if (!window.__universesBagObserver) {
-      window.__universesBagObserver = new MutationObserver(() => {
-        placeBags();
-      });
-
-      window.__universesBagObserver.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot, { once: true });
-  } else {
-    boot();
-  }
-
-  document.addEventListener('shopify:section:load', () => {
-    setTimeout(placeBags, 50);
-    setTimeout(placeBags, 300);
-  });
-})();
-</script>
 
 {% schema %}
 
