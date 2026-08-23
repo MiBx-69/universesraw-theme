@@ -3174,3 +3174,390 @@
   z-index: 0 !important;
 }
 
+/* ============================================================
+   UNIVERSes RAW — QUICK ADD BAG
+   Bottom-right of product image
+   Premium / minimal / responsive
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   PRODUCT MEDIA MUST BE THE POSITIONING PARENT
+   ------------------------------------------------------------ */
+
+.card-product__media,
+.card-product__media-wrapper,
+.card-product__image-wrapper,
+.card-product__media-basic,
+.card-product__media-flex,
+.card-product__media-inner {
+  position: relative !important;
+}
+
+
+/* ------------------------------------------------------------
+   QUICK ADD WRAPPER
+   ------------------------------------------------------------ */
+
+.card-product__media .universes-quick-add-overlay,
+.card-product__media-wrapper .universes-quick-add-overlay,
+.card-product__image-wrapper .universes-quick-add-overlay,
+.card-product__media-basic .universes-quick-add-overlay,
+.card-product__media-flex .universes-quick-add-overlay,
+.card-product__media-inner .universes-quick-add-overlay {
+
+  position: absolute !important;
+
+  top: auto !important;
+  left: auto !important;
+
+  right: 10px !important;
+  bottom: 10px !important;
+
+  z-index: 50 !important;
+
+  width: auto !important;
+  height: auto !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: block !important;
+
+  pointer-events: auto !important;
+}
+
+
+/* ------------------------------------------------------------
+   QUICK ADD BUTTON
+   ------------------------------------------------------------ */
+
+.card-product__media .universes-quick-add-overlay .quick-add__submit,
+.card-product__media-wrapper .universes-quick-add-overlay .quick-add__submit,
+.card-product__image-wrapper .universes-quick-add-overlay .quick-add__submit,
+.card-product__media-basic .universes-quick-add-overlay .quick-add__submit,
+.card-product__media-flex .universes-quick-add-overlay .quick-add__submit,
+.card-product__media-inner .universes-quick-add-overlay .quick-add__submit {
+
+  position: relative !important;
+
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+
+  width: 46px !important;
+  min-width: 46px !important;
+  max-width: 46px !important;
+
+  height: 46px !important;
+  min-height: 46px !important;
+  max-height: 46px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 50% !important;
+
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+
+  background: rgba(255, 255, 255, 0.97) !important;
+
+  color: #111111 !important;
+
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.14),
+    0 1px 3px rgba(0, 0, 0, 0.08) !important;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  cursor: pointer !important;
+
+  overflow: hidden !important;
+
+  transform: translate3d(0, 0, 0);
+
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.25s ease,
+    background-color 0.2s ease !important;
+}
+
+
+/* ------------------------------------------------------------
+   HOVER
+   ------------------------------------------------------------ */
+
+.card-product__media .universes-quick-add-overlay .quick-add__submit:hover,
+.card-product__media-wrapper .universes-quick-add-overlay .quick-add__submit:hover,
+.card-product__image-wrapper .universes-quick-add-overlay .quick-add__submit:hover,
+.card-product__media-basic .universes-quick-add-overlay .quick-add__submit:hover,
+.card-product__media-flex .universes-quick-add-overlay .quick-add__submit:hover,
+.card-product__media-inner .universes-quick-add-overlay .quick-add__submit:hover {
+
+  background: #ffffff !important;
+
+  transform:
+    translate3d(0, -3px, 0)
+    scale(1.04);
+
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.18),
+    0 2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+
+/* ------------------------------------------------------------
+   ACTIVE / CLICK ANIMATION
+   ------------------------------------------------------------ */
+
+.card-product__media .universes-quick-add-overlay .quick-add__submit:active,
+.card-product__media-wrapper .universes-quick-add-overlay .quick-add__submit:active,
+.card-product__image-wrapper .universes-quick-add-overlay .quick-add__submit:active,
+.card-product__media-basic .universes-quick-add-overlay .quick-add__submit:active,
+.card-product__media-flex .universes-quick-add-overlay .quick-add__submit:active,
+.card-product__media-inner .universes-quick-add-overlay .quick-add__submit:active {
+
+  transform: scale(0.91) !important;
+
+  transition-duration: 0.08s !important;
+}
+
+
+/* ------------------------------------------------------------
+   BAG / CART ICON
+   ------------------------------------------------------------ */
+
+.universes-quick-add-overlay .quick-add__submit svg.icon-cart,
+.universes-quick-add-overlay .quick-add__submit svg {
+
+  width: 20px !important;
+  height: 20px !important;
+
+  min-width: 20px !important;
+  min-height: 20px !important;
+
+  margin: 0 !important;
+
+  display: block !important;
+
+  opacity: 1 !important;
+}
+
+
+/* ------------------------------------------------------------
+   HIDE QUICK ADD TEXT
+   ONLY FOR THE ICON VERSION
+   ------------------------------------------------------------ */
+
+.universes-quick-add-overlay .quick-add__submit .text-in-mb,
+.universes-quick-add-overlay .quick-add__submit .button-overflow {
+
+  display: none !important;
+}
+
+
+/* ------------------------------------------------------------
+   MAKE SURE THE ICON IS CENTERED
+   ------------------------------------------------------------ */
+
+.universes-quick-add-overlay .quick-add__submit {
+
+  text-align: center !important;
+  line-height: 1 !important;
+}
+
+
+/* ------------------------------------------------------------
+   LOADING STATE
+   ------------------------------------------------------------ */
+
+.universes-quick-add-overlay .quick-add__submit.loading {
+
+  pointer-events: none !important;
+
+  transform: scale(0.96) !important;
+}
+
+
+/* ------------------------------------------------------------
+   LOADING SPINNER
+   ------------------------------------------------------------ */
+
+.universes-quick-add-overlay
+.quick-add__submit
+.loading__spinner {
+
+  width: 18px !important;
+  height: 18px !important;
+}
+
+
+/* ------------------------------------------------------------
+   DISABLED
+   ------------------------------------------------------------ */
+
+.universes-quick-add-overlay .quick-add__submit[disabled] {
+
+  opacity: 0.55 !important;
+
+  cursor: not-allowed !important;
+
+  transform: none !important;
+}
+
+
+/* ------------------------------------------------------------
+   KEEP BADGE ABOVE / SEPARATE FROM BAG
+   ------------------------------------------------------------ */
+
+.card-product__media .card-product__badge,
+.card-product__media-wrapper .card-product__badge {
+
+  z-index: 20 !important;
+}
+
+
+/* ------------------------------------------------------------
+   MOBILE
+   ------------------------------------------------------------ */
+
+@media screen and (max-width: 749px) {
+
+  .card-product__media .universes-quick-add-overlay,
+  .card-product__media-wrapper .universes-quick-add-overlay,
+  .card-product__image-wrapper .universes-quick-add-overlay,
+  .card-product__media-basic .universes-quick-add-overlay,
+  .card-product__media-flex .universes-quick-add-overlay,
+  .card-product__media-inner .universes-quick-add-overlay {
+
+    right: 8px !important;
+    bottom: 8px !important;
+
+    z-index: 50 !important;
+  }
+
+
+  .card-product__media .universes-quick-add-overlay .quick-add__submit,
+  .card-product__media-wrapper .universes-quick-add-overlay .quick-add__submit,
+  .card-product__image-wrapper .universes-quick-add-overlay .quick-add__submit,
+  .card-product__media-basic .universes-quick-add-overlay .quick-add__submit,
+  .card-product__media-flex .universes-quick-add-overlay .quick-add__submit,
+  .card-product__media-inner .universes-quick-add-overlay .quick-add__submit {
+
+    width: 42px !important;
+    min-width: 42px !important;
+    max-width: 42px !important;
+
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+  }
+
+
+  .universes-quick-add-overlay
+  .quick-add__submit
+  svg {
+
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   VERY SMALL PHONES
+   ------------------------------------------------------------ */
+
+@media screen and (max-width: 390px) {
+
+  .card-product__media .universes-quick-add-overlay,
+  .card-product__media-wrapper .universes-quick-add-overlay,
+  .card-product__image-wrapper .universes-quick-add-overlay,
+  .card-product__media-basic .universes-quick-add-overlay,
+  .card-product__media-flex .universes-quick-add-overlay,
+  .card-product__media-inner .universes-quick-add-overlay {
+
+    right: 7px !important;
+    bottom: 7px !important;
+  }
+
+
+  .card-product__media .universes-quick-add-overlay .quick-add__submit,
+  .card-product__media-wrapper .universes-quick-add-overlay .quick-add__submit,
+  .card-product__image-wrapper .universes-quick-add-overlay .quick-add__submit,
+  .card-product__media-basic .universes-quick-add-overlay .quick-add__submit,
+  .card-product__media-flex .universes-quick-add-overlay .quick-add__submit,
+  .card-product__media-inner .universes-quick-add-overlay .quick-add__submit {
+
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   DESKTOP
+   ------------------------------------------------------------ */
+
+@media screen and (min-width: 750px) {
+
+  .card-product__media .universes-quick-add-overlay,
+  .card-product__media-wrapper .universes-quick-add-overlay,
+  .card-product__image-wrapper .universes-quick-add-overlay,
+  .card-product__media-basic .universes-quick-add-overlay,
+  .card-product__media-flex .universes-quick-add-overlay,
+  .card-product__media-inner .universes-quick-add-overlay {
+
+    right: 12px !important;
+    bottom: 12px !important;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   IMPORTANT:
+   PREVENT THE THEME'S NORMAL QUICK ADD POSITIONING
+   FROM MOVING THE BUTTON BACK TO THE TOP.
+   ------------------------------------------------------------ */
+
+.universes-quick-add-overlay,
+.universes-quick-add-overlay.quick-add,
+.universes-quick-add-overlay.card--block-button {
+
+  top: auto !important;
+  left: auto !important;
+
+  right: 10px !important;
+  bottom: 10px !important;
+
+  transform: none;
+}
+
+
+/* ------------------------------------------------------------
+   FINAL BUTTON OVERRIDE
+   ------------------------------------------------------------ */
+
+.universes-quick-add-overlay
+.quick-add
+.quick-add__submit {
+
+  position: relative !important;
+
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+
+  margin: 0 !important;
+}
