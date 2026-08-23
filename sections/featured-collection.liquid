@@ -399,7 +399,30 @@
           <li id="Slide-{{ sec_id }}-{{ product.id }}-{{ forloop.index }}" class="grid__item{% if show_mobile_slider or layout_type == 'carousel' or layout_type == 'widget' %} swiper-slide{% endif %}{% if scroll_reveal %} scroll-trigger animate--slide-in{% endif %}"
           {% if scroll_reveal %} style="--animation-order: {{ forloop.index }};"{% endif %}
           >
-            {% content_for "block", type: "card-product-flex", id: "product-slide-item", closest.product: product %}
+            {% if layout_type == 'editorial' %}
+              <div class="universes-editorial-product-card" data-editorial-quick-add>
+                {% content_for "block", type: "card-product-flex", id: "product-slide-item", closest.product: product %}
+                <modal-opener class="universes-editorial-quick-add" data-modal="#QuickAddStandard">
+                  <button
+                    type="button"
+                    class="universes-editorial-quick-add__button"
+                    aria-label="Quick add {{ product.title | escape }}"
+                    data-product-url="{{ product.url }}"
+                    data-product-id="{{ product.id }}"
+                    data-product-handle="{{ product.handle }}"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                      <path d="M3 6h18"/>
+                      <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    <span class="visually-hidden">Quick add {{ product.title | escape }}</span>
+                  </button>
+                </modal-opener>
+              </div>
+            {% else %}
+              {% content_for "block", type: "card-product-flex", id: "product-slide-item", closest.product: product %}
+            {% endif %}
           </li>
 
           {% unless forloop.last %}
@@ -660,6 +683,132 @@
 {%- if section_has_settings_media and has_video == true and sec_stts.video_display_mode == 'popup' -%}
   {%- render 'video-modal', stts: sec_stts, section: section, sec_id: sec_id -%}
 {%- endif -%}
+
+
+<!-- UNIVERSes RAW — EDITORIAL QUICK ADD -->
+<style>
+  .universes-editorial-product-card .card__inner,
+  .universes-editorial-product-card .card--block-media {
+    position: relative !important;
+    isolation: isolate;
+  }
+
+  .universes-editorial-product-card .universes-editorial-quick-add {
+    position: absolute !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    left: auto !important;
+    top: auto !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    z-index: 9999 !important;
+  }
+
+  .universes-editorial-product-card .universes-editorial-quick-add__button {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(17,17,17,.08) !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.96) !important;
+    color: #111 !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,.14) !important;
+    cursor: pointer !important;
+    transition: transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease !important;
+  }
+
+  .universes-editorial-product-card .universes-editorial-quick-add__button:hover {
+    transform: translateY(-2px) !important;
+    background: #111 !important;
+    color: #fff !important;
+    box-shadow: 0 7px 20px rgba(0,0,0,.20) !important;
+  }
+
+  .universes-editorial-product-card .universes-editorial-quick-add__button svg {
+    display: block !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    stroke: currentColor !important;
+    fill: none !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    .universes-editorial-product-card .universes-editorial-quick-add {
+      right: 8px !important;
+      bottom: 8px !important;
+      width: 40px !important;
+      height: 40px !important;
+      min-width: 40px !important;
+      min-height: 40px !important;
+    }
+
+    .universes-editorial-product-card .universes-editorial-quick-add__button {
+      width: 40px !important;
+      height: 40px !important;
+      min-width: 40px !important;
+      min-height: 40px !important;
+    }
+
+    .universes-editorial-product-card .universes-editorial-quick-add__button svg {
+      width: 18px !important;
+      height: 18px !important;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  function moveEditorialQuickAdds(root) {
+    (root || document).querySelectorAll('[data-editorial-quick-add]').forEach(function (card) {
+      var quickAdd = card.querySelector(':scope > .universes-editorial-quick-add');
+      if (!quickAdd) return;
+
+      var imageContainer =
+        card.querySelector('.card__inner') ||
+        card.querySelector('.card--block-media') ||
+        card.querySelector('.card-product__media') ||
+        card.querySelector('.card__media');
+
+      if (imageContainer && !imageContainer.contains(quickAdd)) {
+        imageContainer.appendChild(quickAdd);
+      }
+    });
+  }
+
+  function init() {
+    moveEditorialQuickAdds(document);
+
+    if (!document.body) return;
+
+    new MutationObserver(function () {
+      requestAnimationFrame(function () {
+        moveEditorialQuickAdds(document);
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
+})();
+</script>
 
 {% schema %}
 {
