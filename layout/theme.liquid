@@ -10,6 +10,7 @@
 <!doctype html>
 <html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" dir="{% if settings.enable_rtl_layout %}{{ direction }}{% else %}ltr{% endif %}">
   <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -64,6 +65,7 @@
     {%- render 'global-script' -%}
 
     {{ content_for_header }}
+    {{ 'universes-quick-add.css' | asset_url | stylesheet_tag }}
 
     
   </head>
