@@ -13,6 +13,7 @@
   assign columns_tablet = 2
   assign columns_mobile = section.settings.columns_mobile
   assign horizontal_class = false
+
   if section.settings.columns_desktop == 1
     assign columns_tablet = 1
     assign columns_mobile = 1
@@ -38,6 +39,7 @@
   {% content_for 'block', type: '_collection-header', id: 'collection-header' %}
 
   {%- paginate collection.products by limit -%}
+
     <div
       class="
         main-collection-grid
@@ -56,50 +58,147 @@
     >
 
       <div class="product-grid-container" id="ProductGridContainer">
+
         {%- if collection.products.size == 0 -%}
-          <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
-            <div class="loading-overlay gradient">
-              {% render 'loading-spinner' %}
-            </div>
-            <div class="title-wrapper center">
-              <h2 class="title title--primary">
-                {{ 'content.no_products_found' | t -}}
-                <br>
-                {{
-                  'content.use_fewer_filters_html'
-                  | t: link: collection.url, class: 'underlined-link link'
-                }}
-              </h2>
-            </div>
-          </div>
-        {%- else -%}
 
           <div
-            class="collection"
+            class="collection collection--empty page-width"
+            id="product-grid"
             data-id="{{ section.id }}"
           >
             <div class="loading-overlay gradient">
               {% render 'loading-spinner' %}
             </div>
 
+            <div class="title-wrapper center">
+              <h2 class="title title--primary">
+
+                {{ 'content.no_products_found' | t -}}
+
+                <br>
+
+                {{
+                  'content.use_fewer_filters_html'
+                  | t:
+                    link: collection.url,
+                    class: 'underlined-link link'
+                }}
+
+              </h2>
+            </div>
+          </div>
+
+        {%- else -%}
+
+          <div
+            class="collection"
+            data-id="{{ section.id }}"
+          >
+
+            <div class="loading-overlay gradient">
+              {% render 'loading-spinner' %}
+            </div>
+
             {% capture children %}
+
               {% for product in collection.products %}
+
                 <li
                   id="{{ section.id }}-{{ product.id }}"
-                  class="product-grid__item product-grid__item--{{ forloop.index0 }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  class="
+                    product-grid__item
+                    product-grid__item--{{ forloop.index0 }}
+                    {% if settings.animations_reveal_on_scroll %}
+                      scroll-trigger animate--slide-in
+                    {% endif %}
+                  "
                   data-page="{{ paginate.current_page }}"
                   data-product-id="{{ product.id }}"
+
                   {% if settings.animations_reveal_on_scroll %}
                     data-cascade
                     style="--animation-order: {{ forloop.index }};"
                   {% endif %}
                 >
+
                   {% # theme-check-disable %}
-                  {% content_for "block", type: "_product-card", id: "product-card", closest.product: product %}
+
+                  {% content_for
+                    "block",
+                    type: "_product-card",
+                    id: "product-card",
+                    closest.product: product
+                  %}
+
                   {% # theme-check-enable %}
+
+
+                  <!-- =====================================================
+                       UNIVERSes RAW — FLOATING SHOPPING BAG
+                       ===================================================== -->
+
+                  <modal-opener
+                    class="universes-horizon-bag"
+                    data-modal="#QuickAddStandard"
+                  >
+
+                    <button
+                      type="button"
+                      class="universes-horizon-bag__button"
+
+                      aria-label="
+                        Quick add {{ product.title | escape }}
+                      "
+
+                      data-product-url="{{ product.url }}"
+                      data-product-id="{{ product.id }}"
+                      data-product-handle="{{ product.handle }}"
+                    >
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="19"
+                        height="19"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+
+                        <path
+                          d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"
+                        />
+
+                        <line
+                          x1="3"
+                          y1="6"
+                          x2="21"
+                          y2="6"
+                        />
+
+                        <path
+                          d="M16 10a4 4 0 0 1-8 0"
+                        />
+
+                      </svg>
+
+                      <span class="visually-hidden">
+                        Quick add {{ product.title | escape }}
+                      </span>
+
+                    </button>
+
+                  </modal-opener>
+
                 </li>
+
               {% endfor %}
+
             {% endcapture %}
+
 
             {% render 'product-grid',
               section: section,
@@ -108,237 +207,559 @@
               paginate: paginate
             %}
 
-            <div class="product-count pos-relative light left hidden" role="status">
+
+            <div
+              class="product-count pos-relative light left hidden"
+              role="status"
+            >
+
               <h2 class="product-count__text text-body mar-0">
+
                 <span id="ProductCount">
+
                   {%- if collection.results_count -%}
+
                     {{
                       'content.results_with_count'
-                      | t: terms: collection.terms, count: collection.results_count
+                      | t:
+                        terms: collection.terms,
+                        count: collection.results_count
                     }}
+
                   {%- elsif collection.products_count == collection.all_products_count -%}
-                    {{ 'products.facets.product_count_simple' | t: count: collection.products_count }}
+
+                    {{
+                      'products.facets.product_count_simple'
+                      | t:
+                        count: collection.products_count
+                    }}
+
                   {%- else -%}
+
                     {{
                       'products.facets.product_count'
-                      | t: product_count: collection.products_count, count: collection.all_products_count
+                      | t:
+                        product_count: collection.products_count,
+                        count: collection.all_products_count
                     }}
+
                   {%- endif -%}
+
                 </span>
+
               </h2>
+
               {%- render 'loading-spinner' -%}
+
             </div>
 
+
             {%- if paginate.pages > 1 -%}
-              {% render 'pagination', paginate: paginate, anchor: '', settings: section.settings, suffix: 'pagination' %}
+
+              {% render 'pagination',
+                paginate: paginate,
+                anchor: '',
+                settings: section.settings,
+                suffix: 'pagination'
+              %}
+
             {%- endif -%}
+
           </div>
+
         {%- endif -%}
+
       </div>
+
     </div>
+
   {%- endpaginate -%}
+
+
   {% if section.settings.image_shape == 'arch' %}
+
     {{ 'mask-arch.svg' | inline_asset_content }}
+
   {%- endif -%}
+
 </div>
 
+
+<!-- =============================================================
+     UNIVERSes RAW — HORIZON FLOATING BAG CSS
+     ============================================================= -->
+
+<style>
+
+.product-grid__item {
+  position: relative !important;
+}
+
+
+/* Floating bag container */
+
+.product-grid__item .universes-horizon-bag {
+
+  position: absolute !important;
+
+  z-index: 50 !important;
+
+  top: 12px !important;
+  right: 12px !important;
+
+  width: 42px !important;
+  height: 42px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  display: block !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  pointer-events: auto !important;
+}
+
+
+/* Shopping bag button */
+
+.product-grid__item
+.universes-horizon-bag__button {
+
+  appearance: none !important;
+  -webkit-appearance: none !important;
+
+  box-sizing: border-box !important;
+
+  width: 42px !important;
+  min-width: 42px !important;
+
+  height: 42px !important;
+  min-height: 42px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  border: 1px solid rgba(17,17,17,.08) !important;
+
+  border-radius: 50% !important;
+
+  background: rgba(255,255,255,.96) !important;
+
+  color: #111111 !important;
+
+  box-shadow:
+    0 4px 16px rgba(0,0,0,.14) !important;
+
+  cursor: pointer !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  transform: none !important;
+
+  transition:
+    transform .2s ease,
+    background-color .2s ease,
+    box-shadow .2s ease !important;
+}
+
+
+/* Bag icon */
+
+.product-grid__item
+.universes-horizon-bag__button svg {
+
+  display: block !important;
+
+  width: 19px !important;
+  height: 19px !important;
+
+  margin: 0 !important;
+
+  color: currentColor !important;
+
+  stroke: currentColor !important;
+
+  fill: none !important;
+}
+
+
+/* Hover */
+
+.product-grid__item
+.universes-horizon-bag__button:hover {
+
+  transform: translateY(-2px) !important;
+
+  background: #111111 !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    0 7px 20px rgba(0,0,0,.20) !important;
+}
+
+
+/* Mobile */
+
+@media screen and (max-width: 749px) {
+
+  .product-grid__item
+  .universes-horizon-bag {
+
+    top: 8px !important;
+    right: 8px !important;
+
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+
+  .product-grid__item
+  .universes-horizon-bag__button {
+
+    width: 38px !important;
+    min-width: 38px !important;
+
+    height: 38px !important;
+    min-height: 38px !important;
+  }
+
+
+  .product-grid__item
+  .universes-horizon-bag__button svg {
+
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+}
+
+</style>
+
+
 {% schema %}
+
 {
   "name": "t:names.collection",
+
   "class": "section",
+
   "settings": [
+
     {
       "type": "select",
       "id": "layout_type",
       "label": "t:settings.type",
+
       "options": [
+
         {
           "value": "grid",
           "label": "t:options.grid"
         },
+
         {
           "value": "organic",
           "label": "t:options.editorial"
         }
+
       ],
+
       "default": "grid"
     },
+
+
     {
       "type": "range",
       "id": "products_per_page",
+
       "min": 8,
       "max": 32,
       "step": 8,
+
       "default": 16,
+
       "label": "t:settings.products_per_page"
     },
+
+
     {
       "type": "select",
       "id": "product_card_size",
+
       "label": "t:settings.card_size",
+
       "options": [
+
         {
           "value": "small",
           "label": "t:options.small"
         },
+
         {
           "value": "medium",
           "label": "t:options.medium"
         },
+
         {
           "value": "large",
           "label": "t:options.large"
         },
+
         {
           "value": "extra-large",
           "label": "t:options.extra_large"
         },
+
         {
           "value": "extra-extra-large",
           "label": "t:options.extra_extra_large"
         }
+
       ],
+
       "default": "medium",
-      "visible_if": "{{ section.settings.layout_type == 'grid' }}"
+
+      "visible_if":
+        "{{ section.settings.layout_type == 'grid' }}"
     },
+
+
     {
       "type": "color_scheme",
       "id": "color_scheme",
+
       "label": "t:settings.color_scheme",
+
       "info": "t:info.has_cards_info",
+
       "default": "scheme-1"
     },
+
+
     {
       "type": "header",
       "content": "t:content.layout"
     },
+
+
     {
       "type": "select",
       "id": "product_grid_width",
+
       "label": "t:settings.width",
+
       "options": [
+
         {
           "value": "centered",
           "label": "t:options.page"
         },
+
         {
           "value": "full-width",
           "label": "t:options.full"
         }
+
       ],
+
       "default": "centered"
     },
+
+
     {
       "type": "checkbox",
       "id": "full_width_on_mobile",
+
       "label": "t:settings.full_width_on_mobile",
+
       "default": true,
-      "visible_if": "{{ section.settings.product_grid_width != 'full-width' }}"
+
+      "visible_if":
+        "{{ section.settings.product_grid_width != 'full-width' }}"
     },
+
+
     {
       "type": "range",
+
       "id": "columns_gap_horizontal",
+
       "label": "t:settings.horizontal_gap",
+
       "min": 0,
       "max": 50,
       "step": 1,
+
       "unit": "px",
+
       "default": 16
     },
+
+
     {
       "type": "range",
+
       "id": "columns_gap_vertical",
+
       "label": "t:settings.vertical_gap",
+
       "min": 0,
       "max": 50,
       "step": 1,
+
       "unit": "px",
+
       "default": 16
     },
+
+
     {
       "type": "range",
+
       "id": "padding-inline-start",
+
       "label": "t:settings.left_padding",
+
       "min": 0,
       "max": 100,
       "step": 1,
+
       "unit": "px",
+
       "default": 0
     },
+
+
     {
       "type": "range",
+
       "id": "padding-inline-end",
+
       "label": "t:settings.right_padding",
+
       "min": 0,
       "max": 100,
       "step": 1,
+
       "unit": "px",
+
       "default": 0
     },
+
+
     {
       "type": "header",
       "content": "t:content.pagination"
     },
+
+
     {
       "type": "select",
       "id": "pagination_type",
+
       "label": "t:settings.type",
+
       "options": [
+
         {
           "value": "infinite",
           "label": "t:options.infinite"
         },
+
         {
           "value": "pagination",
           "label": "t:options.pagination"
         }
+
       ],
+
       "default": "pagination"
     },
+
+
     {
       "type": "range",
+
       "id": "padding-block-start-pagination",
+
       "label": "t:settings.padding_top",
+
       "min": 0,
       "max": 100,
       "step": 1,
+
       "unit": "px",
+
       "default": 50
     },
+
+
     {
       "type": "range",
+
       "id": "padding-block-end-pagination",
+
       "label": "t:settings.padding_bottom",
+
       "min": 0,
       "max": 100,
       "step": 1,
+
       "unit": "px",
+
       "default": 50
     },
+
+
     {
       "type": "header",
       "content": "t:content.section_padding"
     },
+
+
     {
       "type": "range",
+
       "id": "padding_top",
+
       "min": 0,
       "max": 100,
       "step": 1,
+
       "unit": "px",
+
       "label": "t:settings.top",
+
       "default": 36
     },
+
+
     {
       "type": "range",
+
       "id": "padding_bottom",
+
       "min": 0,
       "max": 100,
       "step": 1,
+
       "unit": "px",
+
       "label": "t:settings.bottom",
+
       "default": 36
     }
+
   ]
 }
+
 {% endschema %}
