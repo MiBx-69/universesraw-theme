@@ -286,167 +286,227 @@
 
 
 <!-- =============================================================
-     UNIVERSes RAW — HORIZON FLOATING BAG CSS
+     UNIVERSes RAW — QUICK ADD BAG
+     FIXED TO PRODUCT IMAGE BOTTOM-RIGHT CORNER
      ============================================================= -->
 
 <style>
 
-.product-grid__item {
-  position: relative !important;
-}
+  /* The product image/card area becomes the positioning parent */
+  .product-grid__item .card__inner {
+    position: relative !important;
+  }
 
-
-/* Floating bag container */
-
-.product-grid__item .universes-horizon-bag {
-
-  position: absolute !important;
-
-  z-index: 50 !important;
-
-  top: auto !important;
-  bottom: 12px !important;
-  right: 12px !important;
-  left: auto !important;
-
-  width: 42px !important;
-  height: 42px !important;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  display: block !important;
-
-  opacity: 1 !important;
-  visibility: visible !important;
-
-  pointer-events: auto !important;
-}
-
-
-/* Shopping bag button */
-
-.product-grid__item
-.universes-horizon-bag__button {
-
-  appearance: none !important;
-  -webkit-appearance: none !important;
-
-  box-sizing: border-box !important;
-
-  width: 42px !important;
-  min-width: 42px !important;
-
-  height: 42px !important;
-  min-height: 42px !important;
-
-  padding: 0 !important;
-  margin: 0 !important;
-
-  display: flex !important;
-
-  align-items: center !important;
-  justify-content: center !important;
-
-  border: 1px solid rgba(17,17,17,.08) !important;
-
-  border-radius: 50% !important;
-
-  background: rgba(255,255,255,.96) !important;
-
-  color: #111111 !important;
-
-  box-shadow:
-    0 4px 16px rgba(0,0,0,.14) !important;
-
-  cursor: pointer !important;
-
-  opacity: 1 !important;
-  visibility: visible !important;
-
-  transform: none !important;
-
-  transition:
-    transform .2s ease,
-    background-color .2s ease,
-    box-shadow .2s ease !important;
-}
-
-
-/* Bag icon */
-
-.product-grid__item
-.universes-horizon-bag__button svg {
-
-  display: block !important;
-
-  width: 19px !important;
-  height: 19px !important;
-
-  margin: 0 !important;
-
-  color: currentColor !important;
-
-  stroke: currentColor !important;
-
-  fill: none !important;
-}
-
-
-/* Hover */
-
-.product-grid__item
-.universes-horizon-bag__button:hover {
-
-  transform: translateY(-2px) !important;
-
-  background: #111111 !important;
-
-  color: #ffffff !important;
-
-  box-shadow:
-    0 7px 20px rgba(0,0,0,.20) !important;
-}
-
-
-/* Mobile */
-
-@media screen and (max-width: 749px) {
-
-  .product-grid__item
-  .universes-horizon-bag {
+  /* Quick Add bag is positioned INSIDE the product image */
+  .product-grid__item .universes-horizon-bag {
+    position: absolute !important;
 
     top: auto !important;
-    bottom: 8px !important;
-    right: 8px !important;
     left: auto !important;
+    right: 12px !important;
+    bottom: 12px !important;
 
-    width: 38px !important;
-    height: 38px !important;
+    z-index: 100 !important;
+
+    width: 42px !important;
+    height: 42px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: block !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+
+    pointer-events: auto !important;
   }
 
+  /* Shopping bag button */
+  .product-grid__item .universes-horizon-bag__button {
+    appearance: none !important;
+    -webkit-appearance: none !important;
 
-  .product-grid__item
-  .universes-horizon-bag__button {
+    box-sizing: border-box !important;
 
-    width: 38px !important;
-    min-width: 38px !important;
+    width: 42px !important;
+    min-width: 42px !important;
 
-    height: 38px !important;
-    min-height: 38px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border: 1px solid rgba(17,17,17,.08) !important;
+    border-radius: 50% !important;
+
+    background: rgba(255,255,255,.96) !important;
+    color: #111111 !important;
+
+    box-shadow: 0 4px 16px rgba(0,0,0,.14) !important;
+
+    cursor: pointer !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+
+    transform: none !important;
+
+    transition:
+      transform .2s ease,
+      background-color .2s ease,
+      color .2s ease,
+      box-shadow .2s ease !important;
   }
 
+  /* Bag icon */
+  .product-grid__item .universes-horizon-bag__button svg {
+    display: block !important;
 
-  .product-grid__item
-  .universes-horizon-bag__button svg {
+    width: 19px !important;
+    height: 19px !important;
 
-    width: 17px !important;
-    height: 17px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: currentColor !important;
+    stroke: currentColor !important;
+    fill: none !important;
+
+    pointer-events: none !important;
   }
 
-}
+  /* Hover */
+  .product-grid__item .universes-horizon-bag__button:hover {
+    transform: translateY(-2px) !important;
+
+    background: #111111 !important;
+    color: #ffffff !important;
+
+    box-shadow: 0 7px 20px rgba(0,0,0,.20) !important;
+  }
+
+  /* Mobile */
+  @media screen and (max-width: 749px) {
+
+    .product-grid__item .universes-horizon-bag {
+      top: auto !important;
+      left: auto !important;
+
+      right: 8px !important;
+      bottom: 8px !important;
+
+      width: 38px !important;
+      height: 38px !important;
+    }
+
+    .product-grid__item .universes-horizon-bag__button {
+      width: 38px !important;
+      min-width: 38px !important;
+
+      height: 38px !important;
+      min-height: 38px !important;
+    }
+
+    .product-grid__item .universes-horizon-bag__button svg {
+      width: 17px !important;
+      height: 17px !important;
+    }
+  }
 
 </style>
+
+<script>
+  /*
+   * Move each Quick Add bag INTO the product card's .card__inner.
+   * This is what makes bottom/right positioning refer to the
+   * product IMAGE area instead of the entire product card.
+   */
+
+  (function () {
+
+    function positionUniversesQuickAdd(root) {
+
+      root = root || document;
+
+      var productItems = root.querySelectorAll
+        ? root.querySelectorAll('.product-grid__item')
+        : [];
+
+      productItems.forEach(function (item) {
+
+        var bag = item.querySelector('.universes-horizon-bag');
+
+        if (!bag) return;
+
+        /*
+         * Dawn/product-card image wrapper.
+         * .card__inner contains the product image/media area.
+         */
+        var imageContainer = item.querySelector('.card__inner');
+
+        /*
+         * Fallbacks in case the theme markup changes.
+         */
+        if (!imageContainer) {
+          imageContainer = item.querySelector('.card__media');
+        }
+
+        if (!imageContainer) {
+          imageContainer = item.querySelector('.card__media-container');
+        }
+
+        if (!imageContainer) return;
+
+        /*
+         * Prevent unnecessary DOM moves.
+         */
+        if (bag.parentElement !== imageContainer) {
+          imageContainer.appendChild(bag);
+        }
+
+        /*
+         * Make absolutely sure the image container is
+         * the positioning parent.
+         */
+        imageContainer.style.position = 'relative';
+      });
+    }
+
+    /*
+     * Initial page load
+     */
+    function initQuickAdd() {
+      positionUniversesQuickAdd(document);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initQuickAdd);
+    } else {
+      initQuickAdd();
+    }
+
+    /*
+     * Shopify Theme Editor / AJAX section reloads
+     */
+    document.addEventListener('shopify:section:load', function (event) {
+      positionUniversesQuickAdd(event.target);
+    });
+
+    /*
+     * Re-run after dynamic product-grid updates.
+     */
+    document.addEventListener('shopify:section:reorder', function () {
+      positionUniversesQuickAdd(document);
+    });
+
+  })();
+</script>
 
 
 {% schema %}
