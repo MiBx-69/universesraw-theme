@@ -1,1115 +1,716 @@
 {% liquid
-  assign render_order = 'media,product-details'
+  assign quick_product = closest.product
+  assign first_image = quick_product.featured_media
 
-  assign product_has_media = true
-  if closest.product.media.size == 0
-    assign product_has_media = false
+  if first_image == blank
+    assign first_image = quick_product.media | first
   endif
-
-  assign product_grid_class = 'product-quick-add__grid product-information__grid'
-
-  if product_has_media == false
-    assign product_grid_class = product_grid_class | append: ' product-information--media-none'
-  else
-    assign product_grid_class = product_grid_class | append: ' product-information--media'
-  endif
-
-  if section.settings.equal_columns
-    assign product_grid_class = product_grid_class | append: ' product-information__grid--half'
-
-    if section.settings.limit_details_width
-      assign product_grid_class = product_grid_class | append: ' product-information__grid--limit-details'
-    endif
-  endif
-
-  assign page_width = section.settings.page_width
 %}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="universes-quick-add">
 
-<div class="section universes-quick-add-section">
+  <div class="universes-quick-add__inner">
 
-  <product-info
-    id="MainProduct-quick-add-{{ section.id }}"
-    class="product-information universes-quick-add-product section--{{ page_width }} spacing-style color-{{ section.settings.color_scheme }} relative"
-    data-section="{{ section.id }}"
-    data-product-id="{{ closest.product.id }}"
-    data-update-url="false"
-    data-url="{{ closest.product.url }}"
-    style="{% render 'spacing-style', settings: section.settings %}"
-  >
+    <!-- =========================================
+         PRODUCT IMAGE
+         ========================================= -->
 
-    {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
-    {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+    <div class="universes-quick-add__image">
 
-    {%- if closest.product.quantity_price_breaks_configured? -%}
-      {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
-    {%- endif -%}
+      {% if first_image != blank %}
 
-    {% render 'schema',
-      product: closest.product
-    %}
+        {{
+          first_image
+          | image_url: width: 900
+          | image_tag:
+            loading: 'eager',
+            widths: '300,450,600,750,900',
+            sizes: '(max-width: 749px) 42vw, 300px',
+            class: 'universes-quick-add__image-img'
+        }}
 
-    <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+      {% else %}
 
-    {%- if closest.product.quantity_price_breaks_configured? -%}
-      <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
-      <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
-    {%- endif -%}
-
-    {%- if request.design_mode -%}
-      <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
-    {%- endif -%}
-
-    {%- assign first_3d_model = closest.product.media
-      | where: 'media_type', 'model'
-      | first
-    -%}
-
-    {%- if first_3d_model -%}
-
-      <link
-        id="ModelViewerStyle"
-        rel="stylesheet"
-        href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css"
-        media="print"
-        onload="this.media='all'"
-      >
-
-      <link
-        id="ModelViewerOverride"
-        rel="stylesheet"
-        href="{{ 'component-model-viewer-ui.css' | asset_url }}"
-        media="print"
-        onload="this.media='all'"
-      >
-
-    {%- endif -%}
-
-
-    {% if product_has_media %}
-
-      {% assign product_href = '#ProductInformation-' | append: section.id %}
-
-      {% render 'skip-to-content-link',
-        href: product_href,
-        text: 'accessibility.skip_to_product_info'
-      %}
-
-    {% endif %}
-
-
-    <div
-      class="{{ product_grid_class }} universes-quick-add-grid"
-      data-product-grid-content
-      style="--gap: {{ section.settings.gap }}px;"
-    >
-
-      {% assign render_order_array = render_order | split: ',' %}
-
-
-      {%- capture media -%}
-
-        <div
-          class="product-information__media universes-quick-add-media-column"
-          data-testid="product-information-media"
-        >
-
-          <div
-            class="product-quick-add__media product-information__media--{{ section.settings.desktop_media_position }} universes-quick-add-media"
-          >
-
-            {%- content_for 'block',
-              type: '_quick-add-product-media-gallery',
-              id: 'media-gallery',
-              closest.product: closest.product
-            -%}
-
-          </div>
-
+        <div class="universes-quick-add__image-placeholder">
+          {{ 'product-1' | placeholder_svg_tag }}
         </div>
 
-      {%- endcapture -%}
-
-
-      {%- capture details -%}
-
-        <div class="universes-quick-add-details-column">
-
-          <div class="universes-quick-add-details-inner">
-
-            {%- content_for 'block',
-              type: '_product-details',
-              id: 'product-details',
-              closest.product: closest.product
-            -%}
-
-          </div>
-
-        </div>
-
-      {%- endcapture -%}
-
-
-      {% for block in render_order_array %}
-
-        {% if block == 'media' and product_has_media %}
-
-          {{ media }}
-
-        {% elsif block == 'product-details' %}
-
-          {{ details }}
-
-        {% endif %}
-
-      {% endfor %}
+      {% endif %}
 
     </div>
 
 
-    {%- if closest.product.media.size > 0 -%}
+    <!-- =========================================
+         OPTIONS
+         ========================================= -->
 
-      <script
-        src="{{ 'media-gallery.js' | asset_url }}"
-        defer="defer"
-      ></script>
+    <div class="universes-quick-add__options">
 
-    {%- endif -%}
+      <product-form
+        class="universes-quick-add__form"
+        data-section-id="{{ section.id }}"
+      >
+
+        {%- form 'product',
+          quick_product,
+          id: 'UniversesQuickAddForm-' | append: quick_product.id,
+          class: 'universes-quick-add__product-form',
+          novalidate: 'novalidate',
+          data-type: 'add-to-cart-form'
+        -%}
+
+          <input
+            type="hidden"
+            name="id"
+            value="{{ quick_product.selected_or_first_available_variant.id }}"
+            class="universes-quick-add__variant-id"
+          >
 
 
-    {%- content_for 'blocks' -%}
+          <!-- =====================================
+               VARIANTS
+               ===================================== -->
 
-  </product-info>
+          {% unless quick_product.has_only_default_variant %}
+
+            <div class="universes-quick-add__variants">
+
+              {% for option in quick_product.options_with_values %}
+
+                <fieldset
+                  class="universes-quick-add__option"
+                  data-option-position="{{ option.position }}"
+                >
+
+                  <legend class="universes-quick-add__label">
+                    {{ option.name }}
+                  </legend>
+
+
+                  <div class="universes-quick-add__values">
+
+                    {% for value in option.values %}
+
+                      {% liquid
+                        assign option_available = false
+
+                        for variant in quick_product.variants
+                          if variant.available
+                            case option.position
+                              when 1
+                                if variant.option1 == value
+                                  assign option_available = true
+                                endif
+                              when 2
+                                if variant.option2 == value
+                                  assign option_available = true
+                                endif
+                              when 3
+                                if variant.option3 == value
+                                  assign option_available = true
+                                endif
+                            endcase
+                          endif
+                        endfor
+                      %}
+
+                      <input
+                        type="radio"
+                        id="QuickAdd-{{ quick_product.id }}-{{ option.position }}-{{ forloop.index }}"
+                        name="quick-add-option-{{ option.position }}"
+                        value="{{ value | escape }}"
+                        class="universes-quick-add__radio"
+                        data-option-position="{{ option.position }}"
+                        {% if option.selected_value == value %}
+                          checked
+                        {% endif %}
+                        {% unless option_available %}
+                          disabled
+                        {% endunless %}
+                      >
+
+                      <label
+                        for="QuickAdd-{{ quick_product.id }}-{{ option.position }}-{{ forloop.index }}"
+                        class="universes-quick-add__value
+                        {% unless option_available %} is-disabled{% endunless %}"
+                      >
+                        {{ value }}
+                      </label>
+
+                    {% endfor %}
+
+                  </div>
+
+                </fieldset>
+
+              {% endfor %}
+
+            </div>
+
+          {% endunless %}
+
+
+          <!-- =====================================
+               ADD TO CART
+               ===================================== -->
+
+          <button
+            type="submit"
+            name="add"
+            class="universes-quick-add__submit"
+            {% unless quick_product.selected_or_first_available_variant.available %}
+              disabled
+            {% endunless %}
+          >
+
+            <span class="universes-quick-add__submit-text">
+
+              {% if quick_product.selected_or_first_available_variant.available %}
+                ADD TO CART
+              {% else %}
+                SOLD OUT
+              {% endif %}
+
+            </span>
+
+            <span
+              class="universes-quick-add__spinner"
+              aria-hidden="true"
+            ></span>
+
+          </button>
+
+        {%- endform -%}
+
+      </product-form>
+
+    </div>
+
+  </div>
 
 </div>
 
 
 <style>
 
-/* =========================================================
+/* ==========================================================
    UNIVERSes RAW
-   COMPACT HORIZON-STYLE QUICK ADD
-   ========================================================= */
+   MINIMAL QUICK ADD
+   ========================================================== */
 
+.universes-quick-add {
 
-/* =========================================================
-   MODAL ROOT
-   ========================================================= */
+  width: 100%;
 
-#QuickAddStandard {
+  margin: 0;
 
-  --quick-add-width: 520px;
+  padding: 0;
 
-  --quick-add-max-height: 560px;
-
-  z-index: 10000 !important;
+  background: #fff;
 
 }
 
 
-/* =========================================================
-   COMPACT CENTERED POPUP
-   ========================================================= */
+.universes-quick-add__inner {
 
-#QuickAddStandard
-.quick-add-modal__content--standard {
-
-  position: absolute !important;
-
-  top: 50% !important;
-
-  left: 50% !important;
-
-  width: var(--quick-add-width) !important;
-
-  max-width:
-    calc(100vw - 32px) !important;
-
-  height: auto !important;
-
-  max-height:
-    var(--quick-add-max-height) !important;
-
-  transform:
-    translate(-50%, -50%) !important;
-
-  overflow: hidden !important;
-
-  background: #ffffff !important;
-
-  border:
-    1px solid
-    rgba(17, 17, 17, .06) !important;
-
-  border-radius: 18px !important;
-
-  box-shadow:
-    0 20px 70px
-    rgba(0, 0, 0, .22) !important;
-
-}
-
-
-/* =========================================================
-   MODAL CONTENT
-   ========================================================= */
-
-#QuickStandardModal {
-
-  width: 100% !important;
-
-  height: auto !important;
-
-  max-height:
-    var(--quick-add-max-height) !important;
-
-  overflow-x: hidden !important;
-
-  overflow-y: auto !important;
-
-  scrollbar-width: thin;
-
-  -webkit-overflow-scrolling: touch;
-
-}
-
-
-/* =========================================================
-   QUICK ADD GRID
-   ========================================================= */
-
-#QuickStandardModal
-.universes-quick-add-grid {
-
-  display: grid !important;
+  display: grid;
 
   grid-template-columns:
-    190px
-    minmax(0, 1fr) !important;
+    240px
+    minmax(0, 1fr);
 
-  width: 100% !important;
+  width: 100%;
 
-  gap: 0 !important;
+  min-height: 310px;
 
-  align-items: stretch !important;
+  margin: 0;
 
-}
-
-
-/* =========================================================
-   PRODUCT IMAGE COLUMN
-   ========================================================= */
-
-#QuickStandardModal
-.universes-quick-add-media-column {
-
-  width: 190px !important;
-
-  min-width: 190px !important;
-
-  min-height: 0 !important;
-
-  overflow: hidden !important;
-
-  background: #f7f7f7 !important;
+  padding: 0;
 
 }
 
 
-/* =========================================================
-   PRODUCT MEDIA
-   ========================================================= */
+/* ==========================================================
+   IMAGE
+   ========================================================== */
 
-#QuickStandardModal
-.universes-quick-add-media {
+.universes-quick-add__image {
 
-  width: 100% !important;
+  width: 240px;
 
-  height: 100% !important;
+  height: 310px;
 
-  min-height: 0 !important;
+  overflow: hidden;
 
-}
-
-
-/* =========================================================
-   PRODUCT IMAGE
-   ========================================================= */
-
-#QuickStandardModal
-.universes-quick-add-media img {
-
-  display: block !important;
-
-  width: 100% !important;
-
-  height: 100% !important;
-
-  max-height: 470px !important;
-
-  object-fit: cover !important;
+  background: #f5f5f5;
 
 }
 
 
-/* =========================================================
-   DETAILS COLUMN
-   ========================================================= */
+.universes-quick-add__image-img {
 
-#QuickStandardModal
-.universes-quick-add-details-column {
+  display: block;
 
-  width: 100% !important;
+  width: 100%;
 
-  min-width: 0 !important;
+  height: 100%;
 
-  background: #ffffff !important;
+  object-fit: cover;
 
-}
-
-
-/* =========================================================
-   DETAILS INNER
-   ========================================================= */
-
-#QuickStandardModal
-.universes-quick-add-details-inner {
-
-  width: 100% !important;
-
-  height: 100% !important;
-
-  max-height: 500px !important;
-
-  padding:
-    28px
-    24px
-    24px !important;
-
-  overflow-x: hidden !important;
-
-  overflow-y: auto !important;
-
-  scrollbar-width: thin;
+  object-position: center;
 
 }
 
 
-/* =========================================================
-   PRODUCT TITLE
-   ========================================================= */
+.universes-quick-add__image-placeholder {
 
-#QuickStandardModal
-.product__title h1,
+  width: 100%;
 
-#QuickStandardModal
-.product__title h2,
+  height: 100%;
 
-#QuickStandardModal
-.product-information__title {
+  display: flex;
 
-  margin:
-    0 0 8px !important;
+  align-items: center;
 
-  padding: 0 !important;
-
-  font-size: 18px !important;
-
-  line-height: 1.3 !important;
-
-  font-weight: 500 !important;
-
-  letter-spacing: -.01em !important;
+  justify-content: center;
 
 }
 
 
-/* =========================================================
-   PRICE
-   ========================================================= */
+/* ==========================================================
+   OPTIONS AREA
+   ========================================================== */
 
-#QuickStandardModal
-.price {
+.universes-quick-add__options {
 
-  margin:
-    0 0 18px !important;
+  min-width: 0;
 
-}
+  display: flex;
 
+  align-items: center;
 
-#QuickStandardModal
-.price-item {
+  justify-content: center;
 
-  font-size: 17px !important;
-
-  font-weight: 600 !important;
+  padding: 30px;
 
 }
 
 
-/* =========================================================
-   PRODUCT FORM INPUT
-   ========================================================= */
+.universes-quick-add__form {
 
-#QuickStandardModal
-.product-form__input {
+  width: 100%;
 
-  margin-top: 16px !important;
-
-  margin-bottom: 0 !important;
+  max-width: 330px;
 
 }
 
 
-/* =========================================================
-   VARIANT LABEL
-   ========================================================= */
+.universes-quick-add__product-form {
 
-#QuickStandardModal
-.product-form__input
-.form__label,
+  width: 100%;
 
-#QuickStandardModal
-.product-form__input
-legend {
+  margin: 0;
 
-  display: flex !important;
-
-  align-items: center !important;
-
-  justify-content: space-between !important;
-
-  width: 100% !important;
-
-  margin:
-    0 0 8px !important;
-
-  font-size: 10px !important;
-
-  line-height: 1.4 !important;
-
-  font-weight: 600 !important;
-
-  letter-spacing: .09em !important;
-
-  text-transform: uppercase !important;
+  padding: 0;
 
 }
 
 
-/* =========================================================
-   SIZE / VARIANT BUTTONS
-   ========================================================= */
+/* ==========================================================
+   VARIANTS
+   ========================================================== */
 
-#QuickStandardModal
-.product-form__input
-input[type="radio"]
-+ label {
+.universes-quick-add__variants {
 
-  display: inline-flex !important;
+  width: 100%;
 
-  align-items: center !important;
+  margin: 0 0 20px;
 
-  justify-content: center !important;
+}
 
-  min-width: 42px !important;
 
-  min-height: 36px !important;
+.universes-quick-add__option {
 
-  margin:
-    0 5px 5px 0 !important;
+  margin: 0 0 18px;
 
-  padding:
-    8px 11px !important;
+  padding: 0;
 
-  border:
-    1px solid
-    rgba(17, 17, 17, .14) !important;
+  border: 0;
 
-  border-radius: 3px !important;
+}
 
-  background: #ffffff !important;
 
-  color: #111111 !important;
+.universes-quick-add__option:last-child {
 
-  font-size: 11px !important;
+  margin-bottom: 0;
 
-  line-height: 1 !important;
+}
 
-  text-align: center !important;
 
-  cursor: pointer !important;
+.universes-quick-add__label {
+
+  margin: 0 0 9px;
+
+  padding: 0;
+
+  font-size: 10px;
+
+  line-height: 1;
+
+  font-weight: 600;
+
+  letter-spacing: .12em;
+
+  text-transform: uppercase;
+
+  color: #111;
+
+}
+
+
+.universes-quick-add__values {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+}
+
+
+.universes-quick-add__radio {
+
+  position: absolute;
+
+  width: 1px;
+
+  height: 1px;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+}
+
+
+.universes-quick-add__value {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 42px;
+
+  height: 36px;
+
+  padding: 0 11px;
+
+  border: 1px solid #d8d8d8;
+
+  border-radius: 3px;
+
+  background: #fff;
+
+  color: #111;
+
+  font-size: 11px;
+
+  line-height: 1;
+
+  cursor: pointer;
 
   transition:
-    background-color .18s ease,
-    border-color .18s ease,
-    color .18s ease !important;
+    background .15s ease,
+    color .15s ease,
+    border-color .15s ease;
 
 }
 
 
-/* =========================================================
-   SELECTED VARIANT
-   ========================================================= */
+.universes-quick-add__radio:checked
++ .universes-quick-add__value {
 
-#QuickStandardModal
-.product-form__input
-input[type="radio"]:checked
-+ label {
+  background: #111;
 
-  background: #111111 !important;
+  color: #fff;
 
-  border-color: #111111 !important;
-
-  color: #ffffff !important;
+  border-color: #111;
 
 }
 
 
-/* =========================================================
-   DISABLED VARIANT
-   ========================================================= */
+.universes-quick-add__value:hover {
 
-#QuickStandardModal
-.product-form__input
-input[type="radio"]:disabled
-+ label {
-
-  opacity: .35 !important;
-
-  cursor: not-allowed !important;
-
-  text-decoration: line-through !important;
+  border-color: #111;
 
 }
 
 
-/* =========================================================
-   HOVER
-   ========================================================= */
+.universes-quick-add__value.is-disabled {
 
-@media (hover: hover) {
+  opacity: .35;
 
-  #QuickStandardModal
-  .product-form__input
-  input[type="radio"]
-  + label:hover {
+  text-decoration: line-through;
 
-    border-color: #111111 !important;
-
-  }
+  cursor: not-allowed;
 
 }
 
 
-/* =========================================================
-   QUANTITY
-   ========================================================= */
-
-#QuickStandardModal
-quantity-input {
-
-  width: 110px !important;
-
-  height: 40px !important;
-
-  margin-top: 10px !important;
-
-  border:
-    1px solid
-    rgba(17, 17, 17, .14) !important;
-
-  border-radius: 3px !important;
-
-}
-
-
-/* =========================================================
+/* ==========================================================
    ADD TO CART
-   ========================================================= */
+   ========================================================== */
 
-#QuickStandardModal
-.product-form__submit,
+.universes-quick-add__submit {
 
-#QuickStandardModal
-.product-form__cart-submit,
+  position: relative;
 
-#QuickStandardModal
-button[name="add"] {
+  display: flex;
 
-  display: flex !important;
+  align-items: center;
 
-  align-items: center !important;
+  justify-content: center;
 
-  justify-content: center !important;
+  width: 100%;
 
-  width: 100% !important;
+  height: 46px;
 
-  min-height: 46px !important;
+  min-height: 46px;
 
-  margin-top: 18px !important;
+  margin: 20px 0 0;
 
-  padding:
-    0 18px !important;
+  padding: 0 20px;
 
-  border:
-    1px solid #111111 !important;
+  border: 0;
 
-  border-radius: 3px !important;
+  border-radius: 4px;
 
-  background: #111111 !important;
+  background: #111;
 
-  color: #ffffff !important;
+  color: #fff;
 
-  font-size: 10px !important;
+  font-size: 10px;
 
-  line-height: 1 !important;
+  line-height: 1;
 
-  font-weight: 600 !important;
+  font-weight: 600;
 
-  letter-spacing: .13em !important;
+  letter-spacing: .14em;
 
-  text-transform: uppercase !important;
+  text-transform: uppercase;
 
-  cursor: pointer !important;
+  cursor: pointer;
 
   transition:
-    background-color .2s ease,
-    color .2s ease !important;
+    background .18s ease,
+    opacity .18s ease;
 
 }
 
 
-@media (hover: hover) {
+.universes-quick-add__submit:hover {
 
-  #QuickStandardModal
-  .product-form__submit:hover,
+  background: #c7192d;
 
-  #QuickStandardModal
-  .product-form__cart-submit:hover,
+}
 
-  #QuickStandardModal
-  button[name="add"]:hover {
 
-    background: #ffffff !important;
+.universes-quick-add__submit:disabled {
 
-    color: #111111 !important;
+  opacity: .45;
 
+  cursor: not-allowed;
+
+}
+
+
+/* ==========================================================
+   SPINNER
+   ========================================================== */
+
+.universes-quick-add__spinner {
+
+  position: absolute;
+
+  width: 16px;
+
+  height: 16px;
+
+  right: 18px;
+
+  top: 50%;
+
+  margin-top: -8px;
+
+  border: 2px solid rgba(255,255,255,.35);
+
+  border-top-color: #fff;
+
+  border-radius: 50%;
+
+  animation:
+    universesQuickAddSpin .7s linear infinite;
+
+  opacity: 0;
+
+}
+
+
+.universes-quick-add__submit.loading
+.universes-quick-add__spinner {
+
+  opacity: 1;
+
+}
+
+
+.universes-quick-add__submit.loading
+.universes-quick-add__submit-text {
+
+  opacity: .55;
+
+}
+
+
+@keyframes universesQuickAddSpin {
+
+  to {
+    transform: rotate(360deg);
   }
 
 }
 
 
-/* =========================================================
-   HIDE UNNECESSARY PRODUCT INFORMATION
-   ========================================================= */
-
-#QuickStandardModal
-.product__description,
-
-#QuickStandardModal
-.product-information__description,
-
-#QuickStandardModal
-pickup-availability,
-
-#QuickStandardModal
-share-button,
-
-#QuickStandardModal
-.product-popup-modal,
-
-#QuickStandardModal
-.product__sku,
-
-#QuickStandardModal
-.product__inventory {
-
-  display: none !important;
-
-}
-
-
-/* =========================================================
-   CLOSE BUTTON
-   ========================================================= */
-
-#QuickAddStandard
-.quick-add-modal__close {
-
-  position: absolute !important;
-
-  top: 10px !important;
-
-  right: 10px !important;
-
-  z-index: 100 !important;
-
-  display: flex !important;
-
-  align-items: center !important;
-
-  justify-content: center !important;
-
-  width: 34px !important;
-
-  height: 34px !important;
-
-  padding: 0 !important;
-
-  margin: 0 !important;
-
-  border:
-    1px solid
-    rgba(17, 17, 17, .08) !important;
-
-  border-radius: 50% !important;
-
-  background:
-    rgba(255, 255, 255, .95) !important;
-
-  color: #111111 !important;
-
-  box-shadow:
-    0 3px 12px
-    rgba(0, 0, 0, .10) !important;
-
-  cursor: pointer !important;
-
-}
-
-
-/* =========================================================
-   FLOATING SHOPPING BAG
-   BOTTOM RIGHT
-   ========================================================= */
-
-.product-grid__item {
-
-  position: relative !important;
-
-}
-
-
-.product-grid__item
-.universes-horizon-bag {
-
-  position: absolute !important;
-
-  top: auto !important;
-
-  right: 12px !important;
-
-  bottom: 12px !important;
-
-  left: auto !important;
-
-  z-index: 100 !important;
-
-  display: block !important;
-
-  width: 42px !important;
-
-  height: 42px !important;
-
-  margin: 0 !important;
-
-  padding: 0 !important;
-
-  opacity: 1 !important;
-
-  visibility: visible !important;
-
-  pointer-events: auto !important;
-
-}
-
-
-.product-grid__item
-.universes-horizon-bag__button {
-
-  box-sizing: border-box !important;
-
-  display: flex !important;
-
-  align-items: center !important;
-
-  justify-content: center !important;
-
-  width: 42px !important;
-
-  min-width: 42px !important;
-
-  height: 42px !important;
-
-  min-height: 42px !important;
-
-  padding: 0 !important;
-
-  margin: 0 !important;
-
-  border:
-    1px solid
-    rgba(17, 17, 17, .08) !important;
-
-  border-radius: 50% !important;
-
-  background:
-    rgba(255, 255, 255, .97) !important;
-
-  color: #111111 !important;
-
-  box-shadow:
-    0 4px 15px
-    rgba(0, 0, 0, .14) !important;
-
-  cursor: pointer !important;
-
-  transition:
-    transform .2s ease,
-    background-color .2s ease,
-    color .2s ease,
-    box-shadow .2s ease !important;
-
-}
-
-
-.product-grid__item
-.universes-horizon-bag__button svg {
-
-  display: block !important;
-
-  width: 19px !important;
-
-  height: 19px !important;
-
-  margin: 0 !important;
-
-  color: currentColor !important;
-
-  stroke: currentColor !important;
-
-  fill: none !important;
-
-}
-
-
-@media (hover: hover) {
-
-  .product-grid__item
-  .universes-horizon-bag__button:hover {
-
-    background: #111111 !important;
-
-    color: #ffffff !important;
-
-    transform:
-      translateY(-2px) !important;
-
-    box-shadow:
-      0 7px 20px
-      rgba(0, 0, 0, .20) !important;
-
-  }
-
-}
-
-
-/* =========================================================
-   MOBILE QUICK ADD
-   ========================================================= */
+/* ==========================================================
+   MOBILE
+   ========================================================== */
 
 @media screen and (max-width: 749px) {
 
-  #QuickAddStandard
-  .quick-add-modal__content--standard {
+  .universes-quick-add__inner {
 
-    top: 50% !important;
+    grid-template-columns: 130px minmax(0,1fr);
 
-    left: 50% !important;
-
-    width:
-      calc(100vw - 24px) !important;
-
-    max-width:
-      calc(100vw - 24px) !important;
-
-    max-height:
-      72dvh !important;
-
-    transform:
-      translate(-50%, -50%) !important;
-
-    border-radius:
-      16px !important;
+    min-height: 210px;
 
   }
 
 
-  #QuickStandardModal {
+  .universes-quick-add__image {
 
-    max-height:
-      72dvh !important;
+    width: 130px;
 
-  }
-
-
-  #QuickStandardModal
-  .universes-quick-add-grid {
-
-    grid-template-columns:
-      125px
-      minmax(0, 1fr) !important;
+    height: 210px;
 
   }
 
 
-  #QuickStandardModal
-  .universes-quick-add-media-column {
+  .universes-quick-add__options {
 
-    width: 125px !important;
-
-    min-width: 125px !important;
+    padding: 20px 16px;
 
   }
 
 
-  #QuickStandardModal
-  .universes-quick-add-media img {
+  .universes-quick-add__form {
 
-    max-height:
-      330px !important;
+    max-width: none;
 
   }
 
 
-  #QuickStandardModal
-  .universes-quick-add-details-inner {
+  .universes-quick-add__variants {
 
-    max-height:
-      400px !important;
-
-    padding:
-      24px
-      18px
-      20px !important;
+    margin-bottom: 12px;
 
   }
 
 
-  #QuickStandardModal
-  .product__title h1,
+  .universes-quick-add__option {
 
-  #QuickStandardModal
-  .product__title h2,
-
-  #QuickStandardModal
-  .product-information__title {
-
-    font-size: 15px !important;
-
-    line-height: 1.25 !important;
+    margin-bottom: 12px;
 
   }
 
 
-  #QuickStandardModal
-  .price-item {
+  .universes-quick-add__label {
 
-    font-size: 15px !important;
+    margin-bottom: 7px;
 
-  }
-
-
-  #QuickStandardModal
-  .product-form__input
-  input[type="radio"]
-  + label {
-
-    min-width: 38px !important;
-
-    min-height: 34px !important;
-
-    padding:
-      7px 9px !important;
-
-    font-size: 10px !important;
+    font-size: 9px;
 
   }
 
 
-  #QuickStandardModal
-  .product-form__submit,
+  .universes-quick-add__value {
 
-  #QuickStandardModal
-  .product-form__cart-submit,
+    min-width: 36px;
 
-  #QuickStandardModal
-  button[name="add"] {
+    height: 32px;
 
-    min-height: 43px !important;
+    padding: 0 9px;
 
-    margin-top: 14px !important;
-
-    font-size: 9px !important;
+    font-size: 10px;
 
   }
 
 
-  .product-grid__item
-  .universes-horizon-bag {
+  .universes-quick-add__submit {
 
-    right: 8px !important;
+    height: 42px;
 
-    bottom: 8px !important;
+    min-height: 42px;
 
-    width: 38px !important;
+    margin-top: 12px;
 
-    height: 38px !important;
-
-  }
-
-
-  .product-grid__item
-  .universes-horizon-bag__button {
-
-    width: 38px !important;
-
-    min-width: 38px !important;
-
-    height: 38px !important;
-
-    min-height: 38px !important;
-
-  }
-
-
-  .product-grid__item
-  .universes-horizon-bag__button svg {
-
-    width: 17px !important;
-
-    height: 17px !important;
+    font-size: 9px;
 
   }
 
 }
 
 
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
+/* ==========================================================
+   SMALL MOBILE
+   ========================================================== */
 
-@media (prefers-reduced-motion: reduce) {
+@media screen and (max-width: 480px) {
 
-  #QuickStandardModal *,
-  #QuickStandardModal *::before,
-  #QuickStandardModal *::after {
+  .universes-quick-add__inner {
 
-    transition-duration:
-      .01ms !important;
+    grid-template-columns: 110px minmax(0,1fr);
+
+    min-height: 190px;
+
+  }
+
+
+  .universes-quick-add__image {
+
+    width: 110px;
+
+    height: 190px;
+
+  }
+
+
+  .universes-quick-add__options {
+
+    padding: 16px 14px;
+
+  }
+
+
+  .universes-quick-add__value {
+
+    min-width: 34px;
+
+    height: 30px;
+
+    padding: 0 8px;
 
   }
 
@@ -1118,95 +719,175 @@ share-button,
 </style>
 
 
+<script>
+(function () {
+
+  const quickAdd = document.querySelector(
+    '#MainProduct-quick-add-{{ section.id }}'
+  );
+
+  if (!quickAdd) return;
+
+  const form = quickAdd.querySelector(
+    '.universes-quick-add__product-form'
+  );
+
+  if (!form) return;
+
+  const variantInput = form.querySelector(
+    '.universes-quick-add__variant-id'
+  );
+
+  const radios = Array.from(
+    form.querySelectorAll(
+      '.universes-quick-add__radio'
+    )
+  );
+
+  const submitButton = form.querySelector(
+    '.universes-quick-add__submit'
+  );
+
+  const submitText = form.querySelector(
+    '.universes-quick-add__submit-text'
+  );
+
+
+  const variants = {{ quick_product.variants | json }};
+
+
+  function getSelectedOptions() {
+
+    const selected = {};
+
+    radios.forEach(function (radio) {
+
+      if (radio.checked) {
+
+        selected[
+          'option' + radio.dataset.optionPosition
+        ] = radio.value;
+
+      }
+
+    });
+
+    return selected;
+
+  }
+
+
+  function findVariant() {
+
+    const selected = getSelectedOptions();
+
+    return variants.find(function (variant) {
+
+      return (
+        (!selected.option1 ||
+          variant.option1 === selected.option1) &&
+
+        (!selected.option2 ||
+          variant.option2 === selected.option2) &&
+
+        (!selected.option3 ||
+          variant.option3 === selected.option3)
+      );
+
+    });
+
+  }
+
+
+  function updateVariant() {
+
+    const variant = findVariant();
+
+    if (!variant) {
+
+      if (variantInput) {
+        variantInput.value = '';
+      }
+
+      if (submitButton) {
+        submitButton.disabled = true;
+      }
+
+      return;
+
+    }
+
+
+    if (variantInput) {
+
+      variantInput.value = variant.id;
+
+    }
+
+
+    if (submitButton) {
+
+      submitButton.disabled = !variant.available;
+
+      if (submitText) {
+
+        submitText.textContent =
+          variant.available
+            ? 'ADD TO CART'
+            : 'SOLD OUT';
+
+      }
+
+    }
+
+  }
+
+
+  radios.forEach(function (radio) {
+
+    radio.addEventListener(
+      'change',
+      updateVariant
+    );
+
+  });
+
+
+  /*
+   * Let Shopify's existing product-form.js
+   * handle the actual AJAX add-to-cart.
+   */
+
+  form.addEventListener(
+    'submit',
+    function () {
+
+      if (
+        submitButton &&
+        !submitButton.disabled
+      ) {
+
+        submitButton.classList.add(
+          'loading'
+        );
+
+      }
+
+    }
+  );
+
+
+  updateVariant();
+
+})();
+</script>
+
+
 {% schema %}
 {
-  "name": "t:names.product_information",
-  "blocks": [
-    {
-      "type": "@app"
-    }
-  ],
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
-  "settings": [
-    {
-      "type": "header",
-      "content": "t:content.layout"
-    },
-    {
-      "type": "select",
-      "id": "page_width",
-      "label": "t:settings.width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "default": "full-width"
-    },
-    {
-      "type": "select",
-      "id": "desktop_media_position",
-      "label": "t:settings.media_position",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:options.left"
-        },
-        {
-          "value": "right",
-          "label": "t:options.right"
-        }
-      ],
-      "default": "left"
-    },
-    {
-      "type": "range",
-      "id": "gap",
-      "label": "t:settings.gap",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "default": 16
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:content.padding"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    }
-  ],
+  "name": "Quick add product",
+  "blocks": [],
+  "settings": [],
   "presets": []
 }
 {% endschema %}
