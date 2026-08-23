@@ -2,13 +2,20 @@ if (!customElements.get('product-form-component')) {
   customElements.define(
     'product-form-component',
     class ProductForm extends HTMLElement {
+
       constructor() {
         super();
 
         this.init();
       }
 
+
+      /* ======================================================
+         INIT
+         ====================================================== */
+
       init() {
+
         this.form = this.querySelector('form');
 
         if (!this.form) return;
@@ -20,34 +27,56 @@ if (!customElements.get('product-form-component')) {
           this.onSubmitHandler.bind(this)
         );
 
-        this.cart = document.querySelector('cart-drawer');
+        this.cart =
+          document.querySelector('cart-drawer');
+
+        /*
+         * Support both:
+         *
+         * Ella normal Add To Cart
+         * Universes RAW Quick Add
+         */
 
         this.submitButton =
-          this.form?.querySelector('.add-to-cart-button') ||
-          this.form?.querySelector('.universes-quick-add__submit');
+          this.form.querySelector(
+            '.add-to-cart-button'
+          ) ||
+          this.form.querySelector(
+            '.universes-quick-add__submit'
+          );
 
-        this.submitButtonText = this.submitButton
-          ? this.submitButton.querySelector('span')
-          : null;
+        this.submitButtonText =
+          this.submitButton
+            ? this.submitButton.querySelector('span')
+            : null;
 
         this.checkbox =
-          this.form?.querySelector('[id^="agree_condition-"]');
+          this.form.querySelector(
+            '[id^="agree_condition-"]'
+          );
 
         this.buyItNowButton =
-          this.form?.querySelector('.shopify-payment-button');
+          this.form.querySelector(
+            '.shopify-payment-button'
+          );
+
 
         if (
           document.querySelector('cart-drawer') &&
           this.submitButton
         ) {
+
           this.submitButton.setAttribute(
             'aria-haspopup',
             'dialog'
           );
+
         }
+
 
         this.hideErrors =
           this.dataset.hideErrors === 'true';
+
 
         this.initAgreeCondition();
 
@@ -60,7 +89,9 @@ if (!customElements.get('product-form-component')) {
          ====================================================== */
 
       setupErrorSync() {
+
         try {
+
           const productInfo =
             this.closest('product-info');
 
@@ -70,12 +101,14 @@ if (!customElements.get('product-form-component')) {
 
           if (!sectionId) return;
 
+
           const stickyATC =
             document.querySelector(
               `sticky-atc[data-sticky-section-id="${sectionId}"]`
             );
 
           if (!stickyATC) return;
+
 
           const mainErrorWrapper =
             this.querySelector(
@@ -87,6 +120,7 @@ if (!customElements.get('product-form-component')) {
               '.product-form__error-message-wrapper'
             );
 
+
           if (
             !mainErrorWrapper ||
             !stickyErrorWrapper
@@ -94,37 +128,58 @@ if (!customElements.get('product-form-component')) {
             return;
           }
 
+
           const syncFromMain = () => {
+
             const isVisible =
-              !mainErrorWrapper.hasAttribute('hidden');
+              !mainErrorWrapper.hasAttribute(
+                'hidden'
+              );
+
 
             const errorMessage =
               mainErrorWrapper.querySelector(
                 '.product-form__error-message'
               )?.textContent;
 
+
             stickyErrorWrapper.toggleAttribute(
               'hidden',
               !isVisible || !errorMessage
             );
 
-            if (isVisible && errorMessage) {
+
+            if (
+              isVisible &&
+              errorMessage
+            ) {
+
               const stickyErrorMessage =
                 stickyErrorWrapper.querySelector(
                   '.product-form__error-message'
                 );
 
+
               if (stickyErrorMessage) {
+
                 stickyErrorMessage.textContent =
                   errorMessage;
+
               }
+
             }
+
           };
+
 
           syncFromMain();
 
+
           this._errorObserver =
-            new MutationObserver(syncFromMain);
+            new MutationObserver(
+              syncFromMain
+            );
+
 
           this._errorObserver.observe(
             mainErrorWrapper,
@@ -136,6 +191,7 @@ if (!customElements.get('product-form-component')) {
             }
           );
 
+
           this.cartErrorUnsubscriber =
             subscribe(
               PUB_SUB_EVENTS.cartError,
@@ -144,17 +200,22 @@ if (!customElements.get('product-form-component')) {
               }
             );
 
+
         } catch (e) {
+
           // Silent
+
         }
+
       }
 
 
       /* ======================================================
-         AGREEMENT CHECKBOX
+         AGREEMENT CONDITION
          ====================================================== */
 
       initAgreeCondition() {
+
         if (
           !this.checkbox ||
           !this.buyItNowButton
@@ -162,28 +223,203 @@ if (!customElements.get('product-form-component')) {
           return;
         }
 
+
         this.buyItNowButton.classList.add(
           'disabled'
         );
 
+
         this.checkbox.addEventListener(
           'change',
           () => {
+
             this.buyItNowButton.classList.toggle(
               'disabled',
               !this.checkbox.checked
             );
+
           }
         );
+
 
         this.form.addEventListener(
           'submit',
           (e) => {
+
             if (!this.checkbox.checked) {
+
               e.preventDefault();
+
             }
+
           }
         );
+
+      }
+
+
+      /* ======================================================
+         PREMIUM QUICK ADD NOTIFICATION
+         ====================================================== */
+
+      showQuickAddNotification() {
+
+        /*
+         * Remove any previous notification
+         */
+
+        const existing =
+          document.querySelector(
+            '.universes-cart-success'
+          );
+
+
+        if (existing) {
+
+          existing.remove();
+
+        }
+
+
+        /*
+         * Create notification
+         */
+
+        const notification =
+          document.createElement('div');
+
+
+        notification.className =
+          'universes-cart-success';
+
+
+        notification.innerHTML = `
+
+          <div class="universes-cart-success__icon">
+
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+
+              <path
+                d="M5 12.5L9.5 17L19 7"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+            </svg>
+
+          </div>
+
+
+          <div class="universes-cart-success__content">
+
+            <div class="universes-cart-success__title">
+              Added to your bag
+            </div>
+
+            <div class="universes-cart-success__text">
+              Your item has been added successfully.
+            </div>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="universes-cart-success__close"
+            aria-label="Close notification"
+          >
+            ×
+          </button>
+
+        `;
+
+
+        document.body.appendChild(
+          notification
+        );
+
+
+        /*
+         * Trigger entrance animation
+         */
+
+        requestAnimationFrame(
+          () => {
+
+            notification.classList.add(
+              'is-visible'
+            );
+
+          }
+        );
+
+
+        /*
+         * Close function
+         */
+
+        const closeNotification = () => {
+
+          notification.classList.remove(
+            'is-visible'
+          );
+
+
+          setTimeout(
+            () => {
+
+              if (
+                notification.parentNode
+              ) {
+
+                notification.remove();
+
+              }
+
+            },
+            300
+          );
+
+        };
+
+
+        /*
+         * Manual close
+         */
+
+        const closeButton =
+          notification.querySelector(
+            '.universes-cart-success__close'
+          );
+
+
+        if (closeButton) {
+
+          closeButton.addEventListener(
+            'click',
+            closeNotification
+          );
+
+        }
+
+
+        /*
+         * Automatic close
+         */
+
+        setTimeout(
+          closeNotification,
+          2800
+        );
+
       }
 
 
@@ -195,26 +431,46 @@ if (!customElements.get('product-form-component')) {
 
         evt.preventDefault();
 
+
+        /*
+         * Prevent double click
+         */
+
         if (
           this.submitButton?.getAttribute(
             'aria-disabled'
           ) === 'true'
         ) {
+
           return;
+
         }
 
 
-        /* Detect Quick Add */
+        /*
+         * Detect Quick Add
+         */
 
         const quickAddModal =
-          this.closest('quick-add-modal');
+          this.closest(
+            'quick-add-modal'
+          );
+
 
         const isQuickAdd =
           !!quickAddModal;
 
 
+        /*
+         * Clear errors
+         */
+
         this.handleErrorMessage();
 
+
+        /*
+         * Loading state
+         */
 
         if (this.submitButton) {
 
@@ -223,9 +479,11 @@ if (!customElements.get('product-form-component')) {
             true
           );
 
+
           this.submitButton.classList.add(
             'loading'
           );
+
 
           const spinner =
             this.submitButton.querySelector(
@@ -235,22 +493,32 @@ if (!customElements.get('product-form-component')) {
               '.universes-quick-add__spinner'
             );
 
+
           if (spinner) {
-            spinner.classList.remove('hidden');
+
+            spinner.classList.remove(
+              'hidden'
+            );
+
           }
+
         }
 
 
         /* ==================================================
-           STICKY BUTTON LOADING
+           STICKY ATC LOADING
            ================================================== */
 
         const productInfo =
-          this.closest('product-info');
+          this.closest(
+            'product-info'
+          );
+
 
         const sectionId =
           productInfo?.dataset.section ||
           productInfo?.dataset.originalSection;
+
 
         const stickyAddButton =
           sectionId
@@ -259,22 +527,27 @@ if (!customElements.get('product-form-component')) {
               )
             : undefined;
 
+
         const stickyLoadingSpinner =
           stickyAddButton?.querySelector(
             '.loading__spinner'
           );
 
+
         if (
           stickyAddButton &&
           stickyLoadingSpinner
         ) {
+
           stickyAddButton.classList.add(
             'loading'
           );
 
+
           stickyLoadingSpinner.classList.remove(
             'hidden'
           );
+
         }
 
 
@@ -283,23 +556,34 @@ if (!customElements.get('product-form-component')) {
            ================================================== */
 
         const config =
-          fetchConfig('javascript');
+          fetchConfig(
+            'javascript'
+          );
+
 
         config.headers[
           'X-Requested-With'
-        ] = 'XMLHttpRequest';
+        ] =
+          'XMLHttpRequest';
+
 
         delete config.headers[
           'Content-Type'
         ];
 
 
+        /* ==================================================
+           FORM DATA
+           ================================================== */
+
         const formData =
-          new FormData(this.form);
+          new FormData(
+            this.form
+          );
 
 
         /* ==================================================
-           CART SECTION DATA
+           CART SECTIONS
            ================================================== */
 
         if (this.cart) {
@@ -309,18 +593,22 @@ if (!customElements.get('product-form-component')) {
             this.cart
               .getSectionsToRender()
               .map(
-                (section) => section.id
+                (section) =>
+                  section.id
               )
           );
+
 
           formData.append(
             'sections_url',
             window.location.pathname
           );
 
+
           this.cart.setActiveElement(
             document.activeElement
           );
+
         }
 
 
@@ -333,25 +621,33 @@ if (!customElements.get('product-form-component')) {
             '.product-form__input [name^="properties"]'
           );
 
+
         properties.forEach(
           (property) => {
 
-            if (property.type === 'file') {
+            if (
+              property.type === 'file'
+            ) {
 
               if (
                 !property.files ||
                 property.files.length === 0 ||
                 !property.files[0]
               ) {
+
                 return;
+
               }
+
 
               formData.append(
                 property.name,
                 property.files[0]
               );
 
+
               return;
+
             }
 
 
@@ -359,22 +655,27 @@ if (!customElements.get('product-form-component')) {
               property.value == null ||
               property.value === ''
             ) {
+
               return;
+
             }
+
 
             formData.append(
               property.name,
               property.value
             );
+
           }
         );
 
 
-        config.body = formData;
+        config.body =
+          formData;
 
 
         /* ==================================================
-           ADD TO CART
+           SHOPIFY AJAX ADD
            ================================================== */
 
         fetch(
@@ -387,6 +688,7 @@ if (!customElements.get('product-form-component')) {
               response.json()
           )
 
+
           .then(
             (response) => {
 
@@ -395,11 +697,14 @@ if (!customElements.get('product-form-component')) {
                  ERROR
                  ============================================ */
 
-              if (response.status) {
+              if (
+                response.status
+              ) {
 
                 publish(
                   PUB_SUB_EVENTS.cartError,
                   {
+
                     source:
                       'product-form-component',
 
@@ -412,17 +717,21 @@ if (!customElements.get('product-form-component')) {
 
                     message:
                       response.message
+
                   }
                 );
+
 
                 this.handleErrorMessage(
                   response.description
                 );
 
+
                 const soldOutMessage =
                   this.submitButton?.querySelector(
                     '.sold-out-message'
                   );
+
 
                 if (
                   soldOutMessage &&
@@ -434,20 +743,31 @@ if (!customElements.get('product-form-component')) {
                     true
                   );
 
-                  if (this.submitButtonText) {
+
+                  if (
+                    this.submitButtonText
+                  ) {
+
                     this.submitButtonText.classList.add(
                       'hidden'
                     );
+
                   }
+
 
                   soldOutMessage.classList.remove(
                     'hidden'
                   );
+
                 }
 
-                this.error = true;
+
+                this.error =
+                  true;
+
 
                 return;
+
               }
 
 
@@ -455,26 +775,27 @@ if (!customElements.get('product-form-component')) {
                  SUCCESS
                  ============================================ */
 
-              this.error = false;
+              this.error =
+                false;
 
 
-              /* --------------------------------------------
-                 QUICK ADD
-                 -------------------------------------------- */
+              /* ============================================
+                 QUICK ADD SUCCESS
+                 ============================================ */
 
-              if (isQuickAdd) {
+              if (
+                isQuickAdd
+              ) {
+
 
                 /*
-                 * Tell the rest of the theme that
-                 * the cart changed.
-                 *
-                 * This allows cart counters/badges
-                 * to update without opening the drawer.
+                 * Update Shopify/theme cart state
                  */
 
                 publish(
                   PUB_SUB_EVENTS.cartUpdate,
                   {
+
                     source:
                       'product-form-component',
 
@@ -483,49 +804,73 @@ if (!customElements.get('product-form-component')) {
 
                     cartData:
                       response
+
                   }
                 );
 
 
                 /*
-                 * Close ONLY the Quick Add popup.
+                 * Close ONLY Quick Add.
                  *
-                 * Do NOT:
-                 * - redirect to /cart
-                 * - open cart drawer
-                 * - render cart drawer contents
+                 * No redirect.
+                 *
+                 * No cart drawer.
                  */
 
-                quickAddModal.hide(true);
+                quickAddModal.hide(
+                  true
+                );
 
 
                 /*
-                 * Optional success feedback
+                 * Show premium notification
+                 */
+
+                this.showQuickAddNotification();
+
+
+                /*
+                 * Custom event for
+                 * Universes RAW
                  */
 
                 document.dispatchEvent(
                   new CustomEvent(
                     'universes:quick-add-success',
                     {
+
                       detail: {
+
                         variantId:
                           formData.get('id'),
 
                         response:
                           response
+
                       }
+
                     }
                   )
                 );
 
 
+                /*
+                 * IMPORTANT:
+                 *
+                 * Stop here.
+                 *
+                 * Do NOT execute normal
+                 * cart drawer behavior.
+                 */
+
                 return;
+
               }
 
 
-              /* --------------------------------------------
+              /* ============================================
                  NORMAL PRODUCT PAGE
-                 -------------------------------------------- */
+                 ============================================ */
 
               if (!this.cart) {
 
@@ -533,12 +878,18 @@ if (!customElements.get('product-form-component')) {
                   `${window.routes?.cart_url}`;
 
                 return;
+
               }
 
+
+              /*
+               * Update cart
+               */
 
               publish(
                 PUB_SUB_EVENTS.cartUpdate,
                 {
+
                   source:
                     'product-form-component',
 
@@ -547,9 +898,15 @@ if (!customElements.get('product-form-component')) {
 
                   cartData:
                     response
+
                 }
               );
 
+
+              /*
+               * Normal product page:
+               * update/open cart drawer
+               */
 
               if (
                 this.cart &&
@@ -560,6 +917,7 @@ if (!customElements.get('product-form-component')) {
                 this.cart.renderContents(
                   response
                 );
+
               }
 
             }
@@ -572,7 +930,11 @@ if (!customElements.get('product-form-component')) {
 
           .catch(
             (e) => {
-              console.error(e);
+
+              console.error(
+                e
+              );
+
             }
           )
 
@@ -584,18 +946,30 @@ if (!customElements.get('product-form-component')) {
           .finally(
             () => {
 
-              if (this.submitButton) {
+
+              /*
+               * Main button
+               */
+
+              if (
+                this.submitButton
+              ) {
 
                 this.submitButton.classList.remove(
                   'loading'
                 );
 
-                if (!this.error) {
+
+                if (
+                  !this.error
+                ) {
 
                   this.submitButton.removeAttribute(
                     'aria-disabled'
                   );
+
                 }
+
 
                 const spinner =
                   this.submitButton.querySelector(
@@ -605,22 +979,32 @@ if (!customElements.get('product-form-component')) {
                     '.universes-quick-add__spinner'
                   );
 
+
                 if (spinner) {
+
                   spinner.classList.add(
                     'hidden'
                   );
+
                 }
+
               }
 
 
-              /* Sticky ATC */
+              /*
+               * Sticky ATC
+               */
 
               const productInfo =
-                this.closest('product-info');
+                this.closest(
+                  'product-info'
+                );
+
 
               const sectionId =
                 productInfo?.dataset.section ||
                 productInfo?.dataset.originalSection;
+
 
               const stickyAddButton =
                 sectionId
@@ -629,10 +1013,12 @@ if (!customElements.get('product-form-component')) {
                     )
                   : undefined;
 
+
               const stickyLoadingSpinner =
                 stickyAddButton?.querySelector(
                   '.loading__spinner'
                 );
+
 
               if (
                 stickyAddButton &&
@@ -643,13 +1029,16 @@ if (!customElements.get('product-form-component')) {
                   'loading'
                 );
 
+
                 stickyLoadingSpinner.classList.add(
                   'hidden'
                 );
+
               }
 
             }
           );
+
       }
 
 
@@ -666,8 +1055,11 @@ if (!customElements.get('product-form-component')) {
           this._errorObserver?.disconnect();
 
         } catch (e) {
+
           // Silent
+
         }
+
       }
 
 
@@ -679,7 +1071,12 @@ if (!customElements.get('product-form-component')) {
         errorMessage = false
       ) {
 
-        if (this.hideErrors) return;
+        if (
+          this.hideErrors
+        ) {
+          return;
+        }
+
 
         this.errorMessageWrapper =
           this.errorMessageWrapper ||
@@ -687,7 +1084,13 @@ if (!customElements.get('product-form-component')) {
             '.product-form__error-message-wrapper'
           );
 
-        if (!this.errorMessageWrapper) return;
+
+        if (
+          !this.errorMessageWrapper
+        ) {
+          return;
+        }
+
 
         this.errorMessage =
           this.errorMessage ||
@@ -695,21 +1098,27 @@ if (!customElements.get('product-form-component')) {
             '.product-form__error-message'
           );
 
+
         this.errorMessageWrapper.toggleAttribute(
           'hidden',
           !errorMessage
         );
 
-        if (errorMessage) {
+
+        if (
+          errorMessage
+        ) {
 
           this.errorMessage.textContent =
             errorMessage;
+
         }
+
       }
 
 
       /* ======================================================
-         TOGGLE SUBMIT
+         TOGGLE SUBMIT BUTTON
          ====================================================== */
 
       toggleSubmitButton(
@@ -717,21 +1126,31 @@ if (!customElements.get('product-form-component')) {
         text
       ) {
 
-        if (!this.submitButton) return;
+        if (
+          !this.submitButton
+        ) {
+          return;
+        }
 
-        if (disable) {
+
+        if (
+          disable
+        ) {
 
           this.submitButton.setAttribute(
             'disabled',
             'disabled'
           );
 
+
           if (
             text &&
             this.submitButtonText
           ) {
+
             this.submitButtonText.textContent =
               text;
+
           }
 
         } else {
@@ -740,12 +1159,18 @@ if (!customElements.get('product-form-component')) {
             'disabled'
           );
 
-          if (this.submitButtonText) {
+
+          if (
+            this.submitButtonText
+          ) {
 
             this.submitButtonText.textContent =
               window.variantStrings.addToCart;
+
           }
+
         }
+
       }
 
 
@@ -758,7 +1183,9 @@ if (!customElements.get('product-form-component')) {
         return this.form.querySelector(
           '[name=id]'
         );
+
       }
+
     }
   );
 }
