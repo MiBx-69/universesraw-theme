@@ -28,6 +28,7 @@
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 
 <div class="section universes-quick-add-section">
+
   <product-info
     id="MainProduct-quick-add-{{ section.id }}"
     class="product-information universes-quick-add-product section--{{ page_width }} spacing-style color-{{ section.settings.color_scheme }} relative"
@@ -61,9 +62,13 @@
       <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    {%- assign first_3d_model = closest.product.media | where: 'media_type', 'model' | first -%}
+    {%- assign first_3d_model = closest.product.media
+      | where: 'media_type', 'model'
+      | first
+    -%}
 
     {%- if first_3d_model -%}
+
       <link
         id="ModelViewerStyle"
         rel="stylesheet"
@@ -79,16 +84,21 @@
         media="print"
         onload="this.media='all'"
       >
+
     {%- endif -%}
 
+
     {% if product_has_media %}
+
       {% assign product_href = '#ProductInformation-' | append: section.id %}
 
       {% render 'skip-to-content-link',
         href: product_href,
         text: 'accessibility.skip_to_product_info'
       %}
+
     {% endif %}
+
 
     <div
       class="{{ product_grid_class }} universes-quick-add-grid"
@@ -98,7 +108,8 @@
 
       {% assign render_order_array = render_order | split: ',' %}
 
-      {% capture media %}
+
+      {%- capture media -%}
 
         <div
           class="product-information__media universes-quick-add-media-column"
@@ -119,10 +130,10 @@
 
         </div>
 
-      {% endcapture %}
+      {%- endcapture -%}
 
 
-      {% capture details %}
+      {%- capture details -%}
 
         <div class="universes-quick-add-details-column">
 
@@ -138,7 +149,7 @@
 
         </div>
 
-      {% endcapture %}
+      {%- endcapture -%}
 
 
       {% for block in render_order_array %}
@@ -159,632 +170,946 @@
 
 
     {%- if closest.product.media.size > 0 -%}
+
       <script
         src="{{ 'media-gallery.js' | asset_url }}"
         defer="defer"
       ></script>
+
     {%- endif -%}
 
 
     {%- content_for 'blocks' -%}
 
   </product-info>
+
 </div>
 
 
 <style>
 
-/* ============================================================
+/* =========================================================
    UNIVERSes RAW
-   QUICK ADD PRODUCT EXPERIENCE
-   ============================================================ */
-
-.universes-quick-add-section {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.universes-quick-add-product {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
+   COMPACT HORIZON-STYLE QUICK ADD
+   ========================================================= */
 
 
-/* ============================================================
-   DESKTOP QUICK ADD LAYOUT
-   ============================================================ */
+/* =========================================================
+   MODAL ROOT
+   ========================================================= */
 
-.universes-quick-add-grid {
-  display: grid;
+#QuickAddStandard {
 
-  grid-template-columns:
-    minmax(0, 1.05fr)
-    minmax(360px, 0.95fr);
+  --quick-add-width: 520px;
 
-  width: 100%;
+  --quick-add-max-height: 560px;
 
-  gap: 0 !important;
+  z-index: 10000 !important;
 
-  align-items: stretch;
 }
 
 
-/* ============================================================
-   MEDIA SIDE
-   ============================================================ */
+/* =========================================================
+   COMPACT CENTERED POPUP
+   ========================================================= */
 
-.universes-quick-add-media-column {
-  position: relative;
+#QuickAddStandard
+.quick-add-modal__content--standard {
 
-  min-width: 0;
+  position: absolute !important;
 
-  margin: 0;
-  padding: 0;
+  top: 50% !important;
 
-  overflow: hidden;
+  left: 50% !important;
+
+  width: var(--quick-add-width) !important;
+
+  max-width:
+    calc(100vw - 32px) !important;
+
+  height: auto !important;
+
+  max-height:
+    var(--quick-add-max-height) !important;
+
+  transform:
+    translate(-50%, -50%) !important;
+
+  overflow: hidden !important;
+
+  background: #ffffff !important;
+
+  border:
+    1px solid
+    rgba(17, 17, 17, .06) !important;
+
+  border-radius: 18px !important;
+
+  box-shadow:
+    0 20px 70px
+    rgba(0, 0, 0, .22) !important;
+
 }
 
-.universes-quick-add-media {
-  width: 100%;
-  height: 100%;
 
-  margin: 0;
-  padding: 0;
-}
+/* =========================================================
+   MODAL CONTENT
+   ========================================================= */
 
+#QuickStandardModal {
 
-/*
- * Keep Ella's existing gallery functional.
- */
+  width: 100% !important;
 
-.universes-quick-add-media
-  .product-information__media {
-  width: 100%;
-}
+  height: auto !important;
 
-.universes-quick-add-media
-  .product__media-list,
-.universes-quick-add-media
-  .thumbnail-list {
-  margin: 0;
-}
+  max-height:
+    var(--quick-add-max-height) !important;
 
+  overflow-x: hidden !important;
 
-/* ============================================================
-   DETAILS SIDE
-   ============================================================ */
-
-.universes-quick-add-details-column {
-  position: relative;
-
-  min-width: 0;
-
-  height: 100%;
-
-  background: #ffffff;
-}
-
-.universes-quick-add-details-inner {
-  width: 100%;
-  height: 100%;
-
-  padding:
-    44px
-    42px
-    40px;
-
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow-y: auto !important;
 
   scrollbar-width: thin;
 
   -webkit-overflow-scrolling: touch;
+
 }
 
 
-/* ============================================================
-   PRODUCT DETAILS TYPOGRAPHY
-   ============================================================ */
+/* =========================================================
+   QUICK ADD GRID
+   ========================================================= */
 
-.universes-quick-add-details-inner
-  .product__title,
-.universes-quick-add-details-inner
-  .product-information__title {
-  margin-top: 0 !important;
+#QuickStandardModal
+.universes-quick-add-grid {
+
+  display: grid !important;
+
+  grid-template-columns:
+    190px
+    minmax(0, 1fr) !important;
+
+  width: 100% !important;
+
+  gap: 0 !important;
+
+  align-items: stretch !important;
+
 }
 
-.universes-quick-add-details-inner
-  .product__title h1,
-.universes-quick-add-details-inner
-  .product__title h2,
-.universes-quick-add-details-inner
-  .product-information__title {
-  font-size: 24px;
-  line-height: 1.25;
-  font-weight: 500;
-  letter-spacing: -0.015em;
+
+/* =========================================================
+   PRODUCT IMAGE COLUMN
+   ========================================================= */
+
+#QuickStandardModal
+.universes-quick-add-media-column {
+
+  width: 190px !important;
+
+  min-width: 190px !important;
+
+  min-height: 0 !important;
+
+  overflow: hidden !important;
+
+  background: #f7f7f7 !important;
+
 }
 
 
-/* ============================================================
+/* =========================================================
+   PRODUCT MEDIA
+   ========================================================= */
+
+#QuickStandardModal
+.universes-quick-add-media {
+
+  width: 100% !important;
+
+  height: 100% !important;
+
+  min-height: 0 !important;
+
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+   ========================================================= */
+
+#QuickStandardModal
+.universes-quick-add-media img {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  height: 100% !important;
+
+  max-height: 470px !important;
+
+  object-fit: cover !important;
+
+}
+
+
+/* =========================================================
+   DETAILS COLUMN
+   ========================================================= */
+
+#QuickStandardModal
+.universes-quick-add-details-column {
+
+  width: 100% !important;
+
+  min-width: 0 !important;
+
+  background: #ffffff !important;
+
+}
+
+
+/* =========================================================
+   DETAILS INNER
+   ========================================================= */
+
+#QuickStandardModal
+.universes-quick-add-details-inner {
+
+  width: 100% !important;
+
+  height: 100% !important;
+
+  max-height: 500px !important;
+
+  padding:
+    28px
+    24px
+    24px !important;
+
+  overflow-x: hidden !important;
+
+  overflow-y: auto !important;
+
+  scrollbar-width: thin;
+
+}
+
+
+/* =========================================================
+   PRODUCT TITLE
+   ========================================================= */
+
+#QuickStandardModal
+.product__title h1,
+
+#QuickStandardModal
+.product__title h2,
+
+#QuickStandardModal
+.product-information__title {
+
+  margin:
+    0 0 8px !important;
+
+  padding: 0 !important;
+
+  font-size: 18px !important;
+
+  line-height: 1.3 !important;
+
+  font-weight: 500 !important;
+
+  letter-spacing: -.01em !important;
+
+}
+
+
+/* =========================================================
    PRICE
-   ============================================================ */
+   ========================================================= */
 
-.universes-quick-add-details-inner
-  .price {
-  margin-top: 8px;
+#QuickStandardModal
+.price {
 
-  font-size: 17px;
-  line-height: 1.3;
+  margin:
+    0 0 18px !important;
+
 }
 
-.universes-quick-add-details-inner
+
+#QuickStandardModal
+.price-item {
+
+  font-size: 17px !important;
+
+  font-weight: 600 !important;
+
+}
+
+
+/* =========================================================
+   PRODUCT FORM INPUT
+   ========================================================= */
+
+#QuickStandardModal
+.product-form__input {
+
+  margin-top: 16px !important;
+
+  margin-bottom: 0 !important;
+
+}
+
+
+/* =========================================================
+   VARIANT LABEL
+   ========================================================= */
+
+#QuickStandardModal
+.product-form__input
+.form__label,
+
+#QuickStandardModal
+.product-form__input
+legend {
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: space-between !important;
+
+  width: 100% !important;
+
+  margin:
+    0 0 8px !important;
+
+  font-size: 10px !important;
+
+  line-height: 1.4 !important;
+
+  font-weight: 600 !important;
+
+  letter-spacing: .09em !important;
+
+  text-transform: uppercase !important;
+
+}
+
+
+/* =========================================================
+   SIZE / VARIANT BUTTONS
+   ========================================================= */
+
+#QuickStandardModal
+.product-form__input
+input[type="radio"]
++ label {
+
+  display: inline-flex !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+
+  min-width: 42px !important;
+
+  min-height: 36px !important;
+
+  margin:
+    0 5px 5px 0 !important;
+
+  padding:
+    8px 11px !important;
+
+  border:
+    1px solid
+    rgba(17, 17, 17, .14) !important;
+
+  border-radius: 3px !important;
+
+  background: #ffffff !important;
+
+  color: #111111 !important;
+
+  font-size: 11px !important;
+
+  line-height: 1 !important;
+
+  text-align: center !important;
+
+  cursor: pointer !important;
+
+  transition:
+    background-color .18s ease,
+    border-color .18s ease,
+    color .18s ease !important;
+
+}
+
+
+/* =========================================================
+   SELECTED VARIANT
+   ========================================================= */
+
+#QuickStandardModal
+.product-form__input
+input[type="radio"]:checked
++ label {
+
+  background: #111111 !important;
+
+  border-color: #111111 !important;
+
+  color: #ffffff !important;
+
+}
+
+
+/* =========================================================
+   DISABLED VARIANT
+   ========================================================= */
+
+#QuickStandardModal
+.product-form__input
+input[type="radio"]:disabled
++ label {
+
+  opacity: .35 !important;
+
+  cursor: not-allowed !important;
+
+  text-decoration: line-through !important;
+
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+@media (hover: hover) {
+
+  #QuickStandardModal
+  .product-form__input
+  input[type="radio"]
+  + label:hover {
+
+    border-color: #111111 !important;
+
+  }
+
+}
+
+
+/* =========================================================
+   QUANTITY
+   ========================================================= */
+
+#QuickStandardModal
+quantity-input {
+
+  width: 110px !important;
+
+  height: 40px !important;
+
+  margin-top: 10px !important;
+
+  border:
+    1px solid
+    rgba(17, 17, 17, .14) !important;
+
+  border-radius: 3px !important;
+
+}
+
+
+/* =========================================================
+   ADD TO CART
+   ========================================================= */
+
+#QuickStandardModal
+.product-form__submit,
+
+#QuickStandardModal
+.product-form__cart-submit,
+
+#QuickStandardModal
+button[name="add"] {
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+
+  width: 100% !important;
+
+  min-height: 46px !important;
+
+  margin-top: 18px !important;
+
+  padding:
+    0 18px !important;
+
+  border:
+    1px solid #111111 !important;
+
+  border-radius: 3px !important;
+
+  background: #111111 !important;
+
+  color: #ffffff !important;
+
+  font-size: 10px !important;
+
+  line-height: 1 !important;
+
+  font-weight: 600 !important;
+
+  letter-spacing: .13em !important;
+
+  text-transform: uppercase !important;
+
+  cursor: pointer !important;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease !important;
+
+}
+
+
+@media (hover: hover) {
+
+  #QuickStandardModal
+  .product-form__submit:hover,
+
+  #QuickStandardModal
+  .product-form__cart-submit:hover,
+
+  #QuickStandardModal
+  button[name="add"]:hover {
+
+    background: #ffffff !important;
+
+    color: #111111 !important;
+
+  }
+
+}
+
+
+/* =========================================================
+   HIDE UNNECESSARY PRODUCT INFORMATION
+   ========================================================= */
+
+#QuickStandardModal
+.product__description,
+
+#QuickStandardModal
+.product-information__description,
+
+#QuickStandardModal
+pickup-availability,
+
+#QuickStandardModal
+share-button,
+
+#QuickStandardModal
+.product-popup-modal,
+
+#QuickStandardModal
+.product__sku,
+
+#QuickStandardModal
+.product__inventory {
+
+  display: none !important;
+
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+#QuickAddStandard
+.quick-add-modal__close {
+
+  position: absolute !important;
+
+  top: 10px !important;
+
+  right: 10px !important;
+
+  z-index: 100 !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+
+  width: 34px !important;
+
+  height: 34px !important;
+
+  padding: 0 !important;
+
+  margin: 0 !important;
+
+  border:
+    1px solid
+    rgba(17, 17, 17, .08) !important;
+
+  border-radius: 50% !important;
+
+  background:
+    rgba(255, 255, 255, .95) !important;
+
+  color: #111111 !important;
+
+  box-shadow:
+    0 3px 12px
+    rgba(0, 0, 0, .10) !important;
+
+  cursor: pointer !important;
+
+}
+
+
+/* =========================================================
+   FLOATING SHOPPING BAG
+   BOTTOM RIGHT
+   ========================================================= */
+
+.product-grid__item {
+
+  position: relative !important;
+
+}
+
+
+.product-grid__item
+.universes-horizon-bag {
+
+  position: absolute !important;
+
+  top: auto !important;
+
+  right: 12px !important;
+
+  bottom: 12px !important;
+
+  left: auto !important;
+
+  z-index: 100 !important;
+
+  display: block !important;
+
+  width: 42px !important;
+
+  height: 42px !important;
+
+  margin: 0 !important;
+
+  padding: 0 !important;
+
+  opacity: 1 !important;
+
+  visibility: visible !important;
+
+  pointer-events: auto !important;
+
+}
+
+
+.product-grid__item
+.universes-horizon-bag__button {
+
+  box-sizing: border-box !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+
+  width: 42px !important;
+
+  min-width: 42px !important;
+
+  height: 42px !important;
+
+  min-height: 42px !important;
+
+  padding: 0 !important;
+
+  margin: 0 !important;
+
+  border:
+    1px solid
+    rgba(17, 17, 17, .08) !important;
+
+  border-radius: 50% !important;
+
+  background:
+    rgba(255, 255, 255, .97) !important;
+
+  color: #111111 !important;
+
+  box-shadow:
+    0 4px 15px
+    rgba(0, 0, 0, .14) !important;
+
+  cursor: pointer !important;
+
+  transition:
+    transform .2s ease,
+    background-color .2s ease,
+    color .2s ease,
+    box-shadow .2s ease !important;
+
+}
+
+
+.product-grid__item
+.universes-horizon-bag__button svg {
+
+  display: block !important;
+
+  width: 19px !important;
+
+  height: 19px !important;
+
+  margin: 0 !important;
+
+  color: currentColor !important;
+
+  stroke: currentColor !important;
+
+  fill: none !important;
+
+}
+
+
+@media (hover: hover) {
+
+  .product-grid__item
+  .universes-horizon-bag__button:hover {
+
+    background: #111111 !important;
+
+    color: #ffffff !important;
+
+    transform:
+      translateY(-2px) !important;
+
+    box-shadow:
+      0 7px 20px
+      rgba(0, 0, 0, .20) !important;
+
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE QUICK ADD
+   ========================================================= */
+
+@media screen and (max-width: 749px) {
+
+  #QuickAddStandard
+  .quick-add-modal__content--standard {
+
+    top: 50% !important;
+
+    left: 50% !important;
+
+    width:
+      calc(100vw - 24px) !important;
+
+    max-width:
+      calc(100vw - 24px) !important;
+
+    max-height:
+      72dvh !important;
+
+    transform:
+      translate(-50%, -50%) !important;
+
+    border-radius:
+      16px !important;
+
+  }
+
+
+  #QuickStandardModal {
+
+    max-height:
+      72dvh !important;
+
+  }
+
+
+  #QuickStandardModal
+  .universes-quick-add-grid {
+
+    grid-template-columns:
+      125px
+      minmax(0, 1fr) !important;
+
+  }
+
+
+  #QuickStandardModal
+  .universes-quick-add-media-column {
+
+    width: 125px !important;
+
+    min-width: 125px !important;
+
+  }
+
+
+  #QuickStandardModal
+  .universes-quick-add-media img {
+
+    max-height:
+      330px !important;
+
+  }
+
+
+  #QuickStandardModal
+  .universes-quick-add-details-inner {
+
+    max-height:
+      400px !important;
+
+    padding:
+      24px
+      18px
+      20px !important;
+
+  }
+
+
+  #QuickStandardModal
+  .product__title h1,
+
+  #QuickStandardModal
+  .product__title h2,
+
+  #QuickStandardModal
+  .product-information__title {
+
+    font-size: 15px !important;
+
+    line-height: 1.25 !important;
+
+  }
+
+
+  #QuickStandardModal
   .price-item {
-  font-weight: 600;
-}
+
+    font-size: 15px !important;
+
+  }
 
 
-/* ============================================================
-   VARIANT AREA
-   ============================================================ */
-
-.universes-quick-add-details-inner
-  .product-form__input {
-  margin-top: 24px;
-  margin-bottom: 0;
-}
-
-
-/*
- * Variant label
- */
-
-.universes-quick-add-details-inner
-  .form__label,
-.universes-quick-add-details-inner
-  .product-form__input__label,
-.universes-quick-add-details-inner
-  legend {
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
-
-  margin-bottom: 10px;
-
-  color: #111111;
-
-  font-size: 11px;
-  font-weight: 600;
-
-  letter-spacing: .10em;
-
-  line-height: 1.4;
-
-  text-transform: uppercase;
-}
-
-
-/* ============================================================
-   VARIANT BUTTONS
-   ============================================================ */
-
-.universes-quick-add-details-inner
+  #QuickStandardModal
   .product-form__input
   input[type="radio"]
   + label {
 
-  min-width: 48px;
+    min-width: 38px !important;
 
-  min-height: 42px;
+    min-height: 34px !important;
 
-  margin:
-    0
-    6px
-    6px
-    0;
+    padding:
+      7px 9px !important;
 
-  padding:
-    10px
-    14px;
-
-  border:
-    1px solid
-    rgba(17, 17, 17, .16);
-
-  border-radius: 3px;
-
-  background: #ffffff;
-
-  color: #111111;
-
-  font-size: 12px;
-
-  line-height: 1;
-
-  text-align: center;
-
-  transition:
-    background-color .18s ease,
-    color .18s ease,
-    border-color .18s ease,
-    box-shadow .18s ease;
-
-  cursor: pointer;
-}
-
-
-/*
- * Selected variant
- */
-
-.universes-quick-add-details-inner
-  .product-form__input
-  input[type="radio"]:checked
-  + label {
-
-  background: #111111;
-
-  border-color: #111111;
-
-  color: #ffffff;
-
-  box-shadow:
-    inset 0 0 0 1px #111111;
-}
-
-
-/*
- * Hover
- */
-
-@media (hover: hover) {
-
-  .universes-quick-add-details-inner
-    .product-form__input
-    input[type="radio"]
-    + label:hover {
-
-    border-color: #111111;
+    font-size: 10px !important;
 
   }
 
-}
 
-
-/*
- * Disabled variant
- */
-
-.universes-quick-add-details-inner
-  .product-form__input
-  input[type="radio"]:disabled
-  + label {
-
-  opacity: .35;
-
-  cursor: not-allowed;
-
-  text-decoration: line-through;
-}
-
-
-/* ============================================================
-   COLOR SWATCHES
-   ============================================================ */
-
-.universes-quick-add-details-inner
-  .swatch-input__label {
-
-  margin-right: 7px;
-  margin-bottom: 7px;
-
-  border-radius: 50%;
-}
-
-
-/* ============================================================
-   QUANTITY
-   ============================================================ */
-
-.universes-quick-add-details-inner
-  quantity-input {
-
-  display: flex;
-
-  width: 120px;
-
-  height: 44px;
-
-  margin-top: 12px;
-
-  border:
-    1px solid
-    rgba(17, 17, 17, .16);
-
-  border-radius: 3px;
-
-  background: #ffffff;
-}
-
-.universes-quick-add-details-inner
-  quantity-input
-  button {
-
-  width: 38px;
-
-  border: 0;
-
-  background: transparent;
-
-  color: #111111;
-
-  cursor: pointer;
-}
-
-.universes-quick-add-details-inner
-  quantity-input
-  input {
-
-  flex: 1;
-
-  width: 44px;
-
-  min-width: 0;
-
-  border: 0;
-
-  background: transparent;
-
-  color: #111111;
-
-  text-align: center;
-}
-
-
-/* ============================================================
-   ADD TO CART
-   ============================================================ */
-
-.universes-quick-add-details-inner
+  #QuickStandardModal
   .product-form__submit,
-.universes-quick-add-details-inner
+
+  #QuickStandardModal
   .product-form__cart-submit,
-.universes-quick-add-details-inner
+
+  #QuickStandardModal
   button[name="add"] {
 
-  width: 100%;
+    min-height: 43px !important;
 
-  min-height: 52px;
+    margin-top: 14px !important;
 
-  margin-top: 22px;
+    font-size: 9px !important;
 
-  border:
-    1px solid
-    #111111;
+  }
 
-  border-radius: 3px;
 
-  background: #111111;
+  .product-grid__item
+  .universes-horizon-bag {
 
-  color: #ffffff;
+    right: 8px !important;
 
-  font-size: 12px;
+    bottom: 8px !important;
 
-  font-weight: 600;
+    width: 38px !important;
 
-  letter-spacing: .12em;
+    height: 38px !important;
 
-  text-transform: uppercase;
+  }
 
-  transition:
-    background-color .2s ease,
-    color .2s ease,
-    transform .2s ease;
-}
 
-@media (hover: hover) {
+  .product-grid__item
+  .universes-horizon-bag__button {
 
-  .universes-quick-add-details-inner
-    .product-form__submit:hover,
-  .universes-quick-add-details-inner
-    .product-form__cart-submit:hover,
-  .universes-quick-add-details-inner
-    button[name="add"]:hover {
+    width: 38px !important;
 
-    background: #ffffff;
+    min-width: 38px !important;
 
-    color: #111111;
+    height: 38px !important;
+
+    min-height: 38px !important;
+
+  }
+
+
+  .product-grid__item
+  .universes-horizon-bag__button svg {
+
+    width: 17px !important;
+
+    height: 17px !important;
 
   }
 
 }
 
 
-/* ============================================================
-   MOBILE — BOTTOM SHEET
-   ============================================================ */
-
-@media screen and (max-width: 749px) {
-
-  .universes-quick-add-grid {
-
-    display: flex;
-
-    flex-direction: column;
-
-    width: 100%;
-
-    gap: 0 !important;
-
-  }
-
-
-  /*
-   * Mobile media
-   */
-
-  .universes-quick-add-media-column {
-
-    width: 100%;
-
-    max-height: 46dvh;
-
-    overflow: hidden;
-  }
-
-  .universes-quick-add-media {
-
-    width: 100%;
-
-    height: auto;
-
-    max-height: 46dvh;
-
-  }
-
-
-  /*
-   * Details
-   */
-
-  .universes-quick-add-details-column {
-
-    width: 100%;
-
-    background: #ffffff;
-
-  }
-
-  .universes-quick-add-details-inner {
-
-    height: auto;
-
-    max-height: 46dvh;
-
-    padding:
-      26px
-      22px
-      30px;
-
-    overflow-y: auto;
-
-  }
-
-
-  /*
-   * Product title
-   */
-
-  .universes-quick-add-details-inner
-    .product__title h1,
-  .universes-quick-add-details-inner
-    .product__title h2,
-  .universes-quick-add-details-inner
-    .product-information__title {
-
-    font-size: 20px;
-
-  }
-
-
-  /*
-   * Variants
-   */
-
-  .universes-quick-add-details-inner
-    .product-form__input {
-
-    margin-top: 20px;
-
-  }
-
-
-  /*
-   * Variant buttons
-   */
-
-  .universes-quick-add-details-inner
-    .product-form__input
-    input[type="radio"]
-    + label {
-
-    min-width: 44px;
-
-    min-height: 40px;
-
-    padding:
-      9px
-      12px;
-
-    font-size: 11px;
-
-  }
-
-
-  /*
-   * Add to cart
-   */
-
-  .universes-quick-add-details-inner
-    .product-form__submit,
-  .universes-quick-add-details-inner
-    .product-form__cart-submit,
-  .universes-quick-add-details-inner
-    button[name="add"] {
-
-    min-height: 50px;
-
-    margin-top: 18px;
-
-  }
-
-}
-
-
-/* ============================================================
-   TABLET
-   ============================================================ */
-
-@media screen and (min-width: 750px) and (max-width: 1024px) {
-
-  .universes-quick-add-grid {
-
-    grid-template-columns:
-      minmax(0, 1fr)
-      minmax(320px, .9fr);
-
-  }
-
-  .universes-quick-add-details-inner {
-
-    padding:
-      32px
-      28px;
-
-  }
-
-}
-
-
-/* ============================================================
-   ACCESSIBILITY
-   ============================================================ */
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
-  .universes-quick-add-details-inner
-    *,
-  .universes-quick-add-details-inner
-    *::before,
-  .universes-quick-add-details-inner
-    *::after {
+  #QuickStandardModal *,
+  #QuickStandardModal *::before,
+  #QuickStandardModal *::after {
 
-    transition-duration: .01ms !important;
+    transition-duration:
+      .01ms !important;
 
   }
 
