@@ -19,15 +19,98 @@
   assign link_underline = block.settings.link_underline
 -%}
 
+<style>
+  /*
+   * UNIVERSes RAW — native Quick Add positioning.
+   * The Quick Add wrapper is rendered inside the product-card media.
+   * Keep the media/card as the containing block so bottom/right are
+   * measured from the product image rather than the whole card.
+   */
+  .card__inner {
+    position: relative !important;
+  }
+
+  .card__inner > .universes-quick-add-overlay {
+    position: absolute !important;
+    top: auto !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    left: auto !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 30 !important;
+  }
+
+  .card__inner > .universes-quick-add-overlay > .quick-add {
+    width: auto !important;
+    margin: 0 !important;
+  }
+
+  .card__inner > .universes-quick-add-overlay .quick-add__submit {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transform: none !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    .card__inner > .universes-quick-add-overlay {
+      right: 8px !important;
+      bottom: 8px !important;
+    }
+
+    .card__inner > .universes-quick-add-overlay .quick-add__submit {
+      width: 40px !important;
+      height: 40px !important;
+      min-width: 40px !important;
+      min-height: 40px !important;
+    }
+  }
+</style>
+
 {%- if card_product and card_product != empty and block.settings.quick_add != 'none' -%}
   <div
-    class="card--block-button universes-quick-add-overlay relative z-2 w-full size-style"
+    class="card--block-button universes-quick-add-overlay"
     style="
+      position: absolute !important;
+      top: auto !important;
+      right: 12px !important;
+      bottom: 12px !important;
+      left: auto !important;
+      z-index: 30 !important;
+      width: auto !important;
+      height: auto !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block !important;
+      pointer-events: auto !important;
+
       {% if quick_add_type_icon %}
-      --pl: 0; --pr: 0;--md-pl: 1rem; --md-pr: 1rem;--lg-pl: 1.6rem; --lg-pr: 1.6rem;
+      --pl: 0;
+      --pr: 0;
+      --md-pl: 0;
+      --md-pr: 0;
+      --lg-pl: 0;
+      --lg-pr: 0;
       {% else %}
         --p: {{ padding_block }} {{ padding_inline }};
-        {% if  block.settings.style_class != 'link' %}
+        {% if block.settings.style_class != 'link' %}
           --corner-radius: {{ block.settings.corner_radius }}px;
           {% if block.settings.style_class == 'button' %}
             --style-border-radius-buttons-primary: {{ block.settings.corner_radius }}px;
@@ -36,6 +119,7 @@
           {% endif %}
         {% endif %}
       {% endif %}
+
       {% render 'size-style', settings: block.settings %}
       {% render 'typography-style', settings: block.settings, preset: 'custom' %}
     "
