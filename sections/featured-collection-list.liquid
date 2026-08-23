@@ -1859,11 +1859,82 @@
       height: 17px !important;
     }
 
+    .premium-collection-section .tabs-product-header-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      overflow: visible !important;
+    }
+
     .premium-collection-section .premium-tabs-header {
+      position: relative !important;
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
       overflow-x: auto !important;
+      overflow-y: hidden !important;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
-      padding-inline: 2px !important;
+      scroll-behavior: smooth;
+      scroll-snap-type: x proximity;
+      touch-action: pan-x;
+      overscroll-behavior-x: contain;
+      padding-inline: 2px 34px !important;
+      cursor: grab;
+    }
+
+    .premium-collection-section .premium-tabs-header:active {
+      cursor: grabbing;
+    }
+
+    .premium-collection-section .premium-tabs-header::-webkit-scrollbar {
+      display: none;
+    }
+
+    .premium-collection-section .premium-tabs-header.ur-tab-dragging {
+      cursor: grabbing !important;
+      scroll-behavior: auto !important;
+      scroll-snap-type: none !important;
+      user-select: none !important;
+    }
+
+    .premium-collection-section .premium-tabs-header .tabs-product-header__item {
+      flex: 0 0 auto !important;
+      scroll-snap-align: center;
+    }
+
+    /* Subtle right-edge cue: tells customers more tabs are available. */
+    .premium-collection-section .tabs-product-header-wrapper::after {
+      content: "›";
+      position: absolute;
+      z-index: 5;
+      top: 50%;
+      right: 0;
+      width: 38px;
+      height: 46px;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      color: rgba(17,17,17,.72);
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1;
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.96) 38%);
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    .premium-collection-section .tabs-product-header-wrapper.ur-tabs-can-slide::after {
+      opacity: 1;
+    }
+
+    .premium-collection-section .tabs-product-header-wrapper.ur-tabs-at-end::after {
+      opacity: 0;
     }
 
     .premium-collection-section .premium-tabs-header::-webkit-scrollbar {
@@ -1891,6 +1962,38 @@
   }
 
   @media (min-width: 750px) {
+    .premium-collection-section .tabs-product-header-wrapper {
+      position: relative;
+      width: 100%;
+      min-width: 0;
+      overflow: visible;
+    }
+
+    .premium-collection-section .premium-tabs-header {
+      display: flex;
+      flex-wrap: nowrap;
+      min-width: 0;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      scroll-snap-type: x proximity;
+      padding-inline: 2px 34px;
+      touch-action: pan-x;
+      overscroll-behavior-x: contain;
+    }
+
+    .premium-collection-section .premium-tabs-header::-webkit-scrollbar {
+      display: none;
+    }
+
+    .premium-collection-section .premium-tabs-header .tabs-product-header__item {
+      flex: 0 0 auto;
+      scroll-snap-align: center;
+    }
+
     .premium-collection-section .tabs-product-grid {
       padding-top: 22px;
     }
@@ -1931,11 +2034,66 @@
 
     function getTabItems(section) {
       if (!section) return [];
+
       return Array.from(
         section.querySelectorAll(
           '.premium-tabs-header .tabs-product-header__item'
         )
       );
+    }
+
+    function getTabScroller(section) {
+      if (!section) return null;
+
+      return section.querySelector(
+        '.premium-tabs-header'
+      );
+    }
+
+    function updateSlideCue(section) {
+      var scroller = getTabScroller(section);
+      var wrapper = scroller ? scroller.closest('.tabs-product-header-wrapper') : null;
+
+      if (!scroller || !wrapper) return;
+
+      var maxScroll = Math.max(
+        0,
+        scroller.scrollWidth - scroller.clientWidth
+      );
+
+      var currentScroll = Math.max(0, scroller.scrollLeft);
+      var canSlide = maxScroll > 4;
+      var atEnd = !canSlide || currentScroll >= maxScroll - 4;
+
+      wrapper.classList.toggle('ur-tabs-can-slide', canSlide);
+      wrapper.classList.toggle('ur-tabs-at-end', atEnd);
+
+      scroller.setAttribute(
+        'data-ur-tabs-scrollable',
+        canSlide ? 'true' : 'false'
+      );
+    }
+
+    function centerTabIfNeeded(scroller, item) {
+      if (!scroller || !item) return;
+
+      var scrollerRect = scroller.getBoundingClientRect();
+      var itemRect = item.getBoundingClientRect();
+
+      var leftOverflow = itemRect.left - scrollerRect.left;
+      var rightOverflow = itemRect.right - scrollerRect.right;
+
+      if (leftOverflow < 0) {
+        scroller.scrollBy({
+          left: leftOverflow - 12,
+          behavior: 'smooth'
+        });
+      } else if (rightOverflow > 0) {
+        scroller.scrollBy({
+          left: rightOverflow + 12,
+          behavior: 'smooth'
+        });
+      }
     }
 
     function setCurrentTab(section, item) {
@@ -1954,16 +2112,13 @@
       item.setAttribute('aria-current', 'true');
       item.setAttribute('data-ur-current-tab', 'true');
 
-      /* Keep the active tab visible on mobile without jumping the page. */
-      if (window.matchMedia('(max-width: 749px)').matches) {
-        try {
-          item.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
-            inline: 'center'
-          });
-        } catch (e) {}
+      var scroller = getTabScroller(section);
+
+      if (scroller) {
+        centerTabIfNeeded(scroller, item);
       }
+
+      updateSlideCue(section);
     }
 
     function syncCurrentTab(section) {
@@ -1980,19 +2135,145 @@
             item.getAttribute('aria-selected') === 'true' ||
             item.getAttribute('aria-current') === 'true'
           );
-        }) || items.find(function (item) {
+        }) ||
+        items.find(function (item) {
           return item.classList.contains('ur-tab-current');
-        });
-
-      if (!active) {
-        active = items[0];
-      }
+        }) ||
+        items[0];
 
       setCurrentTab(section, active);
+      updateSlideCue(section);
+    }
+
+    function initTabScrolling(section) {
+      if (!section) return;
+
+      var scroller = getTabScroller(section);
+      if (!scroller) return;
+
+      if (scroller.dataset.urTabScrollReady !== 'true') {
+        scroller.dataset.urTabScrollReady = 'true';
+
+        /* Keep native touch scrolling, but make mouse-wheel scrolling feel natural. */
+        scroller.addEventListener(
+          'wheel',
+          function (event) {
+            if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+
+            var maxScroll = scroller.scrollWidth - scroller.clientWidth;
+            if (maxScroll <= 2) return;
+
+            var canMoveLeft = scroller.scrollLeft > 0;
+            var canMoveRight =
+              scroller.scrollLeft < maxScroll - 1;
+
+            if (
+              (event.deltaY < 0 && !canMoveLeft) ||
+              (event.deltaY > 0 && !canMoveRight)
+            ) {
+              return;
+            }
+
+            event.preventDefault();
+
+            scroller.scrollBy({
+              left: event.deltaY,
+              behavior: 'smooth'
+            });
+          },
+          { passive: false }
+        );
+
+        /* Desktop click-drag scrolling. */
+        var dragging = false;
+        var moved = false;
+        var startX = 0;
+        var startScrollLeft = 0;
+
+        scroller.addEventListener('pointerdown', function (event) {
+          if (event.pointerType === 'touch') return;
+          if (event.button !== 0) return;
+
+          dragging = true;
+          moved = false;
+          startX = event.clientX;
+          startScrollLeft = scroller.scrollLeft;
+        });
+
+        scroller.addEventListener('pointermove', function (event) {
+          if (!dragging) return;
+
+          var distance = event.clientX - startX;
+
+          if (Math.abs(distance) > 5) {
+            moved = true;
+            scroller.classList.add('ur-tab-dragging');
+            scroller.scrollLeft = startScrollLeft - distance;
+            updateSlideCue(section);
+          }
+        });
+
+        function stopDrag() {
+          dragging = false;
+          scroller.classList.remove('ur-tab-dragging');
+        }
+
+        scroller.addEventListener('pointerup', stopDrag);
+        scroller.addEventListener('pointercancel', stopDrag);
+        scroller.addEventListener('pointerleave', function () {
+          if (dragging) stopDrag();
+        });
+
+        /* Prevent accidental tab activation after a drag. */
+        scroller.addEventListener(
+          'click',
+          function (event) {
+            if (!moved) return;
+
+            event.preventDefault();
+            event.stopPropagation();
+            moved = false;
+          },
+          true
+        );
+
+        scroller.addEventListener(
+          'scroll',
+          function () {
+            updateSlideCue(section);
+          },
+          { passive: true }
+        );
+
+        if ('ResizeObserver' in window) {
+          var resizeObserver = new ResizeObserver(function () {
+            updateSlideCue(section);
+          });
+
+          resizeObserver.observe(scroller);
+        } else {
+          window.addEventListener('resize', function () {
+            updateSlideCue(section);
+          });
+        }
+
+        window.addEventListener('resize', function () {
+          updateSlideCue(section);
+        });
+      }
+
+      updateSlideCue(section);
     }
 
     function initTabHighlight(section) {
-      if (!section || section.dataset.urTabsHighlightReady === 'true') return;
+      if (!section) return;
+
+      initTabScrolling(section);
+
+      if (section.dataset.urTabsHighlightReady === 'true') {
+        syncCurrentTab(section);
+        return;
+      }
 
       section.dataset.urTabsHighlightReady = 'true';
 
@@ -2009,7 +2290,7 @@
 
           /*
            * Let the theme's own tab handler switch the product panel first.
-           * We only update the visual "you are here" state.
+           * We only update the visual selected state and scrolling.
            */
           requestAnimationFrame(function () {
             setCurrentTab(section, item);
@@ -2022,7 +2303,7 @@
         true
       );
 
-      /* Theme tabs may change their active class after our click. */
+      /* Theme tabs may change their active state after the click. */
       var observer = new MutationObserver(function () {
         requestAnimationFrame(function () {
           syncCurrentTab(section);
@@ -2032,7 +2313,11 @@
       observer.observe(section, {
         subtree: true,
         attributes: true,
-        attributeFilter: ['class', 'aria-selected', 'aria-current']
+        attributeFilter: [
+          'class',
+          'aria-selected',
+          'aria-current'
+        ]
       });
     }
 
@@ -2064,7 +2349,11 @@
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', boot, { once: true });
+      document.addEventListener(
+        'DOMContentLoaded',
+        boot,
+        { once: true }
+      );
     } else {
       boot();
     }
