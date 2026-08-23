@@ -176,71 +176,50 @@
           </div>
         </div>
 
-        {% comment %}--- Premium Quick Add overlay (slides up from image bottom on hover) ---{% endcomment %}
+        {% comment %}
+          =========================================================
+          UNIVERSes RAW — HORIZON STYLE QUICK ADD
+          Floating shopping bag trigger
+          =========================================================
+        {% endcomment %}
+
         {%- assign product_form_id_epc = 'quick-add-' | append: section_id | append: card_product.id -%}
+
         {% if quick_add == 'standard' and horizontal_class == false or quick_add == 'standard' and horizontal_class == nil %}
           <div class="epc-quick-add">
-            {%- liquid
-              assign epc_qty_rules = false
-              if card_product.selected_or_first_available_variant.quantity_rule.min > 1 or card_product.selected_or_first_available_variant.quantity_rule.max != null or card_product.selected_or_first_available_variant.quantity_rule.increment > 1
-                assign epc_qty_rules = true
-              endif
-            -%}
-            {%- if card_product.variants.size > 1 or epc_qty_rules -%}
-              <modal-opener data-modal="#QuickAddStandard">
-                <button
-                  id="{{ product_form_id_epc }}-submit"
-                  type="submit"
-                  name="add"
-                  class="epc-quick-add__btn button button--full-width"
-                  aria-haspopup="dialog"
-                  aria-labelledby="{{ product_form_id_epc }}-submit title-{{ section_id }}-{{ card_product.id }}"
-                  data-product-url="{{ card_product.url }}"
+            <modal-opener data-modal="#QuickAddStandard">
+              <button
+                id="{{ product_form_id_epc }}-submit"
+                type="button"
+                class="epc-quick-add__btn"
+                aria-haspopup="dialog"
+                aria-label="{{ 'products.product.choose_product_options' | t: product_name: card_product.title | escape }}"
+                data-product-url="{{ card_product.url }}"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  <span>Quick Add</span>
-                  {%- render 'loading-spinner' -%}
-                </button>
-              </modal-opener>
-            {%- else -%}
-              <product-form-component data-section-id="{{ section_id }}">
-                {%- form 'product',
-                  card_product,
-                  id: product_form_id_epc,
-                  class: 'form',
-                  novalidate: 'novalidate',
-                  data-type: 'add-to-cart-form'
-                -%}
-                  <input
-                    type="hidden"
-                    name="id"
-                    value="{{ card_product.selected_or_first_available_variant.id }}"
-                    class="product-variant-id"
-                    {% if card_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
-                  >
-                  <button
-                    id="{{ product_form_id_epc }}-submit"
-                    type="submit"
-                    name="add"
-                    class="epc-quick-add__btn button button--full-width"
-                    aria-live="polite"
-                    data-sold-out-message="true"
-                    {% if card_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                    <span>
-                      {%- if card_product.selected_or_first_available_variant.available -%}
-                        Quick Add
-                      {%- else -%}
-                        {{ 'products.product.sold_out' | t }}
-                      {%- endif -%}
-                    </span>
-                    <span class="sold-out-message hidden">{{ 'products.product.sold_out' | t }}</span>
-                    {%- render 'loading-spinner' -%}
-                  </button>
-                {%- endform -%}
-              </product-form-component>
-            {%- endif -%}
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                  <line x1="3" y1="6" x2="21" y2="6"/>
+                  <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+
+                <span class="visually-hidden">
+                  Quick Add
+                </span>
+
+                {%- render 'loading-spinner' -%}
+              </button>
+            </modal-opener>
           </div>
         {% endif %}
 
@@ -251,6 +230,7 @@
             assign countdown_time = settings.countdown_time
             assign countdown_collection = settings.countdown_collection | downcase | handle
           -%}
+
           <div class="card__countdown absolute-c-x z-2" style="--bottom: 4rem;">
             {% render 'product-countdown',
               type: 'card',
@@ -267,6 +247,7 @@
           {% render 'product-card-marquee', product: card_product %}
         {%- endif -%}
       </div>
+
       {% comment %}=== END IMAGE CONTAINER ==={% endcomment %}
 
       {% comment %}=== CARD CONTENT (below image) ==={% endcomment %}
@@ -274,14 +255,17 @@
 
         {% comment %}--- Horizontal / list-view quick add (preserves original horizontal card UX) ---{% endcomment %}
         {% assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id %}
+
         {% if quick_add == 'standard' and horizontal_class %}
           <div class="quick-add">
             {%- liquid
               assign qty_rules = false
+
               if card_product.selected_or_first_available_variant.quantity_rule.min > 1 or card_product.selected_or_first_available_variant.quantity_rule.max != null or card_product.selected_or_first_available_variant.quantity_rule.increment > 1
                 assign qty_rules = true
               endif
             -%}
+
             {%- if card_product.variants.size > 1 or qty_rules -%}
               <modal-opener data-modal="#QuickAddStandard">
                 <button
@@ -294,9 +278,11 @@
                   data-product-url="{{ card_product.url }}"
                 >
                   Quick add
+
                   <span class="icon-wrap">
                     {{- 'icon-arrow.svg' | inline_asset_content -}}
                   </span>
+
                   {%- render 'loading-spinner' -%}
                 </button>
               </modal-opener>
@@ -309,6 +295,7 @@
                   novalidate: 'novalidate',
                   data-type: 'add-to-cart-form'
                 -%}
+
                   <input
                     type="hidden"
                     name="id"
@@ -316,6 +303,7 @@
                     class="product-variant-id"
                     {% if card_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
                   >
+
                   <button
                     id="{{ product_form_id }}-submit"
                     type="submit"
@@ -334,8 +322,15 @@
                         {{ 'products.product.sold_out' | t }}
                       {%- endif -%}
                     </span>
-                    <span class="sold-out-message hidden">{{ 'products.product.sold_out' | t }}</span>
-                    <span class="icon-wrap">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+
+                    <span class="sold-out-message hidden">
+                      {{ 'products.product.sold_out' | t }}
+                    </span>
+
+                    <span class="icon-wrap">
+                      {{- 'icon-plus.svg' | inline_asset_content -}}
+                    </span>
+
                     {%- render 'loading-spinner' -%}
                   </button>
                 {%- endform -%}
@@ -386,6 +381,7 @@
                   {% render 'quantity-input', variant: card_product.selected_or_first_available_variant, min: 0 %}
                 {% endif %}
               </quick-add-bulk>
+
               <noscript>
                 <product-form-component data-section-id="{{ section_id }}">
                   {%- form 'product',
@@ -395,6 +391,7 @@
                     novalidate: 'novalidate',
                     data-type: 'add-to-cart-form'
                   -%}
+
                     <input
                       type="hidden"
                       name="id"
@@ -402,6 +399,7 @@
                       class="product-variant-id"
                       {% if card_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
                     >
+
                     <button
                       id="{{ product_form_id }}-submit"
                       type="submit"
@@ -420,10 +418,17 @@
                           {{ 'products.product.sold_out' | t }}
                         {%- endif -%}
                       </span>
-                      <span class="sold-out-message hidden">{{ 'products.product.sold_out' | t }}</span>
+
+                      <span class="sold-out-message hidden">
+                        {{ 'products.product.sold_out' | t }}
+                      </span>
+
                       {%- if horizontal_quick_add -%}
-                        <span class="icon-wrap">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+                        <span class="icon-wrap">
+                          {{- 'icon-plus.svg' | inline_asset_content -}}
+                        </span>
                       {%- endif -%}
+
                       {%- render 'loading-spinner' -%}
                     </button>
                   {%- endform -%}
@@ -435,23 +440,36 @@
 
         {% comment %}--- Product information (vendor, title, price, rating) ---{% endcomment %}
         <div class="card__information">
+
           {%- if show_vendor -%}
-            <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-            <div class="caption-with-letter-spacing light">{{ card_product.vendor }}</div>
+            <span class="visually-hidden">
+              {{ 'accessibility.vendor' | t }}
+            </span>
+
+            <div class="caption-with-letter-spacing light">
+              {{ card_product.vendor }}
+            </div>
           {%- endif -%}
+
           {%- render 'card-product-heading', card_product: card_product -%}
+
           <div class="card-information">
-            <span class="caption-large light">{{ block.settings.description | escape }}</span>
+            <span class="caption-large light">
+              {{ block.settings.description | escape }}
+            </span>
+
             {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
               {% liquid
                 assign rating_decimal = 0
                 assign decimal = card_product.metafields.reviews.rating.value.rating | modulo: 1
+
                 if decimal >= 0.3 and decimal <= 0.7
                   assign rating_decimal = 0.5
                 elsif decimal > 0.7
                   assign rating_decimal = 1
                 endif
               %}
+
               <div
                 class="rating"
                 role="img"
@@ -463,42 +481,67 @@
                   style="--rating: {{ card_product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ card_product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"
                 ></span>
               </div>
+
               <p class="rating-text caption">
                 <span aria-hidden="true">
                   {{- card_product.metafields.reviews.rating.value }} /
                   {{ card_product.metafields.reviews.rating.value.scale_max -}}
                 </span>
               </p>
+
               <p class="rating-count caption">
-                <span aria-hidden="true">({{ card_product.metafields.reviews.rating_count }})</span>
+                <span aria-hidden="true">
+                  ({{ card_product.metafields.reviews.rating_count }})
+                </span>
+
                 <span class="visually-hidden">
                   {{- card_product.metafields.reviews.rating_count }}
                   {{ 'accessibility.total_reviews' | t -}}
                 </span>
               </p>
             {%- endif -%}
+
             {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+
             {%- if card_product.quantity_price_breaks_configured? -%}
+
               {% if card_product.variants.size == 1 and quick_add == 'bulk' %}
                 {% liquid
                   assign quantity_rule = card_product.selected_or_first_available_variant.quantity_rule
                   assign has_qty_rules = false
+
                   if quantity_rule.increment > 1 or quantity_rule.min > 1 or quantity_rule.max != null
                     assign has_qty_rules = true
                   endif
                 %}
+
                 <quantity-popover>
-                  <button class="card__information-volume-pricing-note card__information-volume-pricing-note--button quantity-popover__info-button--icon-only button button button--tertiary medium-hide small-hide">
-                    <span class="caption">{{ 'products.product.volume_pricing.note' | t }}</span>
+                  <button
+                    class="card__information-volume-pricing-note card__information-volume-pricing-note--button quantity-popover__info-button--icon-only button button button--tertiary medium-hide small-hide"
+                  >
+                    <span class="caption">
+                      {{ 'products.product.volume_pricing.note' | t }}
+                    </span>
                   </button>
-                  <button class="card__information-volume-pricing-note card__information-volume-pricing-note--button quantity-popover__info-button--icon-with-label button button--tertiary large-up-hide">
-                    <span class="caption">{{ 'products.product.volume_pricing.note' | t }}</span>
+
+                  <button
+                    class="card__information-volume-pricing-note card__information-volume-pricing-note--button quantity-popover__info-button--icon-with-label button button--tertiary large-up-hide"
+                  >
+                    <span class="caption">
+                      {{ 'products.product.volume_pricing.note' | t }}
+                    </span>
                   </button>
+
               {% else %}
+
                 <div class="card__information-volume-pricing-note">
-                  <span class="caption">{{ 'products.product.volume_pricing.note' | t }}</span>
+                  <span class="caption">
+                    {{ 'products.product.volume_pricing.note' | t }}
+                  </span>
                 </div>
+
               {% endif %}
+
               {% if card_product.variants.size == 1 and quick_add == 'bulk' %}
                 <div
                   class="global-settings-popup quantity-popover__info"
@@ -506,19 +549,31 @@
                   hidden
                   id="quantity-popover-info-{{ card_product.selected_or_first_available_variant.id }}"
                 >
+
                   {%- if has_qty_rules -%}
                     <div class="quantity__rules caption no-js-hidden">
+
                       {%- if quantity_rule.increment > 1 -%}
-                        <span class="divider">{{- 'products.product.quantity.multiples_of' | t: quantity: quantity_rule.increment -}}</span>
+                        <span class="divider">
+                          {{- 'products.product.quantity.multiples_of' | t: quantity: quantity_rule.increment -}}
+                        </span>
                       {%- endif -%}
+
                       {%- if quantity_rule.min > 1 -%}
-                        <span class="divider">{{- 'products.product.quantity.min_of' | t: quantity: quantity_rule.min -}}</span>
+                        <span class="divider">
+                          {{- 'products.product.quantity.min_of' | t: quantity: quantity_rule.min -}}
+                        </span>
                       {%- endif -%}
+
                       {%- if quantity_rule.max != null -%}
-                        <span class="divider">{{- 'products.product.quantity.max_of' | t: quantity: quantity_rule.max -}}</span>
+                        <span class="divider">
+                          {{- 'products.product.quantity.max_of' | t: quantity: quantity_rule.max -}}
+                        </span>
                       {%- endif -%}
+
                     </div>
                   {%- endif -%}
+
                   <button
                     class="button-close button button--tertiary large-up-hide"
                     type="button"
@@ -526,34 +581,58 @@
                   >
                     {{- 'icon-close.svg' | inline_asset_content -}}
                   </button>
+
                   {%- if card_product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
                     <volume-pricing class="parent-display">
                       <ul class="list-unstyled">
+
                         <li>
-                          <span>{{ card_product.selected_or_first_available_variant.quantity_rule.min }}+</span>
+                          <span>
+                            {{ card_product.selected_or_first_available_variant.quantity_rule.min }}+
+                          </span>
+
                           {%- assign price = card_product.selected_or_first_available_variant.price | money_with_currency -%}
-                          <span>{{ 'content.each' | t: money: price }}</span>
+
+                          <span>
+                            {{ 'content.each' | t: money: price }}
+                          </span>
                         </li>
+
                         {%- for price_break in card_product.selected_or_first_available_variant.quantity_price_breaks -%}
                           <li>
-                            <span>{{- price_break.minimum_quantity -}}<span aria-hidden="true">+</span></span>
+                            <span>
+                              {{- price_break.minimum_quantity -}}
+                              <span aria-hidden="true">+</span>
+                            </span>
+
                             {%- assign price = price_break.price | money_with_currency -%}
-                            <span> {{ 'content.each' | t: money: price }}</span>
+
+                            <span>
+                              {{ 'content.each' | t: money: price }}
+                            </span>
                           </li>
                         {%- endfor -%}
+
                       </ul>
                     </volume-pricing>
                   {%- endif -%}
+
                 </div>
+
                 </quantity-popover>
               {% endif %}
+
             {%- endif -%}
+
           </div>
         </div>
 
         {% comment %}--- Badge for card-style cards (existing behavior) ---{% endcomment %}
         {%- if settings.card_style == 'card' -%}
-          <div class="card__badge absolute {{ settings.badge_position }}" style="{%- render 'badge-position-style' -%}">
+          <div
+            class="card__badge absolute {{ settings.badge_position }}"
+            style="{%- render 'badge-position-style' -%}"
+          >
             {%- render 'product-badge'
               card_product: card_product,
               new_badge: new_badge,
@@ -562,75 +641,119 @@
             -%}
           </div>
         {%- endif -%}
+
       </div>
+
       {% comment %}=== END CARD CONTENT ==={% endcomment %}
 
       {% comment %}--- Color swatches and size preview ---{% endcomment %}
       {% if is_color or has_size %}
         <div class="card__bottom">
+
           {%- if is_color -%}
-            {%- render 'product-swatch', product: card_product, variant_selected: variant_selected, index: index -%}
+            {%- render 'product-swatch',
+              product: card_product,
+              variant_selected: variant_selected,
+              index: index
+            -%}
           {%- endif -%}
+
           {%- for option in card_product.options_with_values -%}
             {%- assign option_name = option.name | downcase | strip -%}
+
             {%- if option_name contains 'size' -%}
               <div class="card-size-preview">
+
                 {%- for value in option.values limit: 5 -%}
-                  <span>{{ value }}</span>{% unless forloop.last %}<span aria-hidden="true">·</span>{% endunless %}
+                  <span>{{ value }}</span>
+
+                  {% unless forloop.last %}
+                    <span aria-hidden="true">·</span>
+                  {% endunless %}
                 {%- endfor -%}
+
               </div>
+
               {%- break -%}
             {%- endif -%}
           {%- endfor -%}
+
         </div>
       {% endif %}
+
     </div>
   </div>
 
 {%- else -%}
+
   {% comment %}--- Empty / placeholder card ---{% endcomment %}
+
   {%- liquid
     assign ratio = 1
+
     if media_aspect_ratio == 'portrait'
       assign ratio = 0.8
     endif
   -%}
+
   <div class="card-wrapper product-card-wrapper">
     <div
       class="card card--{{ settings.card_style }}{% if extend_height %} card--extend-height{% endif %}{% if image_shape and image_shape != 'default' %} card--shape{% endif %}{% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }}{% endif %}"
       style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
     >
+
       <div
         class="card__inner{% if settings.card_style == 'standard' %} color-{{ settings.card_color_scheme }}{% endif %} ratio"
       >
+
         <div
           class="card__media {% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }}{% endif %}"
         >
           <div class="media media--transparent">
+
             {%- if placeholder_image -%}
               {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
             {%- else -%}
               {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
             {% endif %}
+
           </div>
         </div>
+
       </div>
+
       <div class="card__content">
         <div class="card__information">
+
           <h3 class="card__heading card__heading--placeholder{% if settings.card_style == 'standard' %} h5{% endif %}">
-            <a role="link" aria-disabled="true" class="full-unstyled-link">
+            <a
+              role="link"
+              aria-disabled="true"
+              class="full-unstyled-link"
+            >
               {{ 'content.product_title' | t }}
             </a>
           </h3>
+
           <div class="card-information">
+
             {%- if show_vendor -%}
-              <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-              <div class="caption-with-letter-spacing light">{{ 'products.product.vendor' | t }}</div>
+              <span class="visually-hidden">
+                {{ 'accessibility.vendor' | t }}
+              </span>
+
+              <div class="caption-with-letter-spacing light">
+                {{ 'products.product.vendor' | t }}
+              </div>
             {%- endif -%}
+
             {% render 'price', show_compare_at_price: true %}
+
           </div>
         </div>
       </div>
+
     </div>
   </div>
+
 {%- endif -%}
