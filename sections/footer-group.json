@@ -783,7 +783,7 @@
                   "type": "menu",
                   "name": "t:names.menu",
                   "settings": {
-                    "menu": "",
+                    "menu": "information",
                     "heading": "Information",
                     "margin-block-end": 10,
                     "content_direction": "column",
@@ -833,7 +833,7 @@
                   "type": "menu",
                   "name": "t:names.menu",
                   "settings": {
-                    "menu": "",
+                    "menu": "customer-service",
                     "heading": "Customer Service",
                     "margin-block-end": 10,
                     "content_direction": "column",
