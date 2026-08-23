@@ -2741,3 +2741,187 @@
     line-height: 20px !important;
   }
 }
+
+
+/* =========================================================
+   UNIVERSes RAW — HORIZON STYLE QUICK ADD
+   Final override for the floating shopping-bag button.
+   Works with the existing #QuickAddStandard modal.
+   ========================================================= */
+
+/* Keep the quick-add trigger inside the product image area. */
+.product-card-wrapper:not(.product-card-list) .epc-quick-add {
+  position: absolute !important;
+  right: 12px !important;
+  bottom: 12px !important;
+  left: auto !important;
+  z-index: 30 !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+/* Small floating shopping bag. */
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border: 1px solid rgba(17, 17, 17, 0.08) !important;
+  border-radius: 50% !important;
+
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: #111111 !important;
+
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.14) !important;
+
+  cursor: pointer !important;
+  overflow: hidden !important;
+
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+
+  transition:
+    transform 220ms cubic-bezier(.22,.61,.36,1),
+    background-color 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease !important;
+}
+
+/* Bag icon. */
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn svg {
+  display: block !important;
+  width: 19px !important;
+  height: 19px !important;
+  min-width: 19px !important;
+  min-height: 19px !important;
+  margin: 0 !important;
+  color: currentColor !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  opacity: 1 !important;
+  transition: transform 220ms ease !important;
+}
+
+/* Remove Ella's button pseudo-elements. */
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn::before,
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Desktop hover. */
+@media (hover: hover) and (min-width: 750px) {
+  .product-card-wrapper:not(.product-card-list) .epc-quick-add {
+    opacity: 0 !important;
+    transform: translateY(6px) scale(.96) !important;
+    transition:
+      opacity 220ms ease,
+      transform 220ms cubic-bezier(.22,.61,.36,1) !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list):hover .epc-quick-add {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn:hover {
+    background: #111111 !important;
+    border-color: #111111 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow:
+      0 8px 22px rgba(0, 0, 0, 0.20) !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn:hover svg {
+    transform: scale(1.08) !important;
+  }
+}
+
+/* Touch/mobile: always show the bag. */
+@media (hover: none), (max-width: 749px) {
+  .product-card-wrapper:not(.product-card-list) .epc-quick-add {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    right: 9px !important;
+    bottom: 9px !important;
+    z-index: 30 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn {
+    display: flex !important;
+    visibility: visible !important;
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+}
+
+/* Loading state. */
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn.loading {
+  pointer-events: none !important;
+}
+
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn.loading > svg {
+  opacity: 0 !important;
+}
+
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn .loading__spinner {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn .loading__spinner .path {
+  stroke: currentColor !important;
+}
+
+/* Accessibility focus state. */
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn:focus-visible {
+  outline: 2px solid #111111 !important;
+  outline-offset: 3px !important;
+}
+
+/* Sold-out / disabled state. */
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn[disabled],
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn[aria-disabled="true"] {
+  opacity: .55 !important;
+  cursor: default !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Keep the bag above badges and wishlist controls. */
+.product-card-wrapper:not(.product-card-list) .epc-quick-add {
+  pointer-events: auto !important;
+}
+
+.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn {
+  pointer-events: auto !important;
+}
