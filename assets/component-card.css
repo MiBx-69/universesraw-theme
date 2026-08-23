@@ -4277,3 +4277,195 @@
     transform: none !important;
   }
 }
+
+/* =========================================================
+   UNIVERSes RAW — FINAL DESKTOP PRODUCT CARD WIDTH FIX
+   ---------------------------------------------------------
+   Fixes the desktop product card showing the image at roughly
+   50% width with an empty/grey area beside it.
+
+   Cause:
+   The theme's base .card:not(.ratio) uses display:flex while
+   .card__inner is width:100%, allowing the image and content
+   columns to compete for horizontal space.
+
+   This override forces normal product cards into a vertical
+   image -> information layout, matching the mobile behaviour.
+
+   Quick Add remains positioned over the product image.
+   Product-card-list is intentionally excluded.
+   ========================================================= */
+
+@media screen and (min-width: 750px) {
+
+  /* ---------------------------------------------------------
+     PRODUCT CARD — FULL WIDTH / VERTICAL FLOW
+     --------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) > .card {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    flex: none !important;
+  }
+
+  /* ---------------------------------------------------------
+     PRODUCT IMAGE — FULL CARD WIDTH
+     --------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) .card__inner,
+  .product-card-wrapper:not(.product-card-list) .card--block-media {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: none !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__media {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__media .media,
+  .product-card-wrapper:not(.product-card-list) .card__media img,
+  .product-card-wrapper:not(.product-card-list) .card--block-media .media,
+  .product-card-wrapper:not(.product-card-list) .card--block-media img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* ---------------------------------------------------------
+     CARD CONTENT — BELOW IMAGE
+     --------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) > .card > .card__content,
+  .product-card-wrapper:not(.product-card-list) .card__content {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: none !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list) .card__information,
+  .product-card-wrapper:not(.product-card-list) .card-product-information {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* ---------------------------------------------------------
+     QUICK ADD — KEEP ON IMAGE BOTTOM-RIGHT
+     --------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list) .card-product__group-wrapper {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    pointer-events: none !important;
+    z-index: 50 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list)
+  .card-product__group-wrapper .card-product__group {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 10px !important;
+    pointer-events: none !important;
+    z-index: 51 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list)
+  .card-product__group-wrapper .card-product__group .card-product__group-item,
+  .product-card-wrapper:not(.product-card-list)
+  .card-product__group-wrapper .card-product__group .card-product__group-btn {
+    pointer-events: auto !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list)
+  .card-product__group-wrapper .card--block-button {
+    position: absolute !important;
+    top: auto !important;
+    right: 10px !important;
+    bottom: 10px !important;
+    left: auto !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    z-index: 52 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list)
+  .card-product__group-wrapper
+  .card--block-button
+  .quick-add__submit.card-product__group-btn {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    max-width: 40px !important;
+    max-height: 40px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .product-card-wrapper:not(.product-card-list)
+  .card-product__group-wrapper
+  .card--block-button
+  .quick-add__submit.card-product__group-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+  }
+
+  /* ---------------------------------------------------------
+     WISHLIST — TOP-RIGHT
+     --------------------------------------------------------- */
+  .product-card-wrapper:not(.product-card-list)
+  .card-product__group-wrapper
+  .card-product__group-btn.wishlist-button,
+  .product-card-wrapper:not(.product-card-list)
+  .card-product__group-wrapper
+  .card-wishlist,
+  .product-card-wrapper:not(.product-card-list)
+  .card-product__group-wrapper
+  .wishlist-button {
+    pointer-events: auto !important;
+  }
+}
