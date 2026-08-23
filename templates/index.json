@@ -89,6 +89,14 @@
             "title": "NEW ARRIVALS"
           }
         },
+        "collection_tQKnfW": {
+          "type": "collection",
+          "settings": {
+            "collection": "premium-trousers",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_23_2026_12_39_51_PM.png",
+            "title": ""
+          }
+        },
         "collection_kLCe3K": {
           "type": "collection",
           "settings": {
@@ -131,6 +139,7 @@
       },
       "block_order": [
         "collection_TRTL7Q",
+        "collection_tQKnfW",
         "collection_kLCe3K",
         "collection_LNLmWY",
         "collection_JP6Bcg",
