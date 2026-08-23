@@ -40,74 +40,143 @@
 
 
 <style id="universes-raw-footer-desktop-fix">
-/* UNIVERSes RAW — desktop footer width/layout fix */
+/* =========================================================
+   UNIVERSes RAW — FOOTER DESKTOP WIDTH & ALIGNMENT FIX
+   ========================================================= */
+
 @media screen and (min-width: 750px) {
+
   .section-footer,
   .section-footer > footer,
-  .section-footer .section,
-  .section-footer .section-content-wrapper {
+  .section-footer .section {
     width: 100% !important;
-    max-width: none !important;
+    max-width: 100% !important;
   }
 
   .section-footer .section-content-wrapper {
+    width: 100% !important;
+    max-width: none !important;
     box-sizing: border-box !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
   }
 
-  /* Make every footer group use the available desktop width. */
-  .section-footer .section-content-wrapper > *,
-  .section-footer .section-content-wrapper > *:first-child,
-  .section-footer .section-content-wrapper > *:last-child {
+  /* Do not force every direct child to 100% width. */
+  .section-footer .section-content-wrapper > * {
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Footer groups */
+  .section-footer footer-group,
+  .section-footer [class*="footer-group"] {
     width: 100% !important;
     max-width: none !important;
     min-width: 0 !important;
     box-sizing: border-box !important;
   }
 
-  /* Footer group itself: full-width horizontal layout. */
-  .section-footer .section-content-wrapper footer-group,
-  .section-footer .section-content-wrapper [class*="footer-group"] {
+  /* Footer group's horizontal row */
+  .section-footer footer-group > .layout-panel-flex--row,
+  .section-footer [class*="footer-group"] > .layout-panel-flex--row {
     width: 100% !important;
     max-width: none !important;
     min-width: 0 !important;
-    flex: 1 1 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
   }
 
-  /* Footer columns must be allowed to grow instead of shrinking to content. */
-  .section-footer .section-content-wrapper footer-column,
-  .section-footer .section-content-wrapper [class*="footer-column"] {
+  /* Footer columns */
+  .section-footer footer-column,
+  .section-footer [class*="footer-column"] {
     min-width: 0 !important;
     max-width: none !important;
     box-sizing: border-box !important;
   }
 
-  /* Any nested horizontal footer layout should actually distribute space. */
-  .section-footer .section-content-wrapper .layout-panel-flex--row {
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    flex: 1 1 auto !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Menu columns: equal, usable desktop widths. */
-  .section-footer .section-content-wrapper [class*="footer-column"] > .layout-panel-flex--row,
-  .section-footer .section-content-wrapper [class*="footer-column"] .layout-panel-flex--row {
-    width: 100% !important;
-  }
-
-  .section-footer .section-content-wrapper [class*="footer-column"] .layout-panel-flex--row > * {
-    min-width: 0 !important;
+  .section-footer footer-group > [class*="footer-column"],
+  .section-footer [class*="footer-group"] > [class*="footer-column"] {
     flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+
+  /* Nested row layouts */
+  .section-footer .layout-panel-flex--row {
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Menu/content rows inside footer columns */
+  .section-footer [class*="footer-column"] > .layout-panel-flex--row,
+  .section-footer [class*="footer-column"] .layout-panel-flex--row {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .section-footer [class*="footer-column"] .layout-panel-flex--row > * {
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Prevent overflow from long footer text/menu items */
+  .section-footer p,
+  .section-footer h1,
+  .section-footer h2,
+  .section-footer h3,
+  .section-footer h4,
+  .section-footer h5,
+  .section-footer h6,
+  .section-footer a {
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  .section-footer img,
+  .section-footer svg {
+    max-width: 100%;
+  }
+
+  .section-footer,
+  .section-footer * {
+    box-sizing: border-box;
   }
 }
 
 @media screen and (min-width: 1200px) {
   .section-footer .section-content-wrapper {
     padding-inline: clamp(32px, 4vw, 72px) !important;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .section-footer .section-content-wrapper {
+    padding-inline: clamp(48px, 5vw, 96px) !important;
+  }
+}
+
+/* Keep mobile layout controlled by the theme's original settings. */
+@media screen and (max-width: 749px) {
+  .section-footer {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .section-footer .section,
+  .section-footer .section-content-wrapper {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .section-footer img,
+  .section-footer svg {
+    max-width: 100%;
   }
 }
 </style>
