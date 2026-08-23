@@ -2744,50 +2744,136 @@
 
 
 /* =========================================================
-   UNIVERSes RAW — HORIZON STYLE QUICK ADD
-   Final override for the floating shopping-bag button.
-   Works with the existing #QuickAddStandard modal.
+   UNIVERSes RAW — PREMIUM FLOATING QUICK ADD
+   Final override
+
+   - Places the shopping-bag button at the bottom-right
+     of the PRODUCT IMAGE, not the top-right.
+   - Keeps wishlist at the top-right.
+   - Compact premium circle.
+   - Works on desktop + mobile.
    ========================================================= */
 
-/* Keep the quick-add trigger inside the product image area. */
-.product-card-wrapper:not(.product-card-list) .epc-quick-add {
+/*
+ * IMPORTANT:
+ * Ella places the product action group at the top-right.
+ * The quick-add button can live inside that group.
+ *
+ * Make the ACTION WRAPPER cover the complete image so the
+ * quick-add button can be anchored to its bottom-right edge.
+ */
+.product-card-wrapper:not(.product-card-list) .card-product__group-wrapper {
   position: absolute !important;
-  right: 12px !important;
-  bottom: 12px !important;
-  left: auto !important;
+  inset: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  pointer-events: none !important;
   z-index: 30 !important;
-  width: auto !important;
-  height: auto !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  opacity: 1 !important;
-  transform: none !important;
+}
+
+
+/* Keep wishlist/action controls in their original top-right area. */
+.product-card-wrapper:not(.product-card-list)
+.card-product__group-wrapper .card-product__group {
+  position: absolute !important;
+
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  bottom: auto !important;
+
+  padding: 12px !important;
+
+  pointer-events: none !important;
+  z-index: 31 !important;
+}
+
+
+/* Wishlist itself remains clickable. */
+.product-card-wrapper:not(.product-card-list)
+.card-product__group-wrapper .card-wishlist,
+.product-card-wrapper:not(.product-card-list)
+.card-product__group-wrapper .wishlist-button {
   pointer-events: auto !important;
 }
 
-/* Small floating shopping bag. */
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn {
+
+/* =========================================================
+   QUICK ADD CONTAINER
+   ========================================================= */
+
+.product-card-wrapper:not(.product-card-list) .epc-quick-add {
+  position: absolute !important;
+
+  top: auto !important;
+  right: 12px !important;
+  bottom: 12px !important;
+  left: auto !important;
+
+  width: 42px !important;
+  height: 42px !important;
+
+  min-width: 42px !important;
+  min-height: 42px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  display: block !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  transform: none !important;
+
+  pointer-events: auto !important;
+
+  z-index: 40 !important;
+}
+
+
+/* =========================================================
+   QUICK ADD BUTTON
+   ========================================================= */
+
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn {
+
   position: relative !important;
+
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+
   width: 42px !important;
-  min-width: 42px !important;
   height: 42px !important;
+
+  min-width: 42px !important;
   min-height: 42px !important;
-  padding: 0 !important;
+
   margin: 0 !important;
+  padding: 0 !important;
 
   border: 1px solid rgba(17, 17, 17, 0.08) !important;
+
   border-radius: 50% !important;
 
-  background: rgba(255, 255, 255, 0.96) !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+
   color: #111111 !important;
 
   box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.14) !important;
+    0 4px 14px rgba(0, 0, 0, 0.14),
+    0 1px 3px rgba(0, 0, 0, 0.08) !important;
 
   cursor: pointer !important;
+
   overflow: hidden !important;
 
   letter-spacing: 0 !important;
@@ -2797,436 +2883,294 @@
     transform 220ms cubic-bezier(.22,.61,.36,1),
     background-color 220ms ease,
     color 220ms ease,
-    box-shadow 220ms ease,
-    border-color 220ms ease !important;
+    border-color 220ms ease,
+    box-shadow 220ms ease !important;
 }
 
-/* Bag icon. */
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn svg {
+
+/* =========================================================
+   BAG ICON
+   ========================================================= */
+
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn svg {
+
   display: block !important;
+
   width: 19px !important;
   height: 19px !important;
+
   min-width: 19px !important;
   min-height: 19px !important;
+
   margin: 0 !important;
+
   color: currentColor !important;
-  stroke: currentColor !important;
+
   fill: none !important;
+  stroke: currentColor !important;
+
   opacity: 1 !important;
-  transition: transform 220ms ease !important;
+
+  transition:
+    transform 220ms cubic-bezier(.22,.61,.36,1) !important;
 }
 
-/* Remove Ella's button pseudo-elements. */
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn::before,
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn::after {
+
+/* Remove inherited Ella button decorations. */
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn::before,
+
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn::after {
+
   display: none !important;
   content: none !important;
 }
 
-/* Desktop hover. */
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
 @media (hover: hover) and (min-width: 750px) {
+
+  /*
+   * Hidden until the user hovers the product card.
+   * It fades + rises slightly from the bottom-right.
+   */
   .product-card-wrapper:not(.product-card-list) .epc-quick-add {
+
     opacity: 0 !important;
-    transform: translateY(6px) scale(.96) !important;
+    visibility: hidden !important;
+
+    transform:
+      translateY(7px)
+      scale(.94) !important;
+
     transition:
       opacity 220ms ease,
+      visibility 220ms ease,
       transform 220ms cubic-bezier(.22,.61,.36,1) !important;
   }
 
-  .product-card-wrapper:not(.product-card-list):hover .epc-quick-add {
+
+  .product-card-wrapper:not(.product-card-list):hover
+  .epc-quick-add {
+
     opacity: 1 !important;
-    transform: translateY(0) scale(1) !important;
+    visibility: visible !important;
+
+    transform:
+      translateY(0)
+      scale(1) !important;
   }
 
-  .product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn:hover {
+
+  /*
+   * Premium hover.
+   */
+  .product-card-wrapper:not(.product-card-list)
+  .epc-quick-add .epc-quick-add__btn:hover {
+
     background: #111111 !important;
+
     border-color: #111111 !important;
+
     color: #ffffff !important;
-    transform: translateY(-2px) !important;
+
+    transform:
+      translateY(-2px)
+      scale(1.03) !important;
+
     box-shadow:
-      0 8px 22px rgba(0, 0, 0, 0.20) !important;
+      0 8px 24px rgba(0, 0, 0, 0.22) !important;
   }
 
-  .product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn:hover svg {
+
+  .product-card-wrapper:not(.product-card-list)
+  .epc-quick-add .epc-quick-add__btn:hover svg {
+
     transform: scale(1.08) !important;
   }
 }
 
-/* Touch/mobile: always show the bag. */
+
+/* =========================================================
+   TOUCH / MOBILE
+   ========================================================= */
+
 @media (hover: none), (max-width: 749px) {
+
   .product-card-wrapper:not(.product-card-list) .epc-quick-add {
+
     display: block !important;
+
     visibility: visible !important;
     opacity: 1 !important;
-    transform: none !important;
-    right: 9px !important;
-    bottom: 9px !important;
-    z-index: 30 !important;
-  }
-
-  .product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn {
-    display: flex !important;
-    visibility: visible !important;
-    width: 38px !important;
-    min-width: 38px !important;
-    height: 38px !important;
-    min-height: 38px !important;
-  }
-
-  .product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn svg {
-    width: 17px !important;
-    height: 17px !important;
-  }
-}
-
-/* Loading state. */
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn.loading {
-  pointer-events: none !important;
-}
-
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn.loading > svg {
-  opacity: 0 !important;
-}
-
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn .loading__spinner {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  width: 18px !important;
-  height: 18px !important;
-  margin: 0 !important;
-  transform: translate(-50%, -50%) !important;
-}
-
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn .loading__spinner .path {
-  stroke: currentColor !important;
-}
-
-/* Accessibility focus state. */
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn:focus-visible {
-  outline: 2px solid #111111 !important;
-  outline-offset: 3px !important;
-}
-
-/* Sold-out / disabled state. */
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn[disabled],
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn[aria-disabled="true"] {
-  opacity: .55 !important;
-  cursor: default !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* Keep the bag above badges and wishlist controls. */
-.product-card-wrapper:not(.product-card-list) .epc-quick-add {
-  pointer-events: auto !important;
-}
-
-.product-card-wrapper:not(.product-card-list) .epc-quick-add .epc-quick-add__btn {
-  pointer-events: auto !important;
-}
-/* ============================================================
-   UNIVERSes RAW — PREMIUM QUICK ADD
-   Position: Bottom Right of Product Image
-   ============================================================ */
-
-/* Product image/container */
-.card-product__media,
-.card-product__media-wrapper,
-.card-product__image-wrapper,
-.product-card__media {
-  position: relative !important;
-}
-
-
-/* ============================================================
-   QUICK ADD BUTTON
-   ============================================================ */
-
-.epc-quick-add {
-  position: absolute !important;
-
-  top: auto !important;
-  left: auto !important;
-
-  right: 12px !important;
-  bottom: 12px !important;
-
-  z-index: 20 !important;
-
-  width: 44px !important;
-  height: 44px !important;
-
-  min-width: 44px !important;
-  min-height: 44px !important;
-
-  padding: 0 !important;
-  margin: 0 !important;
-
-  display: flex !important;
-
-  align-items: center !important;
-  justify-content: center !important;
-
-  overflow: hidden;
-
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-
-  border-radius: 50% !important;
-
-  background:
-    rgba(255, 255, 255, 0.96) !important;
-
-  color: #111 !important;
-
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.12),
-    0 1px 3px rgba(0, 0, 0, 0.08) !important;
-
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  cursor: pointer;
-
-  opacity: 1 !important;
-
-  transform:
-    translate3d(0, 0, 0)
-    scale(1);
-
-  transition:
-    transform 0.28s cubic-bezier(.2, .8, .2, 1),
-    box-shadow 0.28s ease,
-    background 0.2s ease,
-    opacity 0.2s ease;
-}
-
-
-/* ============================================================
-   ICON
-   ============================================================ */
-
-.epc-quick-add svg {
-  display: block !important;
-
-  width: 20px !important;
-  height: 20px !important;
-
-  max-width: 20px !important;
-  max-height: 20px !important;
-
-  margin: 0 !important;
-
-  color: #111 !important;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  transition:
-    transform 0.28s
-      cubic-bezier(.2, .8, .2, 1);
-}
-
-
-.epc-quick-add svg path,
-.epc-quick-add svg circle,
-.epc-quick-add svg line,
-.epc-quick-add svg polyline {
-  vector-effect: non-scaling-stroke;
-}
-
-
-/* ============================================================
-   HOVER
-   ============================================================ */
-
-.epc-quick-add:hover {
-
-  background: #ffffff !important;
-
-  transform:
-    translate3d(0, -3px, 0)
-    scale(1.04);
-
-  box-shadow:
-    0 8px 22px rgba(0, 0, 0, 0.18),
-    0 2px 5px rgba(0, 0, 0, 0.08) !important;
-}
-
-
-.epc-quick-add:hover svg {
-
-  transform:
-    scale(1.08);
-}
-
-
-/* ============================================================
-   CLICK
-   ============================================================ */
-
-.epc-quick-add:active {
-
-  transform:
-    translate3d(0, 0, 0)
-    scale(0.92);
-
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.14) !important;
-}
-
-
-/* ============================================================
-   FOCUS
-   ============================================================ */
-
-.epc-quick-add:focus-visible {
-
-  outline: 2px solid #111 !important;
-
-  outline-offset: 3px;
-}
-
-
-/* ============================================================
-   LOADING
-   ============================================================ */
-
-.epc-quick-add.loading {
-
-  pointer-events: none;
-
-  opacity: 0.75 !important;
-}
-
-
-.epc-quick-add.loading svg {
-
-  opacity: 0;
-}
-
-
-.epc-quick-add .loading__spinner {
-
-  position: absolute !important;
-
-  top: 50% !important;
-  left: 50% !important;
-
-  width: 17px !important;
-  height: 17px !important;
-
-  margin: 0 !important;
-
-  transform:
-    translate(-50%, -50%) !important;
-}
-
-
-/* ============================================================
-   SALE BADGE + QUICK ADD BALANCE
-   ============================================================ */
-
-.card-product .product-badge,
-.card-product .card-product__badge,
-.card-product .product-badge-container {
-  z-index: 21;
-}
-
-
-/* ============================================================
-   MOBILE
-   ============================================================ */
-
-@media screen and (max-width: 749px) {
-
-  .epc-quick-add {
-
-    right: 9px !important;
-    bottom: 9px !important;
-
-    width: 40px !important;
-    height: 40px !important;
-
-    min-width: 40px !important;
-    min-height: 40px !important;
-  }
-
-
-  .epc-quick-add svg {
-
-    width: 18px !important;
-    height: 18px !important;
-
-    max-width: 18px !important;
-    max-height: 18px !important;
-  }
-
-}
-
-
-/* ============================================================
-   SMALL PRODUCT CARDS
-   ============================================================ */
-
-@media screen and (max-width: 480px) {
-
-  .epc-quick-add {
-
-    right: 8px !important;
-    bottom: 8px !important;
-
-    width: 38px !important;
-    height: 38px !important;
-
-    min-width: 38px !important;
-    min-height: 38px !important;
-  }
-
-
-  .epc-quick-add svg {
-
-    width: 17px !important;
-    height: 17px !important;
-  }
-
-}
-
-
-/* ============================================================
-   IMPORTANT — OVERRIDE ELLA TOP POSITIONING
-   ============================================================ */
-
-.card-product__group-item.epc-quick-add {
-
-  top: auto !important;
-  right: 12px !important;
-  bottom: 12px !important;
-  left: auto !important;
-}
-
-
-.card-product__group-item.card-quick-add.epc-quick-add {
-
-  top: auto !important;
-  right: 12px !important;
-  bottom: 12px !important;
-  left: auto !important;
-}
-
-
-/* Mobile override */
-
-@media screen and (max-width: 749px) {
-
-  .card-product__group-item.epc-quick-add,
-  .card-product__group-item.card-quick-add.epc-quick-add {
 
     top: auto !important;
     right: 9px !important;
     bottom: 9px !important;
     left: auto !important;
+
+    width: 38px !important;
+    height: 38px !important;
+
+    min-width: 38px !important;
+    min-height: 38px !important;
+
+    transform: none !important;
   }
 
+
+  .product-card-wrapper:not(.product-card-list)
+  .epc-quick-add .epc-quick-add__btn {
+
+    display: flex !important;
+
+    width: 38px !important;
+    height: 38px !important;
+
+    min-width: 38px !important;
+    min-height: 38px !important;
+  }
+
+
+  .product-card-wrapper:not(.product-card-list)
+  .epc-quick-add .epc-quick-add__btn svg {
+
+    width: 17px !important;
+    height: 17px !important;
+
+    min-width: 17px !important;
+    min-height: 17px !important;
+  }
 }
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn.loading {
+
+  pointer-events: none !important;
+}
+
+
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn.loading > svg {
+
+  opacity: 0 !important;
+}
+
+
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn .loading__spinner {
+
+  position: absolute !important;
+
+  top: 50% !important;
+  left: 50% !important;
+
+  width: 18px !important;
+  height: 18px !important;
+
+  margin: 0 !important;
+
+  transform:
+    translate(-50%, -50%) !important;
+
+  z-index: 2 !important;
+}
+
+
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn .loading__spinner .path {
+
+  stroke: currentColor !important;
+}
+
+
+/* =========================================================
+   FOCUS / ACCESSIBILITY
+   ========================================================= */
+
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn:focus-visible {
+
+  outline: 2px solid #111111 !important;
+
+  outline-offset: 3px !important;
+}
+
+
+/* =========================================================
+   DISABLED / SOLD OUT
+   ========================================================= */
+
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn[disabled],
+
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add .epc-quick-add__btn[aria-disabled="true"] {
+
+  opacity: .55 !important;
+
+  cursor: default !important;
+
+  box-shadow: none !important;
+
+  transform: none !important;
+}
+
+
+/* =========================================================
+   FINAL SAFETY OVERRIDES
+   ========================================================= */
+
+/*
+ * Never let old Ella rules move the button to the top.
+ */
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add {
+
+  top: auto !important;
+  left: auto !important;
+
+  right: 12px !important;
+  bottom: 12px !important;
+}
+
+
+/*
+ * The image itself must remain the positioning area.
+ */
+.product-card-wrapper:not(.product-card-list)
+.card__inner {
+
+  position: relative !important;
+}
+
+
+/*
+ * Keep quick-add above the image and sale badge.
+ */
+.product-card-wrapper:not(.product-card-list)
+.epc-quick-add {
+
+  z-index: 40 !important;
+}
+
+
+/*
+ * Make sure the product image doesn't cover the bag.
+ */
+.product-card-wrapper:not(.product-card-list)
+.card__inner .card__media {
+
+  z-index: 0 !important;
+}
+
