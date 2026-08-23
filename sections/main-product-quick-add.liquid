@@ -6,6 +6,8 @@
   if first_image == blank
     assign first_image = quick_product.media | first
   endif
+
+  assign quick_form_id = 'UniversesQuickAddForm-' | append: quick_product.id
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -26,27 +28,21 @@
 
     <script
       src="{{ 'product-info.js' | asset_url }}"
-      defer="defer"
+      defer
     ></script>
 
     <script
       src="{{ 'product-form.js' | asset_url }}"
-      defer="defer"
+      defer
     ></script>
 
-
-    <!-- ==================================================
-         QUICK ADD
-         ================================================== -->
 
     <div class="universes-quick-add">
 
       <div class="universes-quick-add__inner">
 
 
-        <!-- ================================================
-             PRODUCT IMAGE
-             ================================================ -->
+        <!-- PRODUCT IMAGE -->
 
         <div class="universes-quick-add__image">
 
@@ -73,28 +69,19 @@
         </div>
 
 
-        <!-- ================================================
-             OPTIONS
-             ================================================ -->
+        <!-- OPTIONS -->
 
         <div class="universes-quick-add__options">
 
-          <product-form
-            class="universes-quick-add__product-form-wrapper"
-          >
+          <product-form class="universes-quick-add__product-form-wrapper">
 
-            {%- form 'product',
+            {% form 'product',
               quick_product,
-              id: 'UniversesQuickAddForm-' | append: quick_product.id,
+              id: quick_form_id,
               class: 'universes-quick-add__form',
               novalidate: 'novalidate',
               data-type: 'add-to-cart-form'
-            -%}
-
-
-              <!-- ==========================================
-                   VARIANT ID
-                   ========================================== -->
+            %}
 
               <input
                 type="hidden"
@@ -104,9 +91,7 @@
               >
 
 
-              <!-- ==========================================
-                   VARIANTS
-                   ========================================== -->
+              <!-- VARIANTS -->
 
               {% unless quick_product.has_only_default_variant %}
 
@@ -123,7 +108,6 @@
                         {{ option.name }}
                       </legend>
 
-
                       <div class="universes-quick-add__values">
 
                         {% for value in option.values %}
@@ -138,19 +122,16 @@
                                 case option.position
 
                                   when 1
-
                                     if variant.option1 == value
                                       assign value_available = true
                                     endif
 
                                   when 2
-
                                     if variant.option2 == value
                                       assign value_available = true
                                     endif
 
                                   when 3
-
                                     if variant.option3 == value
                                       assign value_available = true
                                     endif
@@ -161,7 +142,6 @@
 
                             endfor
                           %}
-
 
                           <input
                             type="radio"
@@ -178,10 +158,9 @@
                             {% endunless %}
                           >
 
-
                           <label
                             for="UniversesQuickAdd-{{ quick_product.id }}-{{ option.position }}-{{ forloop.index }}"
-                            class="universes-quick-add__value {% unless value_available %}is-disabled{% endunless %}"
+                            class="universes-quick-add__value{% unless value_available %} is-disabled{% endunless %}"
                           >
                             {{ value }}
                           </label>
@@ -199,9 +178,7 @@
               {% endunless %}
 
 
-              <!-- ==========================================
-                   ADD TO CART
-                   ========================================== -->
+              <!-- ADD TO CART -->
 
               <button
                 type="submit"
@@ -222,15 +199,11 @@
 
                 </span>
 
-                <span
-                  class="universes-quick-add__spinner"
-                  aria-hidden="true"
-                ></span>
+                <span class="universes-quick-add__spinner"></span>
 
               </button>
 
-
-            {%- endform -%}
+            {% endform %}
 
           </product-form>
 
@@ -240,7 +213,6 @@
 
     </div>
 
-
   </product-info>
 
 </div>
@@ -249,110 +221,73 @@
 <style>
 
 /* ==========================================================
-   UNIVERSes RAW
-   MINIMAL QUICK ADD
+   UNIVERSes RAW QUICK ADD
    ========================================================== */
 
-
 .universes-quick-add {
-
   width: 100% !important;
-
   margin: 0 !important;
-
   padding: 0 !important;
-
   background: #fff !important;
-
 }
 
-
 .universes-quick-add__inner {
-
   display: grid !important;
-
-  grid-template-columns:
-    230px
-    minmax(0, 1fr) !important;
+  grid-template-columns: 230px minmax(0, 1fr) !important;
 
   width: 100% !important;
 
   height: 300px !important;
-
   min-height: 300px !important;
-
   max-height: 300px !important;
 
   margin: 0 !important;
-
   padding: 0 !important;
-
 }
 
 
-/* ==========================================================
-   IMAGE
-   ========================================================== */
+/* IMAGE */
 
 .universes-quick-add__image {
-
   width: 230px !important;
-
   height: 300px !important;
 
   min-height: 300px !important;
-
   max-height: 300px !important;
 
   overflow: hidden !important;
 
   background: #f5f5f5 !important;
-
 }
 
-
 .universes-quick-add__image-img {
-
   display: block !important;
 
   width: 100% !important;
-
   height: 100% !important;
 
   min-height: 300px !important;
-
   max-height: 300px !important;
 
   object-fit: cover !important;
-
   object-position: center !important;
-
 }
-
 
 .universes-quick-add__placeholder {
-
   width: 100% !important;
-
   height: 100% !important;
-
 }
 
 
-/* ==========================================================
-   OPTIONS
-   ========================================================== */
+/* OPTIONS */
 
 .universes-quick-add__options {
-
   display: flex !important;
 
   align-items: center !important;
-
   justify-content: center !important;
 
   width: 100% !important;
-
   min-width: 0 !important;
 
   height: 300px !important;
@@ -360,49 +295,34 @@
   padding: 28px !important;
 
   box-sizing: border-box !important;
-
 }
 
-
 .universes-quick-add__product-form-wrapper {
-
   display: block !important;
 
   width: 100% !important;
 
   max-width: 300px !important;
-
 }
-
 
 .universes-quick-add__form {
-
   width: 100% !important;
 
   margin: 0 !important;
-
   padding: 0 !important;
-
 }
 
 
-/* ==========================================================
-   VARIANTS
-   ========================================================== */
+/* VARIANTS */
 
 .universes-quick-add__variants {
-
   width: 100% !important;
 
   margin: 0 !important;
-
   padding: 0 !important;
-
 }
 
-
 .universes-quick-add__option {
-
   margin: 0 0 16px !important;
 
   padding: 0 !important;
@@ -410,20 +330,14 @@
   border: 0 !important;
 }
 
-
 .universes-quick-add__option:last-child {
-
   margin-bottom: 0 !important;
-
 }
 
-
 .universes-quick-add__label {
-
   display: block !important;
 
   margin: 0 0 8px !important;
-
   padding: 0 !important;
 
   font-size: 10px !important;
@@ -439,43 +353,32 @@
   color: #111 !important;
 }
 
-
 .universes-quick-add__values {
-
   display: flex !important;
 
   flex-wrap: wrap !important;
 
   gap: 6px !important;
-
 }
 
-
 .universes-quick-add__radio {
-
   position: absolute !important;
 
   width: 1px !important;
-
   height: 1px !important;
 
   opacity: 0 !important;
 
   pointer-events: none !important;
-
 }
 
-
 .universes-quick-add__value {
-
   display: inline-flex !important;
 
   align-items: center !important;
-
   justify-content: center !important;
 
   min-width: 40px !important;
-
   height: 34px !important;
 
   padding: 0 10px !important;
@@ -495,51 +398,39 @@
   cursor: pointer !important;
 
   box-sizing: border-box !important;
-
 }
-
 
 .universes-quick-add__radio:checked
 + .universes-quick-add__value {
-
   background: #111 !important;
 
   border-color: #111 !important;
 
   color: #fff !important;
-
 }
 
-
 .universes-quick-add__value.is-disabled {
-
   opacity: .35 !important;
 
   text-decoration: line-through !important;
 
   cursor: not-allowed !important;
-
 }
 
 
-/* ==========================================================
-   ADD TO CART
-   ========================================================== */
+/* ADD TO CART */
 
 .universes-quick-add__submit {
-
   position: relative !important;
 
   display: flex !important;
 
   align-items: center !important;
-
   justify-content: center !important;
 
   width: 100% !important;
 
   height: 46px !important;
-
   min-height: 46px !important;
 
   margin: 20px 0 0 !important;
@@ -563,117 +454,67 @@
   text-transform: uppercase !important;
 
   cursor: pointer !important;
-
 }
-
 
 .universes-quick-add__submit:hover {
-
   background: #c7192d !important;
-
 }
 
-
 .universes-quick-add__submit:disabled {
-
   opacity: .45 !important;
 
   cursor: not-allowed !important;
-
 }
 
 
-/* ==========================================================
-   SPINNER
-   ========================================================== */
-
-.universes-quick-add__spinner {
-
-  display: none !important;
-
-}
-
-
-/* ==========================================================
-   MOBILE
-   ========================================================== */
+/* MOBILE */
 
 @media screen and (max-width: 749px) {
 
   .universes-quick-add__inner {
-
-    grid-template-columns:
-      125px
-      minmax(0, 1fr) !important;
+    grid-template-columns: 125px minmax(0, 1fr) !important;
 
     height: 220px !important;
-
     min-height: 220px !important;
-
     max-height: 220px !important;
-
   }
 
-
   .universes-quick-add__image {
-
     width: 125px !important;
 
     height: 220px !important;
-
     min-height: 220px !important;
-
     max-height: 220px !important;
-
   }
-
 
   .universes-quick-add__image-img {
-
     height: 220px !important;
 
     min-height: 220px !important;
-
     max-height: 220px !important;
-
   }
-
 
   .universes-quick-add__options {
-
     height: 220px !important;
 
-    padding:
-      18px 14px !important;
-
+    padding: 18px 14px !important;
   }
-
 
   .universes-quick-add__product-form-wrapper {
-
     max-width: none !important;
-
   }
-
 
   .universes-quick-add__option {
-
     margin-bottom: 12px !important;
-
   }
 
-
   .universes-quick-add__label {
-
     font-size: 9px !important;
 
     margin-bottom: 6px !important;
-
   }
 
-
   .universes-quick-add__value {
-
     min-width: 36px !important;
 
     height: 31px !important;
@@ -681,12 +522,9 @@
     padding: 0 8px !important;
 
     font-size: 9px !important;
-
   }
 
-
   .universes-quick-add__submit {
-
     height: 40px !important;
 
     min-height: 40px !important;
@@ -694,63 +532,42 @@
     margin-top: 14px !important;
 
     font-size: 9px !important;
-
   }
-
 }
 
 
-/* ==========================================================
-   SMALL PHONE
-   ========================================================== */
+/* SMALL PHONE */
 
 @media screen and (max-width: 380px) {
 
   .universes-quick-add__inner {
-
-    grid-template-columns:
-      105px
-      minmax(0, 1fr) !important;
+    grid-template-columns: 105px minmax(0, 1fr) !important;
 
     height: 190px !important;
-
     min-height: 190px !important;
-
     max-height: 190px !important;
-
   }
 
-
   .universes-quick-add__image {
-
     width: 105px !important;
 
     height: 190px !important;
 
     min-height: 190px !important;
-
     max-height: 190px !important;
-
   }
 
-
   .universes-quick-add__image-img {
-
     height: 190px !important;
 
     min-height: 190px !important;
-
     max-height: 190px !important;
-
   }
 
-
   .universes-quick-add__options {
-
     height: 190px !important;
 
     padding: 14px 11px !important;
-
   }
 
 }
@@ -797,7 +614,8 @@
   );
 
 
-  const variants = {{ quick_product.variants | json }};
+  const variants =
+    {{ quick_product.variants | json }};
 
 
   function getSelectedOptions() {
@@ -871,6 +689,7 @@
       }
 
       return;
+
     }
 
 
@@ -915,3 +734,13 @@
 
 })();
 </script>
+
+
+{% schema %}
+{
+  "name": "Quick add product",
+  "blocks": [],
+  "settings": [],
+  "presets": []
+}
+{% endschema %}
