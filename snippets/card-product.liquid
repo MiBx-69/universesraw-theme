@@ -126,7 +126,7 @@
       {% comment %}=== IMAGE CONTAINER (card__inner) — all overlays live here ==={% endcomment %}
       <div
         class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }}{% endif %}{% if card_product.featured_media or settings.card_style == 'standard' %} ratio{% endif %} card-badge-is-{{ check_pos_badge }}"
-        style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
+        style="position:relative !important; isolation:isolate; --ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
       >
         {% comment %}--- Primary + secondary product images ---{% endcomment %}
         {%- render 'card-product-media', show_secondary_image: show_secondary_image, card_product: card_product -%}
@@ -191,15 +191,16 @@
 
         {% unless horizontal_class %}
           <div
-            class="epc-quick-add"
+            class="epc-quick-add universes-card-bag"
             data-universes-quick-add
-            style="position:absolute !important; right:12px !important; bottom:12px !important; top:auto !important; left:auto !important; z-index:20 !important; margin:0 !important; padding:0 !important;"
+            style="position:absolute !important; inset:auto 12px 12px auto !important; top:auto !important; right:12px !important; bottom:12px !important; left:auto !important; width:44px !important; height:44px !important; min-width:44px !important; min-height:44px !important; max-width:44px !important; max-height:44px !important; z-index:9999 !important; margin:0 !important; padding:0 !important; display:block !important; transform:none !important;"
           >
             <modal-opener data-modal="#QuickAddStandard">
               <button
                 id="{{ product_form_id_epc }}-submit"
                 type="button"
                 class="epc-quick-add__btn"
+                style="position:relative !important; inset:auto !important; width:100% !important; height:100% !important; min-width:100% !important; min-height:100% !important; max-width:100% !important; max-height:100% !important; margin:0 !important; padding:0 !important; transform:none !important; display:flex !important; align-items:center !important; justify-content:center !important;"
                 aria-haspopup="dialog"
                 aria-label="Quick add {{ card_product.title | escape }}"
                 data-product-url="{{ card_product.url }}"
@@ -232,6 +233,100 @@
             </modal-opener>
           </div>
         {% endunless %}
+
+        {% comment %}
+          UNIVERSes RAW — FINAL QUICK-ADD POSITION LOCK
+          The bag is a child of .card__inner, so it must be positioned
+          against the product image container, never the product card/page.
+        {% endcomment %}
+        <style>
+          .product-card-wrapper .card__inner {
+            position: relative !important;
+            isolation: isolate;
+          }
+
+          .product-card-wrapper .card__inner > .universes-card-bag {
+            position: absolute !important;
+            inset: auto 12px 12px auto !important;
+            top: auto !important;
+            right: 12px !important;
+            bottom: 12px !important;
+            left: auto !important;
+            width: 44px !important;
+            height: 44px !important;
+            min-width: 44px !important;
+            min-height: 44px !important;
+            max-width: 44px !important;
+            max-height: 44px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: none !important;
+            z-index: 9999 !important;
+            pointer-events: auto !important;
+          }
+
+          .product-card-wrapper .card__inner > .universes-card-bag > modal-opener {
+            display: block !important;
+            width: 44px !important;
+            height: 44px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+
+          .product-card-wrapper .card__inner > .universes-card-bag .epc-quick-add__btn {
+            position: relative !important;
+            inset: auto !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 44px !important;
+            height: 44px !important;
+            min-width: 44px !important;
+            min-height: 44px !important;
+            max-width: 44px !important;
+            max-height: 44px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            transform: none !important;
+          }
+
+          .product-card-wrapper .card__inner > .universes-card-bag .epc-quick-add__btn svg {
+            position: static !important;
+            width: 20px !important;
+            height: 20px !important;
+            margin: 0 !important;
+            transform: none !important;
+          }
+
+          @media screen and (max-width: 749px) {
+            .product-card-wrapper .card__inner > .universes-card-bag {
+              inset: auto 8px 8px auto !important;
+              top: auto !important;
+              right: 8px !important;
+              bottom: 8px !important;
+              left: auto !important;
+              width: 40px !important;
+              height: 40px !important;
+              min-width: 40px !important;
+              min-height: 40px !important;
+              max-width: 40px !important;
+              max-height: 40px !important;
+            }
+
+            .product-card-wrapper .card__inner > .universes-card-bag > modal-opener,
+            .product-card-wrapper .card__inner > .universes-card-bag .epc-quick-add__btn {
+              width: 40px !important;
+              height: 40px !important;
+              min-width: 40px !important;
+              min-height: 40px !important;
+              max-width: 40px !important;
+              max-height: 40px !important;
+            }
+          }
+        </style>
 
         {% comment %}--- Countdown timer (existing feature) ---{% endcomment %}
         {%- if settings.show_countdown -%}
