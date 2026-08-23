@@ -306,6 +306,13 @@
             "title": "Home"
           }
         },
+        "collection_NND33H": {
+          "type": "collection",
+          "settings": {
+            "icon": "<svg width=\"24\" height=\"24\" viewbox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\">\n  <rect x=\"3.5\" y=\"3.5\" width=\"7\" height=\"7\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.6\"></rect>\n  <rect x=\"13.5\" y=\"3.5\" width=\"7\" height=\"7\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.6\"></rect>\n  <rect x=\"3.5\" y=\"13.5\" width=\"7\" height=\"7\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.6\"></rect>\n  <rect x=\"13.5\" y=\"13.5\" width=\"7\" height=\"7\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.6\"></rect>\n</svg>",
+            "title": "Collection"
+          }
+        },
         "search_ktXppy": {
           "type": "search",
           "settings": {
@@ -325,6 +332,7 @@
       },
       "block_order": [
         "home_yYBiVf",
+        "collection_NND33H",
         "search_ktXppy",
         "cart_BKg8Fh"
       ],

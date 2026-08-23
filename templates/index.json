@@ -15,13 +15,20 @@
         "slide_4znagq": {
           "type": "slide",
           "settings": {
-            "image_mobile": "shopify://shop_images/hero_image_universes.webp",
             "image_desktop": "shopify://shop_images/hero_image_universes.webp",
+            "image_mobile": "shopify://shop_images/hero_image_universes.webp",
+            "overlay_opacity": 75,
             "subheading": "AUTUMN COLLECTION 2026",
+            "show_eyebrow_line": true,
             "heading": "Bold. Confident. Raw.",
             "text": "A curated edit of premium menswear engineered for the uncompromising.",
+            "desktop_horizontal": "left",
+            "desktop_vertical": "bottom",
+            "mobile_horizontal": "left",
+            "mobile_vertical": "bottom",
             "btn1_label": "SHOP NOW",
             "btn1_link": "shopify://collections",
+            "show_arrow": true,
             "btn2_label": "NEW ARRIVALS",
             "btn2_link": "shopify://collections/latest-collection"
           }
@@ -29,13 +36,20 @@
         "slide_dkVjGa": {
           "type": "slide",
           "settings": {
-            "image_mobile": "shopify://shop_images/SAVE_20260723_223638.jpg",
             "image_desktop": "shopify://shop_images/SAVE_20260723_223638.jpg",
+            "image_mobile": "shopify://shop_images/SAVE_20260723_223638.jpg",
+            "overlay_opacity": 75,
             "subheading": "Redefining Bootcut Denim for 2026",
+            "show_eyebrow_line": true,
             "heading": "Western Heritage.",
             "text": "Experience premium bootcut denim crafted with authentic detail, exceptional comfort, and a timeless silhouette that never goes out of style.",
+            "desktop_horizontal": "left",
+            "desktop_vertical": "bottom",
+            "mobile_horizontal": "left",
+            "mobile_vertical": "bottom",
             "btn1_label": "Order Now",
             "btn1_link": "shopify://collections/bootcut-jeans",
+            "show_arrow": true,
             "btn2_label": "",
             "btn2_link": ""
           }
@@ -47,15 +61,21 @@
       ],
       "name": "Home Page Hero",
       "settings": {
+        "accessibility_label": "Featured collections",
+        "desktop_height": 78,
+        "mobile_height": 78,
+        "content_width": 620,
+        "content_max_width": 1400,
+        "content_padding_mobile": 55,
         "overlay_opacity": 100,
-        "show_features": false,
         "heading_size_mobile": 48,
         "heading_size_desktop": 64,
-        "subheading_size": 11,
-        "text_size": 16,
+        "description_size": 15,
         "button_font_size": 12,
-        "button_padding_v": 14,
-        "button_padding_h": 24
+        "button_radius": 0,
+        "autoplay": true,
+        "autoplay_speed": 6,
+        "pause_on_hover": true
       }
     },
     "collection_grid_pro_D3RCF3": {
@@ -182,12 +202,12 @@
             "padding_vertical": 20,
             "mobile_padding_vertical": 15,
             "background_color": "#000000",
-            "text_color": "#FFFFFF",
+            "text_color": "#ffffff",
             "border_color": "#000000",
-            "hover_background_color": "#FFFFFF",
+            "hover_background_color": "#ffffff",
             "hover_text_color": "#000000",
             "hover_border_color": "#000000",
-            "focus_color": "#000F9F"
+            "focus_color": "#000f9f"
           },
           "blocks": {}
         }
