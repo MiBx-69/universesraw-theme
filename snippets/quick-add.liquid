@@ -1,394 +1,600 @@
-{% comment %}
-  ============================================================
-  UNIVERSes RAW — QUICK ADD MODAL
-  Ella 7 compatible
-  Horizon-inspired premium Quick Add experience
-
-  Standard flow:
-  Product Card
-      ↓
-  Floating Bag Button
-      ↓
-  #QuickAddStandard
-      ↓
-  quick-add.js
-      ↓
-  ?view=quick_add
-      ↓
-  Product / Variant Selector
-      ↓
-  Add to Cart
-
-  Bulk Quick Add is preserved separately.
-  ============================================================
-{% endcomment %}
-
 <quick-add-modal
   class="quick-add-modal modal--popup fixed top-0 left-0 z-9 w-screen h-full flex justify-center no-js-hidden"
   element-s-popup
   id="QuickAddStandard"
 >
-  <!-- Modal backdrop -->
   <div
-    id="QuickAddModalOverlay"
-    class="drawer__overlay quick-add-modal__overlay fixed inset-0 cursor-pointer"
-    onclick="this.closest('quick-add-modal').hide()"
-    aria-hidden="true"
+    id="Modal-Overlay"
+    class="drawer__overlay fixed inset-0 cursor-pointer"
   ></div>
 
-  <!-- Modal container -->
   <div
-    class="popup__inner quick-add-modal__content quick-add-modal__content--standard w-auto h-full absolute-c-c flex flex-column global-settings-popup"
+    class="popup__inner quick-add-modal__content universes-compact-quick-add-popup w-auto absolute-c-c flex flex-column global-settings-popup"
     role="dialog"
     aria-modal="true"
     aria-label="{{ 'products.product.choose_product_options' | t }}"
     tabindex="-1"
-    style="
-      --modal-max-height: 85dvh;
-      --quick-add-radius: 18px;
-    "
   >
 
-    <!-- Close button -->
     <button
-      class="quick-add-modal__toggle quick-add-modal__close drawer__close block t-button bor-none rounded-full cursor-pointer"
+      class="quick-add-modal__toggle drawer__close block t-button bor-none rounded-full cursor-pointer"
       type="button"
       onclick="this.closest('quick-add-modal').hide()"
       aria-label="{{ 'accessibility.close_dialog' | t }}"
-      title="{{ 'accessibility.close_dialog' | t }}"
-      style="
-        --top: 0.75rem;
-        --right: 0.75rem;
-      "
+      style="--top: 0.3rem; --right: 0.3rem;"
     >
       {{- 'icon-close.svg' | inline_asset_content -}}
     </button>
 
-    <!-- Dynamic product content -->
     <div
       id="QuickStandardModal"
-      class="quick-add-modal__content-info quick-add-modal__content-info--standard cus-scrollbar"
-      data-quick-add-content
+      class="quick-add-modal__content-info universes-compact-quick-add-content cus-scrollbar"
     ></div>
 
   </div>
 </quick-add-modal>
 
 
-{% comment %}
-  ============================================================
-  BULK QUICK ADD
-  Existing Ella functionality preserved
-  ============================================================
-{% endcomment %}
-
 <bulk-modal
   class="quick-add-modal quick-add-modal--bulk modal--popup fixed top-0 left-0 z-9 w-screen h-full flex justify-center no-js-hidden"
   element-s-popup
   id="QuickAddBulk"
 >
-  <!-- Bulk backdrop -->
   <div
-    id="QuickBulkModalOverlay"
-    class="drawer__overlay quick-add-modal__overlay fixed inset-0 cursor-pointer"
-    onclick="this.closest('bulk-modal').hide()"
-    aria-hidden="true"
+    id="Modal-Overlay"
+    class="drawer__overlay fixed inset-0 cursor-pointer"
   ></div>
 
-  <!-- Bulk modal -->
   <div
     class="popup__inner quick-add-modal__content quick-add-modal__content--bulk w-auto h-full md:h-auto absolute-c-c flex flex-column global-settings-popup"
     role="dialog"
     aria-modal="true"
     aria-label="{{ 'products.product.choose_product_options' | t }}"
     tabindex="-1"
-    style="
-      --modal-max-height: 85dvh;
-      --popup-max-width: var(--normal-page-width);
-      --quick-add-radius: 18px;
-    "
+    style="--modal-max-height: 85dvh;--popup-max-width: var(--normal-page-width);"
   >
 
-    <!-- Close button -->
     <button
-      class="quick-add-modal__toggle quick-add-modal__close drawer__close block t-button bor-none rounded-full cursor-pointer"
+      class="quick-add-modal__toggle drawer__close block t-button bor-none rounded-full cursor-pointer"
       type="button"
       onclick="this.closest('bulk-modal').hide()"
       aria-label="{{ 'accessibility.close_dialog' | t }}"
-      title="{{ 'accessibility.close_dialog' | t }}"
-      style="
-        --top: 0.75rem;
-        --right: 0.75rem;
-      "
+      style="--top: 0.3rem; --right: 0.3rem;"
     >
       {{- 'icon-close.svg' | inline_asset_content -}}
     </button>
 
-    <!-- Dynamic bulk product content -->
     <div
       id="QuickBulkModal"
       class="quick-add-modal__content-info quick-add-modal__content-info--bulk cus-scrollbar"
-      data-quick-add-content
     ></div>
 
   </div>
 </bulk-modal>
 
 
-{% comment %}
-  ============================================================
-  QUICK ADD MODAL BASE STYLING
-  This is intentionally lightweight.
-  Main product/variant styling will be handled separately.
-  ============================================================
-{% endcomment %}
-
 <style>
-  /* ==========================================================
-     STANDARD QUICK ADD MODAL
-     ========================================================== */
 
-  #QuickAddStandard {
-    --quick-add-bg: #ffffff;
-    --quick-add-radius: 18px;
-    --quick-add-shadow:
-      0 24px 80px rgba(0, 0, 0, 0.20);
+/* =========================================================
+   UNIVERSes RAW — QUICK ADD MODAL
+   ========================================================= */
+
+#QuickAddStandard {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  z-index: 99999 !important;
+}
+
+
+/* Overlay */
+
+#QuickAddStandard > #Modal-Overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  background: rgba(0,0,0,.42) !important;
+}
+
+
+/* =========================================================
+   ACTUAL POPUP
+   ========================================================= */
+
+#QuickAddStandard .universes-compact-quick-add-popup {
+
+  position: absolute !important;
+
+  top: 50% !important;
+  left: 50% !important;
+
+  width: 460px !important;
+  max-width: calc(100vw - 28px) !important;
+
+  height: auto !important;
+  max-height: 500px !important;
+
+  margin: 0 !important;
+
+  transform: translate(-50%, -50%) !important;
+
+  overflow: hidden !important;
+
+  background: #fff !important;
+
+  border-radius: 16px !important;
+
+  box-shadow:
+    0 24px 80px rgba(0,0,0,.25) !important;
+
+  border: 1px solid rgba(0,0,0,.06) !important;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+#QuickStandardModal {
+
+  width: 100% !important;
+
+  max-height: 500px !important;
+
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  scrollbar-width: thin !important;
+}
+
+
+/* =========================================================
+   ACTUAL PRODUCT INFO GENERATED BY
+   main-product-quick-add
+   ========================================================= */
+
+#QuickStandardModal
+.product-quick-add__grid {
+
+  display: grid !important;
+
+  grid-template-columns:
+    160px
+    minmax(0,1fr) !important;
+
+  width: 100% !important;
+
+  gap: 0 !important;
+
+}
+
+
+/* =========================================================
+   IMAGE
+   ========================================================= */
+
+#QuickStandardModal
+.product-information__media {
+
+  width: 160px !important;
+
+  min-width: 160px !important;
+
+  overflow: hidden !important;
+
+}
+
+
+#QuickStandardModal
+.product-quick-add__media {
+
+  width: 100% !important;
+
+  height: 100% !important;
+
+}
+
+
+#QuickStandardModal
+.product-quick-add__media img {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  height: 100% !important;
+
+  max-height: 390px !important;
+
+  object-fit: cover !important;
+
+}
+
+
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
+#QuickStandardModal
+.product-information__grid {
+
+  min-width: 0 !important;
+
+}
+
+
+#QuickStandardModal
+.product-information__grid
+> * {
+
+  min-width: 0 !important;
+
+}
+
+
+/* Product details */
+
+#QuickStandardModal
+.product-information {
+
+  width: 100% !important;
+
+}
+
+
+/* =========================================================
+   PRODUCT DETAILS SPACING
+   ========================================================= */
+
+#QuickStandardModal
+.product-information__grid {
+
+  gap: 0 !important;
+
+}
+
+
+#QuickStandardModal
+.product-information__grid
+.product-information {
+
+  padding: 0 !important;
+
+}
+
+
+/* =========================================================
+   VENDOR
+   ========================================================= */
+
+#QuickStandardModal
+.product-information__grid
+p:first-child {
+
+  font-size: 9px !important;
+
+  letter-spacing: .16em !important;
+
+  text-transform: uppercase !important;
+
+  color: #999 !important;
+
+  margin-bottom: 5px !important;
+
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+#QuickStandardModal
+h1,
+#QuickStandardModal
+h2 {
+
+  font-size: 18px !important;
+
+  line-height: 1.25 !important;
+
+  margin:
+    0 0 8px !important;
+
+}
+
+
+/* =========================================================
+   PRICE
+   ========================================================= */
+
+#QuickStandardModal
+.price {
+
+  margin:
+    0 0 14px !important;
+
+}
+
+
+#QuickStandardModal
+.price-item {
+
+  font-size: 16px !important;
+
+  font-weight: 600 !important;
+
+}
+
+
+/* =========================================================
+   VARIANT PICKER
+   ========================================================= */
+
+#QuickStandardModal
+variant-picker {
+
+  margin-top: 8px !important;
+
+}
+
+
+#QuickStandardModal
+.product-form__input {
+
+  margin:
+    0 0 12px !important;
+
+}
+
+
+#QuickStandardModal
+.product-form__input
+legend {
+
+  font-size: 9px !important;
+
+  font-weight: 600 !important;
+
+  letter-spacing: .1em !important;
+
+  text-transform: uppercase !important;
+
+  margin-bottom: 6px !important;
+
+}
+
+
+/* =========================================================
+   SIZE PILLS
+   ========================================================= */
+
+#QuickStandardModal
+.product-form__input
+input[type="radio"]
++ label {
+
+  min-width: 38px !important;
+
+  min-height: 32px !important;
+
+  padding:
+    7px 9px !important;
+
+  margin:
+    0 4px 4px 0 !important;
+
+  border-radius: 3px !important;
+
+  font-size: 10px !important;
+
+}
+
+
+/* Selected */
+
+#QuickStandardModal
+.product-form__input
+input[type="radio"]:checked
++ label {
+
+  background: #111 !important;
+
+  color: #fff !important;
+
+  border-color: #111 !important;
+
+}
+
+
+/* =========================================================
+   QUANTITY — COMPACT
+   ========================================================= */
+
+#QuickStandardModal
+quantity-selector,
+#QuickStandardModal
+quantity-input {
+
+  transform: scale(.88) !important;
+
+  transform-origin: left center !important;
+
+  margin:
+    4px 0 !important;
+
+}
+
+
+/* =========================================================
+   ADD TO CART
+   ========================================================= */
+
+#QuickStandardModal
+button[name="add"] {
+
+  width: 100% !important;
+
+  min-height: 42px !important;
+
+  margin-top: 10px !important;
+
+  border-radius: 4px !important;
+
+  background: #111 !important;
+
+  color: #fff !important;
+
+  font-size: 10px !important;
+
+  font-weight: 600 !important;
+
+  letter-spacing: .12em !important;
+
+  text-transform: uppercase !important;
+
+}
+
+
+/* =========================================================
+   HIDE UNNECESSARY
+   ========================================================= */
+
+#QuickStandardModal
+pickup-availability,
+
+#QuickStandardModal
+share-button,
+
+#QuickStandardModal
+.product__description,
+
+#QuickStandardModal
+.product-information__description,
+
+#QuickStandardModal
+.product__sku,
+
+#QuickStandardModal
+.product__inventory,
+
+#QuickStandardModal
+shopify-accelerated-checkout {
+
+  display: none !important;
+
+}
+
+
+/* =========================================================
+   CLOSE
+   ========================================================= */
+
+#QuickAddStandard
+.quick-add-modal__toggle {
+
+  position: absolute !important;
+
+  top: 9px !important;
+
+  right: 9px !important;
+
+  z-index: 100 !important;
+
+  width: 30px !important;
+
+  height: 30px !important;
+
+  padding: 0 !important;
+
+  background:
+    rgba(255,255,255,.94) !important;
+
+  border-radius: 50% !important;
+
+  box-shadow:
+    0 2px 10px rgba(0,0,0,.12) !important;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media screen and (max-width: 749px) {
+
+  #QuickAddStandard
+  .universes-compact-quick-add-popup {
+
+    width:
+      calc(100vw - 24px) !important;
+
+    max-width:
+      calc(100vw - 24px) !important;
+
+    max-height:
+      430px !important;
+
+    border-radius:
+      14px !important;
+
   }
 
-  #QuickAddStandard .quick-add-modal__content--standard {
-    width: min(
-      940px,
-      calc(100vw - 40px)
-    ) !important;
-
-    max-width: 940px !important;
-
-    max-height: 85dvh !important;
-
-    overflow: hidden !important;
-
-    background: var(--quick-add-bg) !important;
-
-    border-radius: var(--quick-add-radius) !important;
-
-    box-shadow: var(--quick-add-shadow) !important;
-  }
-
-  /*
-   * Dynamic product content
-   */
 
   #QuickStandardModal {
-    width: 100%;
-    height: 100%;
 
-    max-height: 85dvh;
+    max-height:
+      430px !important;
 
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    scrollbar-width: thin;
-
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /*
-   * Close button
-   */
-
-  #QuickAddStandard .quick-add-modal__close {
-    position: absolute !important;
-
-    top: 12px !important;
-    right: 12px !important;
-
-    z-index: 50 !important;
-
-    display: flex !important;
-
-    align-items: center !important;
-    justify-content: center !important;
-
-    width: 38px !important;
-    height: 38px !important;
-
-    padding: 0 !important;
-    margin: 0 !important;
-
-    border: 1px solid rgba(17, 17, 17, 0.08) !important;
-
-    border-radius: 50% !important;
-
-    background: rgba(255, 255, 255, 0.94) !important;
-
-    color: #111111 !important;
-
-    box-shadow:
-      0 5px 18px rgba(0, 0, 0, 0.12) !important;
-
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-
-    cursor: pointer;
-
-    transition:
-      background-color 180ms ease,
-      color 180ms ease,
-      transform 180ms ease;
-  }
-
-  #QuickAddStandard .quick-add-modal__close svg {
-    width: 15px !important;
-    height: 15px !important;
-  }
-
-  #QuickAddStandard .quick-add-modal__close:hover {
-    background: #111111 !important;
-    color: #ffffff !important;
-
-    transform: rotate(90deg);
   }
 
 
-  /* ==========================================================
-     BULK QUICK ADD
-     ========================================================== */
+  #QuickStandardModal
+  .product-quick-add__grid {
 
-  #QuickAddBulk {
-    --quick-add-bg: #ffffff;
+    grid-template-columns:
+      112px
+      minmax(0,1fr) !important;
+
   }
 
-  #QuickAddBulk .quick-add-modal__content--bulk {
-    width: min(
-      var(--normal-page-width),
-      calc(100vw - 32px)
-    ) !important;
 
-    max-height: 85dvh !important;
+  #QuickStandardModal
+  .product-information__media {
 
-    overflow: hidden !important;
+    width: 112px !important;
 
-    background: var(--quick-add-bg) !important;
+    min-width: 112px !important;
 
-    border-radius: var(--quick-add-radius) !important;
-
-    box-shadow:
-      0 24px 80px rgba(0, 0, 0, 0.20) !important;
-  }
-
-  #QuickBulkModal {
-    width: 100%;
-    max-height: 85dvh;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    -webkit-overflow-scrolling: touch;
   }
 
 
-  /* ==========================================================
-     ERROR STATE
-     Used by updated quick-add.js if product loading fails.
-     ========================================================== */
+  #QuickStandardModal
+  .product-quick-add__media img {
 
-  .quick-add-error {
-    display: flex;
+    max-height: 330px !important;
 
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    min-height: 260px;
-
-    padding: 40px;
-
-    text-align: center;
   }
 
-  .quick-add-error p {
-    margin: 0 0 20px;
 
-    font-size: 14px;
-    line-height: 1.5;
-  }
+  #QuickStandardModal
+  .product-information__grid {
 
-  .quick-add-error .button {
-    min-width: 180px;
+    padding:
+      20px 16px !important;
+
   }
 
 
-  /* ==========================================================
-     MOBILE
-     ========================================================== */
+  #QuickStandardModal
+  h1,
+  #QuickStandardModal
+  h2 {
 
-  @media screen and (max-width: 749px) {
-
-    #QuickAddStandard {
-      align-items: flex-end !important;
-    }
-
-    #QuickAddStandard .quick-add-modal__content--standard {
-      position: absolute !important;
-
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-
-      width: 100% !important;
-      max-width: 100% !important;
-
-      height: auto !important;
-      max-height: 92dvh !important;
-
-      border-radius:
-        20px 20px 0 0 !important;
-
-      transform: none !important;
-
-      box-shadow:
-        0 -12px 50px rgba(0, 0, 0, 0.18) !important;
-    }
-
-    #QuickStandardModal {
-      max-height: 92dvh;
-    }
-
-    #QuickAddStandard .quick-add-modal__close {
-      top: 10px !important;
-      right: 10px !important;
-
-      width: 36px !important;
-      height: 36px !important;
-    }
-
-    #QuickAddBulk .quick-add-modal__content--bulk {
-      width: 100% !important;
-      max-width: 100% !important;
-
-      max-height: 92dvh !important;
-
-      border-radius:
-        20px 20px 0 0 !important;
-    }
-
-    #QuickBulkModal {
-      max-height: 92dvh;
-    }
-  }
-
-
-  /* ==========================================================
-     REDUCED MOTION
-     ========================================================== */
-
-  @media (prefers-reduced-motion: reduce) {
-
-    #QuickAddStandard .quick-add-modal__close,
-    #QuickAddBulk .quick-add-modal__close {
-      transition: none !important;
-    }
+    font-size: 14px !important;
 
   }
+
+}
+
 </style>
