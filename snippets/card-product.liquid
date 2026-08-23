@@ -190,7 +190,11 @@
         {%- assign product_form_id_epc = 'quick-add-' | append: section_id | append: card_product.id -%}
 
         {% unless horizontal_class %}
-          <div class="epc-quick-add" data-universes-quick-add>
+          <div
+            class="epc-quick-add"
+            data-universes-quick-add
+            style="position:absolute !important; right:12px !important; bottom:12px !important; top:auto !important; left:auto !important; z-index:20 !important; margin:0 !important; padding:0 !important;"
+          >
             <modal-opener data-modal="#QuickAddStandard">
               <button
                 id="{{ product_form_id_epc }}-submit"
