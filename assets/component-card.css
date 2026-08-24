@@ -1153,65 +1153,118 @@
   }
 }
 
-/* ── Premium Quick Add overlay ── */
+/* ── Premium Quick Add overlay — Add to Cart ── */
 .epc-quick-add {
-  bottom: 0;
-  left: 0;
-  padding: 0 16px 16px;
   position: absolute;
-  right: 0;
+  right: 12px;
+  bottom: 12px;
+  left: auto;
   z-index: 6;
+  padding: 0;
+  pointer-events: none;
 }
 
 .epc-quick-add .epc-quick-add__btn {
-  align-items: center;
-  background: #111 !important;
-  border: 0 !important;
-  border-radius: 999px !important;
-  box-shadow: 0 4px 20px rgb(0 0 0 / 0.15) !important;
-  color: #fff !important;
-  cursor: pointer;
+  position: relative;
   display: inline-flex !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  gap: 8px;
-  height: 40px;
+  align-items: center;
   justify-content: center;
-  letter-spacing: 0.15em !important;
-  line-height: 1;
-  min-height: 40px;
-  padding: 0 16px !important;
+  width: 46px;
+  height: 46px;
+  min-height: 46px;
+  padding: 0 !important;
+  border: 1px solid rgb(255 255 255 / 0.75) !important;
+  border-radius: 50% !important;
+  background: rgb(255 255 255 / 0.94) !important;
+  color: #111 !important;
+  box-shadow:
+    0 8px 24px rgb(0 0 0 / 0.16),
+    0 2px 6px rgb(0 0 0 / 0.08) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
   pointer-events: auto;
-  text-transform: uppercase !important;
-  transition: background 250ms ease, transform 250ms ease !important;
-  width: 100%;
+  overflow: visible;
+  transition:
+    transform 220ms cubic-bezier(.22,.61,.36,1),
+    background 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
 }
 
-@media (hover: hover) {
-  .epc-quick-add .epc-quick-add__btn:hover {
-    background: #c3192e !important;
-  }
+/* Clear shopping-cart glyph */
+.epc-quick-add .epc-quick-add__btn::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 13px;
+  width: 17px;
+  height: 13px;
+  border: 1.8px solid currentColor;
+  border-top: 0;
+  border-radius: 0 0 3px 3px;
+  transform: skew(-8deg);
 }
 
-.epc-quick-add .epc-quick-add__btn svg {
-  flex-shrink: 0;
-  height: 14px;
-  width: 14px;
-}
-
-/* Null out any ::before / ::after from base button styles */
-.epc-quick-add .epc-quick-add__btn::before,
+/* Cart handle */
 .epc-quick-add .epc-quick-add__btn::after {
-  display: none !important;
+  content: "+";
+  position: absolute;
+  right: 7px;
+  bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #111;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  z-index: 3;
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    color 220ms ease;
+}
+
+/* Cart wheels */
+.epc-quick-add .epc-quick-add__btn > svg {
+  position: relative;
+  z-index: 2;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Wheel dots created without changing markup */
+.epc-quick-add .epc-quick-add__btn span:first-child {
+  position: relative;
+}
+
+/* Small tooltip on desktop */
+.epc-quick-add .epc-quick-add__btn[aria-label]::after {
+  /* Keep the plus badge; tooltip is supplied by the title attribute below
+     if present, so no text is injected here. */
+}
+
+/* Loading state */
+.epc-quick-add .epc-quick-add__btn.loading::before,
+.epc-quick-add .epc-quick-add__btn.loading::after {
+  opacity: 0;
 }
 
 .epc-quick-add .epc-quick-add__btn .loading__spinner {
-  color: currentColor;
-  left: 50%;
   position: absolute;
-  top: 50%;
+  inset: 50% auto auto 50%;
+  width: 18px;
+  height: 18px;
+  color: currentColor;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  z-index: 5;
 }
 
 .epc-quick-add .epc-quick-add__btn.loading > span,
@@ -1220,33 +1273,64 @@
 }
 
 .epc-quick-add .epc-quick-add__btn[disabled] {
-  background: rgba(108, 112, 109, 0.9) !important;
-  color: rgba(255, 255, 255, 0.8) !important;
+  background: rgb(255 255 255 / 0.75) !important;
+  color: rgb(17 17 17 / 0.45) !important;
   box-shadow: none !important;
   cursor: default;
 }
 
-/* Desktop: hidden by default, slides up on card hover */
+.epc-quick-add .epc-quick-add__btn[disabled]::after {
+  background: rgb(17 17 17 / 0.45);
+  border-color: rgb(17 17 17 / 0.45);
+}
+
+/* Desktop: subtle reveal on product hover */
 @media (hover: hover) and (min-width: 750px) {
   .epc-quick-add {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(7px) scale(.96);
     transition:
-      opacity 300ms cubic-bezier(.22, .61, .36, 1),
-      transform 300ms cubic-bezier(.22, .61, .36, 1);
+      opacity 240ms cubic-bezier(.22,.61,.36,1),
+      transform 240ms cubic-bezier(.22,.61,.36,1);
   }
 
-  .product-card-wrapper:not(.product-card-list):hover .epc-quick-add {
+  .product-card-wrapper:not(.product-card-list):hover .epc-quick-add,
+  .product-card-wrapper:not(.product-card-list):focus-within .epc-quick-add {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+  }
+
+  .epc-quick-add .epc-quick-add__btn:hover {
+    background: #111 !important;
+    border-color: #111 !important;
+    color: #fff !important;
+    box-shadow:
+      0 12px 30px rgb(0 0 0 / 0.22),
+      0 3px 8px rgb(0 0 0 / 0.10) !important;
+    transform: translateY(-2px) scale(1.04);
+  }
+
+  .epc-quick-add .epc-quick-add__btn:hover::after {
+    background: #fff;
+    border-color: #fff;
+    color: #111;
+    transform: scale(1.08);
   }
 }
 
-/* Mobile / touch: always visible */
+/* Mobile / touch: always visible and slightly larger tap target */
 @media (hover: none), (max-width: 749px) {
   .epc-quick-add {
+    right: 10px;
+    bottom: 10px;
     opacity: 1 !important;
-    transform: translateY(0) !important;
+    transform: none !important;
+  }
+
+  .epc-quick-add .epc-quick-add__btn {
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
   }
 }
 
@@ -4467,5 +4551,55 @@
   .card-product__group-wrapper
   .wishlist-button {
     pointer-events: auto !important;
+  }
+}
+
+
+/* ==========================================================
+   FINAL EPC QUICK ADD OVERRIDES
+   Product-image corner Add to Cart control
+   ========================================================== */
+.product-card-wrapper .epc-quick-add,
+.card .epc-quick-add {
+  left: auto !important;
+  right: 12px !important;
+  bottom: 12px !important;
+  width: auto !important;
+  padding: 0 !important;
+}
+
+.product-card-wrapper .epc-quick-add .epc-quick-add__btn,
+.card .epc-quick-add .epc-quick-add__btn {
+  width: 46px !important;
+  min-width: 46px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Accessible focus ring */
+.product-card-wrapper .epc-quick-add .epc-quick-add__btn:focus-visible,
+.card .epc-quick-add .epc-quick-add__btn:focus-visible {
+  outline: 2px solid #111 !important;
+  outline-offset: 3px !important;
+}
+
+@media screen and (max-width: 749px) {
+  .product-card-wrapper .epc-quick-add,
+  .card .epc-quick-add {
+    right: 9px !important;
+    bottom: 9px !important;
+  }
+
+  .product-card-wrapper .epc-quick-add .epc-quick-add__btn,
+  .card .epc-quick-add .epc-quick-add__btn {
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
   }
 }
