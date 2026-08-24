@@ -932,6 +932,65 @@
 
 }
 
+
+/* ==========================================================
+   UNIVERSes RAW — CLEAR ADD-TO-CART ACTION
+   Keeps the existing Quick Add functionality but makes the
+   primary action instantly recognizable.
+   ========================================================== */
+
+#QuickStandardModal .universes-quick-add__submit {
+  gap: 9px !important;
+  white-space: nowrap !important;
+}
+
+#QuickStandardModal .universes-quick-add__submit::after {
+  content: "＋" !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 18px !important;
+  height: 18px !important;
+  flex: 0 0 18px !important;
+  border: 1px solid rgba(255,255,255,.55) !important;
+  border-radius: 50% !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  transition:
+    transform .2s ease,
+    background .2s ease !important;
+}
+
+#QuickStandardModal .universes-quick-add__submit:hover::after {
+  transform: translateX(2px) scale(1.05) !important;
+  background: rgba(255,255,255,.10) !important;
+}
+
+/*
+ * If the existing button text is "ADD TO CART", preserve it.
+ * If the theme supplies another text, this styling still works.
+ */
+#QuickStandardModal .universes-quick-add__submit .button__text,
+#QuickStandardModal .universes-quick-add__submit .btn-text {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Mobile: keep the action compact but highly recognizable. */
+@media screen and (max-width: 749px) {
+  #QuickStandardModal .universes-quick-add__submit {
+    gap: 7px !important;
+  }
+
+  #QuickStandardModal .universes-quick-add__submit::after {
+    width: 16px !important;
+    height: 16px !important;
+    flex-basis: 16px !important;
+    font-size: 12px !important;
+  }
+}
+
 </style>
 
 
