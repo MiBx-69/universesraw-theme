@@ -1055,7 +1055,7 @@
         "columns_gap": 8,
         "rows_gap": 8,
         "show_view_all": true,
-        "view_all_style": "solid",
+        "view_all_style": "outline",
         "columns_mobile": "2",
         "swipe_on_mobile": false,
         "loop": false,
