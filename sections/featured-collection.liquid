@@ -747,7 +747,6 @@
     border-radius: inherit;
     pointer-events: none;
   }
-  }
 
   .universes-editorial-product-card .universes-editorial-quick-add__button:hover {
     transform: translateY(-3px) scale(1.045) !important;
@@ -841,6 +840,234 @@
     document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {
     init();
+  }
+})();
+</script>
+
+
+<!-- ============================================================
+     UNIVERSes RAW — QUICK ADD ENGINE
+     Loads the product Quick Add modal immediately and keeps the
+     existing premium button connected to the real product data.
+     ============================================================ -->
+
+<template id="HaloQuickAddTemplate">
+  {%- render 'quick-add' -%}
+</template>
+
+<script>
+(function () {
+  'use strict';
+
+  var QUICK_ADD_ASSETS = {
+    modalCss: "{{ 'quick-add-modal.css' | asset_url }}",
+    quantityCss: "{{ 'quantity-popover.css' | asset_url }}",
+    productForm: "{{ 'product-form.js' | asset_url }}",
+    quickAddJs: "{{ 'quick-add.js' | asset_url }}",
+    quantityJs: "{{ 'quantity-popover.js' | asset_url }}",
+    pricePerItemJs: "{{ 'price-per-item.js' | asset_url }}"
+  };
+
+  window.__universesQuickAdd = window.__universesQuickAdd || {
+    scripts: {},
+    styles: {},
+    ready: false,
+    loading: null
+  };
+
+  function isDefined(name) {
+    return (
+      typeof customElements !== 'undefined' &&
+      !!customElements.get(name)
+    );
+  }
+
+  function loadScript(src) {
+    if (!src) return Promise.resolve();
+
+    if (window.__universesQuickAdd.scripts[src]) {
+      return window.__universesQuickAdd.scripts[src];
+    }
+
+    window.__universesQuickAdd.scripts[src] = new Promise(function (resolve, reject) {
+      var existing = document.querySelector('script[src="' + src + '"]');
+
+      if (existing) {
+        if (isDefined('quick-add-modal')) {
+          resolve();
+          return;
+        }
+
+        existing.addEventListener('load', resolve, { once: true });
+        existing.addEventListener('error', reject, { once: true });
+        return;
+      }
+
+      var script = document.createElement('script');
+      script.src = src;
+      script.defer = true;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+
+    return window.__universesQuickAdd.scripts[src];
+  }
+
+  function loadStyle(href) {
+    if (!href || window.__universesQuickAdd.styles[href]) return;
+
+    if (document.querySelector('link[href="' + href + '"]')) {
+      window.__universesQuickAdd.styles[href] = true;
+      return;
+    }
+
+    window.__universesQuickAdd.styles[href] = true;
+
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+  }
+
+  function mountQuickAddMarkup() {
+    if (
+      document.getElementById('QuickAddStandard') ||
+      document.getElementById('QuickAddBulk')
+    ) {
+      return;
+    }
+
+    var template = document.getElementById('HaloQuickAddTemplate');
+
+    if (!template || !template.content) return;
+
+    document.body.appendChild(template.content.cloneNode(true));
+  }
+
+  function prepareQuickAdd() {
+    if (window.__universesQuickAdd.loading) {
+      return window.__universesQuickAdd.loading;
+    }
+
+    window.__universesQuickAdd.loading = Promise.resolve()
+      .then(function () {
+        loadStyle(QUICK_ADD_ASSETS.modalCss);
+        loadStyle(QUICK_ADD_ASSETS.quantityCss);
+      })
+      .then(function () {
+        var queue = [];
+
+        if (!isDefined('product-form-component')) {
+          queue.push(QUICK_ADD_ASSETS.productForm);
+        }
+
+        if (!isDefined('quantity-popover')) {
+          queue.push(QUICK_ADD_ASSETS.quantityJs);
+        }
+
+        if (!isDefined('price-per-item')) {
+          queue.push(QUICK_ADD_ASSETS.pricePerItemJs);
+        }
+
+        if (!isDefined('quick-add-modal')) {
+          queue.push(QUICK_ADD_ASSETS.quickAddJs);
+        }
+
+        return queue.reduce(function (promise, src) {
+          return promise.then(function () {
+            return loadScript(src);
+          });
+        }, Promise.resolve());
+      })
+      .then(function () {
+        mountQuickAddMarkup();
+        window.__universesQuickAdd.ready = true;
+      });
+
+    return window.__universesQuickAdd.loading;
+  }
+
+  /*
+   * Preload while the customer is browsing.
+   * This makes the first tap much faster without blocking page rendering.
+   */
+  function preload() {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(function () {
+        prepareQuickAdd().catch(function () {});
+      }, { timeout: 1200 });
+    } else {
+      setTimeout(function () {
+        prepareQuickAdd().catch(function () {});
+      }, 120);
+    }
+  }
+
+  /*
+   * Capture the editorial button before the theme's default handler.
+   * If the modal already exists, the theme handles the click normally.
+   * If not, we mount/load everything and then open it.
+   */
+  document.addEventListener('click', function (event) {
+    var button = event.target.closest(
+      '.universes-editorial-quick-add__button'
+    );
+
+    if (!button) return;
+
+    var opener = button.closest('modal-opener');
+
+    if (!opener) return;
+
+    var selector = opener.getAttribute('data-modal');
+
+    if (selector !== '#QuickAddStandard') return;
+
+    if (document.querySelector('#QuickAddStandard')) return;
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    button.setAttribute('aria-disabled', 'true');
+    button.classList.add('loading');
+
+    prepareQuickAdd()
+      .then(function () {
+        var modal = document.querySelector('#QuickAddStandard');
+
+        if (!modal) {
+          throw new Error('Quick Add modal markup was not created.');
+        }
+
+        if (typeof modal.show === 'function') {
+          modal.show(button);
+        } else {
+          throw new Error('Quick Add modal is not initialized.');
+        }
+      })
+      .catch(function (error) {
+        console.error('Universes RAW Quick Add:', error);
+
+        var productUrl = button.getAttribute('data-product-url');
+
+        if (productUrl) {
+          window.location.href = productUrl;
+        }
+      })
+      .finally(function () {
+        button.removeAttribute('aria-disabled');
+        button.classList.remove('loading');
+      });
+  }, true);
+
+  /*
+   * Warm up the engine after DOM ready.
+   */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', preload, { once: true });
+  } else {
+    preload();
   }
 })();
 </script>
