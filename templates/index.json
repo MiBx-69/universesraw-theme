@@ -81,20 +81,20 @@
     "collection_grid_pro_D3RCF3": {
       "type": "collection-grid-pro",
       "blocks": {
-        "collection_ePRnXe": {
-          "type": "collection",
-          "settings": {
-            "collection": "tommy-polo",
-            "image": "shopify://shop_images/ChatGPT_Image_Aug_24_2026_12_29_49_PM.png",
-            "title": "Tommy Textured Polo"
-          }
-        },
         "collection_TRTL7Q": {
           "type": "collection",
           "settings": {
             "collection": "latest-collection",
             "image": "shopify://shop_images/new-arrival-texted-colelction-image.png",
             "title": "NEW ARRIVALS"
+          }
+        },
+        "collection_ePRnXe": {
+          "type": "collection",
+          "settings": {
+            "collection": "tommy-polo",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_24_2026_12_29_49_PM.png",
+            "title": "Tommy Textured Polo"
           }
         },
         "collection_tQKnfW": {
@@ -109,7 +109,6 @@
           "type": "collection",
           "settings": {
             "collection": "remi-cotton-shirt",
-            "image": "shopify://shop_images/premium-remi-cottton-shirt-collection-image-high-quality-premium-and-best-squre-ratio.png",
             "title": ""
           }
         },
@@ -146,8 +145,8 @@
         }
       },
       "block_order": [
-        "collection_ePRnXe",
         "collection_TRTL7Q",
+        "collection_ePRnXe",
         "collection_tQKnfW",
         "collection_kLCe3K",
         "collection_LNLmWY",
