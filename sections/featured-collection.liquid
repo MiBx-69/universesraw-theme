@@ -401,25 +401,56 @@
           >
             {% if layout_type == 'editorial' %}
               <div class="universes-editorial-product-card" data-editorial-quick-add>
-                {% content_for "block", type: "card-product-flex", id: "product-slide-item", closest.product: product %}
-                <modal-opener class="universes-editorial-quick-add" data-modal="#QuickAddStandard">
-                  <button
-                    type="button"
-                    class="universes-editorial-quick-add__button"
-                    aria-label="Add {{ product.title | escape }} to cart" title="Add to cart"
-                    data-product-url="{{ product.url }}"
-                    data-product-id="{{ product.id }}"
-                    data-product-handle="{{ product.handle }}"
+                <div class="universes-editorial-product-card__content">
+                  {% content_for "block", type: "card-product-flex", id: "product-slide-item", closest.product: product %}
+                </div>
+
+                {% if sec_stts.quick_add == 'standard' %}
+                  <modal-opener
+                    class="universes-editorial-quick-add"
+                    data-modal="#QuickAddStandard"
                   >
-                    <svg class="universes-editorial-quick-add__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                      <path d="M8.25 11.25h15.5l-1.1 14.15a2 2 0 0 1-1.99 1.85H11.34a2 2 0 0 1-1.99-1.85l-1.1-14.15Z" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round"/>
-                      <path d="M12 11.1V9.2a4 4 0 0 1 8 0v1.9" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/>
-                      <circle cx="23.3" cy="22.7" r="5.35" fill="currentColor"/>
-                      <path d="M23.3 19.95v5.5M20.55 22.7h5.5" stroke="#fff" stroke-width="1.45" stroke-linecap="round"/>
-                    </svg>
-                    <span class="visually-hidden">Add {{ product.title | escape }} to cart</span>
-                  </button>
-                </modal-opener>
+                    <button
+                      type="button"
+                      class="universes-editorial-quick-add__button"
+                      aria-label="Quick add {{ product.title | escape }}"
+                      title="Quick add"
+                      data-product-url="{{ product.url }}"
+                      data-product-id="{{ product.id }}"
+                      data-product-handle="{{ product.handle }}"
+                    >
+                      <svg
+                        class="universes-editorial-quick-add__icon"
+                        viewBox="0 0 32 32"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M7.5 10.75h17l-1.05 14.08a2.35 2.35 0 0 1-2.34 2.17H10.89a2.35 2.35 0 0 1-2.34-2.17L7.5 10.75Z"
+                          stroke="currentColor"
+                          stroke-width="1.55"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M11.6 10.55V8.85a4.4 4.4 0 0 1 8.8 0v1.7"
+                          stroke="currentColor"
+                          stroke-width="1.55"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          d="M23.15 17.2v7.4M19.45 20.9h7.4"
+                          stroke="currentColor"
+                          stroke-width="1.55"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                      <span class="visually-hidden">
+                        Quick add {{ product.title | escape }}
+                      </span>
+                    </button>
+                  </modal-opener>
+                {% endif %}
               </div>
             {% else %}
               {% content_for "block", type: "card-product-flex", id: "product-slide-item", closest.product: product %}
@@ -686,60 +717,68 @@
 {%- endif -%}
 
 
-<!-- UNIVERSes RAW — EDITORIAL QUICK ADD -->
+<!-- UNIVERSes RAW — PREMIUM EDITORIAL QUICK ADD -->
 <style>
-  .universes-editorial-product-card .card__inner,
-  .universes-editorial-product-card .card--block-media {
+  .universes-editorial-product-card {
     position: relative !important;
     isolation: isolate;
+  }
+
+  .universes-editorial-product-card__content {
+    position: relative !important;
+    z-index: 1;
   }
 
   .universes-editorial-product-card .universes-editorial-quick-add {
     position: absolute !important;
-    right: 12px !important;
-    bottom: 12px !important;
+    right: 14px !important;
+    bottom: 14px !important;
     left: auto !important;
     top: auto !important;
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
+    width: 48px !important;
+    height: 48px !important;
     margin: 0 !important;
     padding: 0 !important;
     display: block !important;
-    z-index: 9999 !important;
+    z-index: 20 !important;
   }
 
-  .universes-editorial-product-card .universes-editorial-quick-add__button {
+  .universes-editorial-product-card
+  .universes-editorial-quick-add__button {
     position: relative !important;
-    isolation: isolate;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    box-sizing: border-box !important;
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
     margin: 0 !important;
     padding: 0 !important;
-    border: 1px solid rgba(17,17,17,.08) !important;
+    border: 1px solid rgba(17,17,17,.10) !important;
     border-radius: 50% !important;
-    background: linear-gradient(145deg, rgba(255,255,255,.99), rgba(247,246,242,.96)) !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background: rgba(255,255,255,.94) !important;
     color: #111 !important;
     box-shadow:
       0 1px 0 rgba(255,255,255,.95) inset,
-      0 8px 24px rgba(0,0,0,.15),
-      0 2px 5px rgba(0,0,0,.06) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+      0 10px 28px rgba(0,0,0,.16),
+      0 2px 7px rgba(0,0,0,.07) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     cursor: pointer !important;
-    transition: transform .28s cubic-bezier(.22,.61,.36,1), background-color .28s ease, color .28s ease, box-shadow .28s ease !important;
+    overflow: hidden;
+    transition:
+      transform .28s cubic-bezier(.22,.61,.36,1),
+      background .28s ease,
+      color .28s ease,
+      box-shadow .28s ease,
+      border-color .28s ease !important;
   }
 
-  .universes-editorial-product-card .universes-editorial-quick-add__button::before {
+  .universes-editorial-product-card
+  .universes-editorial-quick-add__button::before {
     content: "";
     position: absolute;
     inset: 3px;
@@ -748,24 +787,42 @@
     pointer-events: none;
   }
 
-  .universes-editorial-product-card .universes-editorial-quick-add__button:hover {
-    transform: translateY(-3px) scale(1.045) !important;
+  .universes-editorial-product-card
+  .universes-editorial-quick-add__button::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(17,17,17,.08);
+    transform: scale(0);
+    transition: transform .35s ease;
+  }
+
+  .universes-editorial-product-card
+  .universes-editorial-quick-add__button:hover {
+    transform: translateY(-3px) scale(1.04) !important;
     background: #111 !important;
     color: #fff !important;
-    box-shadow: 0 14px 30px rgba(0,0,0,.22), 0 4px 10px rgba(0,0,0,.08) !important;
+    border-color: #111 !important;
+    box-shadow:
+      0 16px 34px rgba(0,0,0,.22),
+      0 4px 10px rgba(0,0,0,.08) !important;
   }
 
-  .universes-editorial-product-card .universes-editorial-quick-add__button:active {
-    transform: scale(.95) !important;
-    transition-duration: .08s !important;
+  .universes-editorial-product-card
+  .universes-editorial-quick-add__button:active {
+    transform: translateY(0) scale(.94) !important;
   }
 
-  .universes-editorial-product-card .universes-editorial-quick-add__button:focus-visible {
+  .universes-editorial-product-card
+  .universes-editorial-quick-add__button:focus-visible {
     outline: 2px solid #111 !important;
     outline-offset: 4px !important;
   }
 
-  .universes-editorial-product-card .universes-editorial-quick-add__icon {
+  .universes-editorial-product-card
+  .universes-editorial-quick-add__icon {
     position: relative;
     z-index: 2;
     display: block !important;
@@ -773,304 +830,65 @@
     height: 25px !important;
     margin: 0 !important;
     color: currentColor !important;
-    transform: translateY(-1px);
-    transition: transform .28s cubic-bezier(.22,.61,.36,1);
+    transition: transform .28s cubic-bezier(.22,.61,.36,1) !important;
   }
 
-  .universes-editorial-product-card .universes-editorial-quick-add__button:hover .universes-editorial-quick-add__icon {
-    transform: translateY(-1px) scale(1.055);
+  .universes-editorial-product-card
+  .universes-editorial-quick-add__button:hover
+  .universes-editorial-quick-add__icon {
+    transform: scale(1.08) !important;
+  }
+
+  .universes-editorial-product-card
+  .universes-editorial-quick-add__button.loading {
+    pointer-events: none !important;
+    opacity: .72 !important;
+  }
+
+  .universes-editorial-product-card
+  .universes-editorial-quick-add__button.loading
+  .universes-editorial-quick-add__icon {
+    animation: universesQuickAddPulse 1s ease-in-out infinite;
+  }
+
+  @keyframes universesQuickAddPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(.88); opacity: .55; }
   }
 
   @media screen and (max-width: 749px) {
     .universes-editorial-product-card .universes-editorial-quick-add {
-      right: 8px !important;
-      bottom: 8px !important;
-      width: 40px !important;
-      height: 40px !important;
-      min-width: 40px !important;
-      min-height: 40px !important;
+      right: 9px !important;
+      bottom: 9px !important;
+      width: 42px !important;
+      height: 42px !important;
     }
 
-    .universes-editorial-product-card .universes-editorial-quick-add__button {
-      width: 40px !important;
-      height: 40px !important;
-      min-width: 40px !important;
-      min-height: 40px !important;
+    .universes-editorial-product-card
+    .universes-editorial-quick-add__button {
+      width: 42px !important;
+      height: 42px !important;
+      min-width: 42px !important;
+      min-height: 42px !important;
     }
 
-    .universes-editorial-product-card .universes-editorial-quick-add__icon {
-      width: 18px !important;
-      height: 18px !important;
+    .universes-editorial-product-card
+    .universes-editorial-quick-add__icon {
+      width: 21px !important;
+      height: 21px !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .universes-editorial-product-card
+    .universes-editorial-quick-add__button,
+    .universes-editorial-product-card
+    .universes-editorial-quick-add__icon {
+      transition: none !important;
+      animation: none !important;
     }
   }
 </style>
-
-<script>
-(function () {
-  function moveEditorialQuickAdds(root) {
-    (root || document).querySelectorAll('[data-editorial-quick-add]').forEach(function (card) {
-      var quickAdd = card.querySelector(':scope > .universes-editorial-quick-add');
-      if (!quickAdd) return;
-
-      var imageContainer =
-        card.querySelector('.card__inner') ||
-        card.querySelector('.card--block-media') ||
-        card.querySelector('.card-product__media') ||
-        card.querySelector('.card__media');
-
-      if (imageContainer && !imageContainer.contains(quickAdd)) {
-        imageContainer.appendChild(quickAdd);
-      }
-    });
-  }
-
-  function init() {
-    moveEditorialQuickAdds(document);
-
-    if (!document.body) return;
-
-    new MutationObserver(function () {
-      requestAnimationFrame(function () {
-        moveEditorialQuickAdds(document);
-      });
-    }).observe(document.body, { childList: true, subtree: true });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
-  } else {
-    init();
-  }
-})();
-</script>
-
-
-<!-- ============================================================
-     UNIVERSes RAW — QUICK ADD ENGINE
-     Loads the product Quick Add modal immediately and keeps the
-     existing premium button connected to the real product data.
-     ============================================================ -->
-
-<template id="HaloQuickAddTemplate">
-  {%- render 'quick-add' -%}
-</template>
-
-<script>
-(function () {
-  'use strict';
-
-  var QUICK_ADD_ASSETS = {
-    modalCss: "{{ 'quick-add-modal.css' | asset_url }}",
-    quantityCss: "{{ 'quantity-popover.css' | asset_url }}",
-    productForm: "{{ 'product-form.js' | asset_url }}",
-    quickAddJs: "{{ 'quick-add.js' | asset_url }}",
-    quantityJs: "{{ 'quantity-popover.js' | asset_url }}",
-    pricePerItemJs: "{{ 'price-per-item.js' | asset_url }}"
-  };
-
-  window.__universesQuickAdd = window.__universesQuickAdd || {
-    scripts: {},
-    styles: {},
-    ready: false,
-    loading: null
-  };
-
-  function isDefined(name) {
-    return (
-      typeof customElements !== 'undefined' &&
-      !!customElements.get(name)
-    );
-  }
-
-  function loadScript(src) {
-    if (!src) return Promise.resolve();
-
-    if (window.__universesQuickAdd.scripts[src]) {
-      return window.__universesQuickAdd.scripts[src];
-    }
-
-    window.__universesQuickAdd.scripts[src] = new Promise(function (resolve, reject) {
-      var existing = document.querySelector('script[src="' + src + '"]');
-
-      if (existing) {
-        if (isDefined('quick-add-modal')) {
-          resolve();
-          return;
-        }
-
-        existing.addEventListener('load', resolve, { once: true });
-        existing.addEventListener('error', reject, { once: true });
-        return;
-      }
-
-      var script = document.createElement('script');
-      script.src = src;
-      script.defer = true;
-      script.onload = resolve;
-      script.onerror = reject;
-      document.head.appendChild(script);
-    });
-
-    return window.__universesQuickAdd.scripts[src];
-  }
-
-  function loadStyle(href) {
-    if (!href || window.__universesQuickAdd.styles[href]) return;
-
-    if (document.querySelector('link[href="' + href + '"]')) {
-      window.__universesQuickAdd.styles[href] = true;
-      return;
-    }
-
-    window.__universesQuickAdd.styles[href] = true;
-
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    document.head.appendChild(link);
-  }
-
-  function mountQuickAddMarkup() {
-    if (
-      document.getElementById('QuickAddStandard') ||
-      document.getElementById('QuickAddBulk')
-    ) {
-      return;
-    }
-
-    var template = document.getElementById('HaloQuickAddTemplate');
-
-    if (!template || !template.content) return;
-
-    document.body.appendChild(template.content.cloneNode(true));
-  }
-
-  function prepareQuickAdd() {
-    if (window.__universesQuickAdd.loading) {
-      return window.__universesQuickAdd.loading;
-    }
-
-    window.__universesQuickAdd.loading = Promise.resolve()
-      .then(function () {
-        loadStyle(QUICK_ADD_ASSETS.modalCss);
-        loadStyle(QUICK_ADD_ASSETS.quantityCss);
-      })
-      .then(function () {
-        var queue = [];
-
-        if (!isDefined('product-form-component')) {
-          queue.push(QUICK_ADD_ASSETS.productForm);
-        }
-
-        if (!isDefined('quantity-popover')) {
-          queue.push(QUICK_ADD_ASSETS.quantityJs);
-        }
-
-        if (!isDefined('price-per-item')) {
-          queue.push(QUICK_ADD_ASSETS.pricePerItemJs);
-        }
-
-        if (!isDefined('quick-add-modal')) {
-          queue.push(QUICK_ADD_ASSETS.quickAddJs);
-        }
-
-        return queue.reduce(function (promise, src) {
-          return promise.then(function () {
-            return loadScript(src);
-          });
-        }, Promise.resolve());
-      })
-      .then(function () {
-        mountQuickAddMarkup();
-        window.__universesQuickAdd.ready = true;
-      });
-
-    return window.__universesQuickAdd.loading;
-  }
-
-  /*
-   * Preload while the customer is browsing.
-   * This makes the first tap much faster without blocking page rendering.
-   */
-  function preload() {
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(function () {
-        prepareQuickAdd().catch(function () {});
-      }, { timeout: 1200 });
-    } else {
-      setTimeout(function () {
-        prepareQuickAdd().catch(function () {});
-      }, 120);
-    }
-  }
-
-  /*
-   * Capture the editorial button before the theme's default handler.
-   * If the modal already exists, the theme handles the click normally.
-   * If not, we mount/load everything and then open it.
-   */
-  document.addEventListener('click', function (event) {
-    var button = event.target.closest(
-      '.universes-editorial-quick-add__button'
-    );
-
-    if (!button) return;
-
-    var opener = button.closest('modal-opener');
-
-    if (!opener) return;
-
-    var selector = opener.getAttribute('data-modal');
-
-    if (selector !== '#QuickAddStandard') return;
-
-    if (document.querySelector('#QuickAddStandard')) return;
-
-    event.preventDefault();
-    event.stopImmediatePropagation();
-
-    button.setAttribute('aria-disabled', 'true');
-    button.classList.add('loading');
-
-    prepareQuickAdd()
-      .then(function () {
-        var modal = document.querySelector('#QuickAddStandard');
-
-        if (!modal) {
-          throw new Error('Quick Add modal markup was not created.');
-        }
-
-        if (typeof modal.show === 'function') {
-          modal.show(button);
-        } else {
-          throw new Error('Quick Add modal is not initialized.');
-        }
-      })
-      .catch(function (error) {
-        console.error('Universes RAW Quick Add:', error);
-
-        var productUrl = button.getAttribute('data-product-url');
-
-        if (productUrl) {
-          window.location.href = productUrl;
-        }
-      })
-      .finally(function () {
-        button.removeAttribute('aria-disabled');
-        button.classList.remove('loading');
-      });
-  }, true);
-
-  /*
-   * Warm up the engine after DOM ready.
-   */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', preload, { once: true });
-  } else {
-    preload();
-  }
-})();
-</script>
 
 {% schema %}
 {
@@ -1089,6 +907,28 @@
     }
   ],
   "settings": [
+
+    {
+      "type": "select",
+      "id": "quick_add",
+      "label": "Quick add",
+      "options": [
+        {
+          "value": "none",
+          "label": "Disabled"
+        },
+        {
+          "value": "standard",
+          "label": "Quick add"
+        },
+        {
+          "value": "bulk",
+          "label": "Bulk quick add"
+        }
+      ],
+      "default": "standard"
+    },
+
     {
       "type": "collection",
       "id": "collection",
