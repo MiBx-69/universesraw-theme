@@ -405,52 +405,50 @@
                   {% content_for "block", type: "card-product-flex", id: "product-slide-item", closest.product: product %}
                 </div>
 
-                {% if sec_stts.quick_add == 'standard' %}
-                  <modal-opener
-                    class="universes-editorial-quick-add"
-                    data-modal="#QuickAddStandard"
+                <modal-opener
+                  class="universes-editorial-quick-add"
+                  data-modal="#QuickAddStandard"
+                >
+                  <button
+                    type="button"
+                    class="universes-editorial-quick-add__button"
+                    aria-label="Quick add {{ product.title | escape }}"
+                    title="Quick add"
+                    data-product-url="{{ product.url }}"
+                    data-product-id="{{ product.id }}"
+                    data-product-handle="{{ product.handle }}"
                   >
-                    <button
-                      type="button"
-                      class="universes-editorial-quick-add__button"
-                      aria-label="Quick add {{ product.title | escape }}"
-                      title="Quick add"
-                      data-product-url="{{ product.url }}"
-                      data-product-id="{{ product.id }}"
-                      data-product-handle="{{ product.handle }}"
+                    <svg
+                      class="universes-editorial-quick-add__icon"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
                     >
-                      <svg
-                        class="universes-editorial-quick-add__icon"
-                        viewBox="0 0 32 32"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M7.5 10.75h17l-1.05 14.08a2.35 2.35 0 0 1-2.34 2.17H10.89a2.35 2.35 0 0 1-2.34-2.17L7.5 10.75Z"
-                          stroke="currentColor"
-                          stroke-width="1.55"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M11.6 10.55V8.85a4.4 4.4 0 0 1 8.8 0v1.7"
-                          stroke="currentColor"
-                          stroke-width="1.55"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          d="M23.15 17.2v7.4M19.45 20.9h7.4"
-                          stroke="currentColor"
-                          stroke-width="1.55"
-                          stroke-linecap="round"
-                        />
-                      </svg>
-                      <span class="visually-hidden">
-                        Quick add {{ product.title | escape }}
-                      </span>
-                    </button>
-                  </modal-opener>
-                {% endif %}
+                      <path
+                        d="M7.5 10.75h17l-1.05 14.08a2.35 2.35 0 0 1-2.34 2.17H10.89a2.35 2.35 0 0 1-2.34-2.17L7.5 10.75Z"
+                        stroke="currentColor"
+                        stroke-width="1.55"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M11.6 10.55V8.85a4.4 4.4 0 0 1 8.8 0v1.7"
+                        stroke="currentColor"
+                        stroke-width="1.55"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M23.15 17.2v7.4M19.45 20.9h7.4"
+                        stroke="currentColor"
+                        stroke-width="1.55"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                    <span class="visually-hidden">
+                      Quick add {{ product.title | escape }}
+                    </span>
+                  </button>
+                </modal-opener>
               </div>
             {% else %}
               {% content_for "block", type: "card-product-flex", id: "product-slide-item", closest.product: product %}
@@ -730,6 +728,9 @@
   }
 
   .universes-editorial-product-card .universes-editorial-quick-add {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     position: absolute !important;
     right: 14px !important;
     bottom: 14px !important;
