@@ -359,22 +359,21 @@
         }
       },
       "settings": {
-        "render_type": "all",
+        "render_type": "custom",
         "collection_list": [
-          "all",
-          "latest-collection",
+          "tommy-polo",
+          "premium-trousers",
           "remi-cotton-shirt",
           "premium-shirts",
-          "knit-polo",
-          "premium-t-shirt",
-          "premium-polo",
-          "moncler-polo-collection-premium-mens-polo-shirts-universes",
-          "boss-polo-shirts-luxury-mens-polo-collection-universes",
-          "bootcut-jeans",
-          "sneakers",
-          "nike-mind-001-premium-mens-slides-universes",
           "premium-imported-slides-sandals",
-          "premium-trousers"
+          "premium-polo",
+          "premium-t-shirt",
+          "knit-polo",
+          "bootcut-jeans",
+          "nike-mind-001-premium-mens-slides-universes",
+          "moncler-polo-collection-premium-mens-polo-shirts-universes",
+          "sneakers",
+          "boss-polo-shirts-luxury-mens-polo-collection-universes"
         ],
         "layout_type": "grid",
         "collections_to_show": 20,
