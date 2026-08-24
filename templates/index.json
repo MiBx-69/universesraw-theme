@@ -649,6 +649,7 @@
       },
       "name": "t:names.product_list_editorial",
       "settings": {
+        "quick_add": "standard",
         "collection": "latest-collection",
         "layout_type": "editorial",
         "widget_layout": "default",
@@ -1485,6 +1486,7 @@
       },
       "name": "t:names.product_list_carousel",
       "settings": {
+        "quick_add": "bulk",
         "collection": "premium-trousers",
         "layout_type": "carousel",
         "widget_layout": "default",
