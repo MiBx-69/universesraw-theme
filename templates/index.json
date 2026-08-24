@@ -81,6 +81,14 @@
     "collection_grid_pro_D3RCF3": {
       "type": "collection-grid-pro",
       "blocks": {
+        "collection_ePRnXe": {
+          "type": "collection",
+          "settings": {
+            "collection": "tommy-polo",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_24_2026_12_29_49_PM.png",
+            "title": "Tommy Textured Polo"
+          }
+        },
         "collection_TRTL7Q": {
           "type": "collection",
           "settings": {
@@ -138,6 +146,7 @@
         }
       },
       "block_order": [
+        "collection_ePRnXe",
         "collection_TRTL7Q",
         "collection_tQKnfW",
         "collection_kLCe3K",
