@@ -145,10 +145,9 @@
                     <button
                       type="button"
                       class="universes-horizon-bag__button"
+                      title="Add to cart"
 
-                      aria-label="
-                        Quick add {{ product.title | escape }}
-                      "
+                      aria-label="Add {{ product.title | escape }} to cart"
 
                       data-product-url="{{ product.url }}"
                       data-product-id="{{ product.id }}"
@@ -159,24 +158,22 @@
                         class="universes-horizon-bag__icon"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        width="20"
-                        height="20"
+                        width="21"
+                        height="21"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="1.65"
+                        stroke-width="1.55"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         aria-hidden="true"
                       >
-                        <path d="M5.5 8.5h13l-1 11H6.5l-1-11Z"/>
-                        <path d="M8.5 8.5V7a3.5 3.5 0 0 1 7 0v1.5"/>
-                        <path d="M12 11.5v4"/>
-                        <path d="M10 13.5h4"/>
+                        <path d="M6.1 8.25h11.8l-.7 11.1a1.45 1.45 0 0 1-1.44 1.36H8.24a1.45 1.45 0 0 1-1.44-1.36l-.7-11.1Z"/>
+                        <path d="M8.75 8.25V7a3.25 3.25 0 0 1 6.5 0v1.25"/>
+                        <path d="M12 11.25v4.5"/>
+                        <path d="M9.75 13.5h4.5"/>
                       </svg>
 
-                      <span class="visually-hidden">
-                        Quick add {{ product.title | escape }}
-                      </span>
+                      <span class="visually-hidden">Add {{ product.title | escape }} to cart</span>
 
                     </button>
 
@@ -280,28 +277,26 @@
      ============================================================= -->
 
 <style>
-
   /* =========================================================
-     UNIVERSes RAW — PREMIUM COLLECTION QUICK ADD
-     Minimal bag + integrated plus mark
+     UNIVERSes RAW — SIGNATURE ADD TO CART
+     Premium editorial floating control
      ========================================================= */
 
-  /* Product image/card area remains the positioning parent */
   .product-grid__item .card__inner {
     position: relative !important;
+    isolation: isolate;
   }
 
-  /* Quick Add stays inside the product image, bottom-right */
   .product-grid__item .universes-horizon-bag {
     position: absolute !important;
     top: auto !important;
     left: auto !important;
-    right: 12px !important;
-    bottom: 12px !important;
-    z-index: 100 !important;
+    right: 14px !important;
+    bottom: 14px !important;
+    z-index: 20 !important;
 
-    width: 44px !important;
-    height: 44px !important;
+    width: 52px !important;
+    height: 52px !important;
     margin: 0 !important;
     padding: 0 !important;
 
@@ -311,17 +306,38 @@
     pointer-events: auto !important;
   }
 
+  /* Soft luxury halo */
+  .product-grid__item .universes-horizon-bag::before {
+    content: "";
+    position: absolute !important;
+    inset: -5px !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(185, 145, 70, .28) !important;
+    background: radial-gradient(
+      circle,
+      rgba(255,255,255,.22) 0%,
+      rgba(255,255,255,0) 68%
+    ) !important;
+    opacity: .8 !important;
+    pointer-events: none !important;
+    transform: scale(.94) !important;
+    transition:
+      transform .35s cubic-bezier(.22,.61,.36,1),
+      opacity .35s ease !important;
+  }
+
   .product-grid__item .universes-horizon-bag__button {
     appearance: none !important;
     -webkit-appearance: none !important;
     box-sizing: border-box !important;
 
     position: relative !important;
+    z-index: 2 !important;
 
-    width: 44px !important;
-    min-width: 44px !important;
-    height: 44px !important;
-    min-height: 44px !important;
+    width: 52px !important;
+    min-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
 
     margin: 0 !important;
     padding: 0 !important;
@@ -330,50 +346,53 @@
     align-items: center !important;
     justify-content: center !important;
 
-    border: 1px solid rgba(17,17,17,.10) !important;
+    border: 1px solid rgba(17,17,17,.08) !important;
     border-radius: 50% !important;
 
-    background: rgba(255,255,255,.96) !important;
-    color: #111 !important;
+    background:
+      linear-gradient(
+        145deg,
+        rgba(255,255,255,.99),
+        rgba(247,246,243,.95)
+      ) !important;
+
+    color: #151515 !important;
 
     box-shadow:
-      0 6px 18px rgba(0,0,0,.12),
-      0 2px 5px rgba(0,0,0,.06) !important;
+      0 14px 32px rgba(0,0,0,.14),
+      0 4px 10px rgba(0,0,0,.07),
+      inset 0 1px 0 rgba(255,255,255,.95) !important;
 
     cursor: pointer !important;
     overflow: visible !important;
 
     transition:
-      transform .24s cubic-bezier(.22,.61,.36,1),
-      background-color .24s ease,
-      color .24s ease,
-      box-shadow .24s ease !important;
+      transform .32s cubic-bezier(.22,.61,.36,1),
+      background .32s ease,
+      color .32s ease,
+      border-color .32s ease,
+      box-shadow .32s ease !important;
   }
 
-  /* Bag + plus icon */
-  .product-grid__item .universes-horizon-bag__icon {
-    display: block !important;
-    width: 20px !important;
-    height: 20px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    color: currentColor !important;
-    stroke: currentColor !important;
-    fill: none !important;
+  /* Inner ring creates a more crafted/luxury appearance */
+  .product-grid__item .universes-horizon-bag__button::before {
+    content: "";
+    position: absolute !important;
+    inset: 4px !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(17,17,17,.07) !important;
     pointer-events: none !important;
-    transition:
-      transform .24s cubic-bezier(.22,.61,.36,1) !important;
   }
 
-  /* Small Add (+) badge */
+  /* Gold add marker */
   .product-grid__item .universes-horizon-bag__button::after {
     content: "+";
     position: absolute !important;
-    right: -3px !important;
-    bottom: -3px !important;
+    right: -2px !important;
+    bottom: -1px !important;
 
-    width: 16px !important;
-    height: 16px !important;
+    width: 19px !important;
+    height: 19px !important;
 
     display: flex !important;
     align-items: center !important;
@@ -383,80 +402,133 @@
     border-radius: 50% !important;
 
     background: #111 !important;
-    color: #fff !important;
+    color: #d1ad68 !important;
 
     font-family: Arial, sans-serif !important;
-    font-size: 10px !important;
+    font-size: 12px !important;
     font-weight: 500 !important;
     line-height: 1 !important;
 
-    box-shadow: 0 2px 6px rgba(0,0,0,.18) !important;
+    box-shadow:
+      0 4px 10px rgba(0,0,0,.20) !important;
+
     z-index: 5 !important;
 
     transition:
-      transform .24s cubic-bezier(.22,.61,.36,1),
-      background-color .24s ease,
-      color .24s ease !important;
+      transform .3s cubic-bezier(.22,.61,.36,1),
+      background .3s ease,
+      color .3s ease !important;
   }
 
-  /* Desktop hover */
+  .product-grid__item .universes-horizon-bag__icon {
+    display: block !important;
+    width: 22px !important;
+    height: 22px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: currentColor !important;
+    stroke: currentColor !important;
+    fill: none !important;
+
+    pointer-events: none !important;
+
+    transition:
+      transform .32s cubic-bezier(.22,.61,.36,1) !important;
+  }
+
+  /* Small "ADD" label appears on hover without changing markup */
   @media (hover: hover) and (min-width: 750px) {
     .product-grid__item .universes-horizon-bag__button:hover {
-      transform: translateY(-2px) scale(1.035) !important;
       background: #111 !important;
       color: #fff !important;
+      border-color: #111 !important;
+
+      transform:
+        translateY(-4px)
+        scale(1.035) !important;
+
       box-shadow:
-        0 11px 26px rgba(0,0,0,.20),
-        0 3px 8px rgba(0,0,0,.08) !important;
+        0 18px 38px rgba(0,0,0,.22),
+        0 5px 12px rgba(0,0,0,.09) !important;
+    }
+
+    .product-grid__item .universes-horizon-bag:hover::before {
+      opacity: 1 !important;
+      transform: scale(1.08) !important;
+    }
+
+    .product-grid__item .universes-horizon-bag__button:hover::before {
+      border-color: rgba(255,255,255,.16) !important;
     }
 
     .product-grid__item .universes-horizon-bag__button:hover .universes-horizon-bag__icon {
-      transform: scale(1.04) !important;
+      transform: scale(1.08) !important;
     }
 
     .product-grid__item .universes-horizon-bag__button:hover::after {
-      background: #fff !important;
+      background: #d1ad68 !important;
       color: #111 !important;
-      transform: scale(1.08) rotate(90deg) !important;
+      transform: scale(1.12) rotate(90deg) !important;
+    }
+
+    .product-grid__item .universes-horizon-bag__button::before {
+      transition: border-color .3s ease !important;
     }
   }
 
-  /* Keyboard accessibility */
-  .product-grid__item .universes-horizon-bag__button:focus-visible {
-    outline: 2px solid #111 !important;
-    outline-offset: 3px !important;
+  .product-grid__item .universes-horizon-bag__button:active {
+    transform: scale(.95) !important;
   }
 
-  /* Mobile */
+  .product-grid__item .universes-horizon-bag__button:focus-visible {
+    outline: 2px solid #111 !important;
+    outline-offset: 4px !important;
+  }
+
+  .product-grid__item .universes-horizon-bag__button.loading {
+    pointer-events: none !important;
+    opacity: .72 !important;
+  }
+
+  /* Mobile: slightly smaller, still premium and easy to tap */
   @media screen and (max-width: 749px) {
     .product-grid__item .universes-horizon-bag {
-      right: 8px !important;
-      bottom: 8px !important;
-      width: 42px !important;
-      height: 42px !important;
+      right: 9px !important;
+      bottom: 9px !important;
+      width: 47px !important;
+      height: 47px !important;
     }
 
     .product-grid__item .universes-horizon-bag__button {
-      width: 42px !important;
-      min-width: 42px !important;
-      height: 42px !important;
-      min-height: 42px !important;
+      width: 47px !important;
+      min-width: 47px !important;
+      height: 47px !important;
+      min-height: 47px !important;
     }
 
     .product-grid__item .universes-horizon-bag__icon {
-      width: 19px !important;
-      height: 19px !important;
+      width: 20px !important;
+      height: 20px !important;
     }
 
     .product-grid__item .universes-horizon-bag__button::after {
-      width: 15px !important;
-      height: 15px !important;
-      right: -3px !important;
-      bottom: -3px !important;
-      font-size: 9px !important;
+      width: 18px !important;
+      height: 18px !important;
+      right: -2px !important;
+      bottom: -1px !important;
+      font-size: 11px !important;
     }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .product-grid__item .universes-horizon-bag__button,
+    .product-grid__item .universes-horizon-bag__icon,
+    .product-grid__item .universes-horizon-bag::before,
+    .product-grid__item .universes-horizon-bag__button::after {
+      transition: none !important;
+    }
+  }
 </style>
 
 <script>
