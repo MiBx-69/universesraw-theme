@@ -212,6 +212,37 @@
         "mobile_header_gap": 24
       }
     },
+    "facebook_video_showcase_wt6kWD": {
+      "type": "facebook-video-showcase",
+      "blocks": {
+        "video_QDicbe": {
+          "type": "video",
+          "settings": {
+            "embed_code": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2821713544880202%2F&show_text=false&width=267&t=0\" width=\"267\" height=\"476\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>",
+            "badge": "Featured",
+            "button_text": "Buy now",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_QDicbe"
+      ],
+      "name": "Facebook Video Showcase",
+      "settings": {
+        "eyebrow": "Watch the collection",
+        "heading": "Featured Videos",
+        "desktop_columns": 4,
+        "mobile_width": 78,
+        "gap": 14,
+        "radius": 18,
+        "max_width": 1400,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "side_padding": 24,
+        "mobile_side_padding": 16
+      }
+    },
     "featured_collection_QyWiHc": {
       "type": "featured-collection",
       "blocks": {
@@ -1027,6 +1058,7 @@
   "order": [
     "home_page_hero_zNiWPJ",
     "collection_grid_pro_D3RCF3",
+    "facebook_video_showcase_wt6kWD",
     "featured_collection_QyWiHc",
     "1787142148e0fae907",
     "featured_collection_list_pwCXcC"
