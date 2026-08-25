@@ -1,0 +1,1783 @@
+```liquid
+{% liquid
+  assign section_id = 'fb-showcase-' | append: section.id
+%}
+
+<section
+  id="{{ section_id }}"
+  class="fb-showcase"
+  data-section-id="{{ section.id }}"
+  style="
+    --fb-gap: {{ section.settings.gap }}px;
+    --fb-radius: {{ section.settings.radius }}px;
+    --fb-desktop-columns: {{ section.settings.desktop_columns }};
+    --fb-mobile-width: {{ section.settings.mobile_width }}%;
+  "
+>
+  <div class="fb-showcase__container">
+
+    {% if section.settings.heading != blank or section.settings.subheading != blank or section.settings.eyebrow != blank %}
+      <div class="fb-showcase__header">
+
+        <div class="fb-showcase__heading-wrap">
+
+          {% if section.settings.eyebrow != blank %}
+            <div class="fb-showcase__eyebrow">
+              {{ section.settings.eyebrow }}
+            </div>
+          {% endif %}
+
+          {% if section.settings.heading != blank %}
+            <h2 class="fb-showcase__heading">
+              {{ section.settings.heading }}
+            </h2>
+          {% endif %}
+
+          {% if section.settings.subheading != blank %}
+            <div class="fb-showcase__subheading">
+              {{ section.settings.subheading }}
+            </div>
+          {% endif %}
+
+        </div>
+
+        {% if section.blocks.size > 1 %}
+          <div class="fb-showcase__navigation">
+
+            <button
+              type="button"
+              class="fb-showcase__nav fb-showcase__nav--prev"
+              aria-label="Previous video"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 18 9 12l6-6"></path>
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              class="fb-showcase__nav fb-showcase__nav--next"
+              aria-label="Next video"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m9 18 6-6-6-6"></path>
+              </svg>
+            </button>
+
+          </div>
+        {% endif %}
+
+      </div>
+    {% endif %}
+
+
+    {% if section.blocks.size > 0 %}
+
+      <div
+        class="fb-showcase__track"
+        data-slider
+        tabindex="0"
+        aria-label="Featured product videos"
+      >
+
+        {% for block in section.blocks %}
+
+          {% liquid
+            assign embed_url = block.settings.facebook_url
+            assign video_title = block.settings.title
+            assign badge = block.settings.badge
+            assign button_text = block.settings.button_text
+            assign button_link = block.settings.button_link
+
+            if embed_url != blank
+              assign encoded_url = embed_url | url_encode
+
+              assign iframe_url = 'https://www.facebook.com/plugins/video.php?href='
+              assign iframe_url = iframe_url | append: encoded_url
+              assign iframe_url = iframe_url | append: '&show_text=false&autoplay=true&mute=true'
+            endif
+          %}
+
+          <article
+            class="fb-showcase__card"
+            {{ block.shopify_attributes }}
+            data-card
+          >
+
+            <div class="fb-showcase__media">
+
+              {% if embed_url != blank %}
+
+                <iframe
+                  class="fb-showcase__iframe"
+                  src="{{ iframe_url }}"
+                  loading="lazy"
+                  title="{{ video_title | default: 'Facebook product video' | escape }}"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowfullscreen
+                  scrolling="no"
+                  frameborder="0"
+                ></iframe>
+
+              {% else %}
+
+                <div class="fb-showcase__empty">
+                  <div class="fb-showcase__empty-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                  </div>
+
+                  <span>
+                    Add a Facebook video URL
+                  </span>
+                </div>
+
+              {% endif %}
+
+
+              <div class="fb-showcase__gradient"></div>
+
+
+              <div class="fb-showcase__top">
+
+                {% if badge != blank %}
+                  <span class="fb-showcase__badge">
+                    {{ badge }}
+                  </span>
+                {% endif %}
+
+              </div>
+
+
+              {% if video_title != blank or button_text != blank %}
+
+                <div class="fb-showcase__bottom">
+
+                  {% if video_title != blank %}
+                    <h3 class="fb-showcase__card-title">
+                      {{ video_title }}
+                    </h3>
+                  {% endif %}
+
+
+                  {% if button_text != blank and button_link != blank %}
+
+                    <a
+                      href="{{ button_link }}"
+                      class="fb-showcase__button"
+                    >
+
+                      <span>
+                        {{ button_text }}
+                      </span>
+
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5 12h13"></path>
+                        <path d="m13 6 6 6-6 6"></path>
+                      </svg>
+
+                    </a>
+
+                  {% endif %}
+
+                </div>
+
+              {% endif %}
+
+            </div>
+
+          </article>
+
+        {% endfor %}
+
+      </div>
+
+
+      {% if section.blocks.size > 1 %}
+
+        <div class="fb-showcase__footer">
+
+          <div
+            class="fb-showcase__dots"
+            data-dots
+          >
+
+            {% for block in section.blocks %}
+
+              <button
+                type="button"
+                class="fb-showcase__dot{% if forloop.first %} is-active{% endif %}"
+                data-dot="{{ forloop.index0 }}"
+                aria-label="Go to video {{ forloop.index }}"
+              ></button>
+
+            {% endfor %}
+
+          </div>
+
+
+          {% if section.settings.autoplay %}
+
+            <div class="fb-showcase__status">
+
+              <span class="fb-showcase__status-dot"></span>
+
+              <span>
+                Auto play
+              </span>
+
+            </div>
+
+          {% endif %}
+
+        </div>
+
+      {% endif %}
+
+    {% else %}
+
+      <div class="fb-showcase__no-blocks">
+        Add Facebook Video blocks from the theme editor.
+      </div>
+
+    {% endif %}
+
+  </div>
+</section>
+
+
+<style>
+
+  #{{ section_id }} {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+
+  #{{ section_id }} *,
+  #{{ section_id }} *::before,
+  #{{ section_id }} *::after {
+    box-sizing: border-box;
+  }
+
+
+  /* ============================================
+     CONTAINER
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__container {
+    width: 100%;
+    max-width: {{ section.settings.max_width }}px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-right: {{ section.settings.side_padding }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-left: {{ section.settings.side_padding }}px;
+  }
+
+
+  /* ============================================
+     HEADER
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__header {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 24px;
+  }
+
+
+  #{{ section_id }} .fb-showcase__heading-wrap {
+    min-width: 0;
+  }
+
+
+  #{{ section_id }} .fb-showcase__eyebrow {
+    margin-bottom: 7px;
+
+    font-size: 10px;
+    line-height: 1.2;
+
+    font-weight: 600;
+
+    letter-spacing: .18em;
+    text-transform: uppercase;
+
+    opacity: .58;
+  }
+
+
+  #{{ section_id }} .fb-showcase__heading {
+    margin: 0;
+
+    font-size: clamp(25px, 3.2vw, 42px);
+    line-height: .98;
+
+    letter-spacing: -.045em;
+
+    font-weight: 650;
+  }
+
+
+  #{{ section_id }} .fb-showcase__subheading {
+    max-width: 600px;
+
+    margin-top: 10px;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    opacity: .65;
+  }
+
+
+  /* ============================================
+     NAVIGATION
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__navigation {
+    display: flex;
+
+    flex-shrink: 0;
+
+    gap: 8px;
+  }
+
+
+  #{{ section_id }} .fb-showcase__nav {
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+
+    border: 1px solid rgba(0, 0, 0, .14);
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: inherit;
+
+    display: grid;
+    place-items: center;
+
+    cursor: pointer;
+
+    transition:
+      background .25s ease,
+      color .25s ease,
+      border-color .25s ease,
+      transform .25s ease;
+  }
+
+
+  #{{ section_id }} .fb-showcase__nav svg {
+    width: 17px;
+    height: 17px;
+
+    fill: none;
+
+    stroke: currentColor;
+    stroke-width: 1.7;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+
+  #{{ section_id }} .fb-showcase__nav:hover {
+    background: #111;
+    color: #fff;
+
+    border-color: #111;
+
+    transform: translateY(-2px);
+  }
+
+
+  #{{ section_id }} .fb-showcase__nav:focus-visible,
+  #{{ section_id }} .fb-showcase__button:focus-visible,
+  #{{ section_id }} .fb-showcase__dot:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+
+  /* ============================================
+     SLIDER
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__track {
+    display: grid;
+
+    grid-auto-flow: column;
+
+    grid-auto-columns:
+      calc(
+        (
+          100% -
+          (
+            var(--fb-gap) *
+            (var(--fb-desktop-columns) - 1)
+          )
+        )
+        /
+        var(--fb-desktop-columns)
+      );
+
+    gap: var(--fb-gap);
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    padding: 3px 2px 14px;
+  }
+
+
+  #{{ section_id }} .fb-showcase__track::-webkit-scrollbar {
+    display: none;
+  }
+
+
+  /* ============================================
+     VIDEO CARD
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__card {
+    position: relative;
+
+    min-width: 0;
+
+    aspect-ratio: 9 / 16;
+
+    overflow: hidden;
+
+    border-radius: var(--fb-radius);
+
+    background: #111;
+
+    scroll-snap-align: start;
+
+    isolation: isolate;
+
+    box-shadow:
+      0 18px 45px rgba(0, 0, 0, .10);
+
+    transition:
+      transform .4s cubic-bezier(.2, .7, .2, 1),
+      box-shadow .4s ease;
+  }
+
+
+  #{{ section_id }} .fb-showcase__card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+      0 25px 55px rgba(0, 0, 0, .16);
+  }
+
+
+  #{{ section_id }} .fb-showcase__media {
+    position: absolute;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    background: #111;
+  }
+
+
+  /* ============================================
+     FACEBOOK IFRAME
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__iframe {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 100%;
+    height: 100%;
+
+    transform: translate(-50%, -50%);
+
+    display: block;
+
+    border: 0;
+
+    background: #111;
+  }
+
+
+  /* ============================================
+     OVERLAY
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__gradient {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 2;
+
+    background:
+      linear-gradient(
+        to bottom,
+
+        rgba(0, 0, 0, .34) 0%,
+
+        rgba(0, 0, 0, 0) 27%,
+
+        rgba(0, 0, 0, 0) 53%,
+
+        rgba(0, 0, 0, .72) 100%
+      );
+  }
+
+
+  /* ============================================
+     TOP CONTENT
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__top {
+    position: absolute;
+
+    top: 13px;
+    left: 13px;
+    right: 13px;
+
+    z-index: 4;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    pointer-events: none;
+  }
+
+
+  #{{ section_id }} .fb-showcase__badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 27px;
+
+    padding:
+      6px 10px;
+
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, .92);
+
+    color: #111;
+
+    font-size: 9px;
+    line-height: 1;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+
+  /* ============================================
+     BOTTOM CONTENT
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__bottom {
+    position: absolute;
+
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+
+    z-index: 4;
+
+    color: #fff;
+
+    pointer-events: none;
+  }
+
+
+  #{{ section_id }} .fb-showcase__card-title {
+    margin: 0 0 10px;
+
+    font-size: 17px;
+    line-height: 1.15;
+
+    letter-spacing: -.02em;
+
+    font-weight: 600;
+
+    text-shadow:
+      0 2px 12px rgba(0, 0, 0, .3);
+  }
+
+
+  #{{ section_id }} .fb-showcase__button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    min-height: 38px;
+
+    padding:
+      9px 14px;
+
+    border-radius: 999px;
+
+    background: #fff;
+
+    color: #111;
+
+    text-decoration: none;
+
+    font-size: 11px;
+    line-height: 1;
+
+    font-weight: 650;
+
+    pointer-events: auto;
+
+    transition:
+      transform .25s ease,
+      background .25s ease;
+  }
+
+
+  #{{ section_id }} .fb-showcase__button svg {
+    width: 14px;
+    height: 14px;
+
+    fill: none;
+
+    stroke: currentColor;
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+
+  #{{ section_id }} .fb-showcase__button:hover {
+    transform: translateX(3px);
+
+    background: #f3f3f3;
+  }
+
+
+  /* ============================================
+     EMPTY STATE
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__empty {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    padding: 25px;
+
+    color: rgba(255, 255, 255, .7);
+
+    background:
+      radial-gradient(
+        circle at 50% 35%,
+        #292929,
+        #101010 70%
+      );
+
+    font-size: 12px;
+
+    text-align: center;
+  }
+
+
+  #{{ section_id }} .fb-showcase__empty-icon {
+    width: 46px;
+    height: 46px;
+
+    border: 1px solid rgba(255, 255, 255, .22);
+
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+  }
+
+
+  #{{ section_id }} .fb-showcase__empty-icon svg {
+    width: 17px;
+    height: 17px;
+
+    fill: currentColor;
+  }
+
+
+  /* ============================================
+     FOOTER
+  ============================================ */
+
+  #{{ section_id }} .fb-showcase__footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-top: 8px;
+  }
+
+
+  #{{ section_id }} .fb-showcase__dots {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+  }
+
+
+  #{{ section_id }} .fb-showcase__dot {
+    width: 6px;
+    height: 6px;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 99px;
+
+    background: rgba(0, 0, 0, .22);
+
+    cursor: pointer;
+
+    transition:
+      width .3s ease,
+      background .3s ease;
+  }
+
+
+  #{{ section_id }} .fb-showcase__dot.is-active {
+    width: 23px;
+
+    background: #111;
+  }
+
+
+  #{{ section_id }} .fb-showcase__status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    font-size: 10px;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+    opacity: .5;
+  }
+
+
+  #{{ section_id }} .fb-showcase__status-dot {
+    width: 6px;
+    height: 6px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #111;
+
+    animation:
+      fbShowcasePulse 1.8s ease-in-out infinite;
+  }
+
+
+  #{{ section_id }} .fb-showcase__no-blocks {
+    padding: 40px 20px;
+
+    border: 1px dashed rgba(0, 0, 0, .18);
+
+    border-radius: var(--fb-radius);
+
+    text-align: center;
+
+    font-size: 13px;
+
+    opacity: .6;
+  }
+
+
+  @keyframes fbShowcasePulse {
+
+    0%,
+    100% {
+      opacity: .35;
+    }
+
+    50% {
+      opacity: 1;
+    }
+
+  }
+
+
+  /* ============================================
+     TABLET
+  ============================================ */
+
+  @media screen and (max-width: 989px) {
+
+    #{{ section_id }} .fb-showcase__track {
+      grid-auto-columns:
+        calc(
+          (100% - var(--fb-gap))
+          /
+          2.25
+        );
+    }
+
+  }
+
+
+  /* ============================================
+     MOBILE
+  ============================================ */
+
+  @media screen and (max-width: 749px) {
+
+    #{{ section_id }} .fb-showcase__container {
+
+      padding-left:
+        {{ section.settings.mobile_side_padding }}px;
+
+      padding-right:
+        {{ section.settings.mobile_side_padding }}px;
+
+    }
+
+
+    #{{ section_id }} .fb-showcase__header {
+
+      align-items: center;
+
+      margin-bottom: 17px;
+
+    }
+
+
+    #{{ section_id }} .fb-showcase__heading {
+
+      font-size: 27px;
+
+    }
+
+
+    #{{ section_id }} .fb-showcase__subheading {
+
+      font-size: 13px;
+
+    }
+
+
+    #{{ section_id }} .fb-showcase__navigation {
+
+      display: none;
+
+    }
+
+
+    #{{ section_id }} .fb-showcase__track {
+
+      grid-auto-columns:
+        var(--fb-mobile-width);
+
+      gap: 11px;
+
+      margin-right:
+        -{{ section.settings.mobile_side_padding }}px;
+
+      padding-right:
+        {{ section.settings.mobile_side_padding }}px;
+
+      scroll-snap-type:
+        x mandatory;
+
+    }
+
+
+    #{{ section_id }} .fb-showcase__card {
+
+      box-shadow:
+        0 12px 30px rgba(0, 0, 0, .12);
+
+    }
+
+
+    #{{ section_id }} .fb-showcase__card:hover {
+
+      transform: none;
+
+    }
+
+
+    #{{ section_id }} .fb-showcase__footer {
+
+      margin-top: 7px;
+
+    }
+
+  }
+
+
+  /* ============================================
+     REDUCED MOTION
+  ============================================ */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    #{{ section_id }} .fb-showcase__track {
+
+      scroll-behavior: auto;
+
+    }
+
+
+    #{{ section_id }} .fb-showcase__card,
+    #{{ section_id }} .fb-showcase__nav,
+    #{{ section_id }} .fb-showcase__button,
+    #{{ section_id }} .fb-showcase__dot {
+
+      transition: none;
+
+    }
+
+
+    #{{ section_id }} .fb-showcase__status-dot {
+
+      animation: none;
+
+    }
+
+  }
+
+</style>
+
+
+<script>
+
+  (function() {
+
+    const root =
+      document.getElementById(
+        '{{ section_id }}'
+      );
+
+    if (!root) {
+      return;
+    }
+
+
+    if (
+      root.dataset.initialized === 'true'
+    ) {
+      return;
+    }
+
+
+    root.dataset.initialized = 'true';
+
+
+    const track =
+      root.querySelector(
+        '[data-slider]'
+      );
+
+
+    const cards =
+      Array.from(
+        root.querySelectorAll(
+          '[data-card]'
+        )
+      );
+
+
+    const dots =
+      Array.from(
+        root.querySelectorAll(
+          '[data-dot]'
+        )
+      );
+
+
+    const previousButton =
+      root.querySelector(
+        '.fb-showcase__nav--prev'
+      );
+
+
+    const nextButton =
+      root.querySelector(
+        '.fb-showcase__nav--next'
+      );
+
+
+    if (
+      !track ||
+      cards.length < 1
+    ) {
+      return;
+    }
+
+
+    const autoplayEnabled =
+      {{ section.settings.autoplay | json }};
+
+
+    const autoplayDelay =
+      {{ section.settings.autoplay_speed | times: 1000 }};
+
+
+    let autoplayTimer = null;
+
+    let userInteracted = false;
+
+
+    /* ============================================
+       GET SLIDE STEP
+    ============================================ */
+
+    function getStep() {
+
+      if (!cards[0]) {
+        return 0;
+      }
+
+
+      const cardWidth =
+        cards[0].getBoundingClientRect().width;
+
+
+      const styles =
+        window.getComputedStyle(
+          track
+        );
+
+
+      const gap =
+        parseFloat(
+          styles.columnGap ||
+          styles.gap ||
+          0
+        );
+
+
+      return cardWidth + gap;
+
+    }
+
+
+    /* ============================================
+       CURRENT INDEX
+    ============================================ */
+
+    function getCurrentIndex() {
+
+      const step =
+        getStep();
+
+
+      if (!step) {
+        return 0;
+      }
+
+
+      return Math.round(
+        track.scrollLeft / step
+      );
+
+    }
+
+
+    /* ============================================
+       DOTS
+    ============================================ */
+
+    function updateDots(index) {
+
+      dots.forEach(
+        function(dot, dotIndex) {
+
+          dot.classList.toggle(
+            'is-active',
+            dotIndex === index
+          );
+
+        }
+      );
+
+    }
+
+
+    /* ============================================
+       SCROLL TO SLIDE
+    ============================================ */
+
+    function scrollToIndex(index) {
+
+      if (!cards.length) {
+        return;
+      }
+
+
+      let target =
+        index;
+
+
+      if (target < 0) {
+        target =
+          cards.length - 1;
+      }
+
+
+      if (
+        target >= cards.length
+      ) {
+        target = 0;
+      }
+
+
+      const step =
+        getStep();
+
+
+      track.scrollTo({
+
+        left:
+          target * step,
+
+        behavior:
+          window.matchMedia(
+            '(prefers-reduced-motion: reduce)'
+          ).matches
+            ? 'auto'
+            : 'smooth'
+
+      });
+
+
+      updateDots(
+        target
+      );
+
+    }
+
+
+    /* ============================================
+       SCROLL STATE
+    ============================================ */
+
+    function updateFromScroll() {
+
+      if (!dots.length) {
+        return;
+      }
+
+
+      const index =
+        getCurrentIndex();
+
+
+      updateDots(
+
+        Math.min(
+
+          Math.max(
+            index,
+            0
+          ),
+
+          dots.length - 1
+
+        )
+
+      );
+
+    }
+
+
+    /* ============================================
+       AUTOPLAY
+    ============================================ */
+
+    function stopAutoplay() {
+
+      if (autoplayTimer) {
+
+        window.clearInterval(
+          autoplayTimer
+        );
+
+        autoplayTimer =
+          null;
+
+      }
+
+    }
+
+
+    function startAutoplay() {
+
+      if (
+        !autoplayEnabled ||
+        cards.length < 2
+      ) {
+        return;
+      }
+
+
+      stopAutoplay();
+
+
+      autoplayTimer =
+        window.setInterval(
+          function() {
+
+            if (
+              document.hidden ||
+              userInteracted
+            ) {
+              return;
+            }
+
+
+            if (
+              window.matchMedia(
+                '(prefers-reduced-motion: reduce)'
+              ).matches
+            ) {
+              return;
+            }
+
+
+            const current =
+              getCurrentIndex();
+
+
+            scrollToIndex(
+              current + 1
+            );
+
+          },
+          autoplayDelay
+        );
+
+    }
+
+
+    /* ============================================
+       NAVIGATION
+    ============================================ */
+
+    if (previousButton) {
+
+      previousButton.addEventListener(
+        'click',
+        function() {
+
+          userInteracted =
+            true;
+
+
+          scrollToIndex(
+            getCurrentIndex() - 1
+          );
+
+        }
+      );
+
+    }
+
+
+    if (nextButton) {
+
+      nextButton.addEventListener(
+        'click',
+        function() {
+
+          userInteracted =
+            true;
+
+
+          scrollToIndex(
+            getCurrentIndex() + 1
+          );
+
+        }
+      );
+
+    }
+
+
+    /* ============================================
+       DOT CLICK
+    ============================================ */
+
+    dots.forEach(
+      function(dot) {
+
+        dot.addEventListener(
+          'click',
+          function() {
+
+            userInteracted =
+              true;
+
+
+            const index =
+              parseInt(
+                dot.dataset.dot,
+                10
+              );
+
+
+            if (
+              !Number.isNaN(
+                index
+              )
+            ) {
+
+              scrollToIndex(
+                index
+              );
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+    /* ============================================
+       TRACK SCROLL
+    ============================================ */
+
+    track.addEventListener(
+      'scroll',
+      updateFromScroll,
+      {
+        passive: true
+      }
+    );
+
+
+    /* ============================================
+       USER TOUCH / DRAG
+    ============================================ */
+
+    track.addEventListener(
+      'pointerdown',
+      function() {
+
+        userInteracted =
+          true;
+
+        stopAutoplay();
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    /* ============================================
+       HOVER
+    ============================================ */
+
+    track.addEventListener(
+      'mouseenter',
+      function() {
+
+        stopAutoplay();
+
+      }
+    );
+
+
+    track.addEventListener(
+      'mouseleave',
+      function() {
+
+        if (!userInteracted) {
+
+          startAutoplay();
+
+        }
+
+      }
+    );
+
+
+    /* ============================================
+       KEYBOARD
+    ============================================ */
+
+    track.addEventListener(
+      'keydown',
+      function(event) {
+
+        if (
+          event.key === 'ArrowRight'
+        ) {
+
+          event.preventDefault();
+
+          userInteracted =
+            true;
+
+          scrollToIndex(
+            getCurrentIndex() + 1
+          );
+
+        }
+
+
+        if (
+          event.key === 'ArrowLeft'
+        ) {
+
+          event.preventDefault();
+
+          userInteracted =
+            true;
+
+          scrollToIndex(
+            getCurrentIndex() - 1
+          );
+
+        }
+
+      }
+    );
+
+
+    /* ============================================
+       RESIZE
+    ============================================ */
+
+    window.addEventListener(
+      'resize',
+      function() {
+
+        updateFromScroll();
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    /* ============================================
+       START
+    ============================================ */
+
+    updateFromScroll();
+
+    startAutoplay();
+
+  })();
+
+</script>
+
+
+{% schema %}
+
+{
+  "name": "Facebook Video Showcase",
+  "tag": "section",
+  "class": "section-facebook-video-showcase",
+
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "Content"
+    },
+
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Watch the collection"
+    },
+
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Videos"
+    },
+
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover our latest styles through video."
+    },
+
+
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay",
+      "default": true
+    },
+
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay interval",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Desktop videos",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+
+    {
+      "type": "range",
+      "id": "mobile_width",
+      "label": "Mobile card width",
+      "min": 70,
+      "max": 92,
+      "step": 1,
+      "unit": "%",
+      "default": 78
+    },
+
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Video gap",
+      "min": 6,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Video corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+
+
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 900,
+      "max": 1800,
+      "step": 50,
+      "unit": "px",
+      "default": 1400
+    },
+
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+
+    {
+      "type": "range",
+      "id": "side_padding",
+      "label": "Desktop side padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+
+    {
+      "type": "range",
+      "id": "mobile_side_padding",
+      "label": "Mobile side padding",
+      "min": 12,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    }
+
+  ],
+
+
+  "blocks": [
+
+    {
+      "type": "video",
+      "name": "Facebook Video",
+
+      "settings": [
+
+        {
+          "type": "url",
+          "id": "facebook_url",
+          "label": "Facebook video URL",
+          "info": "Paste the public Facebook video URL."
+        },
+
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "Featured"
+        },
+
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Video title",
+          "default": "Discover the latest collection"
+        },
+
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "Shop now"
+        },
+
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+
+      ]
+
+    }
+
+  ],
+
+
+  "presets": [
+
+    {
+      "name": "Facebook Video Showcase",
+
+      "blocks": [
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        }
+      ]
+
+    }
+
+  ]
+
+}
+
+{% endschema %}
+```
