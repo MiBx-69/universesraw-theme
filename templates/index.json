@@ -402,6 +402,75 @@
       ],
       "settings": {}
     },
+    "facebook_video_showcase_x9jbFd": {
+      "type": "facebook-video-showcase",
+      "blocks": {
+        "video_XdJzET": {
+          "type": "video",
+          "settings": {
+            "facebook_url": "",
+            "badge": "Featured",
+            "title": "Discover the latest collection",
+            "button_text": "Shop now",
+            "button_link": ""
+          }
+        },
+        "video_xax8gE": {
+          "type": "video",
+          "settings": {
+            "facebook_url": "",
+            "badge": "Featured",
+            "title": "Discover the latest collection",
+            "button_text": "Shop now",
+            "button_link": ""
+          }
+        },
+        "video_hFNGBw": {
+          "type": "video",
+          "settings": {
+            "facebook_url": "",
+            "badge": "Featured",
+            "title": "Discover the latest collection",
+            "button_text": "Shop now",
+            "button_link": ""
+          }
+        },
+        "video_FtQiQL": {
+          "type": "video",
+          "settings": {
+            "facebook_url": "",
+            "badge": "Featured",
+            "title": "Discover the latest collection",
+            "button_text": "Shop now",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_XdJzET",
+        "video_xax8gE",
+        "video_hFNGBw",
+        "video_FtQiQL"
+      ],
+      "disabled": true,
+      "name": "Facebook Video Showcase",
+      "settings": {
+        "eyebrow": "Watch the collection",
+        "heading": "Featured Videos",
+        "subheading": "Discover our latest styles through video.",
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "desktop_columns": 4,
+        "mobile_width": 78,
+        "gap": 14,
+        "radius": 18,
+        "max_width": 1400,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "side_padding": 24,
+        "mobile_side_padding": 16
+      }
+    },
     "featured_collection_QyWiHc": {
       "type": "featured-collection",
       "blocks": {
@@ -1189,6 +1258,7 @@
     "collection_grid_pro_D3RCF3",
     "1787142148e0fae907",
     "17841805206947be4f",
+    "facebook_video_showcase_x9jbFd",
     "featured_collection_QyWiHc",
     "featured_collection_list_pwCXcC"
   ]
