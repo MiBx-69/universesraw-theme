@@ -233,7 +233,7 @@
             "button_link": "shopify://collections/tommy-polo"
           }
         },
-        "video_QDicbe": {
+        "video_ixmzcF": {
           "type": "video",
           "settings": {
             "embed_code": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1058723430083081%2F&show_text=false&width=267&t=0\" width=\"267\" height=\"476\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>",
@@ -246,7 +246,7 @@
       "block_order": [
         "video_qDGQBG",
         "video_RPftyc",
-        "video_QDicbe"
+        "video_ixmzcF"
       ],
       "name": "Facebook Video Showcase",
       "settings": {
