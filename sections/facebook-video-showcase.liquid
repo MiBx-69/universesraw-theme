@@ -10,15 +10,14 @@
   <div class="fb-video-showcase__container">
 
     {% if section.settings.eyebrow != blank or section.settings.heading != blank %}
-
       <div class="fb-video-showcase__header">
 
         <div class="fb-video-showcase__heading-wrap">
 
           {% if section.settings.eyebrow != blank %}
-            <span class="fb-video-showcase__eyebrow">
+            <div class="fb-video-showcase__eyebrow">
               {{ section.settings.eyebrow }}
-            </span>
+            </div>
           {% endif %}
 
           {% if section.settings.heading != blank %}
@@ -56,7 +55,6 @@
         {% endif %}
 
       </div>
-
     {% endif %}
 
 
@@ -84,7 +82,7 @@
                 <div
                   class="fb-video-showcase__embed"
                   data-facebook-embed
-                  data-first="{% if forloop.first %}true{% else %}false{% endif %}"
+                  data-first-video="{% if forloop.first %}true{% else %}false{% endif %}"
                 >
                   {{ block.settings.embed_code }}
                 </div>
@@ -93,31 +91,23 @@
 
                 <div class="fb-video-showcase__placeholder">
 
-                  <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path d="M8 5v14l11-7z"></path>
-                  </svg>
+                  <div class="fb-video-showcase__placeholder-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                  </div>
 
-                  <span>
-                    Add Facebook embed code
-                  </span>
+                  <span>Paste Facebook embed code</span>
 
                 </div>
 
               {% endif %}
 
 
-              <div class="fb-video-showcase__overlay"></div>
-
-
               {% if block.settings.badge != blank %}
-
                 <div class="fb-video-showcase__badge">
                   {{ block.settings.badge }}
                 </div>
-
               {% endif %}
 
 
@@ -129,17 +119,12 @@
                     href="{{ block.settings.button_link }}"
                     class="fb-video-showcase__cta"
                   >
+                    <span>{{ block.settings.button_text }}</span>
 
-                    {{ block.settings.button_text }}
-
-                    <svg
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M5 12h13"></path>
                       <path d="M13 6l6 6-6 6"></path>
                     </svg>
-
                   </a>
 
                 </div>
@@ -178,7 +163,6 @@
 
       {% endif %}
 
-
     {% else %}
 
       <div class="fb-video-showcase__empty-section">
@@ -193,15 +177,10 @@
 
 <style>
 
-  /* =========================================================
-     ROOT
-  ========================================================= */
-
   #{{ section_id }} {
     width: 100%;
     position: relative;
   }
-
 
   #{{ section_id }} *,
   #{{ section_id }} *::before,
@@ -210,15 +189,16 @@
   }
 
 
-  /* =========================================================
+  /* ==========================================
      CONTAINER
-  ========================================================= */
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__container {
     width: 100%;
     max-width: {{ section.settings.max_width }}px;
 
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
 
     padding-top: {{ section.settings.padding_top }}px;
     padding-right: {{ section.settings.side_padding }}px;
@@ -227,9 +207,9 @@
   }
 
 
-  /* =========================================================
+  /* ==========================================
      HEADER
-  ========================================================= */
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__header {
     display: flex;
@@ -241,11 +221,9 @@
     margin-bottom: 22px;
   }
 
-
   #{{ section_id }} .fb-video-showcase__heading-wrap {
     min-width: 0;
   }
-
 
   #{{ section_id }} .fb-video-showcase__eyebrow {
     display: block;
@@ -258,18 +236,15 @@
     font-weight: 600;
 
     letter-spacing: .18em;
-
     text-transform: uppercase;
 
     opacity: .55;
   }
 
-
   #{{ section_id }} .fb-video-showcase__heading {
     margin: 0;
 
     font-size: clamp(27px, 3.5vw, 42px);
-
     line-height: .98;
 
     letter-spacing: -.045em;
@@ -278,18 +253,15 @@
   }
 
 
-  /* =========================================================
+  /* ==========================================
      ARROWS
-  ========================================================= */
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__arrows {
     display: flex;
-
     gap: 8px;
-
     flex-shrink: 0;
   }
-
 
   #{{ section_id }} .fb-video-showcase__arrow {
     width: 42px;
@@ -317,7 +289,6 @@
       transform .25s ease;
   }
 
-
   #{{ section_id }} .fb-video-showcase__arrow svg {
     width: 16px;
     height: 16px;
@@ -325,17 +296,14 @@
     fill: none;
 
     stroke: currentColor;
-
     stroke-width: 1.7;
 
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
-
   #{{ section_id }} .fb-video-showcase__arrow:hover {
     background: #111;
-
     color: #fff;
 
     border-color: #111;
@@ -344,9 +312,9 @@
   }
 
 
-  /* =========================================================
-     TRACK
-  ========================================================= */
+  /* ==========================================
+     SLIDER
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__track {
     display: grid;
@@ -372,25 +340,22 @@
     overflow-y: hidden;
 
     scroll-snap-type: x mandatory;
-
     scroll-behavior: smooth;
 
     scrollbar-width: none;
-
     -ms-overflow-style: none;
 
     padding: 3px 2px 12px;
   }
-
 
   #{{ section_id }} .fb-video-showcase__track::-webkit-scrollbar {
     display: none;
   }
 
 
-  /* =========================================================
+  /* ==========================================
      CARD
-  ========================================================= */
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__card {
     position: relative;
@@ -417,7 +382,6 @@
       box-shadow .35s ease;
   }
 
-
   #{{ section_id }} .fb-video-showcase__card:hover {
     transform: translateY(-4px);
 
@@ -426,9 +390,9 @@
   }
 
 
-  /* =========================================================
+  /* ==========================================
      MEDIA
-  ========================================================= */
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__media {
     position: absolute;
@@ -441,9 +405,9 @@
   }
 
 
-  /* =========================================================
+  /* ==========================================
      FACEBOOK EMBED
-  ========================================================= */
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__embed {
     position: absolute;
@@ -461,13 +425,6 @@
   }
 
 
-  /*
-    The Facebook iframe you paste is preserved.
-
-    These rules make the pasted Facebook iframe
-    fill the 9:16 card.
-  */
-
   #{{ section_id }} .fb-video-showcase__embed iframe {
     position: absolute;
 
@@ -478,43 +435,25 @@
     height: 100% !important;
 
     max-width: none !important;
+    max-height: none !important;
 
-    transform:
-      translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    display: block;
 
     border: 0 !important;
 
-    display: block;
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    background: #111;
   }
 
 
-  /* =========================================================
-     OVERLAY
-  ========================================================= */
-
-  #{{ section_id }} .fb-video-showcase__overlay {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 2;
-
-    pointer-events: none;
-
-    background:
-      linear-gradient(
-        to bottom,
-        rgba(0,0,0,.22) 0%,
-        rgba(0,0,0,0) 30%,
-        rgba(0,0,0,0) 62%,
-        rgba(0,0,0,.42) 100%
-      );
-  }
-
-
-  /* =========================================================
+  /* ==========================================
      BADGE
-  ========================================================= */
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__badge {
     position: absolute;
@@ -525,75 +464,61 @@
     z-index: 5;
 
     display: inline-flex;
-
     align-items: center;
 
     min-height: 26px;
 
-    padding:
-      6px 10px;
+    padding: 6px 10px;
 
     border-radius: 999px;
 
-    background:
-      rgba(255,255,255,.94);
+    background: rgba(255,255,255,.94);
 
     color: #111;
 
     font-size: 9px;
-
     line-height: 1;
 
     font-weight: 700;
 
     letter-spacing: .12em;
-
     text-transform: uppercase;
 
     pointer-events: none;
 
-    backdrop-filter:
-      blur(8px);
-
-    -webkit-backdrop-filter:
-      blur(8px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
 
-  /* =========================================================
+  /* ==========================================
      CTA
-  ========================================================= */
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__cta-wrap {
     position: absolute;
 
     left: 14px;
-    right: 14px;
     bottom: 14px;
 
     z-index: 6;
 
     display: flex;
 
-    justify-content: flex-start;
-
     pointer-events: none;
   }
-
 
   #{{ section_id }} .fb-video-showcase__cta {
     display: inline-flex;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 8px;
 
     min-height: 38px;
 
-    padding:
-      10px 15px;
+    padding: 10px 15px;
 
     border-radius: 999px;
 
@@ -604,13 +529,11 @@
     text-decoration: none;
 
     font-size: 10px;
-
     line-height: 1;
 
     font-weight: 700;
 
     letter-spacing: .08em;
-
     text-transform: uppercase;
 
     pointer-events: auto;
@@ -620,7 +543,6 @@
       background .25s ease;
   }
 
-
   #{{ section_id }} .fb-video-showcase__cta svg {
     width: 14px;
     height: 14px;
@@ -628,77 +550,22 @@
     fill: none;
 
     stroke: currentColor;
-
     stroke-width: 1.8;
 
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
-
   #{{ section_id }} .fb-video-showcase__cta:hover {
     background: #f3f3f3;
 
-    transform:
-      translateX(3px);
+    transform: translateX(3px);
   }
 
 
-  /* =========================================================
-     DOTS
-  ========================================================= */
-
-  #{{ section_id }} .fb-video-showcase__bottom {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-top: 8px;
-  }
-
-
-  #{{ section_id }} .fb-video-showcase__dots {
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-  }
-
-
-  #{{ section_id }} .fb-video-showcase__dot {
-    width: 6px;
-    height: 6px;
-
-    padding: 0;
-
-    border: 0;
-
-    border-radius: 999px;
-
-    background:
-      rgba(0,0,0,.20);
-
-    cursor: pointer;
-
-    transition:
-      width .3s ease,
-      background .3s ease;
-  }
-
-
-  #{{ section_id }} .fb-video-showcase__dot.is-active {
-    width: 22px;
-
-    background: #111;
-  }
-
-
-  /* =========================================================
-     EMPTY / PLACEHOLDER
-  ========================================================= */
+  /* ==========================================
+     PLACEHOLDER
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__placeholder {
     position: absolute;
@@ -712,10 +579,11 @@
     flex-direction: column;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 12px;
+
+    padding: 20px;
 
     color: rgba(255,255,255,.65);
 
@@ -728,27 +596,79 @@
 
     font-size: 11px;
 
-    letter-spacing: .04em;
-
     text-align: center;
   }
 
+  #{{ section_id }} .fb-video-showcase__placeholder-icon {
+    width: 42px;
+    height: 42px;
 
-  #{{ section_id }} .fb-video-showcase__placeholder svg {
-    width: 30px;
-    height: 30px;
+    border: 1px solid rgba(255,255,255,.2);
 
-    fill: none;
+    border-radius: 50%;
 
-    stroke: currentColor;
-
-    stroke-width: 1.5;
-
-    stroke-linecap: round;
-
-    stroke-linejoin: round;
+    display: grid;
+    place-items: center;
   }
 
+  #{{ section_id }} .fb-video-showcase__placeholder svg {
+    width: 18px;
+    height: 18px;
+
+    fill: currentColor;
+  }
+
+
+  /* ==========================================
+     DOTS
+  ========================================== */
+
+  #{{ section_id }} .fb-video-showcase__bottom {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 8px;
+  }
+
+  #{{ section_id }} .fb-video-showcase__dots {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+  }
+
+  #{{ section_id }} .fb-video-showcase__dot {
+    width: 6px;
+    height: 6px;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 999px;
+
+    background: rgba(0,0,0,.20);
+
+    cursor: pointer;
+
+    transition:
+      width .3s ease,
+      background .3s ease;
+  }
+
+  #{{ section_id }} .fb-video-showcase__dot.is-active {
+    width: 22px;
+
+    background: #111;
+  }
+
+
+  /* ==========================================
+     EMPTY SECTION
+  ========================================== */
 
   #{{ section_id }} .fb-video-showcase__empty-section {
     padding: 45px 20px;
@@ -767,9 +687,9 @@
   }
 
 
-  /* =========================================================
+  /* ==========================================
      TABLET
-  ========================================================= */
+  ========================================== */
 
   @media screen and (max-width: 989px) {
 
@@ -784,9 +704,9 @@
   }
 
 
-  /* =========================================================
+  /* ==========================================
      MOBILE
-  ========================================================= */
+  ========================================== */
 
   @media screen and (max-width: 749px) {
 
@@ -798,26 +718,21 @@
         {{ section.settings.mobile_side_padding }}px;
     }
 
-
     #{{ section_id }} .fb-video-showcase__header {
       margin-bottom: 17px;
 
       align-items: center;
     }
 
-
     #{{ section_id }} .fb-video-showcase__heading {
       font-size: 28px;
     }
-
 
     #{{ section_id }} .fb-video-showcase__arrows {
       display: none;
     }
 
-
     #{{ section_id }} .fb-video-showcase__track {
-
       grid-auto-columns:
         {{ section.settings.mobile_width }}%;
 
@@ -829,34 +744,29 @@
       padding-right:
         {{ section.settings.mobile_side_padding }}px;
 
-      scroll-snap-type:
-        x mandatory;
+      scroll-snap-type: x mandatory;
     }
-
 
     #{{ section_id }} .fb-video-showcase__card:hover {
       transform: none;
     }
-
 
     #{{ section_id }} .fb-video-showcase__badge {
       top: 11px;
       left: 11px;
     }
 
-
     #{{ section_id }} .fb-video-showcase__cta-wrap {
       left: 11px;
-      right: 11px;
       bottom: 11px;
     }
 
   }
 
 
-  /* =========================================================
+  /* ==========================================
      REDUCED MOTION
-  ========================================================= */
+  ========================================== */
 
   @media (prefers-reduced-motion: reduce) {
 
@@ -880,102 +790,181 @@
 
 (function() {
 
-  const root =
-    document.getElementById(
-      '{{ section_id }}'
-    );
+  const root = document.getElementById(
+    '{{ section_id }}'
+  );
 
   if (!root) {
     return;
   }
 
-  if (
-    root.dataset.initialized === 'true'
-  ) {
+  if (root.dataset.initialized === 'true') {
     return;
   }
 
   root.dataset.initialized = 'true';
 
 
-  const track =
-    root.querySelector(
-      '[data-video-track]'
+  const track = root.querySelector(
+    '[data-video-track]'
+  );
+
+  const cards = Array.from(
+    root.querySelectorAll(
+      '[data-video-card]'
+    )
+  );
+
+  const dots = Array.from(
+    root.querySelectorAll(
+      '[data-dot]'
+    )
+  );
+
+  const previousButton = root.querySelector(
+    '.fb-video-showcase__arrow--prev'
+  );
+
+  const nextButton = root.querySelector(
+    '.fb-video-showcase__arrow--next'
+  );
+
+
+  /*
+   * Enhance the Facebook embed code.
+   *
+   * We do NOT replace the Facebook video URL.
+   * We only use the exact iframe that the
+   * merchant pasted into the Theme Editor.
+   *
+   * For the first video we add autoplay/mute
+   * parameters when the Facebook embed supports
+   * them.
+   */
+
+  const embeds = Array.from(
+    root.querySelectorAll(
+      '[data-facebook-embed]'
+    )
+  );
+
+
+  embeds.forEach(function(embed, index) {
+
+    const iframe = embed.querySelector(
+      'iframe'
+    );
+
+    if (!iframe) {
+      return;
+    }
+
+
+    iframe.setAttribute(
+      'loading',
+      index === 0 ? 'eager' : 'lazy'
     );
 
 
-  const cards =
-    Array.from(
-      root.querySelectorAll(
-        '[data-video-card]'
-      )
+    iframe.setAttribute(
+      'allow',
+      'autoplay; encrypted-media; picture-in-picture; web-share'
     );
 
 
-  const dots =
-    Array.from(
-      root.querySelectorAll(
-        '[data-dot]'
-      )
-    );
+    if (index === 0) {
+
+      try {
+
+        const source =
+          iframe.getAttribute('src');
+
+        if (source) {
+
+          const url =
+            new URL(
+              source,
+              window.location.href
+            );
 
 
-  const previousButton =
-    root.querySelector(
-      '.fb-video-showcase__arrow--prev'
-    );
+          if (!url.searchParams.has('autoplay')) {
+            url.searchParams.set(
+              'autoplay',
+              'true'
+            );
+          }
 
 
-  const nextButton =
-    root.querySelector(
-      '.fb-video-showcase__arrow--next'
-    );
+          if (!url.searchParams.has('mute')) {
+            url.searchParams.set(
+              'mute',
+              'true'
+            );
+          }
 
 
-  if (
-    !track ||
-    cards.length < 2
-  ) {
+          if (!url.searchParams.has('playsinline')) {
+            url.searchParams.set(
+              'playsinline',
+              'true'
+            );
+          }
+
+
+          iframe.setAttribute(
+            'src',
+            url.toString()
+          );
+
+        }
+
+      } catch (error) {
+        /*
+         * Keep the original embed untouched
+         * if the browser cannot parse it.
+         */
+      }
+
+    }
+
+  });
+
+
+  if (!track || cards.length < 2) {
     return;
   }
-
-
-  let autoplayTimer = null;
 
 
   const autoplayEnabled =
     {{ section.settings.autoplay | json }};
 
-
   const autoplayDelay =
     {{ section.settings.autoplay_speed | times: 1000 }};
 
 
+  let autoplayTimer = null;
+
   let userInteracted = false;
 
 
-  /* ========================================================
-     STEP
-  ======================================================== */
+  /* ==========================================
+     SLIDE STEP
+  ========================================== */
 
   function getStep() {
 
-    const card =
-      cards[0];
-
-    if (!card) {
+    if (!cards[0]) {
       return 0;
     }
 
 
-    const width =
-      card.getBoundingClientRect().width;
+    const cardWidth =
+      cards[0].getBoundingClientRect().width;
 
 
     const styles =
-      window.getComputedStyle(
-        track
-      );
+      window.getComputedStyle(track);
 
 
     const gap =
@@ -986,20 +975,17 @@
       );
 
 
-    return width + gap;
-
+    return cardWidth + gap;
   }
 
 
-  /* ========================================================
-     CURRENT SLIDE
-  ======================================================== */
+  /* ==========================================
+     CURRENT INDEX
+  ========================================== */
 
   function getCurrentIndex() {
 
-    const step =
-      getStep();
-
+    const step = getStep();
 
     if (!step) {
       return 0;
@@ -1009,61 +995,50 @@
     return Math.round(
       track.scrollLeft / step
     );
-
   }
 
 
-  /* ========================================================
-     DOTS
-  ======================================================== */
+  /* ==========================================
+     UPDATE DOTS
+  ========================================== */
 
   function updateDots(index) {
 
-    dots.forEach(
-      function(dot, dotIndex) {
+    dots.forEach(function(dot, dotIndex) {
 
-        dot.classList.toggle(
-          'is-active',
-          dotIndex === index
-        );
+      dot.classList.toggle(
+        'is-active',
+        dotIndex === index
+      );
 
-      }
-    );
+    });
 
   }
 
 
-  /* ========================================================
+  /* ==========================================
      GO TO SLIDE
-  ======================================================== */
+  ========================================== */
 
   function goTo(index) {
 
-    let target =
-      index;
+    let target = index;
 
 
     if (target < 0) {
-      target =
-        cards.length - 1;
+      target = cards.length - 1;
     }
 
 
-    if (
-      target >= cards.length
-    ) {
+    if (target >= cards.length) {
       target = 0;
     }
 
 
-    const step =
-      getStep();
-
+    const step = getStep();
 
     track.scrollTo({
-
-      left:
-        target * step,
+      left: target * step,
 
       behavior:
         window.matchMedia(
@@ -1071,20 +1046,16 @@
         ).matches
           ? 'auto'
           : 'smooth'
-
     });
 
 
-    updateDots(
-      target
-    );
-
+    updateDots(target);
   }
 
 
-  /* ========================================================
-     STOP AUTOPLAY
-  ======================================================== */
+  /* ==========================================
+     AUTOPLAY
+  ========================================== */
 
   function stopAutoplay() {
 
@@ -1095,15 +1066,10 @@
       );
 
       autoplayTimer = null;
-
     }
 
   }
 
-
-  /* ========================================================
-     START AUTOPLAY
-  ======================================================== */
 
   function startAutoplay() {
 
@@ -1119,35 +1085,37 @@
 
 
     autoplayTimer =
-      window.setInterval(
-        function() {
+      window.setInterval(function() {
 
-          if (
-            document.hidden ||
-            userInteracted
-          ) {
-            return;
-          }
-
-
-          const current =
-            getCurrentIndex();
+        if (
+          document.hidden ||
+          userInteracted
+        ) {
+          return;
+        }
 
 
-          goTo(
-            current + 1
-          );
+        if (
+          window.matchMedia(
+            '(prefers-reduced-motion: reduce)'
+          ).matches
+        ) {
+          return;
+        }
 
-        },
-        autoplayDelay
-      );
+
+        goTo(
+          getCurrentIndex() + 1
+        );
+
+      }, autoplayDelay);
 
   }
 
 
-  /* ========================================================
-     ARROWS
-  ======================================================== */
+  /* ==========================================
+     PREVIOUS
+  ========================================== */
 
   if (previousButton) {
 
@@ -1169,6 +1137,10 @@
   }
 
 
+  /* ==========================================
+     NEXT
+  ========================================== */
+
   if (nextButton) {
 
     nextButton.addEventListener(
@@ -1189,47 +1161,41 @@
   }
 
 
-  /* ========================================================
+  /* ==========================================
      DOTS
-  ======================================================== */
+  ========================================== */
 
-  dots.forEach(
-    function(dot) {
+  dots.forEach(function(dot) {
 
-      dot.addEventListener(
-        'click',
-        function() {
+    dot.addEventListener(
+      'click',
+      function() {
 
-          userInteracted = true;
+        userInteracted = true;
 
-          stopAutoplay();
-
-
-          const index =
-            parseInt(
-              dot.dataset.dot,
-              10
-            );
+        stopAutoplay();
 
 
-          if (
-            !Number.isNaN(index)
-          ) {
+        const index =
+          parseInt(
+            dot.dataset.dot,
+            10
+          );
 
-            goTo(index);
 
-          }
-
+        if (!Number.isNaN(index)) {
+          goTo(index);
         }
-      );
 
-    }
-  );
+      }
+    );
+
+  });
 
 
-  /* ========================================================
+  /* ==========================================
      SCROLL
-  ======================================================== */
+  ========================================== */
 
   track.addEventListener(
     'scroll',
@@ -1253,9 +1219,9 @@
   );
 
 
-  /* ========================================================
-     USER TOUCH / DRAG
-  ======================================================== */
+  /* ==========================================
+     TOUCH / DRAG
+  ========================================== */
 
   track.addEventListener(
     'pointerdown',
@@ -1272,17 +1238,15 @@
   );
 
 
-  /* ========================================================
+  /* ==========================================
      KEYBOARD
-  ======================================================== */
+  ========================================== */
 
   track.addEventListener(
     'keydown',
     function(event) {
 
-      if (
-        event.key === 'ArrowRight'
-      ) {
+      if (event.key === 'ArrowRight') {
 
         event.preventDefault();
 
@@ -1297,9 +1261,7 @@
       }
 
 
-      if (
-        event.key === 'ArrowLeft'
-      ) {
+      if (event.key === 'ArrowLeft') {
 
         event.preventDefault();
 
@@ -1317,13 +1279,14 @@
   );
 
 
-  /* ========================================================
-     INITIAL STATE
-  ======================================================== */
+  /* ==========================================
+     INITIALIZE
+  ========================================== */
 
   updateDots(0);
 
   startAutoplay();
+
 
 })();
 
@@ -1505,7 +1468,7 @@
 
           "id": "embed_code",
 
-          "label": "Facebook embed code",
+          "label": "Facebook Embed Code",
 
           "info": "Paste the complete Facebook iframe embed code here."
         },
@@ -1515,7 +1478,7 @@
 
           "id": "badge",
 
-          "label": "Minimal badge",
+          "label": "Minimal Badge",
 
           "default": "Featured"
         },
@@ -1525,7 +1488,7 @@
 
           "id": "button_text",
 
-          "label": "CTA text",
+          "label": "CTA Text",
 
           "default": "Buy now"
         },
@@ -1535,7 +1498,7 @@
 
           "id": "button_link",
 
-          "label": "CTA link"
+          "label": "CTA Link"
         }
 
       ]
