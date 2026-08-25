@@ -89,6 +89,13 @@
             "title": "NEW ARRIVALS"
           }
         },
+        "collection_VgcWwz": {
+          "type": "collection",
+          "settings": {
+            "collection": "china-premium-full-sleeve-shirts",
+            "title": "CHINA FULL SLEEVE"
+          }
+        },
         "collection_ePRnXe": {
           "type": "collection",
           "settings": {
@@ -146,6 +153,7 @@
       },
       "block_order": [
         "collection_TRTL7Q",
+        "collection_VgcWwz",
         "collection_ePRnXe",
         "collection_tQKnfW",
         "collection_kLCe3K",
