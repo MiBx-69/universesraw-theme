@@ -212,265 +212,6 @@
         "mobile_header_gap": 24
       }
     },
-    "1787142148e0fae907": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_aa05603_3jJrVe": {
-          "type": "ai_gen_block_aa05603",
-          "disabled": true,
-          "settings": {
-            "button_label": "View all",
-            "button_link": "shopify://collections",
-            "desktop_width_percent": 100,
-            "text_size": 12,
-            "border_radius": 0,
-            "border_width": 1,
-            "padding_vertical": 20,
-            "mobile_padding_vertical": 15,
-            "background_color": "#000000",
-            "text_color": "#ffffff",
-            "border_color": "#000000",
-            "hover_background_color": "#ffffff",
-            "hover_text_color": "#000000",
-            "hover_border_color": "#000000",
-            "focus_color": "#000f9f"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_aa05603_3jJrVe"
-      ],
-      "settings": {}
-    },
-    "17841805206947be4f": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_bcbccc3_w8DgwB": {
-          "type": "ai_gen_block_bcbccc3",
-          "disabled": true,
-          "settings": {
-            "label": "CURATED COLLECTIONS",
-            "heading": "EXPLORE CATEGORIES",
-            "heading_size_desktop": 48,
-            "heading_size_mobile": 22,
-            "view_all_text": "VIEW ALL",
-            "view_all_url": "shopify://collections",
-            "container_width": 1400,
-            "gap_desktop": 32,
-            "gap_mobile": 20,
-            "padding_top_desktop": 160,
-            "padding_bottom_desktop": 180,
-            "padding_top_mobile": 68,
-            "padding_bottom_mobile": 68,
-            "card_border_radius": 32,
-            "card_title_size": 32,
-            "background_color": "#faf8f5",
-            "label_color": "#c9a96e",
-            "heading_color": "#0a0a0a",
-            "text_color": "#0a0a0a",
-            "nav_button_bg": "#ffffff",
-            "nav_button_color": "#0a0a0a",
-            "nav_button_border": "#e8e4df",
-            "nav_button_hover_bg": "#0a0a0a",
-            "nav_button_hover_color": "#ffffff",
-            "category_1_enabled": true,
-            "category_1_name": "Bootcut",
-            "category_1_image": "shopify://shop_images/SAVE_20260723_223638.jpg",
-            "category_1_url": "shopify://collections/bootcut-jeans",
-            "category_2_enabled": true,
-            "category_2_name": "Knit polo",
-            "category_2_image": "shopify://shop_images/ChatGPT_Image_Aug_8_2026_11_37_18_AM_2.png",
-            "category_2_url": "shopify://collections/knit-polo",
-            "category_3_enabled": true,
-            "category_3_name": "T-shirt",
-            "category_3_image": "shopify://shop_images/ChatGPT_Image_Jul_21_2026_05_36_00_PM.png",
-            "category_3_url": "shopify://collections/premium-t-shirt",
-            "category_4_enabled": true,
-            "category_4_name": "Polo",
-            "category_4_image": "shopify://shop_images/ChatGPT_Image_Jul_21_2026_05_33_06_PM.png",
-            "category_4_url": "shopify://collections/premium-polo",
-            "category_5_enabled": true,
-            "category_5_name": "Sneakers",
-            "category_5_image": "shopify://shop_images/ChatGPT_Image_Jul_21_2026_05_33_01_PM.png",
-            "category_5_url": "shopify://collections/sneakers",
-            "category_6_enabled": false,
-            "category_6_name": "Bootcut Jeans",
-            "category_6_url": "",
-            "category_7_enabled": false,
-            "category_7_name": "Blazers",
-            "category_7_url": "",
-            "category_8_enabled": false,
-            "category_8_name": "Jackets",
-            "category_8_url": ""
-          },
-          "blocks": {}
-        },
-        "ai_gen_block_2e0003a_FteMaD": {
-          "type": "ai_gen_block_2e0003a",
-          "name": "Editorial products",
-          "disabled": true,
-          "settings": {
-            "collection": "latest-collection",
-            "products_to_show": 5,
-            "max_width": 1400,
-            "show_header": true,
-            "label": "",
-            "heading": "Featured selection",
-            "subtext": "",
-            "show_shop_all": true,
-            "shop_all_text": "SHOP ALL",
-            "products_per_row": 4,
-            "products_per_row_tablet": 2,
-            "products_per_row_mobile": "2",
-            "grid_gap": 48,
-            "grid_gap_mobile": 24,
-            "show_vendor": false,
-            "show_color_swatches": true,
-            "show_sizes": true,
-            "show_quick_add": false,
-            "quick_add_text": "Quick Add",
-            "image_aspect_ratio": "4/5",
-            "heading_font": "serif",
-            "label_size": 8,
-            "heading_size": 52,
-            "heading_size_mobile": 40,
-            "subtext_size": 16,
-            "brand_size": 11,
-            "title_size": 15,
-            "price_size": 16,
-            "section_background": "#ffffff",
-            "label_color": "#ff0015",
-            "heading_color": "#111111",
-            "subtext_color": "#666666",
-            "shop_all_color": "#111111",
-            "card_background": "#ffffff",
-            "image_background": "#ffffff",
-            "badge_background": "#ff0019",
-            "badge_color": "#ffffff",
-            "brand_color": "#777777",
-            "title_color": "#111111",
-            "price_color": "#111111",
-            "compare_price_color": "#999999",
-            "size_color": "#777777",
-            "quick_add_background": "#422828",
-            "quick_add_color": "#ffffff",
-            "swatch_active_border": "#000000",
-            "section_padding_top": 40,
-            "section_padding_bottom": 50,
-            "section_padding_top_mobile": 0,
-            "section_padding_bottom_mobile": 40,
-            "header_spacing": 48,
-            "info_padding": 16,
-            "card_radius": 0,
-            "image_radius": 4,
-            "badge_radius": 14,
-            "badge_height": 20,
-            "badge_padding": 6,
-            "badge_size": 10,
-            "badge_weight": 500,
-            "badge_top": 8,
-            "badge_left": 8,
-            "quick_add_height": 36,
-            "quick_add_radius": 6,
-            "quick_add_size": 12,
-            "quick_add_weight": 500,
-            "swatch_size": 10,
-            "swatch_gap": 8,
-            "swatch_margin": 8,
-            "size_font_size": 11,
-            "size_margin": 8,
-            "label_weight": 600,
-            "label_margin": 8,
-            "heading_weight": 400,
-            "heading_margin": 12,
-            "shop_all_size": 12,
-            "shop_all_weight": 600,
-            "brand_margin": 6,
-            "title_weight": 500,
-            "title_margin": 8,
-            "price_weight": 600,
-            "price_margin": 4,
-            "compare_price_size": 10
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_bcbccc3_w8DgwB",
-        "ai_gen_block_2e0003a_FteMaD"
-      ],
-      "settings": {}
-    },
-    "facebook_video_showcase_x9jbFd": {
-      "type": "facebook-video-showcase",
-      "blocks": {
-        "video_XdJzET": {
-          "type": "video",
-          "settings": {
-            "facebook_url": "",
-            "badge": "Featured",
-            "title": "Discover the latest collection",
-            "button_text": "Shop now",
-            "button_link": ""
-          }
-        },
-        "video_xax8gE": {
-          "type": "video",
-          "settings": {
-            "facebook_url": "",
-            "badge": "Featured",
-            "title": "Discover the latest collection",
-            "button_text": "Shop now",
-            "button_link": ""
-          }
-        },
-        "video_hFNGBw": {
-          "type": "video",
-          "settings": {
-            "facebook_url": "",
-            "badge": "Featured",
-            "title": "Discover the latest collection",
-            "button_text": "Shop now",
-            "button_link": ""
-          }
-        },
-        "video_FtQiQL": {
-          "type": "video",
-          "settings": {
-            "facebook_url": "",
-            "badge": "Featured",
-            "title": "Discover the latest collection",
-            "button_text": "Shop now",
-            "button_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "video_XdJzET",
-        "video_xax8gE",
-        "video_hFNGBw",
-        "video_FtQiQL"
-      ],
-      "disabled": true,
-      "name": "Facebook Video Showcase",
-      "settings": {
-        "eyebrow": "Watch the collection",
-        "heading": "Featured Videos",
-        "subheading": "Discover our latest styles through video.",
-        "autoplay": true,
-        "autoplay_speed": 5,
-        "desktop_columns": 4,
-        "mobile_width": 78,
-        "gap": 14,
-        "radius": 18,
-        "max_width": 1400,
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "side_padding": 24,
-        "mobile_side_padding": 16
-      }
-    },
     "featured_collection_QyWiHc": {
       "type": "featured-collection",
       "blocks": {
@@ -825,6 +566,36 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0
       }
+    },
+    "1787142148e0fae907": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_aa05603_3jJrVe": {
+          "type": "ai_gen_block_aa05603",
+          "settings": {
+            "button_label": "View all",
+            "button_link": "shopify://collections",
+            "desktop_width_percent": 100,
+            "text_size": 12,
+            "border_radius": 0,
+            "border_width": 1,
+            "padding_vertical": 20,
+            "mobile_padding_vertical": 15,
+            "background_color": "#000000",
+            "text_color": "#ffffff",
+            "border_color": "#000000",
+            "hover_background_color": "#ffffff",
+            "hover_text_color": "#000000",
+            "hover_border_color": "#000000",
+            "focus_color": "#000f9f"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_aa05603_3jJrVe"
+      ],
+      "settings": {}
     },
     "featured_collection_list_pwCXcC": {
       "type": "featured-collection-list",
@@ -1256,10 +1027,8 @@
   "order": [
     "home_page_hero_zNiWPJ",
     "collection_grid_pro_D3RCF3",
-    "1787142148e0fae907",
-    "17841805206947be4f",
-    "facebook_video_showcase_x9jbFd",
     "featured_collection_QyWiHc",
+    "1787142148e0fae907",
     "featured_collection_list_pwCXcC"
   ]
 }
