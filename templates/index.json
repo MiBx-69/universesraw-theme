@@ -215,17 +215,37 @@
     "facebook_video_showcase_wt6kWD": {
       "type": "facebook-video-showcase",
       "blocks": {
+        "video_qDGQBG": {
+          "type": "video",
+          "settings": {
+            "embed_code": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1274393261368212%2F&show_text=false&width=267&t=0\" width=\"267\" height=\"476\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>",
+            "badge": "Most Premium",
+            "button_text": "Buy now",
+            "button_link": "shopify://collections/premium-trousers"
+          }
+        },
+        "video_RPftyc": {
+          "type": "video",
+          "settings": {
+            "embed_code": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2516683848816022%2F&show_text=false&width=267&t=0\" width=\"267\" height=\"476\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>",
+            "badge": "New Arrival",
+            "button_text": "Buy now",
+            "button_link": "shopify://collections/tommy-polo"
+          }
+        },
         "video_QDicbe": {
           "type": "video",
           "settings": {
             "embed_code": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2821713544880202%2F&show_text=false&width=267&t=0\" width=\"267\" height=\"476\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>",
             "badge": "Featured",
             "button_text": "Buy now",
-            "button_link": ""
+            "button_link": "shopify://collections/remi-cotton-shirt"
           }
         }
       },
       "block_order": [
+        "video_qDGQBG",
+        "video_RPftyc",
         "video_QDicbe"
       ],
       "name": "Facebook Video Showcase",
@@ -234,13 +254,13 @@
         "heading": "Featured Videos",
         "desktop_columns": 4,
         "mobile_width": 78,
-        "gap": 14,
+        "gap": 10,
         "radius": 18,
-        "max_width": 1400,
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "side_padding": 24,
-        "mobile_side_padding": 16
+        "max_width": 900,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "side_padding": 0,
+        "mobile_side_padding": 12
       }
     },
     "featured_collection_QyWiHc": {
