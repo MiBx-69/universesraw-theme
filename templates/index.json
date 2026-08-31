@@ -634,7 +634,7 @@
           "type": "ai_gen_block_aa05603",
           "settings": {
             "button_label": "View all",
-            "button_link": "shopify://collections",
+            "button_link": "shopify://collections/latest-collection",
             "desktop_width_percent": 100,
             "text_size": 12,
             "border_radius": 0,
