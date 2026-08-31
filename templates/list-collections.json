@@ -359,7 +359,7 @@
         }
       },
       "settings": {
-        "render_type": "custom",
+        "render_type": "all",
         "collection_list": [
           "tommy-polo",
           "premium-trousers",
