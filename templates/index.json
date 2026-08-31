@@ -214,6 +214,24 @@
     "facebook_video_showcase_wt6kWD": {
       "type": "facebook-video-showcase",
       "blocks": {
+        "video_nkqC3H": {
+          "type": "video",
+          "settings": {
+            "embed_code": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1060776563381869%2F&show_text=false&width=267&t=0\" width=\"267\" height=\"476\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>",
+            "badge": "Featured",
+            "button_text": "Buy now",
+            "button_link": "shopify://collections/premium-t-shirt"
+          }
+        },
+        "video_C6CLei": {
+          "type": "video",
+          "settings": {
+            "embed_code": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1604072774405042%2F&show_text=false&width=267&t=0\" width=\"267\" height=\"476\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>",
+            "badge": "Featured",
+            "button_text": "Buy now",
+            "button_link": "shopify://collections/knit-polo"
+          }
+        },
         "video_ARnqfH": {
           "type": "video",
           "settings": {
@@ -252,6 +270,8 @@
         }
       },
       "block_order": [
+        "video_nkqC3H",
+        "video_C6CLei",
         "video_ARnqfH",
         "video_qDGQBG",
         "video_RPftyc",
