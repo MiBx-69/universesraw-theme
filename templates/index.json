@@ -131,7 +131,6 @@
           "type": "collection",
           "settings": {
             "collection": "knit-polo",
-            "image": "shopify://shop_images/ChatGPT_Image_Aug_19_2026_05_04_41_PM.png",
             "title": "KNIT POLO"
           }
         },
@@ -536,18 +535,18 @@
       },
       "name": "t:names.product_list_editorial",
       "settings": {
-        "quick_add": "standard",
+        "quick_add": "bulk",
         "collection": "latest-collection",
         "layout_type": "editorial",
         "widget_layout": "default",
-        "products_to_show": 16,
+        "products_to_show": 25,
         "columns_desktop": 4,
         "columns_desktop_widget": "1",
         "columns_gap": 8,
         "rows_gap": 8,
-        "media_size": "medium",
+        "media_size": "small",
         "link": "shopify://collections/latest-collection",
-        "animation_type": "zoom",
+        "animation_type": "none",
         "source": "uploaded",
         "video_url": "",
         "video_display_mode": "inline",
