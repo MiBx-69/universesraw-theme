@@ -96,6 +96,14 @@
             "title": "CHINA FULL SLEEVE"
           }
         },
+        "collection_xXTzCk": {
+          "type": "collection",
+          "settings": {
+            "collection": "premium-t-shirt",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_1_2026_02_21_47_PM.png",
+            "title": ""
+          }
+        },
         "collection_ePRnXe": {
           "type": "collection",
           "settings": {
@@ -153,6 +161,7 @@
       "block_order": [
         "collection_TRTL7Q",
         "collection_VgcWwz",
+        "collection_xXTzCk",
         "collection_ePRnXe",
         "collection_tQKnfW",
         "collection_kLCe3K",
