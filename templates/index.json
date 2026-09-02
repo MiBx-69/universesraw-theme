@@ -96,6 +96,13 @@
             "title": "CHINA FULL SLEEVE"
           }
         },
+        "collection_QitM6k": {
+          "type": "collection",
+          "settings": {
+            "collection": "premium-panjabi",
+            "title": ""
+          }
+        },
         "collection_xXTzCk": {
           "type": "collection",
           "settings": {
@@ -161,6 +168,7 @@
       "block_order": [
         "collection_TRTL7Q",
         "collection_VgcWwz",
+        "collection_QitM6k",
         "collection_xXTzCk",
         "collection_ePRnXe",
         "collection_tQKnfW",
